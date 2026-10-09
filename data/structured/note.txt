@@ -1,0 +1,22 @@
+1. các thuộc tính:
+law_number
+name
+hierarchy:
+Luật
+│
+├── Phần
+│
+├── Chương
+│   │
+│   ├── Mục
+│   │   │
+│   │   └── Điều
+│   │       ├── Khoản
+│   │       │   └── Điểm
+│   │       └── Khoản
+│   │
+│   └── Điều
+│
+└── Điều
+2. run: python legal_structure_parser.py normalized -o structured
+

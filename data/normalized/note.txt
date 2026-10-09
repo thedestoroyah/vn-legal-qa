@@ -1,0 +1,68 @@
+python -m pip install -U pip
+python -m pip install -U "mineru>=4.0,<5"
+
+check mineru version: mineru --version
+
+1. Khởi động server phân tích cục bộ:
+Mở một cửa sổ terminal / PowerShell mới và chạy lệnh:bash
+mineru server start
+
+MinerU có CLI mineru parse <input> -o <output> cho tài liệu Office
+
+example: 
+PS D:\Nam4_HK1\Đồ Án\data> 
+mineru parse "raw\36_2005_QH11_Luat_Thuong_mai.doc" -o "normalized\36_2005_QH11_Luat_Thuong_mai.md"          
+mineru parse "raw\45_2019_QH14_Bo_luat_Lao_dong.doc" -o "normalized\45_2019_QH14_Bo_luat_Lao_dong.md"
+mineru parse "raw\59_2020_QH14_Luat_Doanh_nghiep.doc" -o "normalized\59_2020_QH14_Luat_Doanh_nghiep.md"
+mineru parse "raw\91_2015_QH13_Bo_luat_Dan_su.doc" -o "normalized\91_2015_QH13_Bo_luat_Dan_su.md"
+
+parser theo hierarchy:
+Luật
+│
+├── Phần
+│
+├── Chương
+│   │
+│   ├── Mục
+│   │   │
+│   │   └── Điều
+│   │       ├── Khoản
+│   │       │   └── Điểm
+│   │       └── Khoản
+│   │
+│   └── Điều
+│
+└── Điều
+
+Pattern ban đầu:
+
+PART_RE = r"^\*\*Phần\s+(.+?)\*\*$"
+
+CHAPTER_RE = r"^\*\*Chương\s+([IVXLCDM]+)\*\*$"
+
+SECTION_RE = r"^\*\*(Mục|Tiểu mục)\s+([IVXLCDM\d]+)\*\*$"
+
+ARTICLE_RE = r"^\*\*Điều\s+(\d+)\.\s*(.+?)\*\*$"
+
+CLAUSE_RE = r"^\*\*(\d+)\.\s*(.+?)\*\*$"
+
+POINT_RE = r"^\*\*([a-zđ])\)\s*(.+?)\*\*$"
+
+# Markdown/layout
+HEADING_RE = re.compile(r"^\s*#{1,6}\s*")
+BOLD_RE = re.compile(r"^\s*\*\*(.*?)\*\*\s*$")
+ESCAPED_BOLD_RE = re.compile(r"^\s*\\\*\\\*(.*?)\\\*\\\*\s*$")
+ANCHOR_RE = re.compile(r"^\s*<a\b[^>]*>\s*</a>\s*$", re.I)
+PAGE_RE = re.compile(r"^\s*<!--\s*page\s+\d+(?:\s+of\s+\d+)?\s*-->\s*$", re.I)
+
+# Legal hierarchy
+PART_RE = re.compile(r"^Phần\s+(.+)$", re.I)
+CHAPTER_RE = re.compile(r"^Chương\s+([IVXLCDM]+|\d+)$", re.I)
+SECTION_RE = re.compile(r"^(Mục|Tiểu mục)\s+(.+)$", re.I)
+ARTICLE_RE = re.compile(r"^Điều\s+(\d+)\.\s*(.*?)$", re.I)
+CLAUSE_RE = re.compile(r"^(\d+)\.\s+(.+)$")
+POINT_RE = re.compile(r"^([a-zA-ZđĐ])\)\s*(.+)$")
+LAW_NUMBER_RE = re.compile(
+    r"(?:(?:Bộ\s+)?Luật\s+số|Số)\s*:\s*([0-9]+/[0-9]+/[A-ZĐa-zđ]+[0-9]*)",
+    re.I,
+)

@@ -1,0 +1,17 @@
+Chiến lược Chunking:
+Mục |	Quyết định
+Đơn vị chunk mặc định	1 Điều = 1 chunk
+Chế độ phụ	clause — 1 khoản = 1 chunk (dùng khi Điều quá dài)
+Text đem embed	contextualized_text = breadcrumb + nội dung
+Metadata	law / chapter / section / article / clause đầy đủ
+Định dạng output	JSONL (1 dòng 1 chunk)
+
+Run: 
+# Đọc cả thư mục structured/
+python legal_chunker.py structured/ -o chunks/
+
+# Chunk theo khoản
+python legal_chunker.py structured/ -o chunks/ --level clause
+
+# Giảm ngưỡng tự tách
+python legal_chunker.py structured/ -o chunks/ --max-chars 1500

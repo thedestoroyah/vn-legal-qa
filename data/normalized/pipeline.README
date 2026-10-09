@@ -1,0 +1,22 @@
+raw/
+└── 91_2015_QH13.docx
+        │
+        ▼
+[DOCX Parser]
+        │
+        ▼
+[Text Normalization]
+        │
+        ▼
+[Legal Structure Parser]
+        │
+        ▼
+structured/
+└── 91_2015_QH13.json
+        │
+        ▼
+chunks/
+└── 91_2015_QH13_chunks.jsonl
+        │
+        ▼
+Retrieval / RAG
