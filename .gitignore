@@ -6,5 +6,7 @@ __pycache__/
 .vscode/
 chroma_db/
 qdrant_storage/
-data/processed/*
+docs/superpowers
 !data/processed/.gitkeep
+.cache/
+.superpowers/
