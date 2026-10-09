@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.idea/
+.vscode/
+chroma_db/
+qdrant_storage/
+data/processed/*
+!data/processed/.gitkeep

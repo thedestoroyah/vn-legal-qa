@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+streamlit
+chromadb
+sentence-transformers
+rank-bm25
+underthesea
+openai
+pytest
