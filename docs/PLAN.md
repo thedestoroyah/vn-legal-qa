@@ -15,21 +15,20 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 - [x] index.py: nạp chunk vào ChromaDB kèm metadata, văn bản embed có gắn tiêu đề phân cấp; cờ --rebuild, --query; kiểm thử tự động.
 - [x] Bổ sung trường expiry_date từ laws.json vào từng chunk. *Xong khi:* kiểm thử chunk của BLLD2012 có expiry_date = "2021-01-01".
 - [x] fixed_chunk ghi danh sách các Điều mà mỗi đoạn cố định phủ qua (trường "articles") để đánh giá RQ2 ở cấp Điều. *Xong khi:* kiểm thử một đoạn nằm vắt qua hai Điều trả về đủ cả hai.
-- [ ] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). *Xong khi:* số Điều khớp, không có chunk rỗng.
-- [ ] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót).
-- [ ] Chạy index.py với BGE-M3 trên dữ liệu thật. *Xong khi:* truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5.
+- [ ] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). *Xong khi:* số Điều khớp, không có chunk rỗng. → *chuyển sang Sprint 2 (Task 1, 8).*
+- [ ] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót). → *chuyển sang Sprint 2 (Task 1, 8).*
+- [ ] Chạy index.py với BGE-M3 trên dữ liệu thật. *Xong khi:* truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5. → *chuyển sang Sprint 2 (Task 1, 8).*
 - [x] src/generation/llm.py: client tương thích OpenAI (LLM_BASE_URL, LLM_API_KEY, LLM_MODEL đọc từ .env); cache xuống đĩa theo hash (model, messages, tham số); tự chờ và thử lại khi gặp lỗi 429; đếm số lượt gọi; hàm chat_json phân tích JSON, thử lại 1 lần khi lỗi. *Xong khi:* kiểm thử với client giả chứng minh lần gọi thứ hai lấy từ cache và lỗi 429 được thử lại.
 - [ ] Cập nhật .env.example (LLM_*, JUDGE_*, EMBED_MODEL); đăng ký API key Gemini và Groq, gọi thử mỗi bên 1 lần.
 
 ### Hoàng Sinh Hùng
 
-- [ ] Tải toàn văn 5 văn bản từ vbpl.vn hoặc thuvienphapluat.vn: 4 luật ở dạng văn bản hợp nhất mới nhất và Bộ luật Lao động 2012 bản gốc. Lưu file gốc vào data/raw/source/ để truy vết.
-- [ ] Chuyển 5 văn bản sang định dạng Phụ lục A.1 (data/raw/<LAW_ID>.md). *Xong khi:* đúng quy ước dòng, không còn số trang, chú thích [n], phần ký tên.
-- [ ] Kiểm tra chất lượng: đối chiếu ngẫu nhiên 10 Điều mỗi văn bản với bản gốc (nội dung, số khoản, số điểm); ghi kết quả vào docs/data_check.md.
-- [ ] Hoàn thiện data/raw/laws.json theo Phụ lục A.2 cho cả 5 văn bản (thêm BLLD2012, thêm expiry_date, ghi số hiệu văn bản hợp nhất và nguồn). *Xong khi:* số hiệu và các ngày đã đối chiếu với nguồn chính thức.
-- [ ] Xin quyền truy cập bộ VLQA (email nhóm tác giả hoặc đăng ký nhiệm vụ DRiLL VLSP 2025). Hạn 12/10; nếu không được thì tải bộ Zalo AI Legal Text Retrieval 2021.
-- [ ] Viết eval/README.md: quy ước gán nhãn theo Phụ lục A.4 (gán ở cấp Khoản, liệt kê đủ căn cứ, cách ghi event_date).
-- [ ] Soạn 30 câu đầu tiên trong eval/test_cases.json, ưu tiên 10 câu temporal trước (điểm khác biệt giữa BLLD2012 và BLLD2019: hợp đồng lao động theo mùa vụ, quyền đơn phương chấm dứt hợp đồng của người lao động, thời hạn báo trước, tuổi nghỉ hưu, giới hạn giờ làm thêm), còn lại là câu situational.
+- [x] Tải và chuẩn hóa 4 luật (BLDS 2015, BLLĐ 2019, LDN 2020, LTM 2005) bằng pipeline .doc → MinerU → normalized/*.md → structured/*.json; số Điều khớp mục lục. (Văn bản gốc, chưa hợp nhất sửa đổi — ghi là giới hạn.)
+- [x] Định dạng Phụ lục A.1 cũ (data/raw/<LAW_ID>.md) được thay bằng JSON cấu trúc (Phụ lục A.1 cập nhật 15/10).
+- [x] Soạn 65 câu kiểm thử đầu tiên (data/test_cases.json, sinh bằng AI → nguồn synthetic).
+- [ ] BLLĐ 2012, laws.json, kiểm tra chất lượng → chuyển sang Sprint 2 (H1–H3).
+- [ ] ~~Xin VLQA: hủy — dữ liệu chưa được công bố (kiểm tra 15/10); thay bằng Zalo AI 2021.~~
+- [ ] ~~eval/README.md: hủy — quy ước gán nhãn nằm trong thẻ H6 của plan Sprint 2.~~
 
 **Cả hai:** thống nhất Phụ lục A ngày 10/10; họp nhanh 10 phút mỗi tối.
 
@@ -37,31 +36,31 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 ## Sprint 2 (15/10 – 21/10/2026): Truy xuất và thực nghiệm RQ1, RQ2
 
-**Mục tiêu sprint:** hàm search hoàn chỉnh có lọc hiệu lực; có bảng số liệu RQ1, RQ2; đủ 80 câu kiểm thử.
+**Mục tiêu sprint:** kho chunk đọc từ JSON cấu trúc; truy xuất BM25 / Dense / Hybrid / Hybrid + rerank có lọc hiệu lực; tập kiểm thử 3 nguồn (zalo, synthetic, manual) hợp lệ; bảng số liệu RQ1, RQ2.
 
-### Phạm Huỳnh Quốc Đạt
+### Phạm Huỳnh Quốc Đạt — chi tiết: [docs/superpowers/plans/2026-10-15-sprint2-dat.md](superpowers/plans/2026-10-15-sprint2-dat.md)
 
-- [ ] src/retrieval/bm25.py: tách từ bằng underthesea, chuyển chữ thường, bỏ dấu câu; BM25Okapi (rank-bm25); lưu chỉ mục ra đĩa. *Xong khi:* kiểm thử truy vấn chứa đúng thuật ngữ trả về đúng chunk.
-- [ ] src/retrieval/dense.py: truy vấn ChromaDB có điều kiện lọc theo khoảng hiệu lực.
-- [ ] src/retrieval/hybrid.py: hợp nhất BM25 và Dense bằng RRF (k = 60); xếp hạng lại top-20 bằng bge-reranker-v2-m3.
-- [ ] Hàm search(query, k=5, date=None, mode="hybrid_rerank"), mode ∈ {bm25, dense, hybrid, hybrid_rerank}. date = None thì chỉ giữ văn bản còn hiệu lực; có date thì lọc effective_date ≤ date < expiry_date, áp dụng cho cả BM25. *Xong khi:* kiểm thử với date năm 2020 không trả về chunk BLLD2019 và ngược lại.
-- [ ] Hàm get_article(law_id, article): trả về toàn văn một Điều (nối các Khoản theo thứ tự).
-- [ ] Bốn biến thể phân đoạn cho RQ2, mỗi biến thể một collection: fixed-size; theo Khoản không gắn tiêu đề; theo Khoản có gắn tiêu đề phân cấp; theo Khoản có gắn tiêu đề và mở rộng ngữ cảnh lên Điều cha khi trả kết quả.
-- [ ] eval/evaluate.py (phần truy xuất): chạy mọi cấu hình RQ1 và RQ2 trên tập kiểm thử; tính Hit@5, Recall@10, MRR@10 ở cấp Khoản và cấp Điều, DRM@5; ghi eval/results/retrieval_<cấu hình>.csv và bảng tổng hợp dạng markdown.
-- [ ] Kiểm thử cho các hàm tính chỉ số (ví dụ nhỏ tính tay).
-- [ ] Đo thời gian rerank trên CPU; nếu vượt 3 giây/câu thì giảm từ top-20 xuống top-10 và ghi lại lựa chọn.
-- [ ] Kiểm chéo căn cứ cho 40 câu kiểm thử do Hùng soạn.
+- [ ] Task 1 — Bộ phân đoạn đọc data/structured/*.json, sinh chunks.jsonl (Khoản), chunks_article.jsonl (Điều), chunks_fixed.jsonl. Xong khi: BLDS 689, BLLĐ 220, LDN 218, LTM 324 Điều (BLLĐ 2012: 242 khi Hùng xong H1).
+- [ ] Task 2 — eval/cases.py (kiểm tra hợp lệ), eval/import_cases.py (gộp zalo + synthetic + manual), eval/show_article.py; tải tập con Zalo vào data/external/zalo/; thêm domain vào laws.json. Xong khi: python -m eval.import_cases ghi eval/test_cases.json không lỗi.
+- [ ] Task 3 — Chỉ mục theo 4 biến thể RQ2 (--variant clause_header / clause_plain / article / fixed).
+- [ ] Task 4 — Lọc hiệu lực theo ngày (filters.py) và BM25 (underthesea).
+- [ ] Task 5 — Dense trên Chroma có lọc hiệu lực.
+- [ ] Task 6 — Retriever: RRF (k=60), rerank bge-reranker-v2-m3 top-20, get_article, load_retriever.
+- [ ] Task 7 — eval/metrics.py + eval/evaluate.py --rq rq1|rq2: Hit@5, Recall@10, MRR@10 (Điều, Khoản), DRM@5, tách theo nguồn.
+- [ ] Task 8 — Chạy thật: nạp 4 chỉ mục, đo rerank (> 3 s/câu thì top-10), chạy RQ1 và RQ2, gọi thử API LLM (việc Sprint 1). Xong khi: có eval/results/retrieval_rq1.md và retrieval_rq2.md.
+- [ ] Kiểm chéo căn cứ các câu manual của Hùng (đổi checked_by thành "Dat").
 
-### Hoàng Sinh Hùng
+### Hoàng Sinh Hùng — chi tiết: [docs/sprints/2026-10-15-sprint2-hung.md](sprints/2026-10-15-sprint2-hung.md)
 
-- [ ] Hoàn thành 80 câu kiểm thử: khoảng 60 situational (khoảng 15 câu mỗi lĩnh vực: dân sự, lao động, doanh nghiệp, thương mại), 10–15 temporal, 5 direct ("Điều X Luật Y quy định gì"), 5 out_of_scope (hình sự, giao thông, đất đai, thuế, hành chính).
-- [ ] Chọn lọc câu hỏi từ VLQA (hoặc Zalo): giữ câu có điều luật liên quan thuộc 5 văn bản, gán lại gold_citations theo chunk_id của kho, viết reference_answer ngắn gọn, ghi source.
-- [ ] eval/validate_cases.py: kiểm tra mọi câu đúng schema, mọi gold chunk_id tồn tại trong chunks.jsonl, phân bổ số câu theo loại và lĩnh vực đúng kế hoạch. *Xong khi:* script chạy không lỗi trên 80 câu.
-- [ ] Kiểm chéo căn cứ cho các câu do Đạt soạn hoặc chọn lọc (nếu có).
-- [ ] Phác thảo wireframe giao diện (giấy hoặc Figma): khung chat bên trái, panel nguyên văn điều luật bên phải, khu vực vết thực thi của tác tử.
-- [ ] Khung Streamlit src/ui/app.py: bố cục 2 cột, hiển thị một phản hồi mẫu (file JSON giả đúng định dạng Phụ lục A.5).
+- [ ] H1 — Thêm BLLĐ 2012 (structured JSON, 242 Điều).
+- [ ] H2 — Hoàn thiện laws.json: đối chiếu 4 luật với nguồn chính thức, thêm BLLD2012, domain, source.
+- [ ] H3 — docs/data_check.md: đối chiếu 10 Điều ngẫu nhiên mỗi văn bản với bản gốc.
+- [ ] H4 — Duyệt khoảng 81 câu Zalo, câu loại ghi vào eval/zalo_exclude.txt.
+- [ ] H5 — docs/synthetic_check.md: kiểm định 20/65 câu synthetic, sửa câu sai.
+- [ ] H6 — eval/manual_cases.json: ~15 situational (BLLĐ, LTM), 10–15 temporal, ~5 direct, ~5 out_of_scope.
+- [ ] H7 — Khung Streamlit src/ui/app.py với phản hồi mẫu (Phụ lục A.5).
 
-**Nghiệm thu sprint (21/10):** bảng RQ1 và RQ2 có số liệu thật; validate_cases.py chạy sạch trên 80 câu.
+**Nghiệm thu sprint (21/10):** bảng RQ1 và RQ2 có số liệu thật; python -m eval.import_cases chạy không lỗi với đủ 3 nguồn; giao diện mẫu chạy được.
 
 ## Sprint 3 (22/10 – 28/10/2026): Tác tử Agentic-RAG
 
@@ -102,7 +101,7 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 - [ ] src/api/main.py (FastAPI): POST /api/ask theo Phụ lục A.5; GET /api/article/{law_id}/{article}; GET /health. Nạp mô hình một lần khi khởi động.
 - [ ] Kiểm tra đầu vào (câu hỏi rỗng, dài quá 1000 ký tự, config không hợp lệ trả 422); lỗi LLM trả 503 với thông báo thân thiện, ghi log chi tiết phía server.
-- [ ] eval/evaluate.py (phần sinh): chạy 5 cấu hình cho 80 câu; tính Citation Precision/Recall ở cấp Điều, tỷ lệ từ chối đúng, tỷ lệ đúng phiên bản (câu temporal), độ trễ, số lượt gọi LLM; lưu toàn bộ đầu ra thô ra JSONL để chấm lại không cần chạy lại tác tử.
+- [ ] eval/evaluate.py (phần sinh): chạy 5 cấu hình cho tập kiểm thử; tính Citation Precision/Recall ở cấp Điều, tỷ lệ từ chối đúng, tỷ lệ đúng phiên bản (câu temporal), độ trễ, số lượt gọi LLM; lưu toàn bộ đầu ra thô ra JSONL để chấm lại không cần chạy lại tác tử.
 - [ ] Bộ chấm LLM-as-a-judge chạy trên nhà cung cấp khác với tác tử (JUDGE_*), một lượt gọi mỗi câu trả lời.
 - [ ] Chạy thử toàn bộ pipeline trên 10 câu; đo quota thực tế và ước lượng thời gian chạy đủ.
 - [ ] Chấm tay độc lập 20 câu trả lời (cùng Hùng).
@@ -122,7 +121,7 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 ### Phạm Huỳnh Quốc Đạt
 
-- [ ] Chạy đủ RQ3 (5 cấu hình × 80 câu) và RQ4 (3 chế độ lọc × 10–15 câu temporal), rải trong 2–3 ngày theo quota.
+- [ ] Chạy đủ RQ3 (5 cấu hình × tập kiểm thử) và RQ4 (3 chế độ lọc × 10–15 câu temporal), rải trong 2–3 ngày theo quota.
 - [ ] Chạy riêng 20 câu không dùng cache để đo độ trễ.
 - [ ] Bảng tổng hợp và biểu đồ (matplotlib) cho từng RQ.
 - [ ] Phân tích lỗi trên 20 trường hợp sai, phân loại: truy xuất sai Điều, sai văn bản (DRM), sai phiên bản, trích dẫn không được hỗ trợ, định tuyến sai.

@@ -6,7 +6,7 @@ __pycache__/
 .vscode/
 chroma_db/
 qdrant_storage/
-docs/superpowers
 !data/processed/.gitkeep
 .cache/
 .superpowers/
+zalo-ai-legal-text-retrieval-vn/

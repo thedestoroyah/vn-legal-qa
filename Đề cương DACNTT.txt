@@ -29,7 +29,7 @@ Xây dựng một hệ thống phần mềm hỏi đáp pháp luật tiếng Vi�
          4. Phát triển Ứng dụng Hoàn chỉnh (Interactive Web Application):
          * Xây dựng giao diện web trực quan (Streamlit, gọi backend FastAPI) cho phép người dùng nhập câu hỏi pháp luật, xem câu trả lời được giải thích rõ ràng, nhấp trực tiếp vào các trích dẫn để đọc toàn văn điều luật gốc, và xem vết thực thi các bước tác tử đã thực hiện.
          5. Xây dựng Bộ dữ liệu Kiểm thử và Đánh giá Hiệu năng Hệ thống (Evaluation Benchmark):
-         * Xây dựng tập kiểm thử khoảng 80 câu hỏi pháp luật có gán nhãn câu trả lời mẫu và căn cứ điều khoản chuẩn, gồm 4 loại: câu hỏi tình huống (~60), câu hỏi có mốc thời gian (10–15), câu hỏi tra cứu trực tiếp điều luật (~5) và câu hỏi ngoài phạm vi (~5). Nguồn câu hỏi: nhóm tự soạn kết hợp với câu hỏi chọn lọc từ bộ dữ liệu VLQA (Nguyen và cộng sự, 2025) do chuyên gia gán nhãn, được gán nhãn lại theo phiên bản văn bản trong kho dữ liệu; dự phòng dùng Zalo AI Legal Text Retrieval 2021 nếu không truy cập được VLQA.
+         * Xây dựng tập kiểm thử khoảng 170–180 câu hỏi pháp luật có căn cứ điều luật chuẩn, từ ba nguồn được báo cáo tách riêng: (1) khoảng 80 câu do người viết, chọn lọc từ bộ Zalo AI Legal Text Retrieval 2021 (thuộc Bộ luật Dân sự và Luật Doanh nghiệp, gán nhãn ở cấp Điều); (2) 65 câu tổng hợp (synthetic) do nhóm sinh bằng LLM và kiểm tra, phủ cả 4 lĩnh vực, có câu trả lời mẫu; (3) khoảng 30–35 câu nhóm tự soạn, gồm câu tình huống cho Bộ luật Lao động và Luật Thương mại, câu có mốc thời gian (10–15), câu tra cứu trực tiếp điều luật (~5) và câu ngoài phạm vi (~5).
          * Đo lường toàn diện hiệu năng của hệ thống qua các bộ chỉ số: hiệu quả truy xuất (Hit Rate@5, Recall@10, MRR@10, tỷ lệ DRM), chất lượng câu trả lời (Faithfulness, Answer Correctness), độ chính xác trích dẫn (Citation Precision/Recall), độ đúng phiên bản văn bản theo thời điểm, tỷ lệ từ chối đúng câu hỏi ngoài phạm vi, độ trễ và số lượt gọi LLM.
 4. Đối tượng nghiên cứu:
 4.1. Đối tượng nghiên cứu chính
@@ -63,7 +63,7 @@ Hệ thống hướng tới phục vụ đa dạng các nhóm người dùng có
          * Chỉ số: Hit Rate@5, Recall@10, MRR@10.
          * RQ2 (Về Tổ chức Dữ liệu & Cấu trúc Phân cấp - Chunking & Hierarchy):
          * Cách phân đoạn văn bản theo cấu trúc pháp lý (Chương → Mục → Điều → Khoản) ảnh hưởng như thế nào đến hiệu quả truy xuất và hiện tượng truy xuất nhầm văn bản (Document-Level Retrieval Mismatch - DRM) so với phân đoạn cố định theo số lượng từ?
-         * Thực nghiệm: so sánh Fixed-size Chunking / Chunk theo Khoản / Chunk theo Khoản kèm tiêu đề phân cấp (tên văn bản, Điều, tên Điều) / Chunk theo Khoản kèm mở rộng ngữ cảnh lên Điều cha.
+         * Thực nghiệm: so sánh Fixed-size Chunking / Chunk theo Điều (kèm tiêu đề phân cấp) / Chunk theo Khoản / Chunk theo Khoản kèm tiêu đề phân cấp (tên văn bản, Điều, tên Điều); các phương pháp được so ở cấp Điều. Việc mở rộng ngữ cảnh từ Khoản lên Điều cha được dùng ở bước sinh câu trả lời của tác tử, không thuộc thực nghiệm truy xuất.
          * Chỉ số: Hit Rate@5, Recall@10, tỷ lệ DRM (tỷ lệ đoạn trong top-k thuộc sai văn bản luật).
             * RQ3 (Về Agentic-RAG - Agentic Retrieval & Citation Verification):
             * Một tác tử (agent) có khả năng tự định tuyến câu hỏi, tự đánh giá mức độ đầy đủ của bằng chứng để viết lại truy vấn, và tự kiểm chứng trích dẫn sau khi sinh câu trả lời cải thiện chất lượng câu trả lời và độ chính xác trích dẫn ở mức nào so với RAG truy xuất một lượt, và với chi phí (độ trễ, số lượt gọi LLM) ra sao?
@@ -77,7 +77,7 @@ Hệ thống hướng tới phục vụ đa dạng các nhóm người dùng có
 Nhóm khảo sát các nghiên cứu liên quan trực tiếp đến bài toán theo bốn hướng: truy xuất văn bản pháp luật tiếng Việt, RAG và Agentic-RAG, đặc trưng của dữ liệu pháp luật, và trích dẫn cùng phương pháp đánh giá. Kết quả khảo sát là cơ sở để lựa chọn phương pháp và thiết kế kiến trúc hệ thống.
             * Truy xuất văn bản pháp luật tiếng Việt:
             * Nguyen Ba và cộng sự (2024) xây dựng pipeline truy xuất cho hệ thống hỏi đáp pháp luật tiếng Việt, kết hợp tìm kiếm từ khóa và tìm kiếm vector bằng một biến thể chuẩn hóa của Reciprocal Rank Fusion, sau đó xếp hạng lại các đoạn trước khi đưa vào LLM. Kỹ thuật RRF (Cormack và cộng sự, 2009) và mô hình embedding đa ngôn ngữ BGE-M3 (Chen và cộng sự, 2024) là các thành phần nền tảng mà dự án kế thừa cho RQ1.
-            * Về dữ liệu, bộ VLQA (Nguyen và cộng sự, 2025) gồm 3.129 bộ (câu hỏi, điều luật liên quan, câu trả lời) do chuyên gia gán nhãn trên 59.636 điều luật thuộc 27 lĩnh vực; câu hỏi được thu thập từ các nền tảng tư vấn pháp luật công khai nên phản ánh nhu cầu thực tế của người dân; bộ này cũng là dữ liệu của nhiệm vụ DRiLL tại VLSP 2025. Ngoài ra, cuộc thi Zalo AI Challenge 2021 (Legal Text Retrieval) cung cấp tập câu hỏi kèm điều luật liên quan. Dự án chọn lọc câu hỏi từ VLQA thuộc phạm vi 5 văn bản để bổ sung cho tập kiểm thử tự xây dựng, dùng Zalo AI 2021 làm nguồn dự phòng.
+            * Về dữ liệu, bộ VLQA (Nguyen và cộng sự, 2025) gồm 3.129 bộ (câu hỏi, điều luật liên quan, câu trả lời) do chuyên gia gán nhãn trên 59.636 điều luật thuộc 27 lĩnh vực; câu hỏi được thu thập từ các nền tảng tư vấn pháp luật công khai nên phản ánh nhu cầu thực tế của người dân; bộ này cũng là dữ liệu của nhiệm vụ DRiLL tại VLSP 2025. Tuy nhiên, tại thời điểm thực hiện dự án, dữ liệu VLQA chưa được công bố. Cuộc thi Zalo AI Challenge 2021 (Legal Text Retrieval) cung cấp khoảng 3.200 câu hỏi do người viết kèm điều luật liên quan (công bố lại theo giấy phép MIT); dự án chọn lọc các câu thuộc phạm vi kho dữ liệu làm nguồn câu hỏi chính cho thực nghiệm truy xuất.
             * RAG và Agentic-RAG:
             * Corrective RAG (Yan và cộng sự, 2024) bổ sung bộ đánh giá chất lượng tài liệu truy xuất và kích hoạt hành động khắc phục khi bằng chứng không đủ tin cậy; Self-RAG (Asai và cộng sự, 2024) cho phép mô hình tự quyết định khi nào cần truy xuất và tự phê bình đầu ra. Hai công trình này là cơ sở cho bước đánh giá bằng chứng, viết lại truy vấn và tự kiểm chứng của tác tử trong dự án; khác với Self-RAG, dự án không huấn luyện lại mô hình mà hiện thực các bước này bằng prompt trên đồ thị trạng thái.
             * Với pháp luật Việt Nam, Pham và cộng sự (2025) xây dựng chatbot tư vấn pháp luật dựa trên Agentic-RAG với một Router Agent điều phối các tác tử chuyên biệt và nhiều công cụ (vector search, graph database, web search) trên 54.000 văn bản; trên 1.247 câu hỏi thực tế, hệ thống đạt độ chính xác 82,3%, context precision và context recall cao hơn baseline lần lượt 17,2% và 29,7%. Đây là công trình gần nhất với định hướng của dự án.
@@ -90,7 +90,7 @@ Khoảng trống nghiên cứu: Theo khảo sát của nhóm, các hệ thống 
 8. Phạm vi/ giới hạn nghiên cứu:
             * Phạm vi nghiên cứu (Scope of Project):
             * Dữ liệu (Data Scope):
-            * Tập trung vào văn bản luật thành văn thuộc 4 lĩnh vực phổ biến, gồm 5 văn bản: Bộ luật Dân sự (2015), Bộ luật Lao động (2019), Luật Doanh nghiệp (2020) và Luật Thương mại (2005) ở dạng văn bản hợp nhất mới nhất; cùng Bộ luật Lao động (2012) đã hết hiệu lực, chỉ dùng cho thực nghiệm hiệu lực theo thời gian (RQ4).
+            * Tập trung vào văn bản luật thành văn thuộc 4 lĩnh vực phổ biến, gồm 5 văn bản: Bộ luật Dân sự (2015), Bộ luật Lao động (2019), Luật Doanh nghiệp (2020) và Luật Thương mại (2005) ở dạng văn bản gốc khi ban hành; cùng Bộ luật Lao động (2012) đã hết hiệu lực, chỉ dùng cho thực nghiệm hiệu lực theo thời gian (RQ4).
             * Dữ liệu được chuẩn hóa và trích xuất đầy đủ các trường thông tin: Số hiệu văn bản, Cơ quan ban hành, Ngày ban hành, Ngày có hiệu lực, Ngày hết hiệu lực, Trạng thái hiệu lực và Cây cấu trúc phân cấp (Văn bản → Chương → Mục → Điều → Khoản → Điểm).
             * Đơn vị truy xuất là Khoản; hệ thống đồng thời cho phép truy xuất toàn văn Điều chứa Khoản đó.
                * Nhiệm vụ (Task Scope):
@@ -105,7 +105,7 @@ Khoảng trống nghiên cứu: Theo khảo sát của nhóm, các hệ thống 
                * Trích dẫn bắt buộc phải trỏ đến đơn vị quy phạm cụ thể (tối thiểu là cấp Điều, ưu tiên cấp Khoản khi có căn cứ rõ ràng).
                * Cho phép người dùng đối chiếu chéo trực tiếp nội dung trích dẫn với nguyên văn điều luật gốc trên giao diện.
                * Đánh giá (Evaluation Scope):
-               * Xây dựng bộ dữ liệu kiểm thử (Evaluation Dataset) khoảng 80 câu hỏi kèm nhãn căn cứ điều khoản chuẩn, phân loại theo: tình huống, có mốc thời gian, tra cứu trực tiếp, ngoài phạm vi. Câu hỏi do nhóm tự soạn kết hợp chọn lọc từ VLQA 2025 (dự phòng: Zalo AI Legal Text Retrieval 2021); mỗi câu được thành viên còn lại kiểm tra chéo căn cứ.
+               * Xây dựng bộ dữ liệu kiểm thử (Evaluation Dataset) khoảng 170–180 câu hỏi kèm nhãn căn cứ chuẩn, phân loại theo: tình huống, có mốc thời gian, tra cứu trực tiếp, ngoài phạm vi; mỗi câu ghi rõ nguồn (zalo / synthetic / manual) và kết quả được báo cáo tách theo nguồn. Câu tổng hợp được kiểm định bằng đối chiếu tay một mẫu 20 câu; câu tự soạn được thành viên còn lại kiểm tra chéo căn cứ. Câu từ Zalo chỉ có nhãn cấp Điều nên chỉ được dùng cho các chỉ số cấp Điều.
                * Đánh giá định lượng qua các chỉ số:
                * Khâu truy xuất (tính tự động theo nhãn chuẩn): Hit Rate@5, Recall@10, MRR@10, tỷ lệ DRM. Thực nghiệm so sánh phương pháp phân đoạn được đánh giá ở cấp Điều để đảm bảo công bằng giữa các phương pháp.
                * Khâu trích dẫn và hiệu lực (tính tự động theo nhãn chuẩn): Citation Precision, Citation Recall, tỷ lệ trích dẫn đúng phiên bản văn bản, tỷ lệ từ chối đúng câu hỏi ngoài phạm vi.
@@ -121,14 +121,15 @@ Khoảng trống nghiên cứu: Theo khảo sát của nhóm, các hệ thống 
                * Giao diện hiển thị trực quan: Hộp chat hỏi đáp, khung hiển thị câu trả lời có đánh dấu chỉ mục trích dẫn, và panel bên cạnh cho phép đọc toàn văn điều luật gốc khi người dùng nhấp vào trích dẫn.
                * Giới hạn nghiên cứu (Project Limitations):
                * Giới hạn về nguồn văn bản: Hệ thống chỉ giới hạn trong kho dữ liệu đã thu thập và chuẩn hóa thuộc 4 lĩnh vực nêu trên; không bao gồm Nghị định, Thông tư hướng dẫn thi hành; chưa hỗ trợ tự động thu thập (crawl) và cập nhật văn bản theo thời gian thực từ Cổng thông tin Chính phủ.
-               * Giới hạn về quan hệ giữa văn bản: Hệ thống chưa khai thác tự động quan hệ dẫn chiếu, sửa đổi, bổ sung giữa các văn bản; hiệu lực được xử lý ở cấp văn bản (văn bản hợp nhất và khoảng hiệu lực), chưa xử lý ở cấp từng Điều/Khoản bị sửa đổi.
+               * Giới hạn về quan hệ giữa văn bản: Hệ thống chưa khai thác tự động quan hệ dẫn chiếu, sửa đổi, bổ sung giữa các văn bản; hiệu lực được xử lý ở cấp văn bản (khoảng hiệu lực), chưa xử lý ở cấp từng Điều/Khoản bị sửa đổi.
+               * Giới hạn về phiên bản văn bản: Kho dữ liệu dùng văn bản gốc khi ban hành, chưa hợp nhất các lần sửa đổi, bổ sung sau đó (ví dụ các luật sửa đổi Luật Doanh nghiệp 2020); câu trả lời có thể không phản ánh nội dung đã được sửa đổi.
                * Giới hạn về loại hình dữ liệu: Tập trung duy nhất vào văn bản quy phạm pháp luật thành văn (Statutory Law); không bao gồm án lệ, bản án tòa án hay các tình huống tranh tụng thực tế.
                * Giới hạn về tư vấn pháp lý: Hệ thống chỉ đóng vai trò công cụ hỗ trợ tra cứu và cung cấp thông tin tham khảo, không có giá trị pháp lý chính thức và không thay thế cho ý kiến tư vấn của luật sư.
                * Giới hạn về tài nguyên tính toán và thời gian: Dự án tập trung vào kỹ thuật đóng gói hệ thống phần mềm (Engineering & System Integration) trước hạn chót 21/11/2026; không thực hiện tiền huấn luyện (pre-train) hay fine-tune mô hình nền tảng từ đầu.
 9. Nội dung/ phương pháp nghiên cứu:
 9.1. Nội dung nghiên cứu chính (Kỹ thuật và Phát triển hệ thống)
                * Nội dung 1: Thu thập, tiền xử lý và cấu trúc hóa cơ sở dữ liệu pháp luật:
-               * Thu thập toàn văn văn bản luật thuộc phạm vi: Bộ luật Dân sự (2015), Bộ luật Lao động (2019), Luật Doanh nghiệp (2020), Luật Thương mại (2005) ở dạng hợp nhất, và Bộ luật Lao động (2012) đã hết hiệu lực.
+               * Thu thập toàn văn văn bản luật thuộc phạm vi: Bộ luật Dân sự (2015), Bộ luật Lao động (2019), Luật Doanh nghiệp (2020), Luật Thương mại (2005) ở dạng văn bản gốc, và Bộ luật Lao động (2012) đã hết hiệu lực. Quy trình: file .doc gốc → chuyển sang Markdown (MinerU) → bóc tách cây cấu trúc thành JSON → phân đoạn.
                * Làm sạch văn bản, bóc tách cấu trúc phân cấp và trích xuất siêu dữ liệu (Số hiệu văn bản, Cơ quan ban hành, Ngày ban hành, Ngày có hiệu lực, Ngày hết hiệu lực, Trạng thái hiệu lực).
                * Cài đặt thuật toán phân đoạn đệ quy theo cấu trúc văn bản luật (Recursive Legal Chunking) để chia nhỏ dữ liệu theo các cấp Chương → Mục → Điều → Khoản (Điểm được giữ trong Khoản) mà không làm gãy ranh giới ngữ nghĩa.
                   * Nội dung 2: Xây dựng và đánh giá Pipeline Truy xuất Đa phương pháp (Retrieval Pipeline):
@@ -144,7 +145,7 @@ Khoảng trống nghiên cứu: Theo khảo sát của nhóm, các hệ thống 
                   * Xây dựng ứng dụng web tương tác hoàn chỉnh (Streamlit + FastAPI).
                   * Tích hợp các tính năng: giao diện chat tự nhiên, hiển thị câu trả lời có đánh dấu số trích dẫn, bảng phụ (Side Panel) cho phép nhấp vào trích dẫn để đọc trực tiếp nguyên văn điều luật tương ứng, khung hiển thị vết thực thi của tác tử (định tuyến, truy vấn đã viết lại, trích dẫn bị loại khi kiểm chứng).
                   * Nội dung 5: Đánh giá Thực nghiệm và Tối ưu hóa:
-                  * Xây dựng bộ dữ liệu kiểm thử (Evaluation Dataset) khoảng 80 câu hỏi có gán nhãn căn cứ chuẩn (nhóm tự soạn kết hợp chọn lọc từ VLQA 2025, dự phòng Zalo AI 2021), phân loại theo tình huống / mốc thời gian / tra cứu trực tiếp / ngoài phạm vi.
+                  * Xây dựng bộ dữ liệu kiểm thử (Evaluation Dataset) khoảng 170–180 câu hỏi có gán nhãn căn cứ chuẩn từ ba nguồn (Zalo AI 2021, câu tổng hợp, câu tự soạn), phân loại theo tình huống / mốc thời gian / tra cứu trực tiếp / ngoài phạm vi.
                   * Chạy các thực nghiệm RQ1–RQ4: so sánh phương pháp truy xuất, phương pháp phân đoạn, RAG một lượt với Agentic-RAG và các cấu hình lược bỏ, các chế độ lọc hiệu lực.
                   * Đo lường định lượng theo các chỉ số tại mục 8 (Phạm vi đánh giá), xuất kết quả dạng CSV cho từng cấu hình và bảng tổng hợp cho từng câu hỏi nghiên cứu.
                   * Phân tích lỗi (Error Analysis) trên các câu trả lời sai và tinh chỉnh tham số (top-k, rerank-k, prompt template).
@@ -181,7 +182,7 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
                         * Bản thử nghiệm Ứng dụng Hoàn chỉnh (Interactive Web Prototype):
                         * Ứng dụng Web hoạt động ổn định, cho phép người dùng hỏi đáp theo thời gian thực và xem căn cứ trích dẫn trực tiếp.
                         * Bộ Dữ liệu Kiểm thử và Bảng Kết quả Thực nghiệm:
-                        * Tập kiểm thử khoảng 80 câu hỏi pháp luật kèm nhãn chuẩn, phân loại theo 4 loại câu hỏi.
+                        * Tập kiểm thử khoảng 170–180 câu hỏi pháp luật kèm nhãn chuẩn, phân loại theo 4 loại câu hỏi và 3 nguồn.
                         * Bảng số liệu trả lời từng câu hỏi nghiên cứu: so sánh chiến lược truy xuất (RQ1), phương pháp phân đoạn (RQ2), RAG một lượt vs. Agentic-RAG và ablation (RQ3), các chế độ lọc hiệu lực (RQ4).
                         * Báo cáo Tổng kết Dự án Công nghệ Thông tin:
                         * Cuốn báo cáo hoàn chỉnh trình bày kiến trúc kỹ thuật, quy trình thực hiện dự án (SDLC), phân công nhiệm vụ, kết quả thực nghiệm và hướng phát triển.
@@ -205,8 +206,8 @@ Sprint 1 (09/10 – 14/10/2026): Dữ liệu và nền tảng
                         * Tiến độ tích lũy: 25%.
 
 Sprint 2 (15/10 – 21/10/2026): Truy xuất và thực nghiệm RQ1, RQ2
-                        * Nội dung: BM25, Dense, Hybrid (RRF), Reranker, lọc hiệu lực theo thời điểm; các biến thể phân đoạn; đánh giá truy xuất tự động; hoàn thiện 80 câu kiểm thử; khung giao diện.
-                        * Kết quả: Bảng số liệu RQ1 và RQ2; tập kiểm thử 80 câu đã kiểm chéo.
+                        * Nội dung: BM25, Dense, Hybrid (RRF), Reranker, lọc hiệu lực theo thời điểm; các biến thể phân đoạn; đánh giá truy xuất tự động; nhập câu hỏi Zalo và câu tổng hợp, soạn câu tự soạn; khung giao diện.
+                        * Kết quả: Bảng số liệu RQ1 và RQ2; tập kiểm thử đã kiểm tra hợp lệ (python -m eval.import_cases).
                         * Tiến độ tích lũy: 40%.
 
 Sprint 3 (22/10 – 28/10/2026): Tác tử Agentic-RAG
@@ -230,9 +231,9 @@ Sprint 6 (12/11 – 21/11/2026): Đóng gói và hoàn thiện
                         * Tiến độ tích lũy: 100%.
 
 Phương án dự phòng:
-                        * Nếu đến 12/10 chưa truy cập được bộ VLQA: chuyển sang Zalo AI Legal Text Retrieval 2021.
+                        * Bộ VLQA chưa được công bố dữ liệu (kiểm tra ngày 15/10/2026): đã chuyển sang Zalo AI Legal Text Retrieval 2021 kết hợp câu tổng hợp và câu tự soạn.
                         * Nếu đến 28/10 tác tử chưa hoạt động ổn định: lược bỏ nút đánh giá bằng chứng và vòng viết lại truy vấn, giữ định tuyến và kiểm chứng trích dẫn; RQ3 thực hiện ablation trên 2 thành phần.
-                        * Nếu quota API miễn phí không đủ: giảm số cấu hình ablation chạy trên toàn bộ 80 câu, chạy các cấu hình phụ trên tập con 40 câu.
+                        * Nếu quota API miễn phí không đủ: chạy cấu hình baseline và full trên toàn bộ tập kiểm thử, các cấu hình ablation trên tập con khoảng 80 câu cân bằng theo nguồn và lĩnh vực.
 
 12. Tài liệu tham khảo:
 Asai, A., Wu, Z., Wang, Y., Sil, A., & Hajishirzi, H. (2024). Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection. The Twelfth International Conference on Learning Representations (ICLR 2024).
@@ -252,11 +253,11 @@ Zalo AI. (2021). Zalo AI Challenge 2021 – Legal Text Retrieval. https://challe
 
 PHỤ LỤC A. QUY ƯỚC DỮ LIỆU CHUNG (thống nhất trước ngày 10/10/2026)
 
-A.1. File văn bản gốc: data/raw/<LAW_ID>.md
+A.1. Quy trình và file văn bản (cập nhật 15/10/2026)
                         * Mã văn bản (LAW_ID): BLDS2015, BLLD2019, BLLD2012, LDN2020, LTM2005.
-                        * Mã hóa UTF-8. Mỗi dòng "Chương ...", "Mục ...", "Điều N. Tên điều" đứng riêng một dòng.
-                        * Khoản bắt đầu bằng "1.", "2.", ...; Điểm bắt đầu bằng "a)", "b)", ..., "đ)".
-                        * Đã loại bỏ: tiêu đề trang, số trang, chú thích sửa đổi dạng [1], [2], phần căn cứ ban hành, phần ký tên và nơi nhận.
+                        * data/raw/<số hiệu>_<tên>.doc (file gốc) → data/normalized/<...>.md (MinerU) → data/structured/<...>.json (data/legal_structure_parser.py). File JSON cấu trúc là đầu vào chuẩn cho bộ phân đoạn src/ingestion/legal_chunker.py.
+                        * JSON cấu trúc: law {law_number, name, parts[], chapters[], articles[]} → part {chapters[], articles[]} → chapter {number, title, sections[], articles[]} → section {number, title, articles[]} → article {number, title, text, clauses[]} → clause {number, text, points[]} → point {number, text}.
+                        * law_number trong JSON phải trùng trường "number" của văn bản đó trong laws.json.
 
 A.2. Siêu dữ liệu văn bản: data/raw/laws.json
 {
@@ -267,6 +268,7 @@ A.2. Siêu dữ liệu văn bản: data/raw/laws.json
     "effective_date": "2013-05-01",
     "expiry_date": "2021-01-01",
     "status": "Hết hiệu lực",
+    "domain": "lao_dong",
     "source": "<đường dẫn nguồn đã lấy văn bản>"
   }
 }
@@ -288,7 +290,9 @@ A.3. Đoạn văn bản (chunk): data/processed/chunks.jsonl, mỗi dòng một 
   "expiry_date": null,
   "status": "Còn hiệu lực"
 }
-                        * chunk_id = <LAW_ID>_Dieu<số>[_Khoan<số>]. Điều không có khoản dùng <LAW_ID>_Dieu<số>.
+                        * chunk_id = <LAW_ID>_Dieu<số>[_Khoan<số>]. Điều không có khoản dùng <LAW_ID>_Dieu<số>; phần dẫn nhập của Điều có khoản cũng dùng <LAW_ID>_Dieu<số>.
+                        * Khóa Điều (article key) của một chunk = chunk_id bỏ phần _Khoan<số>, ví dụ BLDS2015_Dieu357.
+                        * Ba file: chunks.jsonl (theo Khoản), chunks_article.jsonl (theo Điều, chunk_id = khóa Điều), chunks_fixed.jsonl (cố định theo số từ, chunk_id = <LAW_ID>_fixed<n>, thêm trường articles là danh sách "Điều N" mà đoạn phủ qua).
 
 A.4. Câu hỏi kiểm thử: eval/test_cases.json (danh sách đối tượng)
 {
@@ -299,12 +303,13 @@ A.4. Câu hỏi kiểm thử: eval/test_cases.json (danh sách đối tượng)
   "event_date": "2020-03-01",
   "gold_citations": ["BLLD2012_Dieu22_Khoan1"],
   "reference_answer": "...",
-  "source": "self | vlqa | zalo",
+  "source": "manual",
   "checked_by": "Dat"
 }
                         * type ∈ {situational, temporal, direct, out_of_scope}; domain ∈ {dan_su, lao_dong, doanh_nghiep, thuong_mai, ngoai_pham_vi}.
                         * event_date chỉ bắt buộc với câu temporal; câu out_of_scope có gold_citations rỗng.
-                        * gold_citations ghi ở cấp Khoản (đúng chunk_id); liệt kê đủ mọi căn cứ cần thiết.
+                        * source ∈ {zalo, synthetic, manual}. gold_citations là chunk_id cấp Khoản hoặc khóa Điều (khi chỉ biết căn cứ ở cấp Điều, như câu từ Zalo); liệt kê đủ mọi căn cứ cần thiết.
+                        * reference_answer có thể để trống với câu Zalo cho đến Sprint 3; checked_by = null nếu chưa ai kiểm tra.
 
 A.5. Kết quả API: POST /api/ask
 Yêu cầu: { "question": "...", "config": "full" }
@@ -331,49 +336,48 @@ Phạm Huỳnh Quốc Đạt:
                         [x] index.py: nạp chunk vào ChromaDB kèm metadata, văn bản embed có gắn tiêu đề phân cấp; cờ --rebuild, --query; kiểm thử tự động.
                         [x] Bổ sung trường expiry_date từ laws.json vào từng chunk. Xong khi: kiểm thử chunk của BLLD2012 có expiry_date = "2021-01-01".
                         [x] fixed_chunk ghi danh sách các Điều mà mỗi đoạn cố định phủ qua (trường "articles") để đánh giá RQ2 ở cấp Điều. Xong khi: kiểm thử một đoạn nằm vắt qua hai Điều trả về đủ cả hai.
-                        [ ] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). Xong khi: số Điều khớp, không có chunk rỗng.
-                        [ ] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót).
-                        [ ] Chạy index.py với BGE-M3 trên dữ liệu thật. Xong khi: truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5.
+                        [ ] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). Xong khi: số Điều khớp, không có chunk rỗng. → chuyển sang Sprint 2 (Task 1, 8).
+                        [ ] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót). → chuyển sang Sprint 2 (Task 1, 8).
+                        [ ] Chạy index.py với BGE-M3 trên dữ liệu thật. Xong khi: truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5. → chuyển sang Sprint 2 (Task 1, 8).
                         [x] src/generation/llm.py: client tương thích OpenAI (LLM_BASE_URL, LLM_API_KEY, LLM_MODEL đọc từ .env); cache xuống đĩa theo hash (model, messages, tham số); tự chờ và thử lại khi gặp lỗi 429; đếm số lượt gọi; hàm chat_json phân tích JSON, thử lại 1 lần khi lỗi. Xong khi: kiểm thử với client giả chứng minh lần gọi thứ hai lấy từ cache và lỗi 429 được thử lại.
                         [ ] Cập nhật .env.example (LLM_*, JUDGE_*, EMBED_MODEL); đăng ký API key Gemini và Groq, gọi thử mỗi bên 1 lần.
 
 Hoàng Sinh Hùng:
-                        [ ] Tải toàn văn 5 văn bản từ vbpl.vn hoặc thuvienphapluat.vn: 4 luật ở dạng văn bản hợp nhất mới nhất và Bộ luật Lao động 2012 bản gốc. Lưu file gốc vào data/raw/source/ để truy vết.
-                        [ ] Chuyển 5 văn bản sang định dạng Phụ lục A.1 (data/raw/<LAW_ID>.md). Xong khi: đúng quy ước dòng, không còn số trang, chú thích [n], phần ký tên.
-                        [ ] Kiểm tra chất lượng: đối chiếu ngẫu nhiên 10 Điều mỗi văn bản với bản gốc (nội dung, số khoản, số điểm); ghi kết quả vào docs/data_check.md.
-                        [ ] Hoàn thiện data/raw/laws.json theo Phụ lục A.2 cho cả 5 văn bản (thêm BLLD2012, thêm expiry_date, ghi số hiệu văn bản hợp nhất và nguồn). Xong khi: số hiệu và các ngày đã đối chiếu với nguồn chính thức.
-                        [ ] Xin quyền truy cập bộ VLQA (email nhóm tác giả hoặc đăng ký nhiệm vụ DRiLL VLSP 2025). Hạn 12/10; nếu không được thì tải bộ Zalo AI Legal Text Retrieval 2021.
-                        [ ] Viết eval/README.md: quy ước gán nhãn theo Phụ lục A.4 (gán ở cấp Khoản, liệt kê đủ căn cứ, cách ghi event_date).
-                        [ ] Soạn 30 câu đầu tiên trong eval/test_cases.json, ưu tiên 10 câu temporal trước (điểm khác biệt giữa BLLD2012 và BLLD2019: hợp đồng lao động theo mùa vụ, quyền đơn phương chấm dứt hợp đồng của người lao động, thời hạn báo trước, tuổi nghỉ hưu, giới hạn giờ làm thêm), còn lại là câu situational.
+                        [x] Tải và chuẩn hóa 4 luật (BLDS 2015, BLLĐ 2019, LDN 2020, LTM 2005) bằng pipeline .doc → MinerU → normalized/*.md → structured/*.json; số Điều khớp mục lục. (Văn bản gốc, chưa hợp nhất sửa đổi — ghi là giới hạn.)
+                        [x] Định dạng Phụ lục A.1 cũ (data/raw/<LAW_ID>.md) được thay bằng JSON cấu trúc (Phụ lục A.1 cập nhật 15/10).
+                        [x] Soạn 65 câu kiểm thử đầu tiên (data/test_cases.json, sinh bằng AI → nguồn synthetic).
+                        [ ] BLLĐ 2012, laws.json, kiểm tra chất lượng → chuyển sang Sprint 2 (H1–H3).
+                        [ ] Xin VLQA: hủy — dữ liệu chưa được công bố (kiểm tra 15/10); thay bằng Zalo AI 2021.
+                        [ ] eval/README.md: hủy — quy ước gán nhãn nằm trong thẻ H6 của plan Sprint 2.
 
 Cả hai: thống nhất Phụ lục A ngày 10/10; họp nhanh 10 phút mỗi tối.
 Nghiệm thu sprint (14/10): chunks.jsonl đủ 5 văn bản; ChromaDB đã nạp; 30 câu kiểm thử đúng schema.
 
 
 SPRINT 2 (15/10 – 21/10/2026): TRUY XUẤT VÀ THỰC NGHIỆM RQ1, RQ2
-Mục tiêu sprint: hàm search hoàn chỉnh có lọc hiệu lực; có bảng số liệu RQ1, RQ2; đủ 80 câu kiểm thử.
+Mục tiêu sprint: kho chunk đọc từ JSON cấu trúc; truy xuất BM25 / Dense / Hybrid / Hybrid + rerank có lọc hiệu lực; tập kiểm thử 3 nguồn (zalo, synthetic, manual) hợp lệ; bảng số liệu RQ1, RQ2.
 
-Phạm Huỳnh Quốc Đạt:
-                        [ ] src/retrieval/bm25.py: tách từ bằng underthesea, chuyển chữ thường, bỏ dấu câu; BM25Okapi (rank-bm25); lưu chỉ mục ra đĩa. Xong khi: kiểm thử truy vấn chứa đúng thuật ngữ trả về đúng chunk.
-                        [ ] src/retrieval/dense.py: truy vấn ChromaDB có điều kiện lọc theo khoảng hiệu lực.
-                        [ ] src/retrieval/hybrid.py: hợp nhất BM25 và Dense bằng RRF (k = 60); xếp hạng lại top-20 bằng bge-reranker-v2-m3.
-                        [ ] Hàm search(query, k=5, date=None, mode="hybrid_rerank"), mode ∈ {bm25, dense, hybrid, hybrid_rerank}. date = None thì chỉ giữ văn bản còn hiệu lực; có date thì lọc effective_date ≤ date < expiry_date, áp dụng cho cả BM25. Xong khi: kiểm thử với date năm 2020 không trả về chunk BLLD2019 và ngược lại.
-                        [ ] Hàm get_article(law_id, article): trả về toàn văn một Điều (nối các Khoản theo thứ tự).
-                        [ ] Bốn biến thể phân đoạn cho RQ2, mỗi biến thể một collection: fixed-size; theo Khoản không gắn tiêu đề; theo Khoản có gắn tiêu đề phân cấp; theo Khoản có gắn tiêu đề và mở rộng ngữ cảnh lên Điều cha khi trả kết quả.
-                        [ ] eval/evaluate.py (phần truy xuất): chạy mọi cấu hình RQ1 và RQ2 trên tập kiểm thử; tính Hit@5, Recall@10, MRR@10 ở cấp Khoản và cấp Điều, DRM@5; ghi eval/results/retrieval_<cấu hình>.csv và bảng tổng hợp dạng markdown.
-                        [ ] Kiểm thử cho các hàm tính chỉ số (ví dụ nhỏ tính tay).
-                        [ ] Đo thời gian rerank trên CPU; nếu vượt 3 giây/câu thì giảm từ top-20 xuống top-10 và ghi lại lựa chọn.
-                        [ ] Kiểm chéo căn cứ cho 40 câu kiểm thử do Hùng soạn.
+Phạm Huỳnh Quốc Đạt (chi tiết: vn-legal-qa/docs/superpowers/plans/2026-10-15-sprint2-dat.md):
+                        [ ] Task 1 — Bộ phân đoạn đọc data/structured/*.json, sinh chunks.jsonl (Khoản), chunks_article.jsonl (Điều), chunks_fixed.jsonl. Xong khi: BLDS 689, BLLĐ 220, LDN 218, LTM 324 Điều (BLLĐ 2012: 242 khi Hùng xong H1).
+                        [ ] Task 2 — eval/cases.py (kiểm tra hợp lệ), eval/import_cases.py (gộp zalo + synthetic + manual), eval/show_article.py; tải tập con Zalo vào data/external/zalo/; thêm domain vào laws.json. Xong khi: python -m eval.import_cases ghi eval/test_cases.json không lỗi.
+                        [ ] Task 3 — Chỉ mục theo 4 biến thể RQ2 (--variant clause_header / clause_plain / article / fixed).
+                        [ ] Task 4 — Lọc hiệu lực theo ngày (filters.py) và BM25 (underthesea).
+                        [ ] Task 5 — Dense trên Chroma có lọc hiệu lực.
+                        [ ] Task 6 — Retriever: RRF (k=60), rerank bge-reranker-v2-m3 top-20, get_article, load_retriever.
+                        [ ] Task 7 — eval/metrics.py + eval/evaluate.py --rq rq1|rq2: Hit@5, Recall@10, MRR@10 (Điều, Khoản), DRM@5, tách theo nguồn.
+                        [ ] Task 8 — Chạy thật: nạp 4 chỉ mục, đo rerank (> 3 s/câu thì top-10), chạy RQ1 và RQ2, gọi thử API LLM (việc Sprint 1). Xong khi: có eval/results/retrieval_rq1.md và retrieval_rq2.md.
+                        [ ] Kiểm chéo căn cứ các câu manual của Hùng (đổi checked_by thành "Dat").
 
-Hoàng Sinh Hùng:
-                        [ ] Hoàn thành 80 câu kiểm thử: khoảng 60 situational (khoảng 15 câu mỗi lĩnh vực: dân sự, lao động, doanh nghiệp, thương mại), 10–15 temporal, 5 direct ("Điều X Luật Y quy định gì"), 5 out_of_scope (hình sự, giao thông, đất đai, thuế, hành chính).
-                        [ ] Chọn lọc câu hỏi từ VLQA (hoặc Zalo): giữ câu có điều luật liên quan thuộc 5 văn bản, gán lại gold_citations theo chunk_id của kho, viết reference_answer ngắn gọn, ghi source.
-                        [ ] eval/validate_cases.py: kiểm tra mọi câu đúng schema, mọi gold chunk_id tồn tại trong chunks.jsonl, phân bổ số câu theo loại và lĩnh vực đúng kế hoạch. Xong khi: script chạy không lỗi trên 80 câu.
-                        [ ] Kiểm chéo căn cứ cho các câu do Đạt soạn hoặc chọn lọc (nếu có).
-                        [ ] Phác thảo wireframe giao diện (giấy hoặc Figma): khung chat bên trái, panel nguyên văn điều luật bên phải, khu vực vết thực thi của tác tử.
-                        [ ] Khung Streamlit src/ui/app.py: bố cục 2 cột, hiển thị một phản hồi mẫu (file JSON giả đúng định dạng Phụ lục A.5).
+Hoàng Sinh Hùng (chi tiết: vn-legal-qa/docs/sprints/2026-10-15-sprint2-hung.md):
+                        [ ] H1 — Thêm BLLĐ 2012 (structured JSON, 242 Điều).
+                        [ ] H2 — Hoàn thiện laws.json: đối chiếu 4 luật với nguồn chính thức, thêm BLLD2012, domain, source.
+                        [ ] H3 — docs/data_check.md: đối chiếu 10 Điều ngẫu nhiên mỗi văn bản với bản gốc.
+                        [ ] H4 — Duyệt khoảng 81 câu Zalo, câu loại ghi vào eval/zalo_exclude.txt.
+                        [ ] H5 — docs/synthetic_check.md: kiểm định 20/65 câu synthetic, sửa câu sai.
+                        [ ] H6 — eval/manual_cases.json: ~15 situational (BLLĐ, LTM), 10–15 temporal, ~5 direct, ~5 out_of_scope.
+                        [ ] H7 — Khung Streamlit src/ui/app.py với phản hồi mẫu (Phụ lục A.5).
 
-Nghiệm thu sprint (21/10): bảng RQ1 và RQ2 có số liệu thật; validate_cases.py chạy sạch trên 80 câu.
+Nghiệm thu sprint (21/10): bảng RQ1 và RQ2 có số liệu thật; python -m eval.import_cases chạy không lỗi với đủ 3 nguồn; giao diện mẫu chạy được.
 
 
 SPRINT 3 (22/10 – 28/10/2026): TÁC TỬ AGENTIC-RAG
@@ -411,7 +415,7 @@ Mục tiêu sprint: bản thử nghiệm chạy từ đầu đến cuối; pipel
 Phạm Huỳnh Quốc Đạt:
                         [ ] src/api/main.py (FastAPI): POST /api/ask theo Phụ lục A.5; GET /api/article/{law_id}/{article}; GET /health. Nạp mô hình một lần khi khởi động.
                         [ ] Kiểm tra đầu vào (câu hỏi rỗng, dài quá 1000 ký tự, config không hợp lệ trả 422); lỗi LLM trả 503 với thông báo thân thiện, ghi log chi tiết phía server.
-                        [ ] eval/evaluate.py (phần sinh): chạy 5 cấu hình cho 80 câu; tính Citation Precision/Recall ở cấp Điều, tỷ lệ từ chối đúng, tỷ lệ đúng phiên bản (câu temporal), độ trễ, số lượt gọi LLM; lưu toàn bộ đầu ra thô ra JSONL để chấm lại không cần chạy lại tác tử.
+                        [ ] eval/evaluate.py (phần sinh): chạy 5 cấu hình trên tập kiểm thử (ablation trên tập con nếu thiếu quota); tính Citation Precision/Recall ở cấp Điều, tỷ lệ từ chối đúng, tỷ lệ đúng phiên bản (câu temporal), độ trễ, số lượt gọi LLM; lưu toàn bộ đầu ra thô ra JSONL để chấm lại không cần chạy lại tác tử.
                         [ ] Bộ chấm LLM-as-a-judge chạy trên nhà cung cấp khác với tác tử (JUDGE_*), một lượt gọi mỗi câu trả lời.
                         [ ] Chạy thử toàn bộ pipeline trên 10 câu; đo quota thực tế và ước lượng thời gian chạy đủ.
                         [ ] Chấm tay độc lập 20 câu trả lời (cùng Hùng).
@@ -429,7 +433,7 @@ SPRINT 5 (05/11 – 11/11/2026): THỰC NGHIỆM ĐẦY ĐỦ VÀ VIẾT BÁO C�
 Mục tiêu sprint: đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 08/11 (sau ngày này chỉ sửa lỗi).
 
 Phạm Huỳnh Quốc Đạt:
-                        [ ] Chạy đủ RQ3 (5 cấu hình × 80 câu) và RQ4 (3 chế độ lọc × 10–15 câu temporal), rải trong 2–3 ngày theo quota.
+                        [ ] Chạy đủ RQ3 (5 cấu hình, ablation trên tập con khoảng 80 câu) và RQ4 (3 chế độ lọc × 10–15 câu temporal), rải trong 2–3 ngày theo quota.
                         [ ] Chạy riêng 20 câu không dùng cache để đo độ trễ.
                         [ ] Bảng tổng hợp và biểu đồ (matplotlib) cho từng RQ.
                         [ ] Phân tích lỗi trên 20 trường hợp sai, phân loại: truy xuất sai Điều, sai văn bản (DRM), sai phiên bản, trích dẫn không được hỗ trợ, định tuyến sai.
