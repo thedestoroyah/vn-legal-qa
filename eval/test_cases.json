@@ -1,0 +1,1906 @@
+[
+ {
+  "id": "Z_0505153d",
+  "question": "Thành viên chưa góp đủ vốn đã cam kết thì công ty TNHH đăng ký thay đổi vốn điều lệ thời hạn bao lâu?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu47"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_06847bf5",
+  "question": "Người hứa thưởng có quyền rút lại tuyên bố hứa thưởng của mình trước đó không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu571"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_08683040",
+  "question": "Không thỏa thuận về bồi thường thiệt hại có được bồi thường không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu418"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_0d0c6088",
+  "question": "Không trả lời tin nhắn, nhà mạng thu tiền dịch vụ có đúng không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu393"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_0fe77a5f",
+  "question": "Có được xem là tài sản đối với bất động sản không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu105"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_14ea607c",
+  "question": "Chủ DNTN ở tù thì sẽ giải quyết công việc tại doanh nghiệp thế nào?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu193"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_19de583c",
+  "question": "Thoát nước mưa qua nhà người khác có được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu250"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_1a3e6f35",
+  "question": "Người bị bị tuyên bố chết quay về có được đòi tài sản đã chia rồi không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu73"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_1a6404b7",
+  "question": "Có phải bồi thường khi gây tai nạn giao thông mà không phải lỗi của mình?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu584",
+   "BLDS2015_Dieu585"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_20565ebe",
+  "question": "Sổ đăng ký thành viên của công ty TNHH có nhất thiết phải là bản giấy không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu48"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_205f301f",
+  "question": "Doanh nghiệp tư nhân thì có được giảm vốn hoạt động hay không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu189"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_212e7377",
+  "question": "Bố mẹ được phép bán đất đứng tên con khi con 16 tuổi không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu21"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_23ffe4b4",
+  "question": "Ủy quyền lại có cần sự đồng ý của bên ủy quyền không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu564"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_254185cd",
+  "question": "Khi hợp đồng chưa đến hạn thực hiện mà đơn phương chấm dứt hợp đồng có bị bồi thường không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu428"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_28f3004c",
+  "question": "Nội dung của di chúc thì có được viết tắt không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu631"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_2b8f3450",
+  "question": "Bên vay có quyền đòi lại tiền trước thời hạn trả không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu470"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_2ba3c2f3",
+  "question": "Cha mẹ có được đòi lại nhà cửa khi đã tặng cho con?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu462"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_3232696a",
+  "question": "Có thể yêu cầu tòa án chưa chia di sản thừa kế trong thời gian bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu661"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_3587f191",
+  "question": "Di chúc gồm nhiều trang thì có bắt buộc mỗi trang phải có chữ ký không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu631"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_3aed38f6",
+  "question": "Hợp đồng lao động có chấm dứt khi văn phòng đại diện bị giải thể?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu84"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_3bfabe6b",
+  "question": "Chi phí xếp, dỡ tài sản lên phương tiện vận chuyển do bên nào chịu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu532"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_40cab1ef",
+  "question": "Được tặng cho phần vốn góp công ty TNHH thì người được tặng cho có trở thành thành viên công ty không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu651",
+   "LDN2020_Dieu53"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_4285798b",
+  "question": "Nhặt được tiền nhưng không biết địa chỉ của người đánh rơi thì phải làm gì?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu230"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_4414bd7c",
+  "question": "Mức bồi thường bù đắp tổn thất về tinh thần tối đa là bao nhiêu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu590"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_44c0dfe0",
+  "question": "Công ty thông báo việc tạm ngừng kinh doanh cho cơ quan đăng ký kinh doanh trước 7 ngày làm việc có được không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu206"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_4824d7b0",
+  "question": "Thời điểm chịu rủi ro của hai bên khi thực hiện mua bán hàng hóa được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu441"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_4a731fd1",
+  "question": "Không được công chứng chữ ký thì di chúc miệng được lập ra có hợp pháp không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu630"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_50541f81",
+  "question": "Nhà hàng xóm xây dựng gây mất vệ sinh xung quanh có nhờ chính quyền can thiệp được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu174"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_52d6f01d",
+  "question": "Phạt cọc gấp đôi thì có đúng quy định pháp luật?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu328"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_54cf2a48",
+  "question": "Hưởng di sản thừa kế có phải trả nợ thay cho người để di sản không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu615"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_56373199",
+  "question": "Người nhận cầm cố có được cho thuê tài sản cầm cố không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu314"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_57aadc7a",
+  "question": "Vợ chồng tôi là dân tộc Kinh và Hà Nhỉ thì con thuộc dân tộc nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu29"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_5a78e1ef",
+  "question": "Nếu không có thỏa thuận trong giấy ủy quyền thì thời hạn đại diện là bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu563"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_5a916558",
+  "question": "Cho vay nợ không có công chứng có thể kiện được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu463"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_5d1f8cae",
+  "question": "Mái tôn bay qua nhà hàng xóm gây hư hại, có phải bồi thường?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu584"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_60b3d475",
+  "question": "Thành viên hợp danh được chuyển phần vốn góp của mình cho người khác không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu180"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_648229ec",
+  "question": "Hướng dẫn thủ tục bán nhà đang thế chấp tại ngân hàng được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu321"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_655558e2",
+  "question": "Người có năng lực hành vi dân sự đầy đủ có thể có người giám hộ không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu48"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_67c0014a",
+  "question": "Phần vốn cam kết góp có được xem là vốn điều lệ không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu47"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_6b815a5b",
+  "question": "Thành viên hợp danh thì có được làm chủ doanh nghiệp không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu180"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_6f9703de",
+  "question": "Không thực hiện hợp đồng có bị mất tiền cọc không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu328"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7175ea1d",
+  "question": "Đến thời hạn không nhận đủ tiền thì có quyền đòi lại nhà đã bán không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu332"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_718e7288",
+  "question": "Có thể yêu cầu Tòa án chưa thực hiện việc chia di sản không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu661"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7391ec6b",
+  "question": "16 tuổi có được tự mình mua xe máy không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu21"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_748de634",
+  "question": "Bên mua không có mặt để nhận hàng, bên bán có được bán cho người khác không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu355"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_76a9074f",
+  "question": "Con riêng được nhận di sản thừa kế từ cha dượng không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu654"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7843cb0b",
+  "question": "Tên địa điểm kinh doanh bắt buộc phải có cụm từ “Địa điểm kinh doanh” không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu40"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_798c4c5e",
+  "question": "Công ty vay tiền của cá nhân với lãi suất 0% có được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu463"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7a8d1224",
+  "question": "Có được rút lại hứa thưởng không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu571"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7ae82e65",
+  "question": "Người lập di chúc được thay đổi việc lập di chúc bao nhiêu lần?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu640"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7b559e46",
+  "question": "Khi không thỏa thuận thời hạn ủy quyền thì hợp đồng ủy quyền khi nào hết hạn?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu563"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7bde0a9a",
+  "question": "Trong điều lệ Công ty Cổ phần có quy định quyền nghĩa vụ của một người đại diện theo pháp luật không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu12"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7c95f6ee",
+  "question": "Làm công trừ nợ được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu286"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7de31f0b",
+  "question": "Có phải bồi thường khi không hướng dẫn cách sử dụng mà gây thiệt hại?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu443"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_7fb3d04c",
+  "question": "Bắt buộc có bao nhiêu cổ đông sáng lập công ty cổ phần?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu120"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_80719864",
+  "question": "Hợp đồng tặng cho bất động sản có hiệu lực từ khi nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu459"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_85bcd54f",
+  "question": "Sổ đăng ký thành viên có bắt buộc phải lập thành văn bản hay không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu48"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_8927191d",
+  "question": "Đã lập di chúc miệng, có thể hủy bỏ không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu629"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_90631b16",
+  "question": "Không trả nợ đúng hạn có phải trả thêm tiền lãi không và nếu có thì mức trả là bao nhiêu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu466"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_9109df60",
+  "question": "Con làm bạn gãy tay thì phụ huynh có phải bồi thường?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu584",
+   "BLDS2015_Dieu585",
+   "BLDS2015_Dieu586"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_93096fd6",
+  "question": "Hiệu lực pháp lý của di chúc miệng khi người lập di chúc phục hồi sức khỏe?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu629"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_934752ba",
+  "question": "Người thi công thì có phải bồi thường trong việc để nhà cửa, công trình xây dựng khác gây thiệt hại không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu605"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_93507da0",
+  "question": "Có phải tất cả người thừa kế đều có quyền từ chối nhận di sản không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu620"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_957060b6",
+  "question": "Theo quy định của pháp luật, hợp đồng hợp tác là gì?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu504"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_9e15a63a",
+  "question": "Có được đòi lại di sản thừa kế mà trước đây đã từ chối không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu620"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_a5b0253f",
+  "question": "Chủ doanh nghiệp tư nhân có phải chịu những khoản nợ sau khi bán doanh nghiệp?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu192"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_a67a1f46",
+  "question": "Một người có được đại diện cho cả hai bên trong hợp đồng chuyển nhượng vốn?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu141"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_a908a6f6",
+  "question": "Không góp đủ vốn có bị khai trừ ra khỏi công ty?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu185"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_aa264b2f",
+  "question": "Hội đồng thành viên có phải cơ quan quyết định cao nhất của công ty TNHH hai thành viên?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu55"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_aeb61263",
+  "question": "Di chúc của người không biết chữ có bắt buộc phải công chứng hay chứng thực không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu630"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_bdd32565",
+  "question": "Công ty cổ phần thay đổi cổ đông sáng lập có phải thông báo với Sở Kế hoạch đầu tư hay không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu32"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_cb3e1553",
+  "question": "Có được cho thuê ô tô đang bị thế chấp cho ngân hàng không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu321"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_d4ae67b4",
+  "question": "Phải chứng thực chữ ký trên bản di chúc miệng được ghi chép lại trong thời gian bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu630"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_d4ffffae",
+  "question": "Thời điểm nào thành viên hợp danh mới rút được vốn khỏi công ty?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu185"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_d754b453",
+  "question": "Bên vận chuyển có quyền yêu cầu bên thuê vận chuyển thanh toán chi phí chờ đợi được không?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu532"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_d849247c",
+  "question": "Được xem là doanh nghiệp nhà nước khi nhà nước nắm giữ 51% vốn điều lệ trong doanh nghiệp không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu88"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_ea422ee6",
+  "question": "Công ty có phải cập nhật thay đổi thành viên trong sổ đăng ký thành viên không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu48"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_ea92c7ed",
+  "question": "Áp dụng tương tự pháp luật trong quan hệ dân sự được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu6"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_f4776844",
+  "question": "Công ty làm HĐ mua xe và cho thuê lại nhằm cho vay với lãi cao có vi phạm?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu124"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_f5af352c",
+  "question": "Thành viên hợp danh có được rút vốn ra khỏi công ty hay không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu185"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "Z_fd00b54b",
+  "question": "Gà, vịt nếu đi lạc vào nhà ai thì của nhà người đó được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu232"
+  ],
+  "reference_answer": "",
+  "source": "zalo",
+  "checked_by": null
+ },
+ {
+  "id": "TM_001",
+  "question": "Theo Luật Thương mại 2005, hoạt động thương mại được định nghĩa như thế nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu3_Khoan1"
+  ],
+  "reference_answer": "Hoạt động nhằm mục đích sinh lợi, bao gồm mua bán hàng hoá, cung ứng dịch vụ, đầu tư, xúc tiến thương mại và các hoạt động nhằm mục đích sinh lợi khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_002",
+  "question": "Luật Thương mại phân biệt thói quen và tập quán thương mại như thế nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu3_Khoan3",
+   "LTM2005_Dieu3_Khoan4"
+  ],
+  "reference_answer": "Thói quen: quy tắc xử sự hình thành và lặp lại nhiều lần giữa các bên. Tập quán: thói quen được thừa nhận rộng rãi trên vùng/miền/lĩnh vực.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_003",
+  "question": "Thương nhân theo Luật Thương mại bao gồm những chủ thể nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu6_Khoan1"
+  ],
+  "reference_answer": "Tổ chức kinh tế được thành lập hợp pháp, cá nhân hoạt động thương mại độc lập, thường xuyên và có đăng ký kinh doanh.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_004",
+  "question": "Nhà nước có thể thực hiện độc quyền thương mại trong trường hợp nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu6_Khoan4"
+  ],
+  "reference_answer": "Độc quyền Nhà nước có thời hạn đối với một số hàng hóa, dịch vụ hoặc địa bàn để bảo đảm lợi ích quốc gia; Chính phủ quy định danh mục cụ thể.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_005",
+  "question": "Hợp đồng mua bán hàng hóa có thể được thể hiện bằng những hình thức nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu24"
+  ],
+  "reference_answer": "Bằng lời nói, bằng văn bản hoặc xác lập bằng hành vi cụ thể; trường hợp pháp luật yêu cầu phải lập thành văn bản thì phải tuân theo.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_006",
+  "question": "Khi hợp đồng mua bán không quy định địa điểm giao hàng, địa điểm giao hàng được xác định như thế nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu35_Khoan2"
+  ],
+  "reference_answer": "Nếu hàng gắn liền đất đai → tại nơi có hàng; nếu có vận chuyển → giao cho người vận chuyển đầu tiên; nếu biết địa điểm kho/xếp hàng/sản xuất → giao tại đó; còn lại → tại địa điểm kinh doanh của bên bán.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_007",
+  "question": "Hàng hóa được coi là không phù hợp với hợp đồng mua bán khi nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu39_Khoan1"
+  ],
+  "reference_answer": "Khi không phù hợp mục đích sử dụng thông thường; không phù hợp mục đích cụ thể đã cho bên bán biết; không bảo đảm chất lượng như mẫu; hoặc không được bảo quản, đóng gói theo cách thức thông thường.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_008",
+  "question": "Khi có địa điểm giao hàng xác định, rủi ro về mất mát hoặc hư hỏng hàng hóa chuyển từ bên bán sang bên mua khi nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu57"
+  ],
+  "reference_answer": "Khi hàng hoá đã được giao cho bên mua hoặc người được bên mua uỷ quyền nhận hàng tại địa điểm đó, kể cả khi bên bán giữ lại chứng từ xác lập quyền sở hữu.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_009",
+  "question": "Thời điểm chuyển quyền sở hữu hàng hóa trong hợp đồng mua bán theo Luật Thương mại?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu62"
+  ],
+  "reference_answer": "Kể từ thời điểm hàng hóa được chuyển giao, trừ trường hợp pháp luật có quy định khác hoặc các bên có thỏa thuận khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_010",
+  "question": "Luật Thương mại quy định những hình thức khuyến mại nào?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu92"
+  ],
+  "reference_answer": "9 hình thức: hàng mẫu, tặng hàng, giảm giá, phiếu mua hàng/dùng dịch vụ, phiếu dự thi, chương trình may rủi, khách hàng thường xuyên, chương trình văn hóa/giải trí, hình thức khác được chấp thuận.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_011",
+  "question": "Những hành vi nào bị cấm trong hoạt động khuyến mại?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu100"
+  ],
+  "reference_answer": "10 nhóm hành vi, gồm khuyến mại hàng cấm/hạn chế/chưa được phép lưu thông, rượu-bia cho người dưới 18, thuốc lá và rượu ≥30 độ, khuyến mại thiếu trung thực, tại trường học/bệnh viện/cơ quan nhà nước, cạnh tranh không lành mạnh, vượt hạn mức.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_012",
+  "question": "Luật Thương mại 2005 quy định những loại chế tài nào trong thương mại?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu292"
+  ],
+  "reference_answer": "Buộc thực hiện đúng hợp đồng; phạt vi phạm; buộc bồi thường thiệt hại; tạm ngừng thực hiện hợp đồng; đình chỉ thực hiện hợp đồng; hủy bỏ hợp đồng; các biện pháp khác do các bên thỏa thuận.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_013",
+  "question": "Mức phạt vi phạm hợp đồng tối đa theo Luật Thương mại là bao nhiêu?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu301"
+  ],
+  "reference_answer": "Không quá 8% giá trị phần nghĩa vụ hợp đồng bị vi phạm, trừ trường hợp quy định tại Điều 266.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "TM_014",
+  "question": "Thời hiệu khởi kiện áp dụng đối với các tranh chấp thương mại là bao lâu?",
+  "type": "situational",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu319"
+  ],
+  "reference_answer": "Hai năm, kể từ thời điểm quyền và lợi ích hợp pháp bị xâm phạm.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_001",
+  "question": "Bộ luật Lao động 2019 định nghĩa người lao động như thế nào và độ tuổi lao động tối thiểu là bao nhiêu?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu3_Khoan1"
+  ],
+  "reference_answer": "Người làm việc cho người sử dụng lao động theo thỏa thuận, được trả lương và chịu sự quản lý, điều hành, giám sát. Độ tuổi lao động tối thiểu là đủ 15 tuổi.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_002",
+  "question": "Người sử dụng lao động theo Bộ luật Lao động 2019 bao gồm những chủ thể nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu3_Khoan2"
+  ],
+  "reference_answer": "Doanh nghiệp, cơ quan, tổ chức, hợp tác xã, hộ gia đình, cá nhân có thuê mướn, sử dụng người lao động theo thỏa thuận.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_003",
+  "question": "Quấy rối tình dục tại nơi làm việc được Bộ luật Lao động 2019 định nghĩa như thế nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu3_Khoan9"
+  ],
+  "reference_answer": "Hành vi có tính chất tình dục của bất kỳ người nào đối với người khác tại nơi làm việc mà không được người đó mong muốn hoặc chấp nhận.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_004",
+  "question": "Bộ luật Lao động 2019 nghiêm cấm những hành vi nào trong lĩnh vực lao động?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu8"
+  ],
+  "reference_answer": "7 nhóm: phân biệt đối xử; ngược đãi, cưỡng bức lao động; quấy rối tình dục; lợi dụng dạy nghề/tập nghề trục lợi; sử dụng lao động chưa qua đào tạo cho nghề yêu cầu chứng chỉ; lừa gạt tuyển dụng/mua bán người; sử dụng lao động chưa thành niên trái pháp luật.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_005",
+  "question": "Hợp đồng lao động có thể giao kết bằng lời nói trong trường hợp nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu14_Khoan2"
+  ],
+  "reference_answer": "Đối với hợp đồng có thời hạn dưới 01 tháng, trừ trường hợp quy định tại khoản 2 Điều 18, điểm a khoản 1 Điều 145 và khoản 1 Điều 162.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_006",
+  "question": "Bộ luật Lao động 2019 quy định có những loại hợp đồng lao động nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu20_Khoan1"
+  ],
+  "reference_answer": "Hai loại: hợp đồng lao động không xác định thời hạn và hợp đồng lao động xác định thời hạn (không quá 36 tháng).",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_007",
+  "question": "Thời gian thử việc tối đa đối với công việc có chức danh nghề nghiệp cần trình độ chuyên môn, kỹ thuật từ cao đẳng trở lên là bao lâu?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu25_Khoan2"
+  ],
+  "reference_answer": "Không quá 60 ngày.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_008",
+  "question": "Tiền lương thử việc tối thiểu phải bằng bao nhiêu phần trăm mức lương của công việc đó?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu26"
+  ],
+  "reference_answer": "Ít nhất bằng 85% mức lương của công việc đó.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_009",
+  "question": "Người sử dụng lao động không được làm gì khi giao kết, thực hiện hợp đồng lao động?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu17"
+  ],
+  "reference_answer": "Không giữ bản chính giấy tờ tùy thân/văn bằng/chứng chỉ; không yêu cầu bảo đảm bằng tiền/tài sản; không buộc người lao động làm việc để trả nợ.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_010",
+  "question": "Người lao động được đơn phương chấm dứt hợp đồng lao động không cần báo trước trong những trường hợp nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu35_Khoan2"
+  ],
+  "reference_answer": "7 trường hợp, gồm không được bố trí đúng công việc/địa điểm/điều kiện; không được trả đủ lương hoặc trả không đúng hạn; bị ngược đãi, đánh đập, nhục mạ, cưỡng bức lao động; bị quấy rối tình dục; lao động nữ mang thai phải nghỉ việc; đủ tuổi nghỉ hưu; NSDLĐ cung cấp thông tin không trung thực.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_011",
+  "question": "Người sử dụng lao động có quyền đơn phương chấm dứt hợp đồng lao động trong những trường hợp nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu36_Khoan1"
+  ],
+  "reference_answer": "7 trường hợp: NLĐ thường xuyên không hoàn thành công việc; ốm đau/tai nạn điều trị dài; thiên tai/hỏa hoạn/dịch bệnh/di dời/thu hẹp SXKD; NLĐ không có mặt sau thời hạn tạm hoãn; đủ tuổi nghỉ hưu; tự ý bỏ việc ≥5 ngày liên tục; cung cấp không trung thực thông tin khi giao kết.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_012",
+  "question": "Khi nào người sử dụng lao động không được thực hiện quyền đơn phương chấm dứt hợp đồng lao động?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu37"
+  ],
+  "reference_answer": "Khi NLĐ ốm đau/tai nạn/bệnh nghề nghiệp đang điều trị; đang nghỉ hằng năm, nghỉ việc riêng; lao động nữ mang thai, đang nghỉ thai sản hoặc nuôi con dưới 12 tháng tuổi.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_013",
+  "question": "Trợ cấp thôi việc theo Bộ luật Lao động 2019 được tính như thế nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu46_Khoan1"
+  ],
+  "reference_answer": "NSDLĐ trả trợ cấp thôi việc cho NLĐ làm việc thường xuyên từ đủ 12 tháng trở lên, mỗi năm làm việc trợ cấp một nửa tháng tiền lương; trừ trường hợp đủ điều kiện hưởng lương hưu và trường hợp điểm e khoản 1 Điều 36.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_014",
+  "question": "Tiền lương làm thêm giờ vào ngày nghỉ hằng tuần ít nhất bằng bao nhiêu phần trăm?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu98_Khoan1"
+  ],
+  "reference_answer": "Ít nhất bằng 200%.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_015",
+  "question": "Lao động nữ được nghỉ thai sản bao lâu khi sinh một con?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu139_Khoan1"
+  ],
+  "reference_answer": "06 tháng (trước và sau khi sinh); thời gian nghỉ trước khi sinh không quá 02 tháng.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_016",
+  "question": "Lao động nữ mang thai làm nghề, công việc nặng nhọc, độc hại được chuyển sang làm công việc nhẹ hơn khi nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu137_Khoan2"
+  ],
+  "reference_answer": "Khi có thông báo cho NSDLĐ biết thì được chuyển sang công việc nhẹ hơn, an toàn hơn hoặc giảm 01 giờ làm việc hằng ngày mà không bị cắt giảm tiền lương và quyền, lợi ích cho đến hết thời gian nuôi con dưới 12 tháng tuổi.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "LD_017",
+  "question": "Tuổi nghỉ hưu của lao động nam trong điều kiện lao động bình thường được điều chỉnh theo lộ trình đến năm nào?",
+  "type": "situational",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu169_Khoan2"
+  ],
+  "reference_answer": "Đến đủ 62 tuổi đối với lao động nam vào năm 2028 (và đủ 60 tuổi đối với lao động nữ vào năm 2035).",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_001",
+  "question": "Doanh nghiệp theo Luật Doanh nghiệp 2020 được định nghĩa như thế nào?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu4_Khoan10"
+  ],
+  "reference_answer": "Tổ chức có tên riêng, có tài sản, có trụ sở giao dịch, được thành lập hoặc đăng ký thành lập theo quy định của pháp luật nhằm mục đích kinh doanh.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_002",
+  "question": "Doanh nghiệp nhà nước theo Luật Doanh nghiệp 2020 bao gồm những loại nào?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu4_Khoan11",
+   "LDN2020_Dieu88_Khoan1"
+  ],
+  "reference_answer": "Doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ hoặc tổng số cổ phần có quyền biểu quyết; gồm doanh nghiệp Nhà nước nắm giữ 100% vốn và doanh nghiệp Nhà nước nắm giữ trên 50% vốn.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_003",
+  "question": "Vốn điều lệ của công ty được định nghĩa như thế nào?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu4_Khoan34"
+  ],
+  "reference_answer": "Tổng giá trị tài sản do các thành viên, chủ sở hữu công ty đã góp hoặc cam kết góp khi thành lập công ty TNHH, công ty hợp danh; là tổng mệnh giá cổ phần đã bán hoặc được đăng ký mua khi thành lập công ty cổ phần.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_004",
+  "question": "Những tổ chức, cá nhân nào không có quyền thành lập và quản lý doanh nghiệp tại Việt Nam?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu17_Khoan2"
+  ],
+  "reference_answer": "Cơ quan nhà nước, đơn vị lực lượng vũ trang dùng tài sản nhà nước để thành lập DN thu lợi riêng; cán bộ, công chức, viên chức; sĩ quan, hạ sĩ quan QĐND/CAND; cán bộ lãnh đạo, quản lý nghiệp vụ trong DNNN; người chưa thành niên, hạn chế/mất NLHVDS; người đang bị truy cứu TNHS...; pháp nhân thương mại bị cấm kinh doanh.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_005",
+  "question": "Luật Doanh nghiệp 2020 nghiêm cấm những hành vi nào?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu16"
+  ],
+  "reference_answer": "7 nhóm: cấp/từ chối cấp GCN ĐKDN trái luật; ngăn cản chủ sở hữu/thành viên/cổ đông thực hiện quyền; kinh doanh không đăng ký; kê khai không trung thực; kê khai khống vốn; kinh doanh ngành cấm/chưa đủ điều kiện; lừa đảo, rửa tiền, tài trợ khủng bố.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_006",
+  "question": "Công ty trách nhiệm hữu hạn hai thành viên trở lên có tối đa bao nhiêu thành viên?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu46_Khoan1"
+  ],
+  "reference_answer": "Từ 02 đến 50 thành viên.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_007",
+  "question": "Thời hạn để thành viên công ty TNHH hai thành viên trở lên góp đủ vốn điều lệ đã cam kết là bao lâu?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu47_Khoan2"
+  ],
+  "reference_answer": "90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_008",
+  "question": "Công ty cổ phần có tối thiểu bao nhiêu cổ đông?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu111_Khoan1"
+  ],
+  "reference_answer": "Tối thiểu 03 cổ đông và không hạn chế số lượng tối đa.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_009",
+  "question": "Các cổ đông sáng lập phải cùng nhau đăng ký mua tối thiểu bao nhiêu phần trăm tổng số cổ phần phổ thông được quyền chào bán khi thành lập công ty cổ phần?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu120_Khoan2"
+  ],
+  "reference_answer": "Ít nhất 20% tổng số cổ phần phổ thông được quyền chào bán.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_010",
+  "question": "Cổ phần phổ thông của cổ đông sáng lập bị hạn chế chuyển nhượng trong bao lâu?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu120_Khoan3"
+  ],
+  "reference_answer": "Trong thời hạn 03 năm kể từ ngày công ty được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_011",
+  "question": "Người đại diện theo pháp luật của doanh nghiệp có những trách nhiệm gì?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu13"
+  ],
+  "reference_answer": "Thực hiện quyền và nghĩa vụ trung thực, cẩn trọng, tốt nhất nhằm bảo đảm lợi ích hợp pháp của DN; trung thành với lợi ích DN; thông báo kịp thời, đầy đủ, chính xác về DN mà mình/người có liên quan làm chủ hoặc có cổ phần, phần vốn góp.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_012",
+  "question": "Doanh nghiệp tư nhân có được phát hành chứng khoán không?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu188_Khoan2"
+  ],
+  "reference_answer": "Không. Doanh nghiệp tư nhân không được phát hành bất kỳ loại chứng khoán nào.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_013",
+  "question": "Mỗi cá nhân được quyền thành lập tối đa bao nhiêu doanh nghiệp tư nhân?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu188_Khoan3"
+  ],
+  "reference_answer": "Mỗi cá nhân chỉ được quyền thành lập một doanh nghiệp tư nhân.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DN_014",
+  "question": "Công ty hợp danh phải có ít nhất bao nhiêu thành viên hợp danh?",
+  "type": "situational",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu177_Khoan1"
+  ],
+  "reference_answer": "Ít nhất 02 thành viên hợp danh là chủ sở hữu chung của công ty.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_001",
+  "question": "Người thành niên theo Bộ luật Dân sự 2015 là người từ bao nhiêu tuổi?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu20_Khoan1"
+  ],
+  "reference_answer": "Từ đủ mười tám tuổi trở lên.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_002",
+  "question": "Người từ đủ mười lăm tuổi đến chưa đủ mười tám tuổi có thể tự mình xác lập, thực hiện những giao dịch dân sự nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu21_Khoan4"
+  ],
+  "reference_answer": "Tự mình xác lập, thực hiện giao dịch dân sự, trừ giao dịch liên quan đến bất động sản, động sản phải đăng ký và giao dịch khác theo quy định của luật phải được người đại diện theo pháp luật đồng ý.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_003",
+  "question": "Điều kiện để một người bị Tòa án tuyên bố mất năng lực hành vi dân sự là gì?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu22_Khoan1"
+  ],
+  "reference_answer": "Khi một người do bị bệnh tâm thần hoặc mắc bệnh khác mà không thể nhận thức, làm chủ được hành vi; theo yêu cầu của người có quyền, lợi ích liên quan hoặc cơ quan, tổ chức hữu quan, Tòa án ra quyết định trên cơ sở kết luận giám định pháp y tâm thần.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_004",
+  "question": "Các nguyên tắc cơ bản của pháp luật dân sự theo Bộ luật Dân sự 2015 gồm những gì?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu3"
+  ],
+  "reference_answer": "Bình đẳng, không phân biệt đối xử; tự do, tự nguyện cam kết, thỏa thuận; thiện chí, trung thực; không xâm phạm lợi ích quốc gia, dân tộc, lợi ích công cộng, quyền và lợi ích hợp pháp của người khác; tự chịu trách nhiệm.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_005",
+  "question": "Giao dịch dân sự có hiệu lực khi có đủ những điều kiện nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu117_Khoan1"
+  ],
+  "reference_answer": "Chủ thể có NLPLDS, NLHVDS phù hợp; hoàn toàn tự nguyện; mục đích và nội dung không vi phạm điều cấm của luật, không trái đạo đức xã hội.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_006",
+  "question": "Giao dịch dân sự vô hiệu do bị lừa dối, đe dọa, cưỡng ép được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu127"
+  ],
+  "reference_answer": "Khi một bên tham gia do bị lừa dối hoặc bị đe dọa, cưỡng ép thì có quyền yêu cầu Tòa án tuyên bố giao dịch vô hiệu. Lừa dối là hành vi cố ý làm bên kia hiểu sai lệch; đe dọa, cưỡng ép là hành vi cố ý buộc bên kia thực hiện nhằm tránh thiệt hại.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_007",
+  "question": "Thời hiệu yêu cầu Tòa án tuyên bố giao dịch dân sự vô hiệu do bị nhầm lẫn, bị lừa dối, bị đe dọa là bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu132_Khoan1"
+  ],
+  "reference_answer": "02 năm kể từ ngày người bị nhầm lẫn, bị lừa dối biết hoặc phải biết; hoặc kể từ ngày người có hành vi đe dọa, cưỡng ép chấm dứt hành vi.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_008",
+  "question": "Quyền nhân thân theo Bộ luật Dân sự 2015 được hiểu như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu25_Khoan1"
+  ],
+  "reference_answer": "Quyền dân sự gắn liền với mỗi cá nhân, không thể chuyển giao cho người khác, trừ trường hợp luật khác có liên quan quy định khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_009",
+  "question": "Quyền của cá nhân đối với hình ảnh được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu32"
+  ],
+  "reference_answer": "Cá nhân có quyền đối với hình ảnh của mình; việc sử dụng hình ảnh phải được người đó đồng ý; nếu vì mục đích thương mại thì phải trả thù lao, trừ khi có thỏa thuận khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_010",
+  "question": "Quyền về đời sống riêng tư, bí mật cá nhân, bí mật gia đình được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu38"
+  ],
+  "reference_answer": "Là bất khả xâm phạm và được pháp luật bảo vệ. Việc thu thập, lưu giữ, sử dụng, công khai thông tin liên quan đến đời sống riêng tư, bí mật cá nhân phải được người đó đồng ý; bí mật gia đình phải được các thành viên gia đình đồng ý.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_011",
+  "question": "Quyền sở hữu bao gồm những quyền nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu158"
+  ],
+  "reference_answer": "Ba quyền: quyền chiếm hữu, quyền sử dụng và quyền định đoạt tài sản của chủ sở hữu theo quy định của luật.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_012",
+  "question": "Thời hiệu khởi kiện để yêu cầu Tòa án giải quyết tranh chấp hợp đồng là bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu429"
+  ],
+  "reference_answer": "03 năm kể từ ngày người có quyền yêu cầu biết hoặc phải biết quyền và lợi ích hợp pháp của mình bị xâm phạm.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_013",
+  "question": "Lãi suất vay theo thỏa thuận không được vượt quá bao nhiêu phần trăm một năm theo Bộ luật Dân sự 2015?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu468_Khoan1"
+  ],
+  "reference_answer": "Không được vượt quá 20%/năm của khoản tiền vay, trừ trường hợp luật khác có liên quan quy định khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_014",
+  "question": "Trách nhiệm bồi thường thiệt hại ngoài hợp đồng phát sinh khi nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu584_Khoan1"
+  ],
+  "reference_answer": "Khi một người có hành vi xâm phạm tính mạng, sức khoẻ, danh dự, nhân phẩm, uy tín, tài sản, quyền, lợi ích hợp pháp khác của người khác mà gây thiệt hại thì phải bồi thường, trừ trường hợp luật quy định khác.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_015",
+  "question": "Thời hiệu khởi kiện yêu cầu bồi thường thiệt hại ngoài hợp đồng là bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu588"
+  ],
+  "reference_answer": "03 năm kể từ ngày người có quyền yêu cầu biết hoặc phải biết quyền, lợi ích hợp pháp của mình bị xâm phạm.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_016",
+  "question": "Những trường hợp nào thì thừa kế theo pháp luật được áp dụng?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu650_Khoan1"
+  ],
+  "reference_answer": "Khi không có di chúc; di chúc không hợp pháp; người thừa kế theo di chúc chết trước hoặc chết cùng thời điểm với người lập di chúc, cơ quan/tổ chức hưởng thừa kế theo di chúc không còn tồn tại; người được chỉ định làm người thừa kế theo di chúc mà không có quyền hưởng di sản hoặc từ chối nhận di sản.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_017",
+  "question": "Hàng thừa kế thứ nhất theo pháp luật gồm những ai?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu651_Khoan1"
+  ],
+  "reference_answer": "Vợ, chồng, cha đẻ, mẹ đẻ, cha nuôi, mẹ nuôi, con đẻ, con nuôi của người chết.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_018",
+  "question": "Thời hiệu để người thừa kế yêu cầu chia di sản thừa kế là bao lâu?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu623_Khoan1"
+  ],
+  "reference_answer": "30 năm đối với bất động sản, 10 năm đối với động sản, kể từ thời điểm mở thừa kế.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_019",
+  "question": "Những người thừa kế nào không phụ thuộc vào nội dung của di chúc?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu644_Khoan1"
+  ],
+  "reference_answer": "Con chưa thành niên, cha, mẹ, vợ, chồng; con thành niên mà không có khả năng lao động — vẫn được hưởng phần di sản bằng hai phần ba suất của một người thừa kế theo pháp luật nếu di sản được chia theo pháp luật.",
+  "source": "synthetic",
+  "checked_by": null
+ },
+ {
+  "id": "DS_020",
+  "question": "Đặt cọc trong giao dịch dân sự được quy định như thế nào?",
+  "type": "situational",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu328"
+  ],
+  "reference_answer": "Là việc một bên giao cho bên kia một khoản tiền hoặc kim khí quý, đá quý hoặc vật có giá trị khác trong một thời hạn để bảo đảm giao kết hoặc thực hiện hợp đồng. Nếu bên đặt cọc từ chối giao kết/thực hiện thì mất tài sản đặt cọc; nếu bên nhận đặt cọc từ chối thì phải trả lại và trả thêm khoản tiền tương đương.",
+  "source": "synthetic",
+  "checked_by": null
+ }
+]
