@@ -5,7 +5,8 @@
     "issued_date": "2015-11-24",
     "effective_date": "2017-01-01",
     "expiry_date": null,
-    "status": "Còn hiệu lực"
+    "status": "Còn hiệu lực",
+    "domain": "dan_su"
   },
   "BLLD2019": {
     "document": "Bộ luật Lao động 2019",
@@ -13,7 +14,8 @@
     "issued_date": "2019-11-20",
     "effective_date": "2021-01-01",
     "expiry_date": null,
-    "status": "Còn hiệu lực"
+    "status": "Còn hiệu lực",
+    "domain": "lao_dong"
   },
   "LDN2020": {
     "document": "Luật Doanh nghiệp 2020",
@@ -21,7 +23,8 @@
     "issued_date": "2020-06-17",
     "effective_date": "2021-01-01",
     "expiry_date": null,
-    "status": "Còn hiệu lực"
+    "status": "Còn hiệu lực",
+    "domain": "doanh_nghiep"
   },
   "LTM2005": {
     "document": "Luật Thương mại 2005",
@@ -29,6 +32,7 @@
     "issued_date": "2005-06-14",
     "effective_date": "2006-01-01",
     "expiry_date": null,
-    "status": "Còn hiệu lực"
+    "status": "Còn hiệu lực",
+    "domain": "thuong_mai"
   }
 }

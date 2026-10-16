@@ -1,17 +1,26 @@
 """Embed chunks và nạp vào ChromaDB (kèm metadata để lọc theo hiệu lực, điều, khoản)."""
 import argparse
-import json
 import os
+import time
 from pathlib import Path
 
 import chromadb
 
-CHUNKS_PATH = Path("data/processed/chunks.jsonl")
+from src.ingestion.legal_chunker import read_jsonl
+
+PROCESSED_DIR = Path("data/processed")
 DB_PATH = Path("chroma_db")
 COLLECTION = "legal_chunks"
 BATCH = 64
 DEFAULT_MODEL = "BAAI/bge-m3"
+MAX_SEQ_LEN = 2048  # BGE-M3 mặc định 8192 token: vài Điều rất dài làm CPU chậm hàng chục lần
 OPEN_END = 99991231  # effective_to của văn bản còn hiệu lực
+VARIANTS = {  # biến thể RQ2: (file trong data/processed, collection, gắn tiêu đề phân cấp khi embed)
+    "clause_header": ("chunks.jsonl", COLLECTION, True),
+    "clause_plain": ("chunks.jsonl", "legal_clause_plain", False),
+    "article": ("chunks_article.jsonl", "legal_article", True),
+    "fixed": ("chunks_fixed.jsonl", "legal_fixed", False),
+}
 
 
 def _date_int(iso):
@@ -42,19 +51,20 @@ def make_embedder(model=None):
         return lambda texts: [d.embedding for d in client.embeddings.create(model=model, input=texts).data]
     from sentence_transformers import SentenceTransformer
     st = SentenceTransformer(model)
+    st.max_seq_length = MAX_SEQ_LEN
     return lambda texts: st.encode(texts, normalize_embeddings=True).tolist()
 
 
-def build_index(chunks, embed, db_path=DB_PATH, rebuild=False):
+def build_index(chunks, embed, db_path=DB_PATH, rebuild=False, collection=COLLECTION, with_header=True):
     client = chromadb.PersistentClient(path=str(db_path))
-    if rebuild and COLLECTION in [c.name for c in client.list_collections()]:
-        client.delete_collection(COLLECTION)
-    col = client.get_or_create_collection(COLLECTION, metadata={"hnsw:space": "cosine"})
+    if rebuild and collection in [c.name for c in client.list_collections()]:
+        client.delete_collection(collection)
+    col = client.get_or_create_collection(collection, metadata={"hnsw:space": "cosine"})
     for i in range(0, len(chunks), BATCH):
         batch = chunks[i:i + BATCH]
         col.upsert(
             ids=[c["chunk_id"] for c in batch],
-            embeddings=embed([embedding_text(c) for c in batch]),
+            embeddings=embed([embedding_text(c) if with_header else c["content"] for c in batch]),
             documents=[c["content"] for c in batch],
             metadatas=[chunk_metadata(c) for c in batch],
         )
@@ -63,14 +73,17 @@ def build_index(chunks, embed, db_path=DB_PATH, rebuild=False):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--variant", choices=VARIANTS, default="clause_header")
     ap.add_argument("--rebuild", action="store_true", help="xóa collection cũ trước khi nạp")
     ap.add_argument("--query", help="truy vấn thử sau khi nạp")
     args = ap.parse_args()
 
-    chunks = [json.loads(line) for line in CHUNKS_PATH.read_text(encoding="utf-8").splitlines()]
+    file, collection, with_header = VARIANTS[args.variant]
+    chunks = read_jsonl(PROCESSED_DIR / file)
     embed = make_embedder()
-    col = build_index(chunks, embed, rebuild=args.rebuild)
-    print(f"đã nạp {col.count()} chunk vào {DB_PATH}/")
+    start = time.perf_counter()
+    col = build_index(chunks, embed, rebuild=args.rebuild, collection=collection, with_header=with_header)
+    print(f"đã nạp {col.count()} chunk vào {DB_PATH}/{collection} trong {time.perf_counter() - start:.0f}s")
     if args.query:
         res = col.query(query_embeddings=embed([args.query]), n_results=5)
         for cid, dist in zip(res["ids"][0], res["distances"][0]):

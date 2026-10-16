@@ -19,11 +19,13 @@ python -m venv .venv && source .venv/bin/activate   # fish: source .venv/bin/act
 pip install -r requirements.txt
 cp .env.example .env                                # điền OPENAI_API_KEY nếu dùng OpenAI
 
-# 1. Đặt data/raw/<LAW_ID>.md cho từng luật khai báo trong data/raw/laws.json
-python -m src.ingestion.legal_chunker --fixed       # -> data/processed/chunks.jsonl (+ chunks_fixed.jsonl)
-python -m src.ingestion.index --rebuild --query "lãi chậm trả tiền"
+# data/structured/*.json (Hùng tạo bằng MinerU + data/legal_structure_parser.py) phải có số hiệu trong data/raw/laws.json
+python -m src.ingestion.legal_chunker                # -> data/processed/chunks.jsonl, chunks_article.jsonl, chunks_fixed.jsonl
+python -m src.ingestion.index --variant clause_header --rebuild --query "lãi chậm trả tiền"
+python -m eval.import_cases                          # -> eval/test_cases.json
+python -m eval.evaluate --rq rq1                     # -> eval/results/retrieval_rq1.md
 pytest
 ```
 Embedding mặc định là `BAAI/bge-m3` (chạy local, ~2.3GB lần đầu). Đặt `EMBED_MODEL=text-embedding-3-small` để dùng OpenAI.
 
-Định dạng file raw: Chương/Mục/Điều mỗi cái một dòng riêng, khoản dạng `1.`, điểm dạng `a)`. Kế hoạch chi tiết: [docs/PLAN.md](docs/PLAN.md).
+torch nên cài bản CPU trước: `pip install torch --index-url https://download.pytorch.org/whl/cpu`. Định dạng dữ liệu: Phụ lục A trong đề cương. Kế hoạch chi tiết: [docs/PLAN.md](docs/PLAN.md).

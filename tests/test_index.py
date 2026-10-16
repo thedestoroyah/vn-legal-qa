@@ -71,3 +71,24 @@ def test_reindex_without_rebuild_clears_stale_fields(tmp_path):
     meta = col.get(ids=["A_Dieu1_Khoan1"])["metadatas"][0]
     assert "expiry_date" not in meta
     assert meta["effective_to"] == 99991231
+
+
+def test_variant_collection_and_plain_text(tmp_path):
+    seen = []
+
+    def recording_embed(texts):
+        seen.extend(texts)
+        return fake_embed(texts)
+
+    build_index(CHUNKS, recording_embed, tmp_path, collection="legal_clause_plain", with_header=False)
+    client = chromadb.PersistentClient(path=str(tmp_path))
+    assert client.get_collection("legal_clause_plain").count() == 2
+    assert seen == ["trả lãi", "bị phạt"]
+    assert "legal_chunks" not in [c.name for c in client.list_collections()]
+
+
+def test_rebuild_only_touches_its_own_collection(tmp_path):
+    build_index(CHUNKS, fake_embed, tmp_path)
+    build_index(CHUNKS[:1], fake_embed, tmp_path, rebuild=True, collection="legal_article")
+    client = chromadb.PersistentClient(path=str(tmp_path))
+    assert (client.get_collection("legal_chunks").count(), client.get_collection("legal_article").count()) == (2, 1)
