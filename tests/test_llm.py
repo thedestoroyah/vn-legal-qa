@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
+from src.generation import llm as llm_module
 from src.generation.llm import LLM, from_env, parse_json
 
 MSG = [{"role": "user", "content": "Xin chào"}]
@@ -67,9 +69,15 @@ def test_corrupted_cache_file_is_refetched(tmp_path):
     assert llm.chat(MSG) == "b"
 
 
-@pytest.mark.parametrize("text", ['{"a": 1}', '```json\n{"a": 1}\n```', 'Kết quả:\n{"a": 1}\nHết.'])
-def test_parse_json_tolerates_fences_and_prose(text):
-    assert parse_json(text) == {"a": 1}
+@pytest.mark.parametrize("text, expected", [
+    ('{"a": 1}', {"a": 1}),
+    ('```json\n{"a": 1}\n```', {"a": 1}),
+    ('Kết quả:\n{"a": 1}\nHết.', {"a": 1}),
+    ('{"a": 1} và {"b": 2}', {"a": 1}),
+    ('Ví dụ {x} rồi {"a": 1}', {"a": 1}),
+])
+def test_parse_json_tolerates_fences_and_prose(text, expected):
+    assert parse_json(text) == expected
 
 
 @pytest.mark.parametrize("text", ["", "không có json", "[1, 2]", "{sai cú pháp}", None])
@@ -89,34 +97,34 @@ def test_chat_json_raises_after_second_failure(tmp_path):
 
 
 def test_from_env_builds_client_with_retries(monkeypatch, tmp_path):
-    monkeypatch.chdir(tmp_path)  # không có .env
     monkeypatch.setenv("LLM_BASE_URL", "https://example.com/v1")
     monkeypatch.setenv("LLM_API_KEY", "k")
     monkeypatch.setenv("LLM_MODEL", "m")
+    monkeypatch.setenv("LLM_MIN_INTERVAL", "4.2")
     monkeypatch.delenv("LLM_MAX_RETRIES", raising=False)
-    llm = from_env()
+    llm = from_env(env_path=tmp_path / ".env")
     assert llm.model == "m"
     assert llm.client.max_retries == 8
     assert str(llm.client.base_url).startswith("https://example.com/v1")
+    assert llm.min_interval == 4.2
+    assert llm.base_url == "https://example.com/v1"
 
 
 def test_from_env_reports_missing_variables(monkeypatch, tmp_path):
-    monkeypatch.chdir(tmp_path)
     for key in ("JUDGE_BASE_URL", "JUDGE_API_KEY", "JUDGE_MODEL"):
         monkeypatch.delenv(key, raising=False)
     with pytest.raises(RuntimeError, match="JUDGE_API_KEY"):
-        from_env("JUDGE")
+        from_env("JUDGE", env_path=tmp_path / ".env")
 
 
 def test_from_env_reads_dotenv_without_overriding_shell(monkeypatch, tmp_path):
-    monkeypatch.chdir(tmp_path)
     (tmp_path / ".env").write_text(
         "# ghi chú\nLLM_BASE_URL=https://file.example/v1\nLLM_API_KEY='k-file'\nLLM_MODEL=from-file\n",
         encoding="utf-8",
     )
     # os.environ riêng cho test: biến do .env nạp vào không rò sang test khác
     monkeypatch.setattr(os, "environ", {"LLM_MODEL": "from-shell"})
-    llm = from_env()
+    llm = from_env(env_path=tmp_path / ".env")
     assert llm.model == "from-shell"
     assert llm.client.api_key == "k-file"
 
@@ -128,3 +136,55 @@ def test_reply_without_choices_counts_as_empty(tmp_path):
     assert llm.chat(MSG) == ""
     with pytest.raises(ValueError):
         llm.chat_json(MSG)
+
+
+def test_cache_key_includes_base_url(tmp_path):
+    client = FakeClient(["a", "b"])
+    LLM(client, "m", tmp_path, base_url="https://a/v1").chat(MSG)
+    LLM(client, "m", tmp_path, base_url="https://b/v1").chat(MSG)
+    assert len(client.requests) == 2
+
+
+def test_requests_counts_cache_hits_but_calls_does_not(tmp_path):
+    llm = LLM(FakeClient(["a"]), "m", tmp_path)
+    llm.chat(MSG)
+    llm.chat(MSG)
+    assert (llm.requests, llm.calls) == (2, 1)
+
+
+def test_min_interval_spaces_real_calls(tmp_path, monkeypatch):
+    sleeps = []
+    monkeypatch.setattr(llm_module.time, "sleep", sleeps.append)
+    llm = LLM(FakeClient(["a", "b"]), "m", tmp_path, min_interval=10)
+    llm.chat(MSG)
+    llm.chat([{"role": "user", "content": "câu khác"}])
+    assert len(sleeps) == 1 and 9 < sleeps[0] <= 10
+
+
+def test_cache_hit_is_not_throttled(tmp_path, monkeypatch):
+    sleeps = []
+    monkeypatch.setattr(llm_module.time, "sleep", sleeps.append)
+    llm = LLM(FakeClient(["a"]), "m", tmp_path, min_interval=10)
+    llm.chat(MSG)
+    llm.chat(MSG)
+    assert sleeps == []
+
+
+def test_chat_json_drops_broken_cache_entry(tmp_path):
+    client = FakeClient(["không phải json", '{"a": 1}', "lần sau"])
+    llm = LLM(client, "m", tmp_path)
+    assert llm.chat_json(MSG) == {"a": 1}
+    assert llm.chat(MSG) == "lần sau"  # bản hỏng đã bị xóa nên lần này gọi lại API
+
+
+def test_env_path_is_repo_root():
+    assert llm_module.ENV_PATH == llm_module.ROOT / ".env"
+    assert (llm_module.ROOT / "requirements.txt").exists()
+
+
+def test_waited_accumulates_throttle_sleep(tmp_path, monkeypatch):
+    monkeypatch.setattr(llm_module.time, "sleep", lambda s: None)
+    llm = LLM(FakeClient(["a", "b"]), "m", tmp_path, min_interval=10)
+    llm.chat(MSG)
+    llm.chat([{"role": "user", "content": "câu khác"}])
+    assert 9 < llm.waited <= 10
