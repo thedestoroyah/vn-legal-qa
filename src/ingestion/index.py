@@ -56,6 +56,20 @@ def make_embedder(model=None):
 
 
 def build_index(chunks, embed, db_path=DB_PATH, rebuild=False, collection=COLLECTION, with_header=True):
+    """Nạp chunk vào một collection Chroma (cosine), tính embedding theo từng lô.
+
+    Args:
+        chunks: danh sách chunk (đọc từ file .jsonl trong data/processed).
+        embed: hàm nhận list[str], trả list vector (xem make_embedder).
+        db_path: thư mục lưu ChromaDB.
+        rebuild: True thì xóa collection cũ trước khi nạp.
+        collection: tên collection.
+        with_header: True thì embed văn bản kèm tiêu đề phân cấp (biến thể clause_header),
+            False thì chỉ embed nội dung.
+
+    Returns:
+        Collection Chroma đã nạp; upsert nên chạy lại không sinh bản trùng.
+    """
     client = chromadb.PersistentClient(path=str(db_path))
     if rebuild and collection in [c.name for c in client.list_collections()]:
         client.delete_collection(collection)

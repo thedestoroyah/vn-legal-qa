@@ -19,6 +19,7 @@ def is_valid_at(chunk, date=None):
 
 
 def chroma_where(date=None):
+    """Điều kiện `where` của Chroma cho khoảng hiệu lực tại `date` (None: chỉ văn bản còn hiệu lực), dùng trường số effective_from/effective_to."""
     if date is None:
         return {"effective_to": {"$eq": OPEN_END}}
     d = int(check_date(date).replace("-", ""))

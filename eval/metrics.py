@@ -3,7 +3,7 @@ from src.ingestion.legal_chunker import article_key
 
 
 def article_ranking(chunks):
-    """Khóa Điều theo thứ tự xuất hiện, bỏ trùng; mỗi đoạn cố định chỉ tính Điều chính (nhiều từ nhất) của nó."""
+    """Xếp hạng cấp Điều từ danh sách chunk: trả list khóa Điều theo thứ tự xuất hiện, bỏ trùng (đoạn cố định chỉ tính Điều chính)."""
     keys = []
     for c in chunks:
         if "articles" in c:
@@ -16,14 +16,17 @@ def article_ranking(chunks):
 
 
 def hit_at(ranked, gold, k):
+    """1.0 nếu top-k của `ranked` chứa ít nhất một phần tử của `gold`, ngược lại 0.0."""
     return float(bool(set(ranked[:k]) & set(gold)))
 
 
 def recall_at(ranked, gold, k):
+    """Tỷ lệ phần tử `gold` xuất hiện trong top-k của `ranked` (gold không rỗng)."""
     return len(set(ranked[:k]) & set(gold)) / len(set(gold))
 
 
 def mrr_at(ranked, gold, k):
+    """Nghịch đảo hạng của phần tử gold đầu tiên trong top-k của `ranked`; 0.0 nếu không có."""
     gold = set(gold)
     return next((1.0 / rank for rank, key in enumerate(ranked[:k], 1) if key in gold), 0.0)
 
@@ -38,5 +41,6 @@ def drm_at(chunks, gold, k):
 
 
 def mean(values):
+    """Trung bình, bỏ qua None; None nếu không còn giá trị nào."""
     values = [v for v in values if v is not None]
     return sum(values) / len(values) if values else None

@@ -55,6 +55,16 @@ def _article_chunks(meta, chapter, section, number, title, preamble, clauses):
 
 
 def chunk_law(text, meta):
+    """Tách văn bản luật thành chunk theo Khoản (Điểm nằm trong nội dung Khoản).
+
+    Args:
+        text: văn bản theo quy ước dòng: `Chương …`, `Mục …`, `Điều N. …`, `1. …`.
+        meta: thông tin văn bản (law_id, document, effective_date, expiry_date, status).
+
+    Returns:
+        Danh sách chunk có chunk_id dạng `<LAW_ID>_Dieu<n>[_Khoan<m>]`. Phần dẫn nhập của Điều
+        (hoặc Điều không có Khoản) dùng chunk_id của Điều.
+    """
     chunks = []
     chapter = section = None
     article = None  # (number, title, preamble_lines, clauses)
@@ -107,7 +117,21 @@ def _tagged_words(text):
 
 
 def fixed_chunk(text, meta, size=200, overlap=40):
-    """Baseline cắt theo số từ, không theo cấu trúc luật (so sánh RQ2); ghi các Điều mỗi đoạn phủ qua để chấm ở cấp Điều."""
+    """Baseline RQ2: cắt cửa sổ trượt theo số từ, bỏ qua cấu trúc luật.
+
+    Args:
+        text: văn bản theo quy ước dòng như chunk_law.
+        meta: thông tin văn bản như chunk_law.
+        size: số từ mỗi cửa sổ.
+        overlap: số từ chồng lấn giữa hai cửa sổ liên tiếp, phải thỏa 0 <= overlap < size.
+
+    Returns:
+        Danh sách chunk có chunk_id `<LAW_ID>_fixed<n>`, kèm `articles` (các Điều cửa sổ phủ qua) và
+        `main_article` (Điều chiếm nhiều từ nhất, dùng để chấm ở cấp Điều).
+
+    Raises:
+        ValueError: nếu overlap không hợp lệ.
+    """
     if not 0 <= overlap < size:
         raise ValueError(f"cần 0 <= overlap < size, nhận overlap={overlap}, size={size}")
     tagged = _tagged_words(text)
@@ -164,6 +188,7 @@ def render_text(law):
 
 
 def article_key(chunk_id):
+    """Khóa Điều của một chunk_id: bỏ phần `_Khoan<m>` (BLDS2015_Dieu357_Khoan1 → BLDS2015_Dieu357)."""
     return _CLAUSE_SUFFIX_RE.sub("", chunk_id)
 
 
@@ -198,10 +223,12 @@ def build_all(structured_dir, laws):
 
 
 def read_jsonl(path):
+    """Đọc file JSON Lines thành danh sách dict, bỏ dòng trống."""
     return [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
 def write_jsonl(path, rows):
+    """Ghi danh sách dict ra file JSON Lines (UTF-8), tự tạo thư mục cha nếu chưa có."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:

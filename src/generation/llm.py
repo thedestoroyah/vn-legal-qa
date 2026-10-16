@@ -12,6 +12,7 @@ _JSON_RE = re.compile(r"\{.*\}", re.S)
 
 
 class LLM:
+    """Client LLM chuẩn OpenAI: cache kết quả xuống đĩa, đếm lượt gọi API thật (`calls`)."""
     def __init__(self, client, model, cache_dir=CACHE_DIR):
         self.client = client
         self.model = model
@@ -24,6 +25,16 @@ class LLM:
         return self.cache_dir / f"{hashlib.sha256(raw.encode()).hexdigest()}.json"
 
     def chat(self, messages, temperature=0.0, **params):
+        """Gọi LLM một lượt hội thoại, ưu tiên lấy từ cache đĩa.
+
+        Args:
+            messages: danh sách {"role", "content"} theo chuẩn OpenAI.
+            temperature: mặc định 0 để kết quả lặp lại được và cache có tác dụng.
+            **params: tham số khác chuyển thẳng cho API (đều nằm trong khóa cache).
+
+        Returns:
+            Nội dung trả lời; chuỗi rỗng nếu API không trả nội dung (phản hồi rỗng không được cache).
+        """
         params = {"temperature": temperature, **params}
         path = self._cache_path(messages, params)
         try:

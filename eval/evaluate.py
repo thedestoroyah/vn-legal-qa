@@ -24,6 +24,17 @@ METRICS = ("hit5", "recall10", "mrr10", "drm5", *CLAUSE_METRICS, "ms")
 
 
 def eval_case(retriever, case, mode, clause_level):
+    """Chạy truy xuất cho một câu và tính các chỉ số.
+
+    Args:
+        retriever: đối tượng có search(query, k, date, mode).
+        case: câu hỏi trong eval/test_cases.json.
+        mode: chế độ truy xuất.
+        clause_level: True nếu biến thể có đơn vị Khoản; chỉ số Khoản chỉ tính khi mọi gold của câu ở cấp Khoản.
+
+    Returns:
+        dict gồm id, source, domain và các chỉ số hit5, recall10, mrr10, drm5, ms (+ chỉ số Khoản hoặc None).
+    """
     start = time.perf_counter()
     chunks = retriever.search(case["question"], k=DEPTH, date=case["event_date"], mode=mode)
     ms = round((time.perf_counter() - start) * 1000)
@@ -41,6 +52,7 @@ def eval_case(retriever, case, mode, clause_level):
 
 
 def run(rq, cases, get_retriever):
+    """Chạy mọi (biến thể, chế độ) của `rq` trên danh sách câu; `get_retriever(variant)` trả Retriever. Trả list dòng kết quả, mỗi dòng có `config`."""
     return [{"config": f"{variant}/{mode}", **eval_case(get_retriever(variant), c, mode, variant.startswith("clause"))}
             for variant, mode in CONFIGS[rq] for c in cases]
 
@@ -60,6 +72,7 @@ def _fmt(value):
 
 
 def to_markdown(summary):
+    """Bảng Markdown từ kết quả của summarize, một dòng cho mỗi (config, source)."""
     head = ["| config | source | n | Hit@5 | Recall@10 | MRR@10 | DRM@5 | Hit@5 (Khoản) | ms |",
             "|---|---|---|---|---|---|---|---|---|"]
     lines = [f"| {s['config']} | {s['source']} | {s['n']} | {_fmt(s['hit5'])} | {_fmt(s['recall10'])} | "

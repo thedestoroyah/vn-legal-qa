@@ -5,6 +5,7 @@ from src.ingestion.legal_chunker import OUT_PATH, article_key, read_jsonl
 
 
 def format_article(chunks, law_id, number):
+    """Chuỗi toàn văn một Điều: dòng tiêu đề rồi từng dòng `[chunk_id] nội dung`; thông báo không tìm thấy nếu thiếu. Dùng để chép mã căn cứ cho gold_citations."""
     key = f"{law_id}_Dieu{number}"
     parts = [c for c in chunks if article_key(c["chunk_id"]) == key]
     if not parts:

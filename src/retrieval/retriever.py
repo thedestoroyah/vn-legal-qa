@@ -26,18 +26,35 @@ def rrf(rankings, k=RRF_K):
 
 
 def make_reranker(model=RERANK_MODEL):
+    """Tạo hàm chấm điểm cross-encoder: nhận (query, list[str]) trả list[float]. Tải mô hình lần đầu rất chậm."""
     from sentence_transformers import CrossEncoder
     encoder = CrossEncoder(model, max_length=512)
     return lambda query, texts: [float(s) for s in encoder.predict([(query, t) for t in texts])]
 
 
 class Retriever:
+    """Gộp BM25, dense, RRF và rerank sau một giao diện; các thành phần truyền qua tham số để test bằng đối tượng giả."""
     def __init__(self, chunks, bm25, dense, rerank=None, text_fn=embedding_text):
         self.by_id = {c["chunk_id"]: c for c in chunks}
         self.bm25, self.dense, self.rerank, self.text_fn = bm25, dense, rerank, text_fn
 
     def search(self, query, k=5, date=None, mode="hybrid_rerank"):
-        """Top-k chunk (kèm 'score'); date=None chỉ lấy văn bản còn hiệu lực."""
+        """Truy xuất top-k chunk theo chế độ chọn.
+
+        Args:
+            query: câu truy vấn; rỗng hoặc chỉ dấu câu thì trả [].
+            k: số chunk trả về.
+            date: ngày YYYY-MM-DD của tình huống; None chỉ lấy văn bản còn hiệu lực.
+            mode: một trong MODES (bm25, dense, hybrid, hybrid_rerank).
+
+        Returns:
+            Danh sách chunk (dict) kèm `score`. Với hybrid_rerank, chỉ RERANK_TOP đầu được rerank,
+            phần đuôi giữ thứ tự RRF nên `score` của phần đuôi chỉ có thứ tự là so sánh được.
+
+        Raises:
+            ValueError: mode hoặc date sai.
+            RuntimeError: chỉ mục Chroma lệch với file chunk.
+        """
         if mode not in MODES:
             raise ValueError(f"mode phải thuộc {MODES}, nhận {mode!r}")
         date = check_date(date)
@@ -70,14 +87,31 @@ class Retriever:
         return sorted(zip(ids, scores), key=lambda item: -item[1])
 
     def get_article(self, law_id, number):
-        """Toàn văn một Điều (dẫn nhập + các Khoản theo thứ tự); None nếu không có."""
+        """Toàn văn một Điều.
+
+        Args:
+            law_id: mã văn bản (vd BLDS2015).
+            number: số Điều, dạng chuỗi hoặc số (vd 357, "50a").
+
+        Returns:
+            Chunk cấp Điều (chunk_id là khóa Điều, content gồm dẫn nhập và các Khoản); None nếu không có.
+        """
         key = f"{law_id}_Dieu{number}"
         parts = [c for cid, c in self.by_id.items() if article_key(cid) == key]
         return article_chunks(parts)[0] if parts else None
 
 
 def load_retriever(variant="clause_header", embed=None, rerank=None, db_path=DB_PATH):
-    """Retriever trên một biến thể đã nạp bằng `python -m src.ingestion.index --variant <variant>`."""
+    """Dựng Retriever trên một biến thể đã nạp bằng `python -m src.ingestion.index --variant <variant>`.
+
+    Args:
+        variant: một khóa của VARIANTS (clause_header, clause_plain, article, fixed).
+        embed, rerank: hàm embedding/rerank; None thì tải mô hình thật.
+        db_path: thư mục ChromaDB.
+
+    Raises:
+        RuntimeError: số chunk trong Chroma khác file chunk (cần nạp lại với --rebuild).
+    """
     file, collection, with_header = VARIANTS[variant]
     chunks = read_jsonl(PROCESSED_DIR / file)
     col = chromadb.PersistentClient(path=str(db_path)).get_collection(collection)

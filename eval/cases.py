@@ -11,6 +11,7 @@ FIELDS = ("id", "question", "type", "domain", "event_date", "gold_citations", "r
 
 
 def is_iso_date(value):
+    """True nếu value là chuỗi ngày đúng dạng YYYY-MM-DD (từ chối cả dạng gọn 20200301)."""
     try:
         date.fromisoformat(value)
     except (TypeError, ValueError):

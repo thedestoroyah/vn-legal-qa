@@ -73,6 +73,7 @@ def read_exclude(path):
 
 
 def load_manual(path):
+    """Đọc eval/manual_cases.json (danh sách câu); file không có thì trả []. File không phải JSON hợp lệ thì thoát với thông báo nêu tên file."""
     path = Path(path)
     if not path.exists():
         return []
@@ -83,6 +84,7 @@ def load_manual(path):
 
 
 def load_zalo(zalo_dir):
+    """Đọc tập con Zalo; trả (queries {id: câu hỏi}, qrels [(query-id, corpus-id)]) gộp hai split train và test."""
     zalo_dir = Path(zalo_dir)
     queries = {r["_id"]: r["text"] for r in read_jsonl(zalo_dir / "queries.jsonl")}
     qrels = [(r["query-id"], r["corpus-id"]) for split in ("train", "test")

@@ -9,6 +9,7 @@
 - **Phạm Huỳnh Quốc Đạt** (người dùng): lõi kỹ thuật (chunking, truy xuất, tác tử, API, đánh giá). Dùng Claude Code.
 - **Hoàng Sinh Hùng**: dữ liệu luật, tập kiểm thử, giao diện Streamlit, viết báo cáo. Chỉ dùng web chat và agent CLI free tier, Windows PowerShell. Plan của Hùng viết dạng thẻ việc tự chứa đủ thông tin.
 - Người dùng **tự commit và tự push**; không tự ý commit. Giao tiếp tiếng Việt.
+- **Quy tắc code (global, `~/.claude/rules/docstrings-comments.md`):** hàm/lớp quan trọng có docstring tiếng Việt (làm gì, đầu vào, đầu ra, ngoại lệ); comment vừa phải, giải thích "tại sao". Đã bổ sung cho `src/` và `eval/`; `data/` (file của Hùng) chưa sửa.
 
 ## 2. Đọc gì trước (theo thứ tự)
 
