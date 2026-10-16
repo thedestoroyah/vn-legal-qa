@@ -68,14 +68,14 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 ### Phạm Huỳnh Quốc Đạt — chi tiết: [docs/superpowers/plans/2026-10-16-sprint3-dat.md](superpowers/plans/2026-10-16-sprint3-dat.md)
 
-- [ ] Task 1 — langgraph 1.2.15; gia cố llm.py: đếm lượt gọi logic (requests), giãn cách LLM_MIN_INTERVAL theo 15 RPM, parse JSON không tham lam, xóa cache JSON hỏng, .env theo gốc repo.
-- [ ] Task 2 — src/generation/citations.py: tách/gỡ/gắn nhãn [chunk_id] theo câu (verify a, b).
-- [ ] Task 3 — src/generation/prompts.py: 4 prompt tiếng Việt (route, grade, generate, verify), mỗi prompt ≥ 2 ví dụ, đầu ra JSON.
-- [ ] Task 4 — src/agent/state.py (trạng thái, 5 cấu hình) và nút route (chuẩn hóa law_id, event_date), lookup_article, retrieve (date = event_date, không lọc lĩnh vực), refuse.
-- [ ] Task 5 — Nút grade (≤ 2 vòng viết lại), generate (gắn [chunk_id], KHÔNG_ĐỦ_CĂN_CỨ), verify (a) regex + (b) một lượt LLM theo cặp (câu, đoạn); câu mất hết căn cứ sinh lại 1 lần rồi gắn nhãn "chưa có căn cứ".
-- [ ] Task 6 — src/agent/graph.py: StateGraph, cạnh có điều kiện, baseline / full / no_router / no_grading / no_verify, trace {node, output, ms, llm_calls}. Xong khi: test đi đúng nhánh out_of_scope, direct, vòng viết lại dừng sau 2 lần, verify gỡ trích dẫn sai.
-- [ ] Task 7 — src/agent/run.py: Agent.run(question, config) theo Phụ lục A.5; CLI python -m src.agent.run "câu hỏi" --config full.
-- [ ] Task 8 — eval/agent_smoke.py: chạy thử 10 câu thật với Gemini, ghi lỗi prompt vào eval/results/agent_smoke.md, chỉnh prompt tối đa 2 vòng.
+- [x] Task 1 — langgraph 1.2.15; gia cố llm.py: đếm lượt gọi logic (requests), giãn cách LLM_MIN_INTERVAL theo 15 RPM, parse JSON không tham lam, xóa cache JSON hỏng, .env theo gốc repo.
+- [x] Task 2 — src/generation/citations.py: tách/gỡ/gắn nhãn [chunk_id] theo câu (verify a, b).
+- [x] Task 3 — src/generation/prompts.py: 4 prompt tiếng Việt (route, grade, generate, verify), mỗi prompt ≥ 2 ví dụ, đầu ra JSON.
+- [x] Task 4 — src/agent/state.py (trạng thái, 5 cấu hình) và nút route (chuẩn hóa law_id, event_date), lookup_article, retrieve (date = event_date, không lọc lĩnh vực), refuse.
+- [x] Task 5 — Nút grade (≤ 2 vòng viết lại), generate (gắn [chunk_id], KHÔNG_ĐỦ_CĂN_CỨ), verify (a) regex + (b) một lượt LLM theo cặp (câu, đoạn); câu mất hết căn cứ sinh lại 1 lần rồi gắn nhãn "chưa có căn cứ".
+- [x] Task 6 — src/agent/graph.py: StateGraph, cạnh có điều kiện, baseline / full / no_router / no_grading / no_verify, trace {node, output, ms, llm_calls}. Xong khi: test đi đúng nhánh out_of_scope, direct, vòng viết lại dừng sau 2 lần, verify gỡ trích dẫn sai.
+- [x] Task 7 — src/agent/run.py: Agent.run(question, config) theo Phụ lục A.5; CLI python -m src.agent.run "câu hỏi" --config full.
+- [x] Task 8 — eval/agent_smoke.py: chạy thử 10 câu thật với Gemini, ghi lỗi prompt vào eval/results/agent_smoke.md, chỉnh prompt tối đa 2 vòng.
 
 ### Hoàng Sinh Hùng — chi tiết: [docs/sprints/2026-10-16-sprint3-hung.md](sprints/2026-10-16-sprint3-hung.md)
 
