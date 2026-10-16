@@ -15,11 +15,11 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 - [x] index.py: nạp chunk vào ChromaDB kèm metadata, văn bản embed có gắn tiêu đề phân cấp; cờ --rebuild, --query; kiểm thử tự động.
 - [x] Bổ sung trường expiry_date từ laws.json vào từng chunk. *Xong khi:* kiểm thử chunk của BLLD2012 có expiry_date = "2021-01-01".
 - [x] fixed_chunk ghi danh sách các Điều mà mỗi đoạn cố định phủ qua (trường "articles") để đánh giá RQ2 ở cấp Điều. *Xong khi:* kiểm thử một đoạn nằm vắt qua hai Điều trả về đủ cả hai.
-- [ ] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). *Xong khi:* số Điều khớp, không có chunk rỗng. → *chuyển sang Sprint 2 (Task 1, 8).*
-- [ ] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót). → *chuyển sang Sprint 2 (Task 1, 8).*
-- [ ] Chạy index.py với BGE-M3 trên dữ liệu thật. *Xong khi:* truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5. → *chuyển sang Sprint 2 (Task 1, 8).*
+- [x] Chạy chunker trên 5 file của Hùng; đối chiếu số Điều với mục lục văn bản (BLDS2015: 689, BLLD2019: 220, BLLD2012: 242, LDN2020: 218, LTM2005: 324, cộng các điều bổ sung trong bản hợp nhất). *Xong khi:* số Điều khớp, không có chunk rỗng. → *chuyển sang Sprint 2 (Task 1, 8).*
+- [x] Sửa bộ tách cho các trường hợp phát sinh từ dữ liệu thật (điều bị bãi bỏ, điều có số kèm chữ như 50a, dòng chú thích sửa đổi còn sót). → *chuyển sang Sprint 2 (Task 1, 8).*
+- [x] Chạy index.py với BGE-M3 trên dữ liệu thật. *Xong khi:* truy vấn "lãi chậm trả tiền" trả về BLDS2015 Điều 357 trong top-5. → *chuyển sang Sprint 2 (Task 1, 8).*
 - [x] src/generation/llm.py: client tương thích OpenAI (LLM_BASE_URL, LLM_API_KEY, LLM_MODEL đọc từ .env); cache xuống đĩa theo hash (model, messages, tham số); tự chờ và thử lại khi gặp lỗi 429; đếm số lượt gọi; hàm chat_json phân tích JSON, thử lại 1 lần khi lỗi. *Xong khi:* kiểm thử với client giả chứng minh lần gọi thứ hai lấy từ cache và lỗi 429 được thử lại.
-- [ ] Cập nhật .env.example (LLM_*, JUDGE_*, EMBED_MODEL); đăng ký API key Gemini và Groq, gọi thử mỗi bên 1 lần.
+- [x] Cập nhật .env.example (LLM_*, JUDGE_*, EMBED_MODEL); đăng ký API key Gemini và Groq, gọi thử mỗi bên 1 lần. → Gemini (gemini-3.1-flash-lite) gọi thử xong 16/10; Groq chuyển sang Sprint 4.
 
 ### Hoàng Sinh Hùng
 
@@ -40,14 +40,14 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 ### Phạm Huỳnh Quốc Đạt — chi tiết: [docs/superpowers/plans/2026-10-15-sprint2-dat.md](superpowers/plans/2026-10-15-sprint2-dat.md)
 
-- [ ] Task 1 — Bộ phân đoạn đọc data/structured/*.json, sinh chunks.jsonl (Khoản), chunks_article.jsonl (Điều), chunks_fixed.jsonl. Xong khi: BLDS 689, BLLĐ 220, LDN 218, LTM 324 Điều (BLLĐ 2012: 242 khi Hùng xong H1).
-- [ ] Task 2 — eval/cases.py (kiểm tra hợp lệ), eval/import_cases.py (gộp zalo + synthetic + manual), eval/show_article.py; tải tập con Zalo vào data/external/zalo/; thêm domain vào laws.json. Xong khi: python -m eval.import_cases ghi eval/test_cases.json không lỗi.
-- [ ] Task 3 — Chỉ mục theo 4 biến thể RQ2 (--variant clause_header / clause_plain / article / fixed).
-- [ ] Task 4 — Lọc hiệu lực theo ngày (filters.py) và BM25 (underthesea).
-- [ ] Task 5 — Dense trên Chroma có lọc hiệu lực.
-- [ ] Task 6 — Retriever: RRF (k=60), rerank bge-reranker-v2-m3 top-20, get_article, load_retriever.
-- [ ] Task 7 — eval/metrics.py + eval/evaluate.py --rq rq1|rq2: Hit@5, Recall@10, MRR@10 (Điều, Khoản), DRM@5, tách theo nguồn.
-- [ ] Task 8 — Chạy thật: nạp 4 chỉ mục, đo rerank (> 3 s/câu thì top-10), chạy RQ1 và RQ2, gọi thử API LLM (việc Sprint 1). Xong khi: có eval/results/retrieval_rq1.md và retrieval_rq2.md.
+- [x] Task 1 — Bộ phân đoạn đọc data/structured/*.json, sinh chunks.jsonl (Khoản), chunks_article.jsonl (Điều), chunks_fixed.jsonl. Xong khi: BLDS 689, BLLĐ 220, LDN 218, LTM 324 Điều (BLLĐ 2012: 242 khi Hùng xong H1).
+- [x] Task 2 — eval/cases.py (kiểm tra hợp lệ), eval/import_cases.py (gộp zalo + synthetic + manual), eval/show_article.py; tải tập con Zalo vào data/external/zalo/; thêm domain vào laws.json. Xong khi: python -m eval.import_cases ghi eval/test_cases.json không lỗi.
+- [x] Task 3 — Chỉ mục theo 4 biến thể RQ2 (--variant clause_header / clause_plain / article / fixed).
+- [x] Task 4 — Lọc hiệu lực theo ngày (filters.py) và BM25 (underthesea).
+- [x] Task 5 — Dense trên Chroma có lọc hiệu lực.
+- [x] Task 6 — Retriever: RRF (k=60), rerank bge-reranker-v2-m3 top-20, get_article, load_retriever.
+- [x] Task 7 — eval/metrics.py + eval/evaluate.py --rq rq1|rq2: Hit@5, Recall@10, MRR@10 (Điều, Khoản), DRM@5, tách theo nguồn.
+- [x] Task 8 — Chạy thật (bỏ qua gọi thử API LLM: chưa có key): nạp 4 chỉ mục, đo rerank (> 3 s/câu thì top-10), chạy RQ1 và RQ2, gọi thử API LLM (việc Sprint 1). Xong khi: có eval/results/retrieval_rq1.md và retrieval_rq2.md.
 - [ ] Kiểm chéo căn cứ các câu manual của Hùng (đổi checked_by thành "Dat").
 
 ### Hoàng Sinh Hùng — chi tiết: [docs/sprints/2026-10-15-sprint2-hung.md](sprints/2026-10-15-sprint2-hung.md)
@@ -66,30 +66,25 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 **Mục tiêu sprint:** tác tử chạy được qua dòng lệnh với đủ các nhánh; giao diện chạy với dữ liệu mẫu.
 
-### Phạm Huỳnh Quốc Đạt
+### Phạm Huỳnh Quốc Đạt — chi tiết: [docs/superpowers/plans/2026-10-16-sprint3-dat.md](superpowers/plans/2026-10-16-sprint3-dat.md)
 
-- [ ] src/agent/state.py: trạng thái tác tử (question, route_type, event_date, direct_ref, queries, evidence, n_rewrites, answer, citations, refused, trace).
-- [ ] src/generation/prompts.py: prompt tiếng Việt cho route, grade, generate, verify; đầu ra JSON; mỗi prompt có 2 ví dụ mẫu.
-- [ ] Nút route: phân loại situational / direct / out_of_scope; trích event_date (ISO hoặc null); với câu direct trích law_id và số Điều.
-- [ ] Nút lookup_article: gọi get_article cho câu direct.
-- [ ] Nút retrieve: gọi search với date = event_date; không lọc theo lĩnh vực.
-- [ ] Nút grade: đánh giá top-5 có đủ để trả lời không; nếu không thì đề xuất truy vấn mới; tối đa 2 vòng, hết vòng vẫn thiếu thì trả lời "không đủ căn cứ".
-- [ ] Nút generate: sinh câu trả lời, mỗi khẳng định gắn [chunk_id].
-- [ ] Nút verify: (a) tách mã trích dẫn bằng biểu thức chính quy, loại mã không có trong ngữ cảnh; (b) gửi một lượt LLM kiểm tra từng cặp (câu, đoạn được trích), gỡ trích dẫn không được hỗ trợ; câu mất hết căn cứ thì sinh lại 1 lần, sau đó vẫn còn thì gắn nhãn "chưa có căn cứ".
-- [ ] src/agent/graph.py: StateGraph LangGraph nối các nút bằng cạnh có điều kiện; cấu hình baseline / full / no_router / no_grading / no_verify; ghi trace (tên nút, đầu ra tóm tắt, thời gian, số lượt gọi LLM).
-- [ ] CLI: python -m src.agent.run "câu hỏi" --config full, in câu trả lời và trace.
-- [ ] Kiểm thử với LLM giả: từng nút; đồ thị đi đúng nhánh out_of_scope, direct, vòng viết lại dừng sau 2 lần, verify gỡ trích dẫn sai.
-- [ ] Chạy thử 10 câu thật với Gemini/Groq, ghi lại các lỗi prompt để chỉnh.
+- [ ] Task 1 — langgraph 1.2.15; gia cố llm.py: đếm lượt gọi logic (requests), giãn cách LLM_MIN_INTERVAL theo 15 RPM, parse JSON không tham lam, xóa cache JSON hỏng, .env theo gốc repo.
+- [ ] Task 2 — src/generation/citations.py: tách/gỡ/gắn nhãn [chunk_id] theo câu (verify a, b).
+- [ ] Task 3 — src/generation/prompts.py: 4 prompt tiếng Việt (route, grade, generate, verify), mỗi prompt ≥ 2 ví dụ, đầu ra JSON.
+- [ ] Task 4 — src/agent/state.py (trạng thái, 5 cấu hình) và nút route (chuẩn hóa law_id, event_date), lookup_article, retrieve (date = event_date, không lọc lĩnh vực), refuse.
+- [ ] Task 5 — Nút grade (≤ 2 vòng viết lại), generate (gắn [chunk_id], KHÔNG_ĐỦ_CĂN_CỨ), verify (a) regex + (b) một lượt LLM theo cặp (câu, đoạn); câu mất hết căn cứ sinh lại 1 lần rồi gắn nhãn "chưa có căn cứ".
+- [ ] Task 6 — src/agent/graph.py: StateGraph, cạnh có điều kiện, baseline / full / no_router / no_grading / no_verify, trace {node, output, ms, llm_calls}. Xong khi: test đi đúng nhánh out_of_scope, direct, vòng viết lại dừng sau 2 lần, verify gỡ trích dẫn sai.
+- [ ] Task 7 — src/agent/run.py: Agent.run(question, config) theo Phụ lục A.5; CLI python -m src.agent.run "câu hỏi" --config full.
+- [ ] Task 8 — eval/agent_smoke.py: chạy thử 10 câu thật với Gemini, ghi lỗi prompt vào eval/results/agent_smoke.md, chỉnh prompt tối đa 2 vòng.
 
-### Hoàng Sinh Hùng
+### Hoàng Sinh Hùng — chi tiết: [docs/sprints/2026-10-16-sprint3-hung.md](sprints/2026-10-16-sprint3-hung.md)
 
-- [ ] Giao diện chat (st.chat_message): hiển thị câu trả lời, thẻ trích dẫn dạng nút bấm.
-- [ ] Bấm thẻ trích dẫn: panel bên phải hiện toàn văn Điều, làm nổi bật Khoản được trích.
-- [ ] Khu vực "Các bước tác tử" (st.expander) hiển thị trace: định tuyến, truy vấn đã viết lại, trích dẫn bị loại khi kiểm chứng.
-- [ ] Hiển thị trạng thái từ chối và nhãn "chưa có căn cứ"; dòng lưu ý "thông tin tham khảo, không thay thế tư vấn pháp lý".
-- [ ] Soạn bản nháp prompt chấm (judge) cho Faithfulness và Answer Correctness theo định nghĩa RAGAS (Đạt duyệt lại).
-- [ ] Soạn thang chấm tay 3 mức (0 / 0,5 / 1) cho 2 tiêu chí trên, kèm ví dụ.
-- [ ] Bắt đầu Chương 2 báo cáo (cơ sở lý thuyết: BM25, dense retrieval, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph).
+- [ ] Làm trước các thẻ Sprint 2 còn dở (ưu tiên H1, H2, H6).
+- [ ] H8 — Panel toàn văn Điều, tô sáng Khoản được trích (src/ui/article_view.py, sample_articles.json).
+- [ ] H9 — Hiển thị từ chối, nhãn "(chưa có căn cứ)", dòng tóm tắt từng bước trace; 3 phản hồi mẫu trong src/ui/samples/.
+- [ ] H10 — docs/judge_prompts.md: prompt chấm Faithfulness và Answer Correctness (0 / 0,5 / 1, đầu ra JSON) theo RAGAS (Đạt duyệt).
+- [ ] H11 — docs/rubric.md: thang chấm tay 3 mức kèm ví dụ và quy tắc biên.
+- [ ] H12 — Bản nháp Chương 2 (BM25, dense, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph, đặc thù văn bản luật).
 
 **Nghiệm thu sprint (28/10):** CLI trả lời đúng nhánh cho 4 loại câu hỏi; giao diện chạy với dữ liệu mẫu. Nếu tác tử chưa ổn định: áp dụng phương án dự phòng tại mục 11.
 
@@ -102,6 +97,7 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 - [ ] src/api/main.py (FastAPI): POST /api/ask theo Phụ lục A.5; GET /api/article/{law_id}/{article}; GET /health. Nạp mô hình một lần khi khởi động.
 - [ ] Kiểm tra đầu vào (câu hỏi rỗng, dài quá 1000 ký tự, config không hợp lệ trả 422); lỗi LLM trả 503 với thông báo thân thiện, ghi log chi tiết phía server.
 - [ ] eval/evaluate.py (phần sinh): chạy 5 cấu hình cho tập kiểm thử; tính Citation Precision/Recall ở cấp Điều, tỷ lệ từ chối đúng, tỷ lệ đúng phiên bản (câu temporal), độ trễ, số lượt gọi LLM; lưu toàn bộ đầu ra thô ra JSONL để chấm lại không cần chạy lại tác tử.
+- [ ] Lấy key Groq, điền JUDGE_* trong .env, gọi thử 1 lần (bộ chấm).
 - [ ] Bộ chấm LLM-as-a-judge chạy trên nhà cung cấp khác với tác tử (JUDGE_*), một lượt gọi mỗi câu trả lời.
 - [ ] Chạy thử toàn bộ pipeline trên 10 câu; đo quota thực tế và ước lượng thời gian chạy đủ.
 - [ ] Chấm tay độc lập 20 câu trả lời (cùng Hùng).

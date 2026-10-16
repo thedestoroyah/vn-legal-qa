@@ -1,6 +1,6 @@
 # Thiết kế: Hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG
 
-Ngày: 2026-10-09 (cập nhật 2026-10-15) · Trạng thái: đã duyệt · Nguồn gốc: brainstorming, đã chốt cùng đề cương (`Đề cương DACNTT.txt`)
+Ngày: 2026-10-09 (cập nhật 2026-10-16) · Trạng thái: đã duyệt · Nguồn gốc: brainstorming, đã chốt cùng đề cương (`Đề cương DACNTT.txt`)
 
 ## 1. Mục tiêu và tiêu chí thành công
 
@@ -38,8 +38,8 @@ Chỉ tiêu: Hit@5 ≥ 80%, Recall@10 ≥ 75%, Citation Precision ≥ 85%.
 ```
 src/ingestion/   legal_chunker.py, index.py          (đã có)
 src/retrieval/   filters.py, bm25.py, dense.py, retriever.py   Retriever.search(query, k, date, mode), Retriever.get_article(law_id, number); load_retriever(variant)
-src/generation/  llm.py, prompts.py                  client chuẩn OpenAI + cache đĩa + retry 429
-src/agent/       state.py, graph.py, run.py          LangGraph, run(question, config) -> dict
+src/generation/  llm.py, prompts.py, citations.py    client chuẩn OpenAI + cache đĩa + retry 429 + giãn cách RPM; tách/gỡ [chunk_id]
+src/agent/       state.py, nodes.py, graph.py, run.py   LangGraph, Agent.run(question, config) -> dict (Phụ lục A.5)
 src/api/         main.py                             FastAPI: /api/ask, /api/article, /health
 src/ui/          app.py                              Streamlit: chat, panel nguyên văn, trace
 eval/            cases.py, import_cases.py (gộp zalo + synthetic + manual, kiểm tra hợp lệ), metrics.py, evaluate.py, test_cases.json, results/
