@@ -6,7 +6,18 @@
     "effective_date": "2017-01-01",
     "expiry_date": null,
     "status": "Còn hiệu lực",
-    "domain": "dan_su"
+    "domain": "dan_su",
+    "source": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=96417"
+  },
+  "BLLD2012": {
+    "document": "Bộ luật Lao động 2012",
+    "number": "10/2012/QH13",
+    "issued_date": "2012-06-18",
+    "effective_date": "2013-05-01",
+    "expiry_date": "2021-01-01",
+    "status": "Hết hiệu lực",
+    "domain": "lao_dong",
+    "source": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=27909"
   },
   "BLLD2019": {
     "document": "Bộ luật Lao động 2019",
@@ -15,7 +26,8 @@
     "effective_date": "2021-01-01",
     "expiry_date": null,
     "status": "Còn hiệu lực",
-    "domain": "lao_dong"
+    "domain": "lao_dong",
+    "source": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=139264"
   },
   "LDN2020": {
     "document": "Luật Doanh nghiệp 2020",
@@ -24,7 +36,8 @@
     "effective_date": "2021-01-01",
     "expiry_date": null,
     "status": "Còn hiệu lực",
-    "domain": "doanh_nghiep"
+    "domain": "doanh_nghiep",
+    "source": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=143615"
   },
   "LTM2005": {
     "document": "Luật Thương mại 2005",
@@ -33,6 +46,7 @@
     "effective_date": "2006-01-01",
     "expiry_date": null,
     "status": "Còn hiệu lực",
-    "domain": "thuong_mai"
+    "domain": "thuong_mai",
+    "source": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=17254"
   }
 }

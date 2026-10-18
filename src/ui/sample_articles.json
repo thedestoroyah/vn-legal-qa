@@ -1,0 +1,32 @@
+{
+  "BLDS2015_Dieu357": {
+    "law_id": "BLDS2015",
+    "document": "Bộ luật Dân sự 2015",
+    "chapter": "Chương XV",
+    "section": "Mục 4",
+    "article": "Điều 357",
+    "article_title": "Trách nhiệm do chậm thực hiện nghĩa vụ trả tiền",
+    "clause": null,
+    "point": null,
+    "effective_date": "2017-01-01",
+    "expiry_date": null,
+    "status": "Còn hiệu lực",
+    "chunk_id": "BLDS2015_Dieu357",
+    "content": "1. Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi đối với số tiền chậm trả tương ứng với thời gian chậm trả.\n2. Lãi suất phát sinh do chậm trả tiền được xác định theo thỏa thuận của các bên nhưng không được vượt quá mức lãi suất được quy định tại khoản 1 Điều 468 của Bộ luật này; nếu không có thỏa thuận thì thực hiện theo quy định tại khoản 2 Điều 468 của Bộ luật này."
+  },
+  "BLDS2015_Dieu468": {
+    "law_id": "BLDS2015",
+    "document": "Bộ luật Dân sự 2015",
+    "chapter": "Chương XVI",
+    "section": "Mục 4",
+    "article": "Điều 468",
+    "article_title": "Lãi suất",
+    "clause": null,
+    "point": null,
+    "effective_date": "2017-01-01",
+    "expiry_date": null,
+    "status": "Còn hiệu lực",
+    "chunk_id": "BLDS2015_Dieu468",
+    "content": "1. Lãi suất vay do các bên thỏa thuận. Trường hợp các bên có thỏa thuận về lãi suất thì lãi suất theo thỏa thuận không được vượt quá 20%/năm của khoản tiền vay, trừ trường hợp luật khác có liên quan quy định khác. Căn cứ tình hình thực tế và theo đề xuất của Chính phủ, Ủy ban thường vụ Quốc hội quyết định điều chỉnh mức lãi suất nói trên và báo cáo Quốc hội tại kỳ họp gần nhất. Trường hợp lãi suất theo thỏa thuận vượt quá lãi suất giới hạn được quy định tại khoản này thì mức lãi suất vượt quá không có hiệu lực.\n2. Trường hợp các bên có thoả thuận về việc trả lãi, nhưng không xác định rõ lãi suất và có tranh chấp về lãi suất thì lãi suất được xác định bằng 50% mức lãi suất giới hạn quy định tại khoản 1 Điều này tại thời điểm trả nợ."
+  }
+}

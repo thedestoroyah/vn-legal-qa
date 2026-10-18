@@ -1,0 +1,4 @@
+Z_3aed38f6  # Điều 84 BLDS không quy định về chấm dứt HĐLĐ mà thuộc Bộ luật Lao động
+Z_5a916558  # Điều 463 BLDS chỉ định nghĩa HĐ vay, việc khởi kiện và công chứng cần luật chuyên ngành
+Z_648229ec  # Điều 321 BLDS chỉ nêu quyền, thủ tục bán nhà thế chấp cần quy định đăng ký biến động đất đai
+Z_7391ec6b  # Điều 21 BLDS không đủ để trả lời quy định về điều kiện mua xe máy theo pháp luật giao thông

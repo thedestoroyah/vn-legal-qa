@@ -14,7 +14,7 @@ PS D:\Nam4_HK1\Đồ Án\data>
 mineru parse "raw\36_2005_QH11_Luat_Thuong_mai.doc" -o "normalized\36_2005_QH11_Luat_Thuong_mai.md"          
 mineru parse "raw\45_2019_QH14_Bo_luat_Lao_dong.doc" -o "normalized\45_2019_QH14_Bo_luat_Lao_dong.md"
 mineru parse "raw\59_2020_QH14_Luat_Doanh_nghiep.doc" -o "normalized\59_2020_QH14_Luat_Doanh_nghiep.md"
-mineru parse "raw\91_2015_QH13_Bo_luat_Dan_su.doc" -o "normalized\91_2015_QH13_Bo_luat_Dan_su.md"
+mineru parse "raw\10_2012_QH13_Bo_luat_Lao_dong.doc" -o "normalized\10_2012_QH13_Bo_luat_Lao_dong.md"
 
 parser theo hierarchy:
 Luật

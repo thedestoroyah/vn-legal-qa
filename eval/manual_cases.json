@@ -1,0 +1,473 @@
+[
+  {
+    "id": "M_001",
+    "question": "Người lao động làm việc theo HĐLĐ không xác định thời hạn muốn đơn phương chấm dứt hợp đồng thì phải báo trước bao nhiêu ngày?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu35_Khoan1"
+    ],
+    "reference_answer": "Phải báo trước cho người sử dụng lao động ít nhất 45 ngày.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_002",
+    "question": "Người sử dụng lao động có được giữ bản chính giấy tờ tùy thân của người lao động khi giao kết hợp đồng không?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu17_Khoan1"
+    ],
+    "reference_answer": "Không được giữ bản chính giấy tờ tùy thân, văn bằng, chứng chỉ của người lao động.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_003",
+    "question": "Người lao động làm việc vào ngày nghỉ lễ, tết được hưởng lương làm thêm giờ ít nhất là bao nhiêu phần trăm?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu98_Khoan1"
+    ],
+    "reference_answer": "Ít nhất bằng 300% chưa kể tiền lương ngày lễ, tết, ngày nghỉ có hưởng lương đối với người lao động hưởng lương ngày.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_004",
+    "question": "Người lao động làm việc đủ 12 tháng cho một người sử dụng lao động trong điều kiện bình thường thì được nghỉ hằng năm bao nhiêu ngày?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu113_Khoan1"
+    ],
+    "reference_answer": "Được nghỉ 12 ngày làm việc hưởng nguyên lương.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_005",
+    "question": "Khi người lao động kết hôn thì được nghỉ việc hưởng nguyên lương bao nhiêu ngày?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu115_Khoan1"
+    ],
+    "reference_answer": "Được nghỉ 03 ngày và hưởng nguyên lương.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_006",
+    "question": "Thời gian thử việc đối với công việc của người quản lý doanh nghiệp theo Luật Doanh nghiệp tối đa là bao nhiêu ngày?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu25_Khoan1"
+    ],
+    "reference_answer": "Không quá 180 ngày đối với công việc của người quản lý doanh nghiệp.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_007",
+    "question": "Người sử dụng lao động có được sa thải lao động nữ đang nuôi con dưới 12 tháng tuổi không?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu137_Khoan3"
+    ],
+    "reference_answer": "Người sử dụng lao động không được sa thải hoặc đơn phương chấm dứt hợp đồng lao động đối với lao động nữ vì lý do kết hôn, mang thai, nghỉ thai sản, nuôi con dưới 12 tháng tuổi.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_008",
+    "question": "Trong năm người lao động làm việc thêm giờ thì tổng số giờ làm thêm không được quá bao nhiêu giờ?",
+    "type": "situational",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu107_Khoan2"
+    ],
+    "reference_answer": "Không quá 200 giờ trong 01 năm, trừ một số trường hợp đặc biệt được làm thêm không quá 300 giờ.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_009",
+    "question": "Mức phạt vi phạm nghĩa vụ hợp đồng thương mại do các bên thỏa thuận nhưng không được vượt quá bao nhiêu phần trăm giá trị phần nghĩa vụ bị vi phạm?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu301"
+    ],
+    "reference_answer": "Không quá 8% giá trị phần nghĩa vụ hợp đồng bị vi phạm, trừ trường hợp giám định sai do lỗi của thương nhân kinh doanh dịch vụ giám định.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_010",
+    "question": "Thời hạn khiếu nại đối với số lượng hàng hóa trong hoạt động thương mại là bao lâu kể từ ngày giao hàng?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu318_Khoan1"
+    ],
+    "reference_answer": "03 tháng kể từ ngày giao hàng đối với khiếu nại về số lượng hàng hoá.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_011",
+    "question": "Thời hiệu khởi kiện áp dụng đối với các tranh chấp thương mại là bao lâu kể từ thời điểm quyền và lợi ích hợp pháp bị xâm phạm?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu319"
+    ],
+    "reference_answer": "02 năm kể từ thời điểm quyền và lợi ích hợp pháp bị xâm phạm.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_012",
+    "question": "Bên vi phạm hợp đồng thương mại được miễn trách nhiệm bồi thường trong những trường hợp nào?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu294_Khoan1"
+    ],
+    "reference_answer": "Trường hợp xảy ra sự kiện bất khả kháng; hành vi vi phạm hoàn toàn do lỗi của bên kia; hành vi do thực hiện quyết định của cơ quan nhà nước; hoặc các trường hợp miễn trách nhiệm đã thỏa thuận.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_013",
+    "question": "Đại diện cho thương nhân là gì theo Luật Thương mại 2005?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu141_Khoan1"
+    ],
+    "reference_answer": "Là việc một thương nhân nhận uỷ nhiệm của thương nhân khác để thực hiện các hoạt động thương mại với danh nghĩa, theo sự chỉ dẫn của thương nhân đó và được nhận thù lao.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_014",
+    "question": "Trường hợp các bên không thỏa thuận về giá dịch vụ thì giá dịch vụ thương mại được xác định như thế nào?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu86"
+    ],
+    "reference_answer": "Được xác định theo giá của loại dịch vụ đó trong các điều kiện tương tự về phương thức cung ứng, thời điểm, thị trường địa lý.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_015",
+    "question": "Thương nhân có quyền yêu cầu trả tiền lãi do bên kia chậm thanh toán tiền hàng không?",
+    "type": "situational",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu306"
+    ],
+    "reference_answer": "Có quyền yêu cầu trả tiền lãi trên số tiền chậm trả theo lãi suất nợ quá hạn trung bình trên thị trường.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_016",
+    "question": "Vào tháng 5/2020, công ty giao kết hợp đồng lao động theo mùa vụ 6 tháng để thu hoạch nông sản thì loại hợp đồng này có đúng quy định pháp luật không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2020-05-10",
+    "gold_citations": [
+      "BLLD2012_Dieu22_Khoan1"
+    ],
+    "reference_answer": "Hợp lệ theo quy định của BLLĐ 2012 (cho phép ký hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn dưới 12 tháng).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_017",
+    "question": "Vào tháng 6/2021, công ty muốn ký hợp đồng lao động mùa vụ 5 tháng với nhân viên thì có được phép không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2021-06-15",
+    "gold_citations": [
+      "BLLD2019_Dieu20_Khoan1"
+    ],
+    "reference_answer": "Không được, vì BLLĐ 2019 đã bãi bỏ loại hợp đồng lao động theo mùa vụ, chỉ còn 2 loại: không xác định thời hạn và xác định thời hạn.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_018",
+    "question": "Năm 2019, tôi làm việc theo hợp đồng lao động xác định thời hạn 24 tháng. Tôi muốn đơn phương chấm dứt hợp đồng khi không có lý do luật định mà chỉ báo trước 30 ngày có được không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2019-08-20",
+    "gold_citations": [
+      "BLLD2012_Dieu37_Khoan1"
+    ],
+    "reference_answer": "Không được, theo BLLĐ 2012 người lao động làm việc theo HĐLĐ xác định thời hạn khi đơn phương chấm dứt hợp đồng phải có một trong các lý do luật định và báo trước.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_019",
+    "question": "Vào năm 2022, tôi làm việc theo hợp đồng xác định thời hạn 2 năm. Tôi có quyền nghỉ việc mà không cần lý do chỉ cần báo trước đủ 30 ngày không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2022-03-10",
+    "gold_citations": [
+      "BLLD2019_Dieu35_Khoan1"
+    ],
+    "reference_answer": "Được, BLLĐ 2019 cho phép người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần lý do, chỉ cần báo trước ít nhất 30 ngày.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_020",
+    "question": "Năm 2020, người lao động được nghỉ làm việc hưởng nguyên lương vào dịp lễ Quốc khánh 02 tháng 9 bao nhiêu ngày?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2020-08-15",
+    "gold_citations": [
+      "BLLD2012_Dieu115_Khoan1"
+    ],
+    "reference_answer": "01 ngày (ngày 02 tháng 9 dương lịch).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_021",
+    "question": "Năm 2021, dịp Quốc khánh người lao động được nghỉ hưởng nguyên lương bao nhiêu ngày theo luật định?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2021-08-20",
+    "gold_citations": [
+      "BLLD2019_Dieu112_Khoan1"
+    ],
+    "reference_answer": "02 ngày (ngày 02 tháng 9 dương lịch và 01 ngày liền kề trước hoặc sau).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_022",
+    "question": "Tháng 4/2018, công ty ký hợp đồng thử việc 4 tháng đối với vị trí Giám đốc điều hành thì có đúng luật không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2018-04-10",
+    "gold_citations": [
+      "BLLD2012_Dieu27_Khoan1"
+    ],
+    "reference_answer": "Sai quy định, theo BLLĐ 2012 thời gian thử việc tối đa chỉ là 60 ngày đối với công việc có chức danh cần trình độ cao đẳng trở lên.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_023",
+    "question": "Năm 2022, doanh nghiệp thỏa thuận thử việc 150 ngày với vị trí Tổng giám đốc thì có hợp pháp không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2022-02-15",
+    "gold_citations": [
+      "BLLD2019_Dieu25_Khoan1"
+    ],
+    "reference_answer": "Hợp pháp, BLLĐ 2019 cho phép thử việc không quá 180 ngày đối với công việc của người quản lý doanh nghiệp.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_024",
+    "question": "Vào năm 2019, người sử dụng lao động có được tổ chức cho người lao động làm thêm 38 giờ trong một tháng không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2019-11-01",
+    "gold_citations": [
+      "BLLD2012_Dieu106_Khoan2"
+    ],
+    "reference_answer": "Không được, BLLĐ 2012 quy định số giờ làm thêm không được quá 30 giờ trong 01 tháng.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_025",
+    "question": "Vào năm 2022, công ty yêu cầu người lao động làm thêm 35 giờ trong tháng có vi phạm trần giờ làm thêm tháng không?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2022-05-20",
+    "gold_citations": [
+      "BLLD2019_Dieu107_Khoan2"
+    ],
+    "reference_answer": "Không vi phạm, BLLĐ 2019 cho phép số giờ làm thêm không quá 40 giờ trong 01 tháng.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_026",
+    "question": "Đến đầu năm 2020, điều kiện về tuổi nghỉ hưu của người lao động nam trong điều kiện bình thường là bao nhiêu tuổi?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2020-01-10",
+    "gold_citations": [
+      "BLLD2012_Dieu187_Khoan1"
+    ],
+    "reference_answer": "Nam đủ 60 tuổi và nữ đủ 55 tuổi.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_027",
+    "question": "Kể từ năm 2021, tuổi nghỉ hưu của lao động nam làm việc trong điều kiện bình thường bắt đầu từ bao nhiêu tuổi?",
+    "type": "temporal",
+    "domain": "lao_dong",
+    "event_date": "2021-03-01",
+    "gold_citations": [
+      "BLLD2019_Dieu169_Khoan2"
+    ],
+    "reference_answer": "Kể từ năm 2021 là đủ 60 tuổi 03 tháng đối với lao động nam (và đủ 55 tuổi 04 tháng đối với lao động nữ).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_028",
+    "question": "Điều 357 Bộ luật Dân sự 2015 quy định gì?",
+    "type": "direct",
+    "domain": "dan_su",
+    "event_date": null,
+    "gold_citations": [
+      "BLDS2015_Dieu357"
+    ],
+    "reference_answer": "Trách nhiệm trả lãi do chậm thực hiện nghĩa vụ trả tiền.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_029",
+    "question": "Điều 468 Bộ luật Dân sự 2015 quy định về vấn đề gì?",
+    "type": "direct",
+    "domain": "dan_su",
+    "event_date": null,
+    "gold_citations": [
+      "BLDS2015_Dieu468"
+    ],
+    "reference_answer": "Lãi suất vay do các bên thỏa thuận và mức trần lãi suất 20%/năm.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_030",
+    "question": "Điều 300 Luật Thương mại 2005 quy định phạt vi phạm hợp đồng là gì?",
+    "type": "direct",
+    "domain": "thuong_mai",
+    "event_date": null,
+    "gold_citations": [
+      "LTM2005_Dieu300"
+    ],
+    "reference_answer": "Phạt vi phạm là việc bên bị vi phạm yêu cầu bên vi phạm trả một khoản tiền phạt do vi phạm hợp đồng nếu trong hợp đồng có thoả thuận.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_031",
+    "question": "Điều 17 Luật Doanh nghiệp 2020 quy định về những đối tượng nào không có quyền thành lập doanh nghiệp?",
+    "type": "direct",
+    "domain": "doanh_nghiep",
+    "event_date": null,
+    "gold_citations": [
+      "LDN2020_Dieu17_Khoan2"
+    ],
+    "reference_answer": "Cán bộ, công chức, viên chức; sĩ quan quân đội, công an; người chưa thành niên; người đang bị truy cứu trách nhiệm hình sự...",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_032",
+    "question": "Điều 60 Bộ luật Lao động 2019 quy định về việc gì?",
+    "type": "direct",
+    "domain": "lao_dong",
+    "event_date": null,
+    "gold_citations": [
+      "BLLD2019_Dieu60"
+    ],
+    "reference_answer": "Trách nhiệm của các bên khi tham gia thương lượng tập thể.",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_033",
+    "question": "Người điều khiển xe mô tô vượt đèn đỏ thì bị xử phạt vi phạm hành chính bao nhiêu tiền?",
+    "type": "out_of_scope",
+    "domain": "ngoai_pham_vi",
+    "event_date": null,
+    "gold_citations": [],
+    "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc pháp luật xử phạt vi phạm hành chính giao thông đường bộ).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_034",
+    "question": "Mức hình phạt cao nhất đối với tội trộm cắp tài sản theo Bộ luật Hình sự là bao nhiêu năm tù?",
+    "type": "out_of_scope",
+    "domain": "ngoai_pham_vi",
+    "event_date": null,
+    "gold_citations": [],
+    "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Bộ luật Hình sự).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_035",
+    "question": "Điều kiện để được cấp Giấy chứng nhận quyền sử dụng đất theo Luật Đất đai là gì?",
+    "type": "out_of_scope",
+    "domain": "ngoai_pham_vi",
+    "event_date": null,
+    "gold_citations": [],
+    "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Đất đai).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_036",
+    "question": "Thủ tục đăng ký kết hôn với người nước ngoài tại Việt Nam được thực hiện ở đâu?",
+    "type": "out_of_scope",
+    "domain": "ngoai_pham_vi",
+    "event_date": null,
+    "gold_citations": [],
+    "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Hôn nhân và gia đình và Luật Hộ tịch).",
+    "source": "manual",
+    "checked_by": null
+  },
+  {
+    "id": "M_037",
+    "question": "Mức thuế suất thuế thu nhập cá nhân đối với thu nhập từ tiền lương, tiền công được tính theo biểu thuế nào?",
+    "type": "out_of_scope",
+    "domain": "ngoai_pham_vi",
+    "event_date": null,
+    "gold_citations": [],
+    "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Thuế thu nhập cá nhân).",
+    "source": "manual",
+    "checked_by": null
+  }
+]
