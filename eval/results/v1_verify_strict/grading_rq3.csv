@@ -1,0 +1,344 @@
+﻿id,question,answer,contexts,reference_answer,faithfulness,correctness,note
+Z_14ea607c,Chủ DNTN ở tù thì sẽ giải quyết công việc tại doanh nghiệp thế nào?,Chủ doanh nghiệp tư nhân đang chấp hành hình phạt tù phải ủy quyền cho người khác thực hiện quyền và nghĩa vụ của mình [LDN2020_Dieu193_Khoan1].,"[LDN2020_Dieu193_Khoan1] Luật Doanh nghiệp 2020, Điều 193 (Thực hiện quyền của chủ doanh nghiệp tư nhân trong một số trường hợp đặc biệt), Khoản 1:
+Trường hợp chủ doanh nghiệp tư nhân bị tạm giam, đang chấp hành hình phạt tù, đang chấp hành biện pháp xử lý hành chính tại cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc thì ủy quyền cho người khác thực hiện quyền và nghĩa vụ của mình.
+
+[LDN2020_Dieu78_Khoan2] Luật Doanh nghiệp 2020, Điều 78 (Thực hiện quyền của chủ sở hữu công ty trong một số trường hợp đặc biệt), Khoản 2:
+Trường hợp chủ sở hữu công ty là cá nhân bị tạm giam, đang chấp hành hình phạt tù, đang chấp hành biện pháp xử lý hành chính tại cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc thì ủy quyền cho người khác thực hiện một số hoặc tất cả quyền và nghĩa vụ của chủ sở hữu công ty.
+
+[LDN2020_Dieu53_Khoan8] Luật Doanh nghiệp 2020, Điều 53 (Xử lý phần vốn góp trong một số trường hợp đặc biệt), Khoản 8:
+Trường hợp thành viên công ty là cá nhân bị tạm giam, đang chấp hành hình phạt tù, đang chấp hành biện pháp xử lý hành chính tại cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc thì thành viên đó ủy quyền cho người khác thực hiện một số hoặc tất cả quyền và nghĩa vụ của mình tại công ty.
+
+[LDN2020_Dieu193_Khoan5] Luật Doanh nghiệp 2020, Điều 193 (Thực hiện quyền của chủ doanh nghiệp tư nhân trong một số trường hợp đặc biệt), Khoản 5:
+Trường hợp chủ doanh nghiệp tư nhân bị Tòa án cấm hành nghề hoặc làm công việc nhất định thuộc phạm vi ngành, nghề kinh doanh của doanh nghiệp thì chủ doanh nghiệp tư nhân tạm ngừng, chấm dứt kinh doanh ngành, nghề có liên quan theo quyết định của Tòa án hoặc chuyển nhượng doanh nghiệp tư nhân cho cá nhân, tổ chức khác.
+
+[LDN2020_Dieu190_Khoan3] Luật Doanh nghiệp 2020, Điều 190 (Quản lý doanh nghiệp tư nhân), Khoản 3:
+Chủ doanh nghiệp tư nhân là người đại diện theo pháp luật, đại diện cho doanh nghiệp tư nhân với tư cách người yêu cầu giải quyết việc dân sự, nguyên đơn, bị đơn, người có quyền lợi, nghĩa vụ liên quan trước Trọng tài, Tòa án, đại diện cho doanh nghiệp tư nhân thực hiện quyền và nghĩa vụ khác theo quy định của pháp luật.",,,,
+Z_20565ebe,Sổ đăng ký thành viên của công ty TNHH có nhất thiết phải là bản giấy không?,"Không, sổ đăng ký thành viên có thể là văn bản giấy hoặc tập hợp dữ liệu điện tử ghi nhận thông tin sở hữu phần vốn góp của các thành viên công ty [LDN2020_Dieu48_Khoan1].","[LDN2020_Dieu48_Khoan1] Luật Doanh nghiệp 2020, Điều 48 (Sổ đăng ký thành viên), Khoản 1:
+Công ty phải lập sổ đăng ký thành viên ngay sau khi được cấp Giấy chứng nhận đăng ký doanh nghiệp. Sổ đăng ký thành viên có thể là văn bản giấy, tập hợp dữ liệu điện tử ghi nhận thông tin sở hữu phần vốn góp của các thành viên công ty.
+
+[LDN2020_Dieu122_Khoan1] Luật Doanh nghiệp 2020, Điều 122 (Sổ đăng ký cổ đông), Khoản 1:
+Công ty cổ phần phải lập và lưu giữ sổ đăng ký cổ đông từ khi được cấp Giấy chứng nhận đăng ký doanh nghiệp. Sổ đăng ký cổ đông có thể là văn bản giấy, tập dữ liệu điện tử ghi nhận thông tin về sở hữu cổ phần của các cổ đông công ty.
+
+[LDN2020_Dieu21_Khoan4] Luật Doanh nghiệp 2020, Điều 21 (Hồ sơ đăng ký công ty trách nhiệm hữu hạn), Khoản 4:
+Bản sao các giấy tờ sau đây:
+a) Giấy tờ pháp lý của cá nhân đối với thành viên là cá nhân, người đại diện theo pháp luật;
+b) Giấy tờ pháp lý của tổ chức đối với thành viên là tổ chức và văn bản cử người đại diện theo ủy quyền; giấy tờ pháp lý của cá nhân đối với người đại diện theo ủy quyền của thành viên là tổ chức. Đối với thành viên là tổ chức nước ngoài thì bản sao giấy tờ pháp lý của tổ chức phải được hợp pháp hóa lãnh sự;
+c) Giấy chứng nhận đăng ký đầu tư đối với nhà đầu tư nước ngoài theo quy định của Luật Đầu tư.
+
+[LDN2020_Dieu48_Khoan2] Luật Doanh nghiệp 2020, Điều 48 (Sổ đăng ký thành viên), Khoản 2:
+Sổ đăng ký thành viên phải bao gồm các nội dung chủ yếu sau đây:
+a) Tên, mã số doanh nghiệp, địa chỉ trụ sở chính của công ty;
+b) Họ, tên, địa chỉ liên lạc, quốc tịch, số giấy tờ pháp lý của cá nhân đối với thành viên là cá nhân; tên, mã số doanh nghiệp hoặc số giấy tờ pháp lý của tổ chức, địa chỉ trụ sở chính đối với thành viên là tổ chức;
+c) Phần vốn góp, tỷ lệ phần vốn góp đã góp, thời điểm góp vốn, loại tài sản góp vốn, số lượng, giá trị của từng loại tài sản góp vốn của từng thành viên;
+d) Chữ ký của thành viên là cá nhân, người đại diện theo pháp luật của thành viên là tổ chức;
+đ) Số và ngày cấp giấy chứng nhận phần vốn góp của từng thành viên.
+
+[LDN2020_Dieu48_Khoan4] Luật Doanh nghiệp 2020, Điều 48 (Sổ đăng ký thành viên), Khoản 4:
+Sổ đăng ký thành viên được lưu giữ tại trụ sở chính của công ty.",,,,
+Z_3587f191,Di chúc gồm nhiều trang thì có bắt buộc mỗi trang phải có chữ ký không?,"Có, nếu di chúc gồm nhiều trang thì mỗi trang phải được ghi số thứ tự và có chữ ký hoặc điểm chỉ của người lập di chúc [BLDS2015_Dieu631_Khoan3].","[BLDS2015_Dieu631_Khoan3] Bộ luật Dân sự 2015, Điều 631 (Nội dung của di chúc), Khoản 3:
+Di chúc không được viết tắt hoặc viết bằng ký hiệu, nếu di chúc gồm nhiều trang thì mỗi trang phải được ghi số thứ tự và có chữ ký hoặc điểm chỉ của người lập di chúc. Trường hợp di chúc có sự tẩy xóa, sửa chữa thì người tự viết di chúc hoặc người làm chứng di chúc phải ký tên bên cạnh chỗ tẩy xoá, sửa chữa.
+
+[BLDS2015_Dieu630_Khoan5] Bộ luật Dân sự 2015, Điều 630 (Di chúc hợp pháp), Khoản 5:
+Di chúc miệng được coi là hợp pháp nếu người di chúc miệng thể hiện ý chí cuối cùng của mình trước mặt ít nhất hai người làm chứng và ngay sau khi người di chúc miệng thể hiện ý chí cuối cùng, người làm chứng ghi chép lại, cùng ký tên hoặc điểm chỉ. Trong thời hạn 05 ngày làm việc, kể từ ngày người di chúc miệng thể hiện ý chí cuối cùng thì di chúc phải được công chứng viên hoặc cơ quan có thẩm quyền chứng thực xác nhận chữ ký hoặc điểm chỉ của người làm chứng.
+
+[BLDS2015_Dieu634] Bộ luật Dân sự 2015, Điều 634 (Di chúc bằng văn bản có người làm chứng):
+Trường hợp người lập di chúc không tự mình viết bản di chúc thì có thể tự mình đánh máy hoặc nhờ người khác viết hoặc đánh máy bản di chúc, nhưng phải có ít nhất là hai người làm chứng. Người lập di chúc phải ký hoặc điểm chỉ vào bản di chúc trước mặt những người làm chứng; những người làm chứng xác nhận chữ ký, điểm chỉ của người lập di chúc và ký vào bản di chúc. Việc lập di chúc bằng văn bản có người làm chứng phải tuân theo quy định tại Điều 631 và Điều 632 của Bộ luật này.
+
+[BLDS2015_Dieu641_Khoan3] Bộ luật Dân sự 2015, Điều 641 (Gửi giữ di chúc), Khoản 3:
+Người giữ bản di chúc có nghĩa vụ sau đây:
+a) Giữ bí mật nội dung di chúc;
+b) Giữ gìn, bảo quản bản di chúc; nếu bản di chúc bị thất lạc, hư hại thì phải báo ngay cho người lập di chúc;
+c) Giao lại bản di chúc cho người thừa kế hoặc người có thẩm quyền công bố di chúc, khi người lập di chúc chết. Việc giao lại bản di chúc phải được lập thành văn bản, có chữ ký của người giao, người nhận và trước sự có mặt của ít nhất hai người làm chứng.
+
+[BLDS2015_Dieu636_Khoan2] Bộ luật Dân sự 2015, Điều 636 (Thủ tục lập di chúc tại tổ chức hành nghề công chứng hoặc Uỷ ban nhân dân cấp xã), Khoản 2:
+Trường hợp người lập di chúc không đọc được hoặc không nghe được bản di chúc, không ký hoặc không điểm chỉ được thì phải nhờ người làm chứng và người này phải ký xác nhận trước mặt công chứng viên hoặc người có thẩm quyền chứng thực của Uỷ ban nhân dân cấp xã. Công chứng viên hoặc người có thẩm quyền chứng thực của Uỷ ban nhân dân cấp xã chứng nhận bản di chúc trước mặt người lập di chúc và người làm chứng.",,,,
+Z_5d1f8cae,"Mái tôn bay qua nhà hàng xóm gây hư hại, có phải bồi thường?","Có, chủ sở hữu, người chiếm hữu hoặc người được giao quản lý, sử dụng nhà cửa, công trình xây dựng phải bồi thường thiệt hại do công trình đó gây ra cho người khác [BLDS2015_Dieu605]. Nếu người thi công có lỗi trong việc để công trình gây thiệt hại thì họ cũng phải liên đới bồi thường [BLDS2015_Dieu605].","[BLDS2015_Dieu177_Khoan3] Bộ luật Dân sự 2015, Điều 177 (Bảo đảm an toàn trong trường hợp cây cối, công trình có nguy cơ gây thiệt hại), Khoản 3:
+Trường hợp gây thiệt hại cho chủ sở hữu bất động sản liền kề và xung quanh quy định tại khoản 1 và khoản 2 Điều này thì chủ sở hữu cây cối, công trình phải bồi thường.
+
+[BLDS2015_Dieu603_Khoan4] Bộ luật Dân sự 2015, Điều 603 (Bồi thường thiệt hại do súc vật gây ra), Khoản 4:
+Trường hợp súc vật thả rông theo tập quán mà gây thiệt hại thì chủ sở hữu súc vật đó phải bồi thường theo tập quán nhưng không được trái pháp luật, đạo đức xã hội.
+
+[BLDS2015_Dieu605] Bộ luật Dân sự 2015, Điều 605 (Bồi thường thiệt hại do nhà cửa, công trình xây dựng khác gây ra):
+Chủ sở hữu, người chiếm hữu, người được giao quản lý, sử dụng nhà cửa, công trình xây dựng khác phải bồi thường thiệt hại do nhà cửa, công trình xây dựng khác đó gây thiệt hại cho người khác. Khi người thi công có lỗi trong việc để nhà cửa, công trình xây dựng khác gây thiệt hại thì phải liên đới bồi thường.
+
+[BLDS2015_Dieu586_Khoan2] Bộ luật Dân sự 2015, Điều 586 (Năng lực chịu trách nhiệm bồi thường thiệt hại của cá nhân), Khoản 2:
+Người chưa đủ mười lăm tuổi gây thiệt hại mà còn cha, mẹ thì cha, mẹ phải bồi thường toàn bộ thiệt hại; nếu tài sản của cha, mẹ không đủ để bồi thường mà con chưa thành niên gây thiệt hại có tài sản riêng thì lấy tài sản đó để bồi thường phần còn thiếu, trừ trường hợp quy định tại Điều 599 của Bộ luật này. Người từ đủ mười lăm tuổi đến chưa đủ mười tám tuổi gây thiệt hại thì phải bồi thường bằng tài sản của mình; nếu không đủ tài sản để bồi thường thì cha, mẹ phải bồi thường phần còn thiếu bằng tài sản của mình.
+
+[BLDS2015_Dieu586_Khoan1] Bộ luật Dân sự 2015, Điều 586 (Năng lực chịu trách nhiệm bồi thường thiệt hại của cá nhân), Khoản 1:
+Người từ đủ mười tám tuổi trở lên gây thiệt hại thì phải tự bồi thường.",,,,
+Z_798c4c5e,Công ty vay tiền của cá nhân với lãi suất 0% có được không?,"Có, các bên có thể thỏa thuận hợp đồng vay không có lãi [BLDS2015_Dieu466_Khoan4, BLDS2015_Dieu469_Khoan1, BLDS2015_Dieu470_Khoan1].","[BLDS2015_Dieu470_Khoan1] Bộ luật Dân sự 2015, Điều 470 (Thực hiện hợp đồng vay có kỳ hạn), Khoản 1:
+Đối với hợp đồng vay có kỳ hạn và không có lãi thì bên vay có quyền trả lại tài sản bất cứ lúc nào, nhưng phải báo trước cho bên cho vay một thời gian hợp lý, còn bên cho vay chỉ được đòi lại tài sản trước kỳ hạn, nếu được bên vay đồng ý.
+
+[BLDS2015_Dieu468_Khoan1] Bộ luật Dân sự 2015, Điều 468 (Lãi suất), Khoản 1:
+Lãi suất vay do các bên thỏa thuận. Trường hợp các bên có thỏa thuận về lãi suất thì lãi suất theo thỏa thuận không được vượt quá 20%/năm của khoản tiền vay, trừ trường hợp luật khác có liên quan quy định khác. Căn cứ tình hình thực tế và theo đề xuất của Chính phủ, Ủy ban thường vụ Quốc hội quyết định điều chỉnh mức lãi suất nói trên và báo cáo Quốc hội tại kỳ họp gần nhất. Trường hợp lãi suất theo thỏa thuận vượt quá lãi suất giới hạn được quy định tại khoản này thì mức lãi suất vượt quá không có hiệu lực.
+
+[BLDS2015_Dieu466_Khoan4] Bộ luật Dân sự 2015, Điều 466 (Nghĩa vụ trả nợ của bên vay), Khoản 4:
+Trường hợp vay không có lãi mà khi đến hạn bên vay không trả nợ hoặc trả không đầy đủ thì bên cho vay có quyền yêu cầu trả tiền lãi với mức lãi suất theo quy định tại khoản 2 Điều 468 của Bộ luật này trên số tiền chậm trả tương ứng với thời gian chậm trả, trừ trường hợp có thoả thuận khác hoặc luật có quy định khác.
+
+[BLDS2015_Dieu469_Khoan1] Bộ luật Dân sự 2015, Điều 469 (Thực hiện hợp đồng vay không kỳ hạn), Khoản 1:
+Đối với hợp đồng vay không kỳ hạn và không có lãi thì bên cho vay có quyền đòi lại tài sản và bên vay cũng có quyền trả nợ vào bất cứ lúc nào, nhưng phải báo cho nhau biết trước một thời gian hợp lý, trừ trường hợp có thoả thuận khác.
+
+[BLDS2015_Dieu345] Bộ luật Dân sự 2015, Điều 345 (Hình thức, nội dung tín chấp):
+Việc cho vay có bảo đảm bằng tín chấp phải được lập thành văn bản có xác nhận của tổ chức chính trị - xã hội bảo đảm bằng tín chấp về điều kiện, hoàn cảnh của bên vay vốn. Thỏa thuận bảo đảm bằng tín chấp phải cụ thể về số tiền, mục đích, thời hạn vay, lãi suất, quyền, nghĩa vụ và trách nhiệm của người vay, tổ chức tín dụng cho vay và tổ chức chính trị - xã hội bảo đảm bằng tín chấp.",,,,
+Z_aeb61263,Di chúc của người không biết chữ có bắt buộc phải công chứng hay chứng thực không?,"Có, di chúc của người không biết chữ bắt buộc phải được người làm chứng lập thành văn bản và có công chứng hoặc chứng thực [BLDS2015_Dieu630_Khoan3].","[BLDS2015_Dieu630_Khoan3] Bộ luật Dân sự 2015, Điều 630 (Di chúc hợp pháp), Khoản 3:
+Di chúc của người bị hạn chế về thể chất hoặc của người không biết chữ phải được người làm chứng lập thành văn bản và có công chứng hoặc chứng thực.
+
+[BLDS2015_Dieu635] Bộ luật Dân sự 2015, Điều 635 (Di chúc có công chứng hoặc chứng thực):
+Người lập di chúc có thể yêu cầu công chứng hoặc chứng thực bản di chúc.
+
+[BLDS2015_Dieu636_Khoan2] Bộ luật Dân sự 2015, Điều 636 (Thủ tục lập di chúc tại tổ chức hành nghề công chứng hoặc Uỷ ban nhân dân cấp xã), Khoản 2:
+Trường hợp người lập di chúc không đọc được hoặc không nghe được bản di chúc, không ký hoặc không điểm chỉ được thì phải nhờ người làm chứng và người này phải ký xác nhận trước mặt công chứng viên hoặc người có thẩm quyền chứng thực của Uỷ ban nhân dân cấp xã. Công chứng viên hoặc người có thẩm quyền chứng thực của Uỷ ban nhân dân cấp xã chứng nhận bản di chúc trước mặt người lập di chúc và người làm chứng.
+
+[BLDS2015_Dieu630_Khoan4] Bộ luật Dân sự 2015, Điều 630 (Di chúc hợp pháp), Khoản 4:
+Di chúc bằng văn bản không có công chứng, chứng thực chỉ được coi là hợp pháp, nếu có đủ các điều kiện được quy định tại khoản 1 Điều này.
+
+[BLDS2015_Dieu637] Bộ luật Dân sự 2015, Điều 637 (Người không được công chứng, chứng thực di chúc):
+Công chứng viên, người có thẩm quyền của Uỷ ban nhân dân cấp xã không được công chứng, chứng thực đối với di chúc nếu thuộc một trong các trường hợp sau đây:",,,,
+Z_d4ffffae,Thời điểm nào thành viên hợp danh mới rút được vốn khỏi công ty?,"Thành viên hợp danh chỉ được rút vốn vào thời điểm kết thúc năm tài chính và báo cáo tài chính của năm tài chính đó đã được thông qua [LDN2020_Dieu185_Khoan2]. Ngoài ra, việc rút vốn này phải được Hội đồng thành viên chấp thuận và thành viên phải thông báo bằng văn bản yêu cầu rút vốn chậm nhất là 06 tháng trước ngày rút vốn [LDN2020_Dieu185_Khoan2].","[LDN2020_Dieu185_Khoan2] Luật Doanh nghiệp 2020, Điều 185 (Chấm dứt tư cách thành viên hợp danh), Khoản 2:
+Thành viên hợp danh có quyền rút vốn khỏi công ty nếu được Hội đồng thành viên chấp thuận. Trường hợp này, thành viên muốn rút vốn khỏi công ty phải thông báo bằng văn bản yêu cầu rút vốn chậm nhất là 06 tháng trước ngày rút vốn; chỉ được rút vốn vào thời điểm kết thúc năm tài chính và báo cáo tài chính của năm tài chính đó đã được thông qua.
+
+[LDN2020_Dieu186_Khoan2] Luật Doanh nghiệp 2020, Điều 186 (Tiếp nhận thành viên mới), Khoản 2:
+Thành viên hợp danh hoặc thành viên góp vốn phải nộp đủ số vốn cam kết góp vào công ty trong thời hạn 15 ngày kể từ ngày được chấp thuận, trừ trường hợp Hội đồng thành viên quyết định thời hạn khác.
+
+[LDN2020_Dieu185_Khoan1] Luật Doanh nghiệp 2020, Điều 185 (Chấm dứt tư cách thành viên hợp danh), Khoản 1:
+Thành viên hợp danh bị chấm dứt tư cách trong trường hợp sau đây:
+a) Tự nguyện rút vốn khỏi công ty;
+b) Chết, mất tích, bị hạn chế hoặc mất năng lực hành vi dân sự, có khó khăn trong nhận thức, làm chủ hành vi;
+c) Bị khai trừ khỏi công ty;
+d) Chấp hành hình phạt tù hoặc bị Tòa án cấm hành nghề hoặc làm công việc nhất định theo quy định của pháp luật;
+đ) Trường hợp khác do Điều lệ công ty quy định.
+
+[LDN2020_Dieu185_Khoan3] Luật Doanh nghiệp 2020, Điều 185 (Chấm dứt tư cách thành viên hợp danh), Khoản 3:
+Thành viên hợp danh bị khai trừ khỏi công ty trong trường hợp sau đây:
+a) Không có khả năng góp vốn hoặc không góp vốn như đã cam kết sau khi công ty đã có yêu cầu lần thứ hai;
+b) Vi phạm quy định tại Điều 180 của Luật này;
+c) Tiến hành công việc kinh doanh không trung thực, không cẩn trọng hoặc có hành vi không thích hợp khác gây thiệt hại nghiêm trọng đến lợi ích của công ty và thành viên khác;
+d) Không thực hiện đúng nghĩa vụ của thành viên hợp danh.
+
+[LDN2020_Dieu50_Khoan2] Luật Doanh nghiệp 2020, Điều 50 (Nghĩa vụ của thành viên Hội đồng thành viên), Khoản 2:
+Không được rút vốn đã góp ra khỏi công ty dưới mọi hình thức, trừ trường hợp quy định tại các điều 51, 52, 53 và 68 của Luật này.",,,,
+Z_d849247c,Được xem là doanh nghiệp nhà nước khi nhà nước nắm giữ 51% vốn điều lệ trong doanh nghiệp không?,"Có, doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ được xem là doanh nghiệp nhà nước [LDN2020_Dieu4_Khoan11, LDN2020_Dieu88_Khoan1].","[LDN2020_Dieu4_Khoan11] Luật Doanh nghiệp 2020, Điều 4 (Giải thích từ ngữ), Khoản 11:
+Doanh nghiệp nhà nước bao gồm các doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ, tổng số cổ phần có quyền biểu quyết theo quy định tại Điều 88 của Luật này.
+
+[LDN2020_Dieu88_Khoan3] Luật Doanh nghiệp 2020, Điều 88 (Doanh nghiệp nhà nước), Khoản 3:
+Doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ hoặc tổng số cổ phần có quyền biểu quyết theo quy định tại điểm b khoản 1 Điều này bao gồm:
+a) Công ty trách nhiệm hữu hạn hai thành viên trở lên, công ty cổ phần do Nhà nước nắm giữ trên 50% vốn điều lệ, tổng số cổ phần có quyền biểu quyết là công ty mẹ của tập đoàn kinh tế, công ty mẹ của tổng công ty nhà nước, công ty mẹ trong nhóm công ty mẹ - công ty con;
+b) Công ty trách nhiệm hữu hạn hai thành viên trở lên, công ty cổ phần là công ty độc lập do Nhà nước nắm giữ trên 50% vốn điều lệ, tổng số cổ phần có quyền biểu quyết.
+
+[LDN2020_Dieu88_Khoan1] Luật Doanh nghiệp 2020, Điều 88 (Doanh nghiệp nhà nước), Khoản 1:
+Doanh nghiệp nhà nước được tổ chức quản lý dưới hình thức công ty trách nhiệm hữu hạn, công ty cổ phần, bao gồm:
+a) Doanh nghiệp do Nhà nước nắm giữ 100% vốn điều lệ;
+b) Doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ hoặc tổng số cổ phần có quyền biểu quyết, trừ doanh nghiệp quy định tại điểm a khoản 1 Điều này.
+
+[LDN2020_Dieu89_Khoan2] Luật Doanh nghiệp 2020, Điều 89 (Áp dụng quy định đối với doanh nghiệp nhà nước), Khoản 2:
+Doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ theo quy định tại điểm b khoản 1 Điều 88 của Luật này được tổ chức quản lý dưới hình thức công ty trách nhiệm hữu hạn hai thành viên trở lên theo các quy định tại Mục 1 Chương III hoặc công ty cổ phần theo các quy định tại Chương V của Luật này.
+
+[LDN2020_Dieu88_Khoan2] Luật Doanh nghiệp 2020, Điều 88 (Doanh nghiệp nhà nước), Khoản 2:
+Doanh nghiệp do Nhà nước nắm giữ 100% vốn điều lệ theo quy định tại điểm a khoản 1 Điều này bao gồm:
+a) Công ty trách nhiệm hữu hạn một thành viên do Nhà nước nắm giữ 100% vốn điều lệ là công ty mẹ của tập đoàn kinh tế nhà nước, công ty mẹ của tổng công ty nhà nước, công ty mẹ trong nhóm công ty mẹ - công ty con;
+b) Công ty trách nhiệm hữu hạn một thành viên là công ty độc lập do Nhà nước nắm giữ 100% vốn điều lệ.",,,,
+TM_008,"Khi có địa điểm giao hàng xác định, rủi ro về mất mát hoặc hư hỏng hàng hóa chuyển từ bên bán sang bên mua khi nào?","Rủi ro về mất mát hoặc hư hỏng hàng hóa được chuyển cho bên mua khi hàng hóa đã được giao cho bên mua hoặc người được bên mua ủy quyền đã nhận hàng tại địa điểm đó, trừ trường hợp có thỏa thuận khác [LTM2005_Dieu57]. Việc chuyển rủi ro này vẫn áp dụng ngay cả khi bên bán được ủy quyền giữ lại các chứng từ xác lập quyền sở hữu đối với hàng hóa [LTM2005_Dieu57].","[LTM2005_Dieu57] Luật Thương mại 2005, Điều 57 (Chuyển rủi ro trong trường hợp có địa điểm giao hàng xác định):
+Trừ trường hợp có thoả thuận khác, nếu bên bán có nghĩa vụ giao hàng cho bên mua tại một địa điểm nhất định thì rủi ro về mất mát hoặc hư hỏng hàng hoá được chuyển cho bên mua khi hàng hoá đã được giao cho bên mua hoặc người được bên mua uỷ quyền đã nhận hàng tại địa điểm đó, kể cả trong trường hợp bên bán được uỷ quyền giữ lại các chứng từ xác lập quyền sở hữu đối với hàng hoá.
+
+[LTM2005_Dieu58] Luật Thương mại 2005, Điều 58 (Chuyển rủi ro trong trường hợp không có địa điểm giao hàng xác định):
+Trừ trường hợp có thoả thuận khác, nếu hợp đồng có quy định về việc vận chuyển hàng hoá và bên bán không có nghĩa vụ giao hàng tại một địa điểm nhất định thì rủi ro về mất mát hoặc hư hỏng hàng hoá được chuyển cho bên mua khi hàng hoá đã được giao cho người vận chuyển đầu tiên.
+
+[LTM2005_Dieu60] Luật Thương mại 2005, Điều 60 (Chuyển rủi ro trong trường hợp mua bán hàng hoá đang trên đường vận chuyển):
+Trừ trường hợp có thỏa thuận khác, nếu đối tượng của hợp đồng là hàng hoá đang trên đường vận chuyển thì rủi ro về mất mát hoặc hư hỏng hàng hoá được chuyển cho bên mua kể từ thời điểm giao kết hợp đồng.
+
+[LTM2005_Dieu61_Khoan1] Luật Thương mại 2005, Điều 61 (Chuyển rủi ro trong các trường hợp khác), Khoản 1:
+Trong trường hợp không được quy định tại các điều 57, 58, 59 và 60 của Luật này thì rủi ro về mất mát hoặc hư hỏng hàng hoá được chuyển cho bên mua, kể từ thời điểm hàng hóa thuộc quyền định đoạt của bên mua và bên mua vi phạm hợp đồng do không nhận hàng;
+
+[LTM2005_Dieu61_Khoan2] Luật Thương mại 2005, Điều 61 (Chuyển rủi ro trong các trường hợp khác), Khoản 2:
+Rủi ro về mất mát hoặc hư hỏng hàng hoá không được chuyển cho bên mua, nếu hàng hoá không được xác định rõ ràng bằng ký mã hiệu, chứng từ vận tải, không được thông báo cho bên mua hoặc không được xác định bằng bất kỳ cách thức nào khác.","Khi hàng hoá đã được giao cho bên mua hoặc người được bên mua uỷ quyền nhận hàng tại địa điểm đó, kể cả khi bên bán giữ lại chứng từ xác lập quyền sở hữu.",,,
+DN_009,Các cổ đông sáng lập phải cùng nhau đăng ký mua tối thiểu bao nhiêu phần trăm tổng số cổ phần phổ thông được quyền chào bán khi thành lập công ty cổ phần?,Các cổ đông sáng lập phải cùng nhau đăng ký mua ít nhất 20% tổng số cổ phần phổ thông được quyền chào bán khi đăng ký thành lập doanh nghiệp [LDN2020_Dieu120_Khoan2].,"[LDN2020_Dieu120_Khoan2] Luật Doanh nghiệp 2020, Điều 120 (Cổ phần phổ thông của cổ đông sáng lập), Khoản 2:
+Các cổ đông sáng lập phải cùng nhau đăng ký mua ít nhất 20% tổng số cổ phần phổ thông được quyền chào bán khi đăng ký thành lập doanh nghiệp.
+
+[LDN2020_Dieu120_Khoan1] Luật Doanh nghiệp 2020, Điều 120 (Cổ phần phổ thông của cổ đông sáng lập), Khoản 1:
+Công ty cổ phần mới thành lập phải có ít nhất 03 cổ đông sáng lập. Công ty cổ phần được chuyển đổi từ doanh nghiệp nhà nước hoặc từ công ty trách nhiệm hữu hạn hoặc được chia, tách, hợp nhất, sáp nhập từ công ty cổ phần khác không nhất thiết phải có cổ đông sáng lập; trường hợp này, Điều lệ công ty trong hồ sơ đăng ký doanh nghiệp phải có chữ ký của người đại diện theo pháp luật hoặc các cổ đông phổ thông của công ty đó.
+
+[LDN2020_Dieu112_Khoan3] Luật Doanh nghiệp 2020, Điều 112 (Vốn của công ty cổ phần), Khoản 3:
+Cổ phần được quyền chào bán của công ty cổ phần là tổng số cổ phần các loại mà Đại hội đồng cổ đông quyết định sẽ chào bán để huy động vốn. Số cổ phần được quyền chào bán của công ty cổ phần khi đăng ký thành lập doanh nghiệp là tổng số cổ phần các loại mà công ty sẽ chào bán để huy động vốn, bao gồm cổ phần đã được đăng ký mua và cổ phần chưa được đăng ký mua.
+
+[LDN2020_Dieu4_Khoan4] Luật Doanh nghiệp 2020, Điều 4 (Giải thích từ ngữ), Khoản 4:
+Cổ đông sáng lập là cổ đông sở hữu ít nhất một cổ phần phổ thông và ký tên trong danh sách cổ đông sáng lập công ty cổ phần.
+
+[LDN2020_Dieu112_Khoan2] Luật Doanh nghiệp 2020, Điều 112 (Vốn của công ty cổ phần), Khoản 2:
+Cổ phần đã bán là cổ phần được quyền chào bán đã được các cổ đông thanh toán đủ cho công ty. Khi đăng ký thành lập doanh nghiệp, cổ phần đã bán là tổng số cổ phần các loại đã được đăng ký mua.",Ít nhất 20% tổng số cổ phần phổ thông được quyền chào bán.,,,
+DN_013,Mỗi cá nhân được quyền thành lập tối đa bao nhiêu doanh nghiệp tư nhân?,Mỗi cá nhân chỉ được quyền thành lập một doanh nghiệp tư nhân [LDN2020_Dieu188_Khoan3].,"[LDN2020_Dieu188_Khoan3] Luật Doanh nghiệp 2020, Điều 188 (Doanh nghiệp tư nhân), Khoản 3:
+Mỗi cá nhân chỉ được quyền thành lập một doanh nghiệp tư nhân. Chủ doanh nghiệp tư nhân không được đồng thời là chủ hộ kinh doanh, thành viên hợp danh của công ty hợp danh.
+
+[LDN2020_Dieu17_Khoan1] Luật Doanh nghiệp 2020, Điều 17 (Quyền thành lập, góp vốn, mua cổ phần, mua phần vốn góp và quản lý doanh nghiệp), Khoản 1:
+Tổ chức, cá nhân có quyền thành lập và quản lý doanh nghiệp tại Việt Nam theo quy định của Luật này, trừ trường hợp quy định tại khoản 2 Điều này.
+
+[LDN2020_Dieu188_Khoan4] Luật Doanh nghiệp 2020, Điều 188 (Doanh nghiệp tư nhân), Khoản 4:
+Doanh nghiệp tư nhân không được quyền góp vốn thành lập hoặc mua cổ phần, phần vốn góp trong công ty hợp danh, công ty trách nhiệm hữu hạn hoặc công ty cổ phần.
+
+[LDN2020_Dieu4_Khoan25] Luật Doanh nghiệp 2020, Điều 4 (Giải thích từ ngữ), Khoản 25:
+Người thành lập doanh nghiệp là cá nhân, tổ chức thành lập hoặc góp vốn để thành lập doanh nghiệp.
+
+[LDN2020_Dieu188_Khoan1] Luật Doanh nghiệp 2020, Điều 188 (Doanh nghiệp tư nhân), Khoản 1:
+Doanh nghiệp tư nhân là doanh nghiệp do một cá nhân làm chủ và tự chịu trách nhiệm bằng toàn bộ tài sản của mình về mọi hoạt động của doanh nghiệp.",Mỗi cá nhân chỉ được quyền thành lập một doanh nghiệp tư nhân.,,,
+DN_014,Công ty hợp danh phải có ít nhất bao nhiêu thành viên hợp danh?,Công ty hợp danh phải có ít nhất 02 thành viên hợp danh [LDN2020_Dieu177_Khoan1].,"[LDN2020_Dieu177_Khoan1] Luật Doanh nghiệp 2020, Điều 177 (Công ty hợp danh), Khoản 1:
+Công ty hợp danh là doanh nghiệp, trong đó:
+a) Phải có ít nhất 02 thành viên là chủ sở hữu chung của công ty, cùng nhau kinh doanh dưới một tên chung (sau đây gọi là thành viên hợp danh). Ngoài các thành viên hợp danh, công ty có thể có thêm thành viên góp vốn;
+b) Thành viên hợp danh phải là cá nhân, chịu trách nhiệm bằng toàn bộ tài sản của mình về các nghĩa vụ của công ty;
+c) Thành viên góp vốn là tổ chức, cá nhân và chỉ chịu trách nhiệm về các khoản nợ của công ty trong phạm vi số vốn đã cam kết góp vào công ty.
+
+[LDN2020_Dieu4_Khoan30] Luật Doanh nghiệp 2020, Điều 4 (Giải thích từ ngữ), Khoản 30:
+Thành viên công ty hợp danh bao gồm thành viên hợp danh và thành viên góp vốn.
+
+[LDN2020_Dieu24_Khoan3] Luật Doanh nghiệp 2020, Điều 24 (Điều lệ công ty), Khoản 3:
+Điều lệ công ty khi đăng ký doanh nghiệp phải bao gồm họ, tên và chữ ký của những người sau đây:
+a) Thành viên hợp danh đối với công ty hợp danh;
+b) Chủ sở hữu công ty là cá nhân hoặc người đại diện theo pháp luật của chủ sở hữu công ty là tổ chức đối với công ty trách nhiệm hữu hạn một thành viên;
+c) Thành viên là cá nhân và người đại diện theo pháp luật hoặc người đại diện theo ủy quyền của thành viên là tổ chức đối với công ty trách nhiệm hữu hạn hai thành viên trở lên;
+d) Cổ đông sáng lập là cá nhân và người đại diện theo pháp luật hoặc người đại diện theo ủy quyền của cổ đông sáng lập là tổ chức đối với công ty cổ phần.
+
+[LDN2020_Dieu184_Khoan1] Luật Doanh nghiệp 2020, Điều 184 (Điều hành kinh doanh của công ty hợp danh), Khoản 1:
+Các thành viên hợp danh là người đại diện theo pháp luật của công ty và tổ chức điều hành hoạt động kinh doanh hằng ngày của công ty. Mọi hạn chế đối với thành viên hợp danh trong thực hiện công việc kinh doanh hằng ngày của công ty chỉ có hiệu lực đối với bên thứ ba khi người đó được biết về hạn chế đó.
+
+[LDN2020_Dieu184_Khoan2] Luật Doanh nghiệp 2020, Điều 184 (Điều hành kinh doanh của công ty hợp danh), Khoản 2:
+Trong điều hành hoạt động kinh doanh của công ty, thành viên hợp danh phân công nhau đảm nhiệm các chức danh quản lý và kiểm soát công ty. Khi một số hoặc tất cả thành viên hợp danh cùng thực hiện một số công việc kinh doanh thì quyết định được thông qua theo nguyên tắc đa số chấp thuận. Hoạt động do thành viên hợp danh thực hiện ngoài phạm vi hoạt động kinh doanh của công ty đều không thuộc trách nhiệm của công ty, trừ trường hợp hoạt động đó đã được các thành viên còn lại chấp thuận.",Ít nhất 02 thành viên hợp danh là chủ sở hữu chung của công ty.,,,
+DS_008,Quyền nhân thân theo Bộ luật Dân sự 2015 được hiểu như thế nào?,"Quyền nhân thân là quyền dân sự gắn liền với mỗi cá nhân, không thể chuyển giao cho người khác, trừ trường hợp luật khác có quy định khác [BLDS2015_Dieu25_Khoan1]. Quyền này bao gồm quyền nhân thân không gắn với tài sản và quyền nhân thân gắn với tài sản [BLDS2015_Dieu17_Khoan1]. Ngoài ra, quyền nhân thân còn bao gồm các quyền trong quan hệ hôn nhân, gia đình như quyền kết hôn, ly hôn, quyền xác định cha, mẹ, con [BLDS2015_Dieu39_Khoan1]. Bộ luật Dân sự quy định quyền nhân thân là một phần trong phạm vi điều chỉnh về quyền, nghĩa vụ của cá nhân, pháp nhân trong các quan hệ dân sự [BLDS2015_Dieu1].","[BLDS2015_Dieu25_Khoan1] Bộ luật Dân sự 2015, Điều 25 (Quyền nhân thân), Khoản 1:
+Quyền nhân thân được quy định trong Bộ luật này là quyền dân sự gắn liền với mỗi cá nhân, không thể chuyển giao cho người khác, trừ trường hợp luật khác có liên quan quy định khác.
+
+[BLDS2015_Dieu39_Khoan1] Bộ luật Dân sự 2015, Điều 39 (Quyền nhân thân trong hôn nhân và gia đình), Khoản 1:
+Cá nhân có quyền kết hôn, ly hôn, quyền bình đẳng của vợ chồng, quyền xác định cha, mẹ, con, quyền được nhận làm con nuôi, quyền nuôi con nuôi và các quyền nhân thân khác trong quan hệ hôn nhân, quan hệ cha mẹ và con và quan hệ giữa các thành viên gia đình. Con sinh ra không phụ thuộc vào tình trạng hôn nhân của cha, mẹ đều có quyền và nghĩa vụ như nhau đối với cha, mẹ của mình.
+
+[BLDS2015_Dieu25_Khoan2] Bộ luật Dân sự 2015, Điều 25 (Quyền nhân thân), Khoản 2:
+Việc xác lập, thực hiện quan hệ dân sự liên quan đến quyền nhân thân của người chưa thành niên, người mất năng lực hành vi dân sự, người có khó khăn trong nhận thức, làm chủ hành vi phải được người đại diện theo pháp luật của người này đồng ý theo quy định của Bộ luật này, luật khác có liên quan hoặc theo quyết định của Tòa án. Việc xác lập, thực hiện quan hệ dân sự liên quan đến quyền nhân thân của người bị tuyên bố mất tích, người đã chết phải được sự đồng ý của vợ, chồng hoặc con thành niên của người đó; trường hợp không có những người này thì phải được sự đồng ý của cha, mẹ của người bị tuyên bố mất tích, người đã chết, trừ trường hợp Bộ luật này, luật khác có liên quan quy định khác.
+
+[BLDS2015_Dieu1] Bộ luật Dân sự 2015, Điều 1 (Phạm vi điều chỉnh):
+Bộ luật này quy định địa vị pháp lý, chuẩn mực pháp lý về cách ứng xử của cá nhân, pháp nhân; quyền, nghĩa vụ về nhân thân và tài sản của cá nhân, pháp nhân trong các quan hệ được hình thành trên cơ sở bình đẳng, tự do ý chí, độc lập về tài sản và tự chịu trách nhiệm (sau đây gọi chung là quan hệ dân sự).
+
+[BLDS2015_Dieu17_Khoan1] Bộ luật Dân sự 2015, Điều 17 (Nội dung năng lực pháp luật dân sự của cá nhân), Khoản 1:
+Quyền nhân thân không gắn với tài sản và quyền nhân thân gắn với tài sản.","Quyền dân sự gắn liền với mỗi cá nhân, không thể chuyển giao cho người khác, trừ trường hợp luật khác có liên quan quy định khác.",,,
+DS_017,Hàng thừa kế thứ nhất theo pháp luật gồm những ai?,"Hàng thừa kế thứ nhất theo pháp luật gồm: vợ, chồng, cha đẻ, mẹ đẻ, cha nuôi, mẹ nuôi, con đẻ, con nuôi của người chết [BLDS2015_Dieu651_Khoan1].","[BLDS2015_Dieu651_Khoan1] Bộ luật Dân sự 2015, Điều 651 (Người thừa kế theo pháp luật), Khoản 1:
+Những người thừa kế theo pháp luật được quy định theo thứ tự sau đây:
+a) Hàng thừa kế thứ nhất gồm: vợ, chồng, cha đẻ, mẹ đẻ, cha nuôi, mẹ nuôi, con đẻ, con nuôi của người chết;
+b) Hàng thừa kế thứ hai gồm: ông nội, bà nội, ông ngoại, bà ngoại, anh ruột, chị ruột, em ruột của người chết; cháu ruột của người chết mà người chết là ông nội, bà nội, ông ngoại, bà ngoại;
+c) Hàng thừa kế thứ ba gồm: cụ nội, cụ ngoại của người chết; bác ruột, chú ruột, cậu ruột, cô ruột, dì ruột của người chết; cháu ruột của người chết mà người chết là bác ruột, chú ruột, cậu ruột, cô ruột, dì ruột; chắt ruột của người chết mà người chết là cụ nội, cụ ngoại.
+
+[BLDS2015_Dieu651_Khoan3] Bộ luật Dân sự 2015, Điều 651 (Người thừa kế theo pháp luật), Khoản 3:
+Những người ở hàng thừa kế sau chỉ được hưởng thừa kế, nếu không còn ai ở hàng thừa kế trước do đã chết, không có quyền hưởng di sản, bị truất quyền hưởng di sản hoặc từ chối nhận di sản.
+
+[BLDS2015_Dieu650_Khoan1] Bộ luật Dân sự 2015, Điều 650 (Những trường hợp thừa kế theo pháp luật), Khoản 1:
+Thừa kế theo pháp luật được áp dụng trong trường hợp sau đây:
+a) Không có di chúc;
+b) Di chúc không hợp pháp;
+c) Những người thừa kế theo di chúc chết trước hoặc chết cùng thời điểm với người lập di chúc; cơ quan, tổ chức được hưởng thừa kế theo di chúc không còn tồn tại vào thời điểm mở thừa kế;
+d) Những người được chỉ định làm người thừa kế theo di chúc mà không có quyền hưởng di sản hoặc từ chối nhận di sản.
+
+[BLDS2015_Dieu649] Bộ luật Dân sự 2015, Điều 649 (Thừa kế theo pháp luật):
+Thừa kế theo pháp luật là thừa kế theo hàng thừa kế, điều kiện và trình tự thừa kế do pháp luật quy định.
+
+[BLDS2015_Dieu680_Khoan1] Bộ luật Dân sự 2015, Điều 680 (Thừa kế), Khoản 1:
+Thừa kế được xác định theo pháp luật của nước mà người để lại di sản thừa kế có quốc tịch ngay trước khi chết.","Vợ, chồng, cha đẻ, mẹ đẻ, cha nuôi, mẹ nuôi, con đẻ, con nuôi của người chết.",,,
+DS_018,Thời hiệu để người thừa kế yêu cầu chia di sản thừa kế là bao lâu?,"Thời hiệu để người thừa kế yêu cầu chia di sản là 30 năm đối với bất động sản và 10 năm đối với động sản, kể từ thời điểm mở thừa kế [BLDS2015_Dieu623_Khoan1].","[BLDS2015_Dieu623_Khoan1] Bộ luật Dân sự 2015, Điều 623 (Thời hiệu thừa kế), Khoản 1:
+Thời hiệu để người thừa kế yêu cầu chia di sản là 30 năm đối với bất động sản, 10 năm đối với động sản, kể từ thời điểm mở thừa kế. Hết thời hạn này thì di sản thuộc về người thừa kế đang quản lý di sản đó. Trường hợp không có người thừa kế đang quản lý di sản thì di sản được giải quyết như sau:
+a) Di sản thuộc quyền sở hữu của người đang chiếm hữu theo quy định tại Điều 236 của Bộ luật này;
+b) Di sản thuộc về Nhà nước, nếu không có người chiếm hữu quy định tại điểm a khoản này.
+
+[BLDS2015_Dieu661] Bộ luật Dân sự 2015, Điều 661 (Hạn chế phân chia di sản):
+Trường hợp theo ý chí của người lập di chúc hoặc theo thoả thuận của tất cả những người thừa kế, di sản chỉ được phân chia sau một thời hạn nhất định thì chỉ khi đã hết thời hạn đó di sản mới được đem chia. Trường hợp yêu cầu chia di sản thừa kế mà việc chia di sản ảnh hưởng nghiêm trọng đến đời sống của bên vợ hoặc chồng còn sống và gia đình thì bên còn sống có quyền yêu cầu Tòa án xác định phần di sản mà những người thừa kế được hưởng nhưng chưa cho chia di sản trong một thời hạn nhất định. Thời hạn này không quá 03 năm, kể từ thời điểm mở thừa kế. Hết thời hạn 03 năm mà bên còn sống chứng minh được việc chia di sản vẫn ảnh hưởng nghiêm trọng đến đời sống của gia đình họ thì có quyền yêu cầu Tòa án gia hạn một lần nhưng không quá 03 năm.
+
+[BLDS2015_Dieu623_Khoan2] Bộ luật Dân sự 2015, Điều 623 (Thời hiệu thừa kế), Khoản 2:
+Thời hiệu để người thừa kế yêu cầu xác nhận quyền thừa kế của mình hoặc bác bỏ quyền thừa kế của người khác là 10 năm, kể từ thời điểm mở thừa kế.
+
+[BLDS2015_Dieu623_Khoan3] Bộ luật Dân sự 2015, Điều 623 (Thời hiệu thừa kế), Khoản 3:
+Thời hiệu yêu cầu người thừa kế thực hiện nghĩa vụ về tài sản của người chết để lại là 03 năm, kể từ thời điểm mở thừa kế.
+
+[BLDS2015_Dieu660_Khoan2] Bộ luật Dân sự 2015, Điều 660 (Phân chia di sản theo pháp luật), Khoản 2:
+Những người thừa kế có quyền yêu cầu phân chia di sản bằng hiện vật; nếu không thể chia đều bằng hiện vật thì những người thừa kế có thể thoả thuận về việc định giá hiện vật và thoả thuận về người nhận hiện vật; nếu không thoả thuận được thì hiện vật được bán để chia.","30 năm đối với bất động sản, 10 năm đối với động sản, kể từ thời điểm mở thừa kế.",,,
+DS_019,Những người thừa kế nào không phụ thuộc vào nội dung của di chúc?,"Những người thừa kế không phụ thuộc vào nội dung di chúc bao gồm: con chưa thành niên, cha, mẹ, vợ, chồng và con thành niên mà không có khả năng lao động [BLDS2015_Dieu644_Khoan1]. Tuy nhiên, quy định này không áp dụng đối với những người từ chối nhận di sản hoặc những người không có quyền hưởng di sản theo quy định pháp luật [BLDS2015_Dieu644_Khoan2].","[BLDS2015_Dieu644_Khoan1] Bộ luật Dân sự 2015, Điều 644 (Người thừa kế không phụ thuộc vào nội dung của di chúc), Khoản 1:
+Những người sau đây vẫn được hưởng phần di sản bằng hai phần ba suất của một người thừa kế theo pháp luật nếu di sản được chia theo pháp luật, trong trường hợp họ không được người lập di chúc cho hưởng di sản hoặc chỉ cho hưởng phần di sản ít hơn hai phần ba suất đó:
+a) Con chưa thành niên, cha, mẹ, vợ, chồng;
+b) Con thành niên mà không có khả năng lao động.
+
+[BLDS2015_Dieu644_Khoan2] Bộ luật Dân sự 2015, Điều 644 (Người thừa kế không phụ thuộc vào nội dung của di chúc), Khoản 2:
+Quy định tại khoản 1 Điều này không áp dụng đối với người từ chối nhận di sản theo quy định tại Điều 620 hoặc họ là những người không có quyền hưởng di sản theo quy định tại khoản 1 Điều 621 của Bộ luật này.
+
+[BLDS2015_Dieu648] Bộ luật Dân sự 2015, Điều 648 (Giải thích nội dung di chúc):
+Trường hợp nội dung di chúc không rõ ràng dẫn đến nhiều cách hiểu khác nhau thì những người thừa kế theo di chúc phải cùng nhau giải thích nội dung di chúc dựa trên ý nguyện đích thực trước đây của người chết, có xem xét đến mối quan hệ của người chết với người thừa kế theo di chúc. Khi những người này không nhất trí về cách hiểu nội dung di chúc thì có quyền yêu cầu Tòa án giải quyết. Trường hợp có một phần nội dung di chúc không giải thích được nhưng không ảnh hưởng đến các phần còn lại của di chúc thì chỉ phần không giải thích được không có hiệu lực.
+
+[BLDS2015_Dieu650_Khoan1] Bộ luật Dân sự 2015, Điều 650 (Những trường hợp thừa kế theo pháp luật), Khoản 1:
+Thừa kế theo pháp luật được áp dụng trong trường hợp sau đây:
+a) Không có di chúc;
+b) Di chúc không hợp pháp;
+c) Những người thừa kế theo di chúc chết trước hoặc chết cùng thời điểm với người lập di chúc; cơ quan, tổ chức được hưởng thừa kế theo di chúc không còn tồn tại vào thời điểm mở thừa kế;
+d) Những người được chỉ định làm người thừa kế theo di chúc mà không có quyền hưởng di sản hoặc từ chối nhận di sản.
+
+[BLDS2015_Dieu643_Khoan2] Bộ luật Dân sự 2015, Điều 643 (Hiệu lực của di chúc), Khoản 2:
+Di chúc không có hiệu lực toàn bộ hoặc một phần trong trường hợp sau đây:
+a) Người thừa kế theo di chúc chết trước hoặc chết cùng thời điểm với người lập di chúc;
+b) Cơ quan, tổ chức được chỉ định là người thừa kế không còn tồn tại vào thời điểm mở thừa kế. Trường hợp có nhiều người thừa kế theo di chúc mà có người chết trước hoặc chết cùng thời điểm với người lập di chúc, một trong nhiều cơ quan, tổ chức được chỉ định hưởng thừa kế theo di chúc không còn tồn tại vào thời điểm mở thừa kế thì chỉ phần di chúc có liên quan đến cá nhân, cơ quan, tổ chức này không có hiệu lực.","Con chưa thành niên, cha, mẹ, vợ, chồng; con thành niên mà không có khả năng lao động — vẫn được hưởng phần di sản bằng hai phần ba suất của một người thừa kế theo pháp luật nếu di sản được chia theo pháp luật.",,,
+M_008,Trong năm người lao động làm việc thêm giờ thì tổng số giờ làm thêm không được quá bao nhiêu giờ?,"Tổng số giờ làm thêm của người lao động trong một năm không được quá 200 giờ [BLLD2019_Dieu107_Khoan2]. Đối với một số ngành, nghề, công việc hoặc trường hợp đặc biệt theo quy định, số giờ làm thêm không được quá 300 giờ trong một năm [BLLD2019_Dieu107_Khoan3].","[BLLD2019_Dieu107_Khoan2] Bộ luật Lao động 2019, Điều 107 (Làm thêm giờ), Khoản 2:
+Người sử dụng lao động được sử dụng người lao động làm thêm giờ khi đáp ứng đầy đủ các yêu cầu sau đây:
+a) Phải được sự đồng ý của người lao động;
+b) Bảo đảm số giờ làm thêm của người lao động không quá 50% số giờ làm việc bình thường trong 01 ngày; trường hợp áp dụng quy định thời giờ làm việc bình thường theo tuần thì tổng số giờ làm việc bình thường và số giờ làm thêm không quá 12 giờ trong 01 ngày; không quá 40 giờ trong 01 tháng;
+c) Bảo đảm số giờ làm thêm của người lao động không quá 200 giờ trong 01 năm, trừ trường hợp quy định tại khoản 3 Điều này.
+
+[BLLD2019_Dieu107_Khoan3] Bộ luật Lao động 2019, Điều 107 (Làm thêm giờ), Khoản 3:
+Người sử dụng lao động được sử dụng người lao động làm thêm không quá 300 giờ trong 01 năm trong một số ngành, nghề, công việc hoặc trường hợp sau đây:
+a) Sản xuất, gia công xuất khẩu sản phẩm hàng dệt, may, da, giày, điện, điện tử, chế biến nông, lâm, diêm nghiệp, thủy sản;
+b) Sản xuất, cung cấp điện, viễn thông, lọc dầu; cấp, thoát nước;
+c) Trường hợp giải quyết công việc đòi hỏi lao động có trình độ chuyên môn, kỹ thuật cao mà thị trường lao động không cung ứng đầy đủ, kịp thời;
+d) Trường hợp phải giải quyết công việc cấp bách, không thể trì hoãn do tính chất thời vụ, thời điểm của nguyên liệu, sản phẩm hoặc để giải quyết công việc phát sinh do yếu tố khách quan không dự liệu trước, do hậu quả thời tiết, thiên tai, hỏa hoạn, địch họa, thiếu điện, thiếu nguyên liệu, sự cố kỹ thuật của dây chuyền sản xuất;
+đ) Trường hợp khác do Chính phủ quy định.
+
+[BLLD2019_Dieu146_Khoan2] Bộ luật Lao động 2019, Điều 146 (Thời giờ làm việc của người chưa thành niên), Khoản 2:
+Thời giờ làm việc của người từ đủ 15 tuổi đến chưa đủ 18 tuổi không được quá 08 giờ trong 01 ngày và 40 giờ trong 01 tuần. Người từ đủ 15 tuổi đến chưa đủ 18 tuổi có thể được làm thêm giờ, làm việc vào ban đêm trong một số nghề, công việc theo danh mục do Bộ trưởng Bộ Lao động - Thương binh và Xã hội ban hành.
+
+[BLLD2019_Dieu146_Khoan1] Bộ luật Lao động 2019, Điều 146 (Thời giờ làm việc của người chưa thành niên), Khoản 1:
+Thời giờ làm việc của người chưa đủ 15 tuổi không được quá 04 giờ trong 01 ngày và 20 giờ trong 01 tuần; không được làm thêm giờ, làm việc vào ban đêm.
+
+[BLLD2019_Dieu105_Khoan2] Bộ luật Lao động 2019, Điều 105 (Thời giờ làm việc bình thường), Khoản 2:
+Người sử dụng lao động có quyền quy định thời giờ làm việc theo ngày hoặc tuần nhưng phải thông báo cho người lao động biết; trường hợp theo tuần thì thời giờ làm việc bình thường không quá 10 giờ trong 01 ngày và không quá 48 giờ trong 01 tuần. Nhà nước khuyến khích người sử dụng lao động thực hiện tuần làm việc 40 giờ đối với người lao động.","Không quá 200 giờ trong 01 năm, trừ một số trường hợp đặc biệt được làm thêm không quá 300 giờ.",,,
+M_020,"Năm 2020, người lao động được nghỉ làm việc hưởng nguyên lương vào dịp lễ Quốc khánh 02 tháng 9 bao nhiêu ngày?","Năm 2020, người lao động được nghỉ làm việc hưởng nguyên lương vào dịp lễ Quốc khánh 02 tháng 9 là 01 ngày [BLLD2012_Dieu115_Khoan1].","[BLLD2012_Dieu115_Khoan1] Bộ luật Lao động 2012, Điều 115 (Nghỉ lễ, tết), Khoản 1:
+Người lao động được nghỉ làm việc, hưởng nguyên lương trong những ngày lễ, tết sau đây:
+a) Tết Dương lịch 01 ngày (ngày 01 tháng 01 dương lịch);
+b) Tết Âm lịch 05 ngày;
+c) Ngày Chiến thắng 01 ngày (ngày 30 tháng 4 dương lịch);
+d) Ngày Quốc tế lao động 01 ngày (ngày 01 tháng 5 dương lịch);
+đ) Ngày Quốc khánh 01 ngày (ngày 02 tháng 9 dương lịch);
+e) Ngày Giỗ Tổ Hùng Vương 01 ngày (ngày 10 tháng 3 âm lịch).
+
+[BLLD2012_Dieu111_Khoan1] Bộ luật Lao động 2012, Điều 111 (Nghỉ hằng năm), Khoản 1:
+Người lao động có đủ 12 tháng làm việc cho một người sử dụng lao động thì được nghỉ hằng năm, hưởng nguyên lương theo hợp đồng lao động như sau:
+a) 12 ngày làm việc đối với người làm công việc trong điều kiện bình thường;
+b) 14 ngày làm việc đối với người làm công việc nặng nhọc, độc hại, nguy hiểm hoặc người làm việc ở những nơi có có điều kiện sinh sống khắc nghiệt theo danh mục do Bộ Lao động - Thương binh và Xã hội chủ trì phối hợp với Bộ Y tế ban hành hoặc lao động chưa thành niên hoặc lao động là người khuyết tật;
+c) 16 ngày làm việc đối với người làm công việc đặc biệt nặng nhọc, độc hại, nguy hiểm hoặc người làm việc ở những nơi có điều kiện sinh sống đặc biệt khắc nghiệt theo danh mục do Bộ Lao động - Thương binh và Xã hội chủ trì phối hợp với Bộ Y tế ban hành.
+
+[BLLD2012_Dieu115_Khoan2] Bộ luật Lao động 2012, Điều 115 (Nghỉ lễ, tết), Khoản 2:
+Lao động là công dân nước ngoài làm việc tại Việt Nam ngoài ngày nghỉ lễ theo quy định tại khoản 1 Điều này còn được nghỉ thêm 01 ngày Tết cổ truyền dân tộc và 01 ngày Quốc khánh của nước họ.
+
+[BLLD2012_Dieu116_Khoan1] Bộ luật Lao động 2012, Điều 116 (Nghỉ việc riêng, nghỉ không hưởng lương), Khoản 1:
+Người lao động được nghỉ việc riêng mà vẫn hưởng nguyên lương trong những trường hợp sau đây:
+a) Kết hôn: nghỉ 03 ngày;
+b) Con kết hôn: nghỉ 01 ngày;
+c) Bố đẻ, mẹ đẻ, bố vợ, mẹ vợ hoặc bố chồng, mẹ chồng chết; vợ chết hoặc chồng chết; con chết: nghỉ 03 ngày.
+
+[BLLD2012_Dieu116_Khoan2] Bộ luật Lao động 2012, Điều 116 (Nghỉ việc riêng, nghỉ không hưởng lương), Khoản 2:
+Người lao động được nghỉ không hưởng lương 01 ngày và phải thông báo với người sử dụng lao động khi ông nội, bà nội, ông ngoại, bà ngoại, anh, chị, em ruột chết; bố hoặc mẹ kết hôn; anh, chị, em ruột kết hôn.",01 ngày (ngày 02 tháng 9 dương lịch).,,,
+M_026,"Đến đầu năm 2020, điều kiện về tuổi nghỉ hưu của người lao động nam trong điều kiện bình thường là bao nhiêu tuổi?","Người lao động nam trong điều kiện bình thường được hưởng lương hưu khi đủ 60 tuổi (chưa có căn cứ).
+
+(Câu trả lời chưa có căn cứ trích dẫn.)","[BLLD2012_Dieu187_Khoan1] Bộ luật Lao động 2012, Điều 187 (Tuổi nghỉ hưu), Khoản 1:
+Người lao động bảo đảm điều kiện về thời gian đóng bảo hiểm xã hội theo quy định của pháp luật về bảo hiểm xã hội được hưởng lương hưu khi nam đủ 60 tuổi, nữ đủ 55 tuổi.
+
+[BLLD2012_Dieu187_Khoan3] Bộ luật Lao động 2012, Điều 187 (Tuổi nghỉ hưu), Khoản 3:
+Người lao động có trình độ chuyên môn kỹ thuật cao, người lao động làm công tác quản lý và một số trường hợp đặc biệt khác có thể nghỉ hưu ở tuổi cao hơn nhưng không quá 05 năm so với quy định tại khoản 1 Điều này.
+
+[BLLD2012_Dieu111_Khoan1] Bộ luật Lao động 2012, Điều 111 (Nghỉ hằng năm), Khoản 1:
+Người lao động có đủ 12 tháng làm việc cho một người sử dụng lao động thì được nghỉ hằng năm, hưởng nguyên lương theo hợp đồng lao động như sau:
+a) 12 ngày làm việc đối với người làm công việc trong điều kiện bình thường;
+b) 14 ngày làm việc đối với người làm công việc nặng nhọc, độc hại, nguy hiểm hoặc người làm việc ở những nơi có có điều kiện sinh sống khắc nghiệt theo danh mục do Bộ Lao động - Thương binh và Xã hội chủ trì phối hợp với Bộ Y tế ban hành hoặc lao động chưa thành niên hoặc lao động là người khuyết tật;
+c) 16 ngày làm việc đối với người làm công việc đặc biệt nặng nhọc, độc hại, nguy hiểm hoặc người làm việc ở những nơi có điều kiện sinh sống đặc biệt khắc nghiệt theo danh mục do Bộ Lao động - Thương binh và Xã hội chủ trì phối hợp với Bộ Y tế ban hành.
+
+[BLLD2012_Dieu3_Khoan1] Bộ luật Lao động 2012, Điều 3 (Giải thích từ ngữ), Khoản 1:
+Người lao động là người từ đủ 15 tuổi trở lên, có khả năng lao động, làm việc theo hợp đồng lao động, được trả lương và chịu sự quản lý, điều hành của người sử dụng lao động.
+
+[BLLD2012_Dieu164_Khoan1] Bộ luật Lao động 2012, Điều 164 (Sử dụng lao động dưới 15 tuổi), Khoản 1:
+Người sử dụng lao động chỉ được sử dụng người từ đủ 13 tuổi đến dưới 15 tuổi làm các công việc nhẹ theo danh mục do Bộ Lao động - Thương binh và Xã hội quy định.",Nam đủ 60 tuổi và nữ đủ 55 tuổi.,,,
+M_030,Điều 300 Luật Thương mại 2005 quy định phạt vi phạm hợp đồng là gì?,"Phạt vi phạm là việc bên bị vi phạm yêu cầu bên vi phạm trả một khoản tiền phạt do vi phạm hợp đồng nếu trong hợp đồng có thỏa thuận, trừ các trường hợp miễn trách nhiệm theo quy định [LTM2005_Dieu300].","[LTM2005_Dieu300] Luật Thương mại 2005, Điều 300 (Phạt vi phạm):
+Phạt vi phạm là việc bên bị vi phạm yêu cầu bên vi phạm trả một khoản tiền phạt do vi phạm hợp đồng nếu trong hợp đồng có thoả thuận, trừ các trường hợp miễn trách nhiệm quy định tại Điều 294 của Luật này.",Phạt vi phạm là việc bên bị vi phạm yêu cầu bên vi phạm trả một khoản tiền phạt do vi phạm hợp đồng nếu trong hợp đồng có thoả thuận.,,,
