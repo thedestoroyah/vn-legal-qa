@@ -1,6 +1,6 @@
 # Thiết kế: Hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG
 
-Ngày: 2026-10-09 (cập nhật 2026-10-16) · Trạng thái: đã duyệt · Nguồn gốc: brainstorming, đã chốt cùng đề cương (`Đề cương DACNTT.txt`)
+Ngày: 2026-10-09 (cập nhật 2026-10-16) · Trạng thái: đã duyệt · Nguồn gốc: brainstorming, đã chốt cùng đề cương (`docs/managements/Đề cương DACNTT.md`)
 
 ## 1. Mục tiêu và tiêu chí thành công
 
