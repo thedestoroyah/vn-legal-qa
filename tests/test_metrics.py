@@ -25,3 +25,32 @@ def test_drm_and_mean():
     assert drm_at([], ["X_Dieu1"], 5) is None
     assert mean([1.0, None, 0.0]) == 0.5
     assert mean([None]) is None
+
+
+from eval.metrics import citation_pr, refusal_correct, version_correct
+
+
+@pytest.mark.parametrize("cited, gold, expected", [
+    (["A", "B"], ["A"], (0.5, 1.0)),
+    ([], ["A"], (None, 0.0)),
+    (["A"], [], (0.0, None)),
+    ([], [], (None, None)),
+])
+def test_citation_pr(cited, gold, expected):
+    assert citation_pr(cited, gold) == expected
+
+
+@pytest.mark.parametrize("kind, refused, ok", [
+    ("out_of_scope", True, True), ("out_of_scope", False, False),
+    ("situational", False, True), ("temporal", True, False),
+])
+def test_refusal_correct(kind, refused, ok):
+    assert refusal_correct({"type": kind}, {"refused": refused}) is ok
+
+
+def test_version_correct_only_for_temporal():
+    case = {"type": "temporal", "gold_citations": ["BLLD2012_Dieu22_Khoan1"]}
+    assert version_correct(case, ["BLLD2012"]) is True
+    assert version_correct(case, ["BLLD2012", "BLLD2019"]) is False
+    assert version_correct(case, []) is False
+    assert version_correct({"type": "situational", "gold_citations": ["X_Dieu1"]}, ["X"]) is None

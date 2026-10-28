@@ -7,7 +7,7 @@ import json
 
 from src.agent.graph import build_graph
 from src.agent.nodes import Deps
-from src.agent.state import CONFIGS, initial_state
+from src.agent.state import CONFIGS, DATE_POLICIES, initial_state
 from src.ingestion.legal_chunker import LAWS_PATH
 
 
@@ -18,26 +18,29 @@ class Agent:
         self.deps = deps
         self._graphs = {}  # mỗi cấu hình compile một lần, dùng lại cho mọi câu hỏi
 
-    def run(self, question, config="full"):
+    def run(self, question, config="full", date_policy="event"):
         """Trả lời một câu hỏi.
 
         Args:
             question: câu hỏi pháp luật (tự bỏ khoảng trắng đầu cuối).
             config: một khóa của CONFIGS.
+            date_policy: chính sách lọc hiệu lực (DATE_POLICIES); mặc định "event" = theo ngày của tình huống.
 
         Returns:
             dict theo Phụ lục A.5: answer, refused, citations, retrieved_chunks, trace.
 
         Raises:
-            ValueError: config lạ hoặc câu hỏi rỗng.
+            ValueError: config hoặc date_policy lạ, hoặc câu hỏi rỗng.
         """
         if config not in CONFIGS:
             raise ValueError(f"config phải thuộc {tuple(CONFIGS)}, nhận {config!r}")
+        if date_policy not in DATE_POLICIES:
+            raise ValueError(f"date_policy phải thuộc {DATE_POLICIES}, nhận {date_policy!r}")
         if not question or not question.strip():
             raise ValueError("câu hỏi rỗng")
         if config not in self._graphs:
             self._graphs[config] = build_graph(self.deps, config)
-        return to_response(self._graphs[config].invoke(initial_state(question.strip())))
+        return to_response(self._graphs[config].invoke(initial_state(question.strip(), date_policy)))
 
 
 def to_response(state):
@@ -47,13 +50,20 @@ def to_response(state):
             "trace": state["trace"]}
 
 
-def load_agent(variant="clause_header"):
-    """Dựng Agent thật: LLM từ .env (LLM_*), Retriever trên biến thể đã nạp Chroma (tải mô hình, chậm lần đầu)."""
-    from src.generation.llm import from_env
+def load_agent(variant="clause_header", cache_dir=None):
+    """Dựng Agent thật: LLM từ .env (LLM_*), Retriever trên biến thể đã nạp Chroma (tải mô hình, chậm lần đầu).
+
+    Args:
+        variant: biến thể chỉ mục (xem src.ingestion.index.VARIANTS).
+        cache_dir: thư mục cache LLM; None dùng cache mặc định (đặt thư mục mới để đo latency không dùng cache).
+
+    Returns:
+        Agent sẵn sàng trả lời.
+    """
+    from src.generation.llm import CACHE_DIR, from_env
     from src.retrieval.retriever import load_retriever
     laws = json.loads(LAWS_PATH.read_text(encoding="utf-8"))
-    return Agent(Deps(from_env("LLM"), load_retriever(variant), laws))
-
+    return Agent(Deps(from_env("LLM", cache_dir or CACHE_DIR), load_retriever(variant), laws))
 
 def print_result(out):
     """In câu trả lời, danh sách trích dẫn và các bước trace ra màn hình."""

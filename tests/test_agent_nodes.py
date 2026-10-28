@@ -216,3 +216,27 @@ def test_verify_accepts_clause_citation_of_article_level_evidence(tmp_path):
                         "n_generations": 1}, d)
     assert out["answer"] == "Có [BLDS2015_Dieu357]." and out["removed"] == []
     assert [c["chunk_id"] for c in out["citations"]] == ["BLDS2015_Dieu357"]
+
+
+from src.retrieval.filters import ANY_DATE
+
+
+@pytest.mark.parametrize("policy, expected", [("event", "2020-07-01"), ("current", None), ("any", ANY_DATE)])
+def test_retrieve_date_follows_policy(tmp_path, policy, expected):
+    r = FakeRetriever([[chunk(A)]])
+    state = {**initial_state("q", date_policy=policy), "event_date": "2020-07-01"}
+    nodes.retrieve(state, make_deps(tmp_path, r))
+    assert r.searches[0]["date"] == expected
+
+
+def test_lookup_article_any_policy_ignores_validity(tmp_path):
+    art = {**chunk("BLLD2019_Dieu35"), "effective_date": "2021-01-01", "expiry_date": None}
+    r = FakeRetriever(articles={"BLLD2019_Dieu35": art})
+    state = {**initial_state("q", date_policy="any"), "event_date": "1990-07-01",
+             "direct_ref": {"law_id": "BLLD2019", "article": "35"}}
+    assert nodes.lookup_article(state, make_deps(tmp_path, r)) == {"evidence": [art]}
+
+
+@pytest.mark.parametrize("kind", [["direct"], {"a": 1}, 3])
+def test_route_non_string_type_defaults_to_situational(tmp_path, kind):
+    assert routed(tmp_path, type=kind)["route_type"] == "situational"

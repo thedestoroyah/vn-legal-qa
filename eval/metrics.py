@@ -44,3 +44,36 @@ def mean(values):
     """Trung bình, bỏ qua None; None nếu không còn giá trị nào."""
     values = [v for v in values if v is not None]
     return sum(values) / len(values) if values else None
+
+
+def citation_pr(cited, gold):
+    """Precision và recall trích dẫn ở cấp Điều.
+
+    Args:
+        cited: khóa Điều được trích trong câu trả lời (có thể rỗng).
+        gold: khóa Điều của căn cứ chuẩn (rỗng với câu out_of_scope).
+
+    Returns:
+        (precision, recall); precision = None khi không trích gì, recall = None khi gold rỗng.
+    """
+    cited, gold = set(cited), set(gold)
+    hit = len(cited & gold)
+    return (hit / len(cited) if cited else None, hit / len(gold) if gold else None)
+
+
+def refusal_correct(case, response):
+    """True khi tác tử từ chối đúng câu out_of_scope, hoặc không từ chối câu trong phạm vi."""
+    return response["refused"] == (case["type"] == "out_of_scope")
+
+
+def version_correct(case, cited_laws):
+    """RQ4: câu temporal đúng phiên bản khi có trích dẫn và mọi văn bản được trích thuộc căn cứ chuẩn; câu khác trả None.
+
+    Args:
+        case: câu kiểm thử (cần type, gold_citations).
+        cited_laws: law_id của các trích dẫn trong câu trả lời.
+    """
+    if case["type"] != "temporal":
+        return None
+    gold = {g.split("_", 1)[0] for g in case["gold_citations"]}
+    return bool(cited_laws) and set(cited_laws) <= gold

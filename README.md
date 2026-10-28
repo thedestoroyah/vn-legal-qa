@@ -24,6 +24,9 @@ python -m src.ingestion.legal_chunker                # -> data/processed/chunks.
 python -m src.ingestion.index --variant clause_header --rebuild --query "lãi chậm trả tiền"
 python -m eval.import_cases                          # -> eval/test_cases.json
 python -m eval.evaluate --rq rq1                     # -> eval/results/retrieval_rq1.md
+python -m src.agent.run "Bên mua trả tiền chậm có phải trả lãi không?"   # hỏi tác tử từ dòng lệnh
+uvicorn src.api.main:app --port 8000                                   # API cho giao diện (Phụ lục A.5)
+python -m eval.agent_eval run --rq rq3 --configs full --limit 10       # RQ3/RQ4: xem docstring eval/agent_eval.py
 pytest
 ```
 Embedding mặc định là `BAAI/bge-m3` (chạy local, ~2.3GB lần đầu). Đặt `EMBED_MODEL=text-embedding-3-small` để dùng OpenAI.

@@ -30,3 +30,17 @@ def test_chroma_where_shapes():
     assert chroma_where() == {"effective_to": {"$eq": 99991231}}
     assert chroma_where("2020-03-01") == {"$and": [{"effective_from": {"$lte": 20200301}},
                                                    {"effective_to": {"$gt": 20200301}}]}
+
+
+from src.retrieval.filters import ANY_DATE
+
+
+def test_any_date_accepts_every_version():
+    expired = {"effective_date": "2013-05-01", "expiry_date": "2021-01-01"}
+    future = {"effective_date": "2099-01-01", "expiry_date": None}
+    assert check_date(ANY_DATE) == ANY_DATE
+    assert is_valid_at(expired, ANY_DATE) and is_valid_at(future, ANY_DATE)
+
+
+def test_chroma_where_any_is_none():
+    assert chroma_where(ANY_DATE) is None
