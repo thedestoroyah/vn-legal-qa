@@ -16,7 +16,8 @@ ROUTE_RULES = """Kho văn bản (mã: tên, thời gian hiệu lực):
 Phân loại câu hỏi vào đúng một loại:
 - "direct": hỏi nội dung một Điều cụ thể của một văn bản trong kho (có nêu số Điều).
 - "situational": tình huống hoặc câu hỏi pháp lý cần tìm căn cứ trong các văn bản trên.
-- "out_of_scope": không phải câu hỏi pháp luật, hoặc thuộc lĩnh vực các văn bản trên không điều chỉnh (hình sự, giao thông, đất đai, thuế, hôn nhân và gia đình...).
+- "out_of_scope": không phải câu hỏi pháp luật, hoặc chỉ hỏi về vấn đề các văn bản trên không điều chỉnh: tội phạm và hình phạt, mức xử phạt hành chính, thủ tục hành chính (cấp giấy tờ, đăng ký, cấp sổ), thuế.
+Phân loại theo VẤN ĐỀ PHÁP LÝ được hỏi, không theo từ khóa. Bộ luật Dân sự điều chỉnh: tài sản và quyền sở hữu, hợp đồng và giao dịch dân sự (mua bán, vay, thuê, dịch vụ...), đại diện, bồi thường thiệt hại (kể cả ngoài hợp đồng), thừa kế, quyền nhân thân. Bối cảnh giao thông, đất đai, gia đình chỉ là bối cảnh: nếu câu hỏi về bồi thường, hợp đồng, tài sản, thừa kế, đại diện, lao động, doanh nghiệp hay thương mại thì là "situational".
 
 Trích thêm:
 - "event_date": ngày xảy ra sự việc nếu câu hỏi nêu thời điểm, dạng YYYY-MM-DD. Chỉ biết năm thì dùng ngày 01-07 của năm đó (vd 2020-07-01); biết tháng và năm thì dùng ngày 15. Không nêu thời điểm thì null.
@@ -34,7 +35,11 @@ Câu hỏi: Điều 357 Bộ luật Dân sự quy định gì?
 
 Ví dụ 3:
 Câu hỏi: Vượt đèn đỏ bằng xe máy bị phạt bao nhiêu tiền?
-{"type": "out_of_scope", "event_date": null, "law_id": null, "article": null}"""
+{"type": "out_of_scope", "event_date": null, "law_id": null, "article": null}
+
+Ví dụ 4:
+Câu hỏi: Xe tải của công ty va vào làm sập tường rào nhà tôi, ai phải bồi thường?
+{"type": "situational", "event_date": null, "law_id": null, "article": null}"""
 
 GRADE_RULES = """Cho câu hỏi và các đoạn trích tìm được, đánh giá các đoạn trích đã chứa đủ quy định để trả lời câu hỏi chưa.
 - Đủ: {"sufficient": true, "new_query": null}
@@ -71,19 +76,23 @@ Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải t
 Câu hỏi: Tiền lãi chậm trả có phải nộp thuế thu nhập cá nhân không?
 Trả lời: KHÔNG_ĐỦ_CĂN_CỨ"""
 
-VERIFY_RULES = """Mỗi mục gồm một câu trong câu trả lời và các đoạn trích mà câu đó dẫn. Với từng cặp (câu, đoạn trích), xác định đoạn trích có hỗ trợ nội dung của câu không. Hỗ trợ nghĩa là đoạn trích nêu rõ hoặc suy ra trực tiếp được nội dung đó; chỉ cùng chủ đề thì chưa đủ.
+VERIFY_RULES = """Mỗi mục gồm một câu trong câu trả lời và các đoạn trích mà câu đó dẫn. Mỗi đoạn trích có tên văn bản, tên Điều và Khoản đi kèm; đọc nội dung Khoản cùng tên Điều (vd Khoản chỉ ghi một hành vi, tên Điều cho biết đó là hành vi bị cấm).
+Với từng cặp (câu, đoạn trích), xác định đoạn trích có hỗ trợ câu không:
+- Hỗ trợ: đoạn trích nêu rõ nội dung đó, hoặc câu chỉ diễn đạt lại, tóm tắt, hay áp dụng quy định vào tình huống trong câu hỏi (vd quy định "chậm nhất 03 ngày", câu nói "báo trước 07 ngày là đáp ứng quy định").
+- KHÔNG hỗ trợ: câu nêu con số, thời hạn, điều kiện hoặc kết luận không có trong đoạn trích hay mâu thuẫn với nó, hoặc đoạn trích nói về vấn đề khác. Chỉ cùng chủ đề thì chưa đủ.
+Khi phân vân, coi là hỗ trợ: chỉ liệt kê cặp chắc chắn sai.
 Chỉ trả về một đối tượng JSON liệt kê các cặp KHÔNG được hỗ trợ: {"unsupported": [{"sentence": <số thứ tự câu>, "chunk_id": "<mã>"}]}. Mọi cặp đều được hỗ trợ thì trả {"unsupported": []}.
 
 Ví dụ 1:
-Câu 1: Bên chậm trả tiền phải trả lãi trên số tiền chậm trả [BLDS2015_Dieu357_Khoan1].
-  [BLDS2015_Dieu357_Khoan1] Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi đối với số tiền chậm trả tương ứng với thời gian chậm trả.
+Câu 1: Người sử dụng lao động không được giữ bản chính văn bằng của người lao động [BLLD2019_Dieu17_Khoan1].
+  [BLLD2019_Dieu17_Khoan1] Bộ luật Lao động 2019, Điều 17 (Hành vi người sử dụng lao động không được làm khi giao kết, thực hiện hợp đồng lao động), Khoản 1: Giữ bản chính giấy tờ tùy thân, văn bằng, chứng chỉ của người lao động.
 {"unsupported": []}
 
 Ví dụ 2:
 Câu 1: Lãi chậm trả cố định là 20% một năm [BLDS2015_Dieu357_Khoan1].
-  [BLDS2015_Dieu357_Khoan1] Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi đối với số tiền chậm trả tương ứng với thời gian chậm trả.
-Câu 2: Người lao động có hợp đồng xác định thời hạn từ 12 đến 36 tháng phải báo trước ít nhất 30 ngày [BLLD2019_Dieu35_Khoan1].
-  [BLLD2019_Dieu35_Khoan1] Người lao động có quyền đơn phương chấm dứt hợp đồng lao động nhưng phải báo trước cho người sử dụng lao động như sau: ... b) Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ 12 tháng đến 36 tháng;
+  [BLDS2015_Dieu357_Khoan1] Bộ luật Dân sự 2015, Điều 357 (Trách nhiệm do chậm thực hiện nghĩa vụ trả tiền), Khoản 1: Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi đối với số tiền chậm trả tương ứng với thời gian chậm trả.
+Câu 2: Hợp đồng 24 tháng thì phải báo trước ít nhất 30 ngày nên báo trước 45 ngày là đủ [BLLD2019_Dieu35_Khoan1].
+  [BLLD2019_Dieu35_Khoan1] Bộ luật Lao động 2019, Điều 35 (Quyền đơn phương chấm dứt hợp đồng lao động của người lao động), Khoản 1: Người lao động có quyền đơn phương chấm dứt hợp đồng lao động nhưng phải báo trước cho người sử dụng lao động như sau: ... b) Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ 12 tháng đến 36 tháng;
 {"unsupported": [{"sentence": 1, "chunk_id": "BLDS2015_Dieu357_Khoan1"}]}"""
 
 
@@ -102,12 +111,15 @@ def law_list(laws):
                      for law_id, info in laws.items())
 
 
+def _head(c):
+    """'[chunk_id] văn bản, Điều N (tên Điều), Khoản M' của một chunk."""
+    where = f"{c['article']} ({c['article_title']})" if c.get("article_title") else c["article"]
+    return f"[{c['chunk_id']}] {c['document']}, {where}" + (f", {c['clause']}" if c.get("clause") else "")
+
+
 def format_context(chunks):
     """Ghép các đoạn thành ngữ cảnh: dòng '[chunk_id] văn bản, Điều (tên), Khoản:' rồi nội dung ở dòng sau."""
-    def head(c):
-        where = f"{c['article']} ({c['article_title']})" if c.get("article_title") else c["article"]
-        return f"[{c['chunk_id']}] {c['document']}, {where}" + (f", {c['clause']}" if c.get("clause") else "")
-    return "\n\n".join(f"{head(c)}:\n{c['content']}" for c in chunks)
+    return "\n\n".join(f"{_head(c)}:\n{c['content']}" for c in chunks)
 
 
 def route_messages(question, laws):
@@ -148,6 +160,7 @@ def verify_messages(pairs, by_id):
         pairs: danh sách (chỉ số câu, câu, các mã) như citations.cited_sentences; câu được đánh số 1..n theo thứ tự.
         by_id: {chunk_id: chunk} của ngữ cảnh.
     """
-    items = [f"Câu {n}: {sentence}\n" + "\n".join(f"  [{cid}] {by_id[cid]['content']}" for cid in ids)
+    # Khoản thường chỉ là mảnh câu (vd "Giữ bản chính giấy tờ..."): thiếu tên Điều thì không biết đó là hành vi bị cấm
+    items = [f"Câu {n}: {sentence}\n" + "\n".join(f"  {_head(by_id[cid])}: {by_id[cid]['content']}" for cid in ids)
              for n, (_, sentence, ids) in enumerate(pairs, 1)]
     return _messages("verify", VERIFY_RULES, "\n\n".join(items))
