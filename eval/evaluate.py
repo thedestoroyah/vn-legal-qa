@@ -57,13 +57,13 @@ def run(rq, cases, get_retriever):
             for variant, mode in CONFIGS[rq] for c in cases]
 
 
-def summarize(rows):
-    """Một dòng cho mỗi (config, source) và (config, 'all'); trung bình bỏ qua giá trị None."""
+def summarize(rows, metrics=METRICS):
+    """Một dòng cho mỗi (config, source) và (config, 'all'); trung bình các cột `metrics`, bỏ qua giá trị None."""
     groups = {}
     for r in rows:
         for source in (r["source"], "all"):
             groups.setdefault((r["config"], source), []).append(r)
-    return [{"config": cfg, "source": src, "n": len(rs), **{m: mean(r[m] for r in rs) for m in METRICS}}
+    return [{"config": cfg, "source": src, "n": len(rs), **{m: mean(r[m] for r in rs) for m in metrics}}
             for (cfg, src), rs in groups.items()]
 
 

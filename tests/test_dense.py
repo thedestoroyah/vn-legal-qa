@@ -27,3 +27,9 @@ def test_dense_ranks_by_similarity_and_filters_validity(tmp_path):
 def test_dense_k_larger_than_matches_returns_fewer(tmp_path):
     dense = DenseIndex(build_index(CHUNKS, fake_embed, tmp_path), fake_embed)
     assert dense.search("lãi", k=50, date="2010-01-01") == []
+
+
+def test_dense_any_date_returns_all_versions(tmp_path):
+    from src.retrieval.filters import ANY_DATE
+    dense = DenseIndex(build_index(CHUNKS, fake_embed, tmp_path), fake_embed)
+    assert {cid for cid, _ in dense.search("lãi", k=5, date=ANY_DATE)} == {"OLD", "NEW", "PHAT"}

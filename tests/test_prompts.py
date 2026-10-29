@@ -72,5 +72,19 @@ def test_verify_prompt_numbers_pairs_from_one():
     B = "BLDS2015_Dieu357_Khoan2"
     by_id = {A: EV[0], B: {**EV[0], "chunk_id": B, "content": "Lãi suất theo thỏa thuận."}}
     user = prompts.verify_messages([(2, f"Một [{A}].", [A]), (6, f"Hai [{B}].", [B])], by_id)[-1]["content"]
-    assert user == (f"Câu 1: Một [{A}].\n  [{A}] Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi.\n\n"
-                    f"Câu 2: Hai [{B}].\n  [{B}] Lãi suất theo thỏa thuận.")
+    head = "Bộ luật Dân sự 2015, Điều 357 (Trách nhiệm do chậm thực hiện nghĩa vụ trả tiền)"
+    assert user == (f"Câu 1: Một [{A}].\n  [{A}] {head}, Khoản 1: Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó "
+                    f"phải trả lãi.\n\nCâu 2: Hai [{B}].\n  [{B}] {head}, Khoản 1: Lãi suất theo thỏa thuận.")
+
+
+def test_verify_rules_count_application_to_the_case_as_support():
+    system = ALL["verify"][0]["content"]
+    assert "tên Điều" in system and "áp dụng" in system and "mâu thuẫn" in system
+
+
+def test_route_prompt_scopes_by_legal_issue_not_keyword():
+    system = ALL["route"][0]["content"]
+    # bối cảnh giao thông/đất đai/gia đình nhưng hỏi bồi thường, hợp đồng, tài sản, thừa kế, đại diện vẫn là situational
+    assert "thừa kế" in system and "bồi thường thiệt hại" in system
+    assert "chỉ là bối cảnh" in system
+    assert '"situational"' in system[system.index("va vào"):]  # ví dụ bối cảnh giao thông được xếp situational

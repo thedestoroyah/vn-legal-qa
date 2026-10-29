@@ -1862,7 +1862,7 @@
   ],
   "reference_answer": "Phải báo trước cho người sử dụng lao động ít nhất 45 ngày.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_002",
@@ -1875,7 +1875,7 @@
   ],
   "reference_answer": "Không được giữ bản chính giấy tờ tùy thân, văn bằng, chứng chỉ của người lao động.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_003",
@@ -1888,7 +1888,7 @@
   ],
   "reference_answer": "Ít nhất bằng 300% chưa kể tiền lương ngày lễ, tết, ngày nghỉ có hưởng lương đối với người lao động hưởng lương ngày.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_004",
@@ -1901,7 +1901,7 @@
   ],
   "reference_answer": "Được nghỉ 12 ngày làm việc hưởng nguyên lương.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_005",
@@ -1914,7 +1914,7 @@
   ],
   "reference_answer": "Được nghỉ 03 ngày và hưởng nguyên lương.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_006",
@@ -1927,7 +1927,7 @@
   ],
   "reference_answer": "Không quá 180 ngày đối với công việc của người quản lý doanh nghiệp.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_007",
@@ -1940,7 +1940,7 @@
   ],
   "reference_answer": "Người sử dụng lao động không được sa thải hoặc đơn phương chấm dứt hợp đồng lao động đối với lao động nữ vì lý do kết hôn, mang thai, nghỉ thai sản, nuôi con dưới 12 tháng tuổi.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_008",
@@ -1953,7 +1953,7 @@
   ],
   "reference_answer": "Không quá 200 giờ trong 01 năm, trừ một số trường hợp đặc biệt được làm thêm không quá 300 giờ.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_009",
@@ -1966,7 +1966,7 @@
   ],
   "reference_answer": "Không quá 8% giá trị phần nghĩa vụ hợp đồng bị vi phạm, trừ trường hợp giám định sai do lỗi của thương nhân kinh doanh dịch vụ giám định.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_010",
@@ -1979,7 +1979,7 @@
   ],
   "reference_answer": "03 tháng kể từ ngày giao hàng đối với khiếu nại về số lượng hàng hoá.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_011",
@@ -1992,7 +1992,7 @@
   ],
   "reference_answer": "02 năm kể từ thời điểm quyền và lợi ích hợp pháp bị xâm phạm.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_012",
@@ -2005,7 +2005,7 @@
   ],
   "reference_answer": "Trường hợp xảy ra sự kiện bất khả kháng; hành vi vi phạm hoàn toàn do lỗi của bên kia; hành vi do thực hiện quyết định của cơ quan nhà nước; hoặc các trường hợp miễn trách nhiệm đã thỏa thuận.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_013",
@@ -2018,7 +2018,7 @@
   ],
   "reference_answer": "Là việc một thương nhân nhận uỷ nhiệm của thương nhân khác để thực hiện các hoạt động thương mại với danh nghĩa, theo sự chỉ dẫn của thương nhân đó và được nhận thù lao.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_014",
@@ -2031,7 +2031,7 @@
   ],
   "reference_answer": "Được xác định theo giá của loại dịch vụ đó trong các điều kiện tương tự về phương thức cung ứng, thời điểm, thị trường địa lý.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_015",
@@ -2044,7 +2044,7 @@
   ],
   "reference_answer": "Có quyền yêu cầu trả tiền lãi trên số tiền chậm trả theo lãi suất nợ quá hạn trung bình trên thị trường.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_016",
@@ -2057,7 +2057,7 @@
   ],
   "reference_answer": "Hợp lệ theo quy định của BLLĐ 2012 (cho phép ký hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn dưới 12 tháng).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_017",
@@ -2070,7 +2070,7 @@
   ],
   "reference_answer": "Không được, vì BLLĐ 2019 đã bãi bỏ loại hợp đồng lao động theo mùa vụ, chỉ còn 2 loại: không xác định thời hạn và xác định thời hạn.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_018",
@@ -2083,7 +2083,7 @@
   ],
   "reference_answer": "Không được, theo BLLĐ 2012 người lao động làm việc theo HĐLĐ xác định thời hạn khi đơn phương chấm dứt hợp đồng phải có một trong các lý do luật định và báo trước.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_019",
@@ -2096,7 +2096,7 @@
   ],
   "reference_answer": "Được, BLLĐ 2019 cho phép người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần lý do, chỉ cần báo trước ít nhất 30 ngày.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_020",
@@ -2109,7 +2109,7 @@
   ],
   "reference_answer": "01 ngày (ngày 02 tháng 9 dương lịch).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_021",
@@ -2122,7 +2122,7 @@
   ],
   "reference_answer": "02 ngày (ngày 02 tháng 9 dương lịch và 01 ngày liền kề trước hoặc sau).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_022",
@@ -2135,7 +2135,7 @@
   ],
   "reference_answer": "Sai quy định, theo BLLĐ 2012 thời gian thử việc tối đa chỉ là 60 ngày đối với công việc có chức danh cần trình độ cao đẳng trở lên.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_023",
@@ -2148,7 +2148,7 @@
   ],
   "reference_answer": "Hợp pháp, BLLĐ 2019 cho phép thử việc không quá 180 ngày đối với công việc của người quản lý doanh nghiệp.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_024",
@@ -2161,7 +2161,7 @@
   ],
   "reference_answer": "Không được, BLLĐ 2012 quy định số giờ làm thêm không được quá 30 giờ trong 01 tháng.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_025",
@@ -2174,7 +2174,7 @@
   ],
   "reference_answer": "Không vi phạm, BLLĐ 2019 cho phép số giờ làm thêm không quá 40 giờ trong 01 tháng.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_026",
@@ -2187,7 +2187,7 @@
   ],
   "reference_answer": "Nam đủ 60 tuổi và nữ đủ 55 tuổi.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_027",
@@ -2200,7 +2200,7 @@
   ],
   "reference_answer": "Kể từ năm 2021 là đủ 60 tuổi 03 tháng đối với lao động nam (và đủ 55 tuổi 04 tháng đối với lao động nữ).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_028",
@@ -2213,7 +2213,7 @@
   ],
   "reference_answer": "Trách nhiệm trả lãi do chậm thực hiện nghĩa vụ trả tiền.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_029",
@@ -2226,7 +2226,7 @@
   ],
   "reference_answer": "Lãi suất vay do các bên thỏa thuận và mức trần lãi suất 20%/năm.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_030",
@@ -2239,7 +2239,7 @@
   ],
   "reference_answer": "Phạt vi phạm là việc bên bị vi phạm yêu cầu bên vi phạm trả một khoản tiền phạt do vi phạm hợp đồng nếu trong hợp đồng có thoả thuận.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_031",
@@ -2252,7 +2252,7 @@
   ],
   "reference_answer": "Cán bộ, công chức, viên chức; sĩ quan quân đội, công an; người chưa thành niên; người đang bị truy cứu trách nhiệm hình sự...",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_032",
@@ -2263,9 +2263,9 @@
   "gold_citations": [
    "BLLD2019_Dieu60"
   ],
-  "reference_answer": "Trách nhiệm của các bên khi tham gia thương lượng tập thể.",
+  "reference_answer": "Trách nhiệm của người sử dụng lao động về đào tạo, bồi dưỡng, nâng cao trình độ, kỹ năng nghề cho người lao động: lập kế hoạch và dành kinh phí hằng năm, báo cáo kết quả cho cơ quan chuyên môn về lao động cấp tỉnh.",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_033",
@@ -2276,7 +2276,7 @@
   "gold_citations": [],
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc pháp luật xử phạt vi phạm hành chính giao thông đường bộ).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_034",
@@ -2287,7 +2287,7 @@
   "gold_citations": [],
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Bộ luật Hình sự).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_035",
@@ -2298,7 +2298,7 @@
   "gold_citations": [],
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Đất đai).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_036",
@@ -2309,7 +2309,7 @@
   "gold_citations": [],
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Hôn nhân và gia đình và Luật Hộ tịch).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  },
  {
   "id": "M_037",
@@ -2320,6 +2320,6 @@
   "gold_citations": [],
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Thuế thu nhập cá nhân).",
   "source": "manual",
-  "checked_by": null
+  "checked_by": "Dat"
  }
 ]

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from src.agent.state import MAX_EVIDENCE, MAX_REWRITES, TOP_K
 from src.generation import citations, prompts
-from src.retrieval.filters import check_date, is_valid_at
+from src.retrieval.filters import ANY_DATE, check_date, is_valid_at
 
 ROUTE_TYPES = {"situational", "direct", "out_of_scope"}
 REFUSALS = {
@@ -57,9 +57,15 @@ def route(state, deps):
         out = deps.llm.chat_json(prompts.route_messages(state["question"], deps.laws))
     except ValueError:
         out = {}  # JSON hỏng sau 2 lần: mặc định situational (spec mục 6)
-    kind = out.get("type") if out.get("type") in ROUTE_TYPES else "situational"
+    kind = out.get("type")
+    kind = kind if isinstance(kind, str) and kind in ROUTE_TYPES else "situational"
     return {"route_type": kind, "event_date": _safe_date(out.get("event_date")),
             "direct_ref": _direct_ref(out, deps.laws) if kind == "direct" else None}
+
+
+def _search_date(state):
+    """Ngày dùng để lọc hiệu lực theo chính sách RQ4 trong state (event | current | any)."""
+    return {"event": state["event_date"], "current": None, "any": ANY_DATE}[state["date_policy"]]
 
 
 def lookup_article(state, deps):
@@ -71,7 +77,7 @@ def lookup_article(state, deps):
     ref = state["direct_ref"]
     article = deps.retriever.get_article(ref["law_id"], ref["article"])
     # văn bản chưa có hiệu lực (hoặc đã hết) tại event_date: coi như không có, đồ thị rơi về retrieve rồi từ chối
-    return {"evidence": [article] if article and is_valid_at(article, state["event_date"]) else []}
+    return {"evidence": [article] if article and is_valid_at(article, _search_date(state)) else []}
 
 
 def _merge(old, new):
@@ -83,7 +89,7 @@ def _merge(old, new):
 def retrieve(state, deps):
     """Nút retrieve (0 lượt LLM): tìm bằng truy vấn mới nhất, lọc hiệu lực theo `event_date`, gộp vào bằng chứng."""
     # không lọc theo lĩnh vực: router đoán sai lĩnh vực không kéo theo truy xuất sai (spec mục 5)
-    found = deps.retriever.search(state["queries"][-1], k=TOP_K, date=state["event_date"])
+    found = deps.retriever.search(state["queries"][-1], k=TOP_K, date=_search_date(state))
     return {"queries": state["queries"], "evidence": _merge(state["evidence"], found)}
 
 

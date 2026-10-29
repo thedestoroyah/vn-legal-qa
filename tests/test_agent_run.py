@@ -45,3 +45,15 @@ def test_cli_prints_answer_citation_and_trace(tmp_path, monkeypatch, capsys):
     run_module.main(["câu hỏi", "--config", "full"])
     out = capsys.readouterr().out
     assert f"Có [{A}]." in out and f"[{A}] Văn bản BLDS2015, Điều 357, Khoản 1" in out and "route" in out
+
+
+def test_run_rejects_unknown_date_policy(tmp_path):
+    with pytest.raises(ValueError):
+        agent(tmp_path).run("câu hỏi", "full", "hôm qua")
+
+
+def test_run_passes_date_policy_to_retrieval(tmp_path):
+    a = agent(tmp_path)
+    a.run("câu hỏi", "full", "any")
+    from src.retrieval.filters import ANY_DATE
+    assert a.deps.retriever.searches[0]["date"] == ANY_DATE

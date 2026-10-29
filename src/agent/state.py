@@ -14,11 +14,15 @@ CONFIGS = {
     "no_verify": {"use_router": True, "use_grading": True, "use_verify": False},
 }
 
+# RQ4: event = lọc theo ngày router trích ra; current = chỉ văn bản còn hiệu lực; any = không lọc
+DATE_POLICIES = ("event", "current", "any")
+
 
 class AgentState(TypedDict, total=False):
     """Trạng thái chạy qua các nút; mỗi nút trả về phần cập nhật, riêng `trace` được nối thêm."""
 
     question: str
+    date_policy: str  # một phần tử của DATE_POLICIES
     route_type: str  # situational | direct | out_of_scope
     event_date: str | None
     direct_ref: dict | None  # {"law_id", "article"} cho câu direct
@@ -39,8 +43,8 @@ class AgentState(TypedDict, total=False):
     trace: Annotated[list[dict], operator.add]  # mỗi nút nối thêm một bước
 
 
-def initial_state(question):
-    """Trạng thái ban đầu cho một câu hỏi (mặc định situational, chưa có bằng chứng)."""
-    return {"question": question, "route_type": "situational", "event_date": None, "direct_ref": None,
-            "queries": [question], "evidence": [], "n_rewrites": 0, "n_generations": 0, "unsupported": [],
-            "answer": "", "citations": [], "refused": False, "trace": []}
+def initial_state(question, date_policy="event"):
+    """Trạng thái ban đầu cho một câu hỏi (mặc định situational, chưa có bằng chứng, lọc hiệu lực theo `date_policy`)."""
+    return {"question": question, "date_policy": date_policy, "route_type": "situational", "event_date": None,
+            "direct_ref": None, "queries": [question], "evidence": [], "n_rewrites": 0, "n_generations": 0,
+            "unsupported": [], "answer": "", "citations": [], "refused": False, "trace": []}

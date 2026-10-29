@@ -1,0 +1,349 @@
+{
+ "meta": {
+  "title": "PHÁT TRIỂN HỆ THỐNG HỎI ĐÁP PHÁP LUẬT VIỆT NAM DỰA TRÊN AGENTIC-RAG VỚI TRUY XUẤT CĂN CỨ THEO HIỆU LỰC VÀ KIỂM CHỨNG TRÍCH DẪN",
+  "short": "Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG",
+  "report": "BÁO CÁO TIẾN ĐỘ TUẦN 11",
+  "course": "ĐỒ ÁN CÔNG NGHỆ THÔNG TIN",
+  "week": "Tuần 11 (26/10 – 01/11/2026)",
+  "code": "ĐA127",
+  "supervisor": "PGS.TS. Lê Anh Cường",
+  "students": [
+   "Phạm Huỳnh Quốc Đạt - 52300098",
+   "Hoàng Sinh Hùng - 52300106"
+  ],
+  "date": "30/10/2026",
+  "footer": "ĐA127 2026–2027 | Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG | Báo cáo tuần 11",
+  "title_vi": "Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn",
+  "title_en": "Developing a Vietnamese Legal Question Answering System based on Agentic-RAG with Temporally-Aware Legal Retrieval and Citation Verification"
+ },
+ "summary": "Tuần 11 hoàn tất Sprint 4 phía kỹ thuật sớm 1 tuần: API FastAPI, pipeline đánh giá câu trả lời, bộ chấm LLM; đã chạy và chấm đủ thực nghiệm RQ3 (5 cấu hình) và RQ4 (3 chính sách hiệu lực). Thực nghiệm phát hiện hai lỗi của tác tử (router từ chối nhầm, bước kiểm chứng gỡ nhầm trích dẫn đúng); cả hai đã được sửa và đang chạy lại để so sánh trước/sau.",
+ "ch1": {
+  "title": "TIẾN ĐỘ THỰC HIỆN VÀ KẾT QUẢ ĐẠT ĐƯỢC TUẦN NÀY",
+  "intro": "Tuần 11 (26/10 – 01/11/2026) gồm cuối Sprint 3 (22/10 – 28/10, Tác tử Agentic-RAG) và đầu Sprint 4 (29/10 – 04/11, Tích hợp hệ thống và đánh giá câu trả lời). Sprint 3 đã xong từ 16/10; phần kỹ thuật của Sprint 4 xong ngày 28/10, sớm 1 tuần; thực nghiệm RQ3, RQ4 (vốn thuộc Sprint 5) được chạy sớm.",
+  "sections": [
+   {
+    "h": "Hoàn thiện dữ liệu và tập kiểm thử",
+    "items": [
+     [
+      "Kho luật 5 văn bản",
+      "nạp thêm Bộ luật Lao động 2012 (242 Điều, hết hiệu lực 01/01/2021) vào cả 4 chỉ mục ChromaDB; kho hiện có 4.853 đoạn cấp Khoản, 1.693 Điều."
+     ],
+     [
+      "Tập kiểm thử 179 câu",
+      "77 câu Zalo AI 2021 (đã loại 4 câu có căn cứ không phù hợp khi duyệt), 65 câu tổng hợp (kiểm định mẫu 20 câu), 37 câu tự soạn (15 tình huống, 12 có mốc thời gian, 5 tra cứu trực tiếp, 5 ngoài phạm vi)."
+     ],
+     [
+      "Kiểm chéo căn cứ",
+      "đối chiếu 37 câu tự soạn với văn bản gốc: 36 câu đúng, sửa đáp án mẫu 1 câu (M_032)."
+     ]
+    ]
+   },
+   {
+    "h": "Sprint 4: API và pipeline đánh giá câu trả lời",
+    "items": [
+     [
+      "API FastAPI",
+      "POST /api/ask (trả lời theo Phụ lục A.5), GET /api/article, GET /health; đầu vào sai trả 422, mô hình lỗi trả 503 kèm thông báo thân thiện; phục vụ tuần tự để không vượt hạn mức gọi API."
+     ],
+     [
+      "Lọc hiệu lực cho RQ4",
+      "3 chính sách: theo ngày sự việc, chỉ văn bản còn hiệu lực, không lọc."
+     ],
+     [
+      "Pipeline thực nghiệm",
+      "chạy dần qua nhiều ngày theo hạn mức miễn phí, tự dừng khi hết quota và chạy tiếp đúng chỗ; mẫu phân tầng 60 câu cố định cho ablation."
+     ],
+     [
+      "Bộ chấm LLM",
+      "Groq gpt-oss-120b (khác nhà cung cấp với tác tử), chấm Faithfulness và Correctness theo thang 0 / 0,5 / 1; phiếu chấm tay 20 câu để kiểm định bộ chấm."
+     ],
+     [
+      "Kiểm thử tự động",
+      "274 test tự động đạt (tăng từ 215); review độc lập toàn bộ thay đổi, 5 lỗi mức Important đã sửa."
+     ]
+    ]
+   },
+   {
+    "h": "Kết quả thực nghiệm RQ3 (lần chạy 1)",
+    "text": "Chạy đủ 5 cấu hình: full và baseline trên 179 câu, 3 cấu hình ablation trên mẫu phân tầng 60 câu; tất cả đã được chấm.",
+    "table": {
+     "caption": "Bảng 1.1. Kết quả RQ3 trên mẫu 60 câu (cùng tập câu cho 5 cấu hình)",
+     "head": [
+      "Cấu hình",
+      "Trả lời",
+      "Citation P",
+      "Citation R",
+      "Từ chối đúng",
+      "Correctness",
+      "Lượt LLM/câu"
+     ],
+     "rows": [
+      [
+       "full",
+       "0,917",
+       "0,828",
+       "0,810",
+       "0,950",
+       "0,985",
+       "4,1"
+      ],
+      [
+       "no_router",
+       "0,883",
+       "0,818",
+       "0,776",
+       "0,917",
+       "0,897",
+       "3,3"
+      ],
+      [
+       "no_grading",
+       "0,867",
+       "0,846",
+       "0,759",
+       "0,900",
+       "0,956",
+       "3,1"
+      ],
+      [
+       "no_verify",
+       "0,917",
+       "0,844",
+       "0,897",
+       "0,950",
+       "0,985",
+       "3,0"
+      ],
+      [
+       "baseline",
+       "0,850",
+       "0,819",
+       "0,793",
+       "0,883",
+       "0,868",
+       "1,0"
+      ]
+     ]
+    },
+    "after": "Trên toàn bộ 179 câu: full đạt Citation P 0,840, R 0,784, Correctness 0,897; baseline đạt P 0,820, R 0,835, Correctness 0,863. Router và grading làm tăng tỷ lệ trả lời và Correctness; riêng no_verify có Recall cao hơn full rõ rệt (xem mục 1.5)."
+   },
+   {
+    "h": "Kết quả thực nghiệm RQ4 (hiệu lực theo thời gian)",
+    "table": {
+     "caption": "Bảng 1.2. Kết quả RQ4 trên 12 câu có mốc thời gian (cấu hình full)",
+     "head": [
+      "Chính sách lọc",
+      "Trả lời",
+      "Đúng phiên bản",
+      "Correctness"
+     ],
+     "rows": [
+      [
+       "Theo ngày sự việc",
+       "0,917",
+       "0,667",
+       "0,833"
+      ],
+      [
+       "Không lọc",
+       "0,917",
+       "0,500",
+       "0,833"
+      ],
+      [
+       "Chỉ văn bản còn hiệu lực",
+       "0,667",
+       "0,417",
+       "0,583"
+      ]
+     ]
+    },
+    "after": "Lọc theo ngày sự việc cho tỷ lệ trích đúng phiên bản luật cao nhất; lọc \"còn hiệu lực\" làm mất BLLĐ 2012 nên tác tử từ chối 4/12 câu. Do chỉ có 12 câu, kết quả mới thể hiện xu hướng, chưa đủ để kết luận thống kê."
+   },
+   {
+    "h": "Hai lỗi phát hiện qua thực nghiệm và cách khắc phục",
+    "items": [
+     [
+      "Router từ chối nhầm câu dân sự",
+      "prompt liệt kê lĩnh vực ngoài phạm vi theo từ khóa (\"giao thông\", \"đất đai\") nên câu về bồi thường tai nạn, thừa kế, hợp đồng dịch vụ bị từ chối. Đã sửa: phân loại theo vấn đề pháp lý; kiểm trên 26 câu: 0 câu sai."
+     ],
+     [
+      "Bước kiểm chứng gỡ nhầm trích dẫn đúng",
+      "47/63 mã bị gỡ ở cấu hình full là căn cứ đúng, vì bước kiểm chứng chỉ thấy nội dung Khoản mà không thấy tên Điều. Đã sửa: đưa tên văn bản, tên Điều vào ngữ cảnh và nới quy tắc. Sơ bộ trên 74 câu: Recall 0,734 → 0,761, Precision 0,761 → 0,780, mã đúng bị gỡ 17 → 8."
+     ],
+     [
+      "Lưu kết quả cũ để so sánh",
+      "kết quả lần chạy 1 được giữ nguyên để báo cáo trước/sau; lần chạy 2 đang tiếp tục theo hạn mức API."
+     ]
+    ]
+   },
+   {
+    "h": "Phần việc của từng thành viên trong tuần",
+    "items": [
+     [
+      "Phạm Huỳnh Quốc Đạt",
+      "hoàn thành 6/6 task Sprint 4; tích hợp dữ liệu BLLĐ 2012; kiểm chéo câu tự soạn; chạy và chấm RQ3, RQ4; sửa router và bước kiểm chứng; lập kế hoạch Sprint 4 cho cả nhóm."
+     ],
+     [
+      "Hoàng Sinh Hùng",
+      "tuần trước (19–21/10) đã hoàn thành dữ liệu Sprint 2: BLLĐ 2012, laws.json, kiểm tra chất lượng dữ liệu, 37 câu tự soạn, giao diện Streamlit có panel toàn văn Điều; tuần này: ghép giao diện với API, thang chấm tay và chấm tay 20 câu, rà soát câu M_017 (đang thực hiện)."
+     ]
+    ]
+   }
+  ]
+ },
+ "ch2": {
+  "title": "ĐÁNH GIÁ TIẾN ĐỘ SO VỚI KẾ HOẠCH CỦA KHOA",
+  "intro": "Theo đề cương, đề tài thực hiện từ 15/08 đến 21/11/2026 (khoảng 14 tuần): Giai đoạn 0 khảo sát và đề cương, sau đó 6 sprint từ 09/10; tuần 15 bảo vệ phản biện. Đến cuối tuần 11 đã trôi qua 11/14 tuần (79% thời gian).",
+  "table": {
+   "caption": "Bảng 2.1. Đối chiếu kế hoạch trong đề cương và tình trạng của nhóm",
+   "head": [
+    "Tuần",
+    "Giai đoạn theo đề cương",
+    "Tình trạng"
+   ],
+   "rows": [
+    [
+     "1 – 8",
+     "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương",
+     "Hoàn thành"
+    ],
+    [
+     "8 – 9",
+     "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng",
+     "Hoàn thành"
+    ],
+    [
+     "9 – 10",
+     "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10",
+     "Hoàn thành"
+    ],
+    [
+     "10 – 11",
+     "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG",
+     "Hoàn thành sớm (16/10)"
+    ],
+    [
+     "11 – 12",
+     "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời",
+     "Phần kỹ thuật xong (28/10); phần của Hùng đang làm"
+    ],
+    [
+     "12 – 13",
+     "Sprint 5 (05/11 – 11/11): thực nghiệm đầy đủ, đóng băng 08/11",
+     "Đã chạy lần 1; đang chạy lại sau khi sửa lỗi"
+    ],
+    [
+     "13 – 14",
+     "Sprint 6 (12/11 – 21/11): đóng gói, hoàn thiện, nộp 21/11",
+     "Chưa đến hạn"
+    ],
+    [
+     "15",
+     "Bảo vệ phản biện",
+     "Chưa đến hạn"
+    ]
+   ]
+  },
+  "verdict": [
+   [
+    "Tổng thể",
+    "đúng tiến độ, phần kỹ thuật sớm khoảng 1 tuần: 46/75 hạng mục trong kế hoạch chi tiết đã xong (61%)."
+   ],
+   [
+    "Vượt kế hoạch",
+    "thực nghiệm RQ3, RQ4 (Sprint 5) đã chạy và chấm xong lần 1 trong tuần 11."
+   ],
+   [
+    "Cần theo dõi",
+    "ghép giao diện với API, chấm tay 20 câu, bản nháp Chương 1–2 (phần của Hùng, hạn 04/11) chưa có trên repo."
+   ]
+  ]
+ },
+ "ch3": {
+  "title": "KẾ HOẠCH CHI TIẾT TỪ NAY ĐẾN KHI KẾT THÚC ĐỀ TÀI",
+  "intro": "Mốc đóng băng tính năng 08/11/2026; báo cáo hoàn chỉnh 18/11/2026; nộp trước 23:59 ngày 21/11/2026.",
+  "weeks": [
+   {
+    "name": "Tuần 12",
+    "dates": "02/11 – 08/11/2026",
+    "goal": "Hoàn tất thực nghiệm",
+    "items": [
+     "Chạy lại RQ3, RQ4 với bước kiểm chứng đã sửa; chấm và so sánh trước/sau",
+     "Chạy lại RQ1, RQ2 trên 77 câu Zalo",
+     "Đo độ trễ 20 câu không dùng cache",
+     "Ghép giao diện với API; chấm tay 20 câu, đo độ đồng thuận với bộ chấm LLM",
+     "Đóng băng tính năng 08/11"
+    ]
+   },
+   {
+    "name": "Tuần 13",
+    "dates": "09/11 – 15/11/2026",
+    "goal": "Phân tích và viết báo cáo",
+    "items": [
+     "Bảng tổng hợp và biểu đồ cho RQ1–RQ4",
+     "Phân tích 20 trường hợp sai theo loại lỗi",
+     "Viết Chương 1–4; sơ đồ use case, activity, sequence",
+     "Docker và docker-compose cho API và giao diện"
+    ]
+   },
+   {
+    "name": "Tuần 14",
+    "dates": "16/11 – 22/11/2026",
+    "goal": "Hoàn thiện và nộp",
+    "items": [
+     "Chương 5, rà soát kỹ thuật, kiểm tra Turnitin",
+     "Slide bảo vệ và video demo 4 kịch bản",
+     "18/11: báo cáo hoàn chỉnh gửi GVHD duyệt",
+     "Nộp trước 23:59 ngày 21/11/2026"
+    ]
+   }
+  ],
+  "after": "Tuần 15 (sau 21/11): bảo vệ phản biện theo lịch của Khoa."
+ },
+ "ch4": {
+  "title": "KHÓ KHĂN, RỦI RO VÀ GIẢI PHÁP KHẮC PHỤC",
+  "rows": [
+   [
+    "Hạn mức API miễn phí (Gemini 500 lượt/ngày, Groq 200.000 token/ngày)",
+    "Cache đĩa dùng chung giữa các cấu hình; pipeline tự dừng khi hết quota và chạy tiếp được; ablation trên mẫu 60 câu cố định; rải lịch chạy qua nhiều ngày."
+   ],
+   [
+    "Gemini báo quá tải (lỗi 503) khi chạy dài",
+    "SDK tự thử lại; lượt lỗi được ghi riêng và chạy lại sau, không làm mất kết quả đã có."
+   ],
+   [
+    "Bước kiểm chứng bằng LLM nhỏ gỡ nhầm trích dẫn đúng",
+    "Bổ sung tên Điều vào ngữ cảnh, nới quy tắc; giữ kết quả cũ để báo cáo trước/sau như một phát hiện của RQ3."
+   ],
+   [
+    "Prompt được chỉnh sau khi thấy lỗi trên tập kiểm thử (chưa có tập dev riêng)",
+    "Chỉ viết quy tắc tổng quát, không chép câu kiểm thử vào prompt; ghi rõ là giới hạn trong báo cáo."
+   ],
+   [
+    "Điểm Faithfulness của bộ chấm LLM gần như luôn bằng 1",
+    "Kiểm định bằng 2 người chấm tay độc lập 20 câu trước khi dùng chỉ số này."
+   ],
+   [
+    "Mẫu nhỏ (RQ4 12 câu, ablation 60 câu)",
+    "Báo cáo xu hướng kèm số câu; không khẳng định ý nghĩa thống kê."
+   ],
+   [
+    "Reranker chạy CPU chậm (khoảng 5 giây/câu)",
+    "Chỉ rerank top-10; đo độ trễ riêng, không tính thời gian chờ hạn mức API."
+   ]
+  ]
+ },
+ "notes": [
+  "Em chào thầy. Hôm nay nhóm em báo cáo tiến độ tuần 11, từ 26/10 đến 01/11/2026, của đề tài ĐA127: Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn. Tuần này có ba điểm chính, thể hiện ở ba thẻ bên phải: phần kỹ thuật của Sprint 4 hoàn thành sớm một tuần; thực nghiệm RQ3 và RQ4 đã chạy và chấm xong lần đầu; và qua thực nghiệm, nhóm phát hiện và sửa hai lỗi của tác tử. Bài báo cáo gồm bốn phần: kết quả tuần này, đánh giá tiến độ so với kế hoạch của Khoa, kế hoạch đến khi kết thúc đề tài, và khó khăn, rủi ro.",
+  "Đây là các con số tóm tắt của tuần. Em hoàn thành 6 trên 6 task kỹ thuật của Sprint 4; bộ kiểm thử tự động có 274 test và đều đạt. Tập kiểm thử có 179 câu từ ba nguồn: Zalo AI 2021, câu tổng hợp và câu nhóm tự soạn. Kho dữ liệu gồm 5 văn bản luật với 4.853 đoạn cấp Khoản, đã có Bộ luật Lao động 2012 để phục vụ RQ4. Bên trái là các việc đã hoàn thành; bên phải là các việc đang làm: chạy lại thực nghiệm sau khi sửa bước kiểm chứng, ghép giao diện với API và chấm tay của bạn Hùng, và bản nháp Chương 1, 2.",
+  "Slide này trình bày sáu kết quả cụ thể. Về dữ liệu: Bộ luật Lao động 2012 đã được nạp vào cả bốn chỉ mục; tập kiểm thử chốt 179 câu, em đã kiểm chéo căn cứ 37 câu tự soạn và sửa một đáp án mẫu. Về hạ tầng Sprint 4: API FastAPI với ba endpoint, có kiểm tra đầu vào và xử lý lỗi; ba chính sách lọc hiệu lực phục vụ RQ4; pipeline thực nghiệm chạy dần qua nhiều ngày vì API miễn phí giới hạn số lượt gọi, hết hạn mức thì tự dừng và lần sau chạy tiếp đúng chỗ; và bộ chấm LLM chạy trên Groq, khác nhà cung cấp với tác tử để mô hình không tự chấm cho mình.",
+  "Đây là kết quả RQ3 trên cùng một mẫu 60 câu cho cả năm cấu hình. Ba cột lần lượt là Citation Precision, Citation Recall và Correctness. So với baseline, cấu hình full có tỷ lệ trả lời cao hơn, từ 0,850 lên 0,917, và Correctness tăng từ 0,868 lên 0,985; bỏ router hoặc bỏ bước đánh giá bằng chứng đều làm các chỉ số này giảm. Điểm bất thường là cấu hình no_verify có Recall cao nhất, 0,897, cao hơn cả full. Điều này cho thấy bước kiểm chứng đang gỡ nhầm trích dẫn đúng, em trình bày ở slide 6. Faithfulness hiện gần bằng 1 ở mọi cấu hình nên em chưa dùng chỉ số này cho tới khi chấm tay kiểm định bộ chấm.",
+  "RQ4 kiểm tra khả năng trích đúng phiên bản luật theo thời điểm của tình huống. Trên 12 câu có mốc thời gian, lọc theo ngày sự việc cho tỷ lệ trích đúng phiên bản cao nhất, 0,667; không lọc đạt 0,500; chỉ lấy văn bản còn hiệu lực đạt thấp nhất, 0,417, vì bộ lọc này bỏ mất Bộ luật Lao động 2012 nên tác tử từ chối 4 trên 12 câu. Kết quả đúng chiều giả thuyết, nhưng vì chỉ có 12 câu nên em trình bày như một xu hướng, chưa khẳng định ý nghĩa thống kê.",
+  "Thực nghiệm giúp phát hiện hai lỗi. Thứ nhất, bộ định tuyến từ chối nhầm câu dân sự, ví dụ câu hỏi bồi thường khi gây tai nạn giao thông bị coi là ngoài phạm vi chỉ vì có từ giao thông. Em sửa prompt để phân loại theo vấn đề pháp lý thay vì từ khóa; kiểm lại 26 câu thì không còn câu nào sai. Thứ hai, bước kiểm chứng gỡ 63 mã trích dẫn, trong đó 47 mã là căn cứ đúng, vì mô hình chỉ thấy nội dung Khoản mà không thấy tên Điều; ví dụ Khoản chỉ ghi giữ bản chính giấy tờ tùy thân, không có tên Điều thì không biết đó là hành vi bị cấm. Sau khi bổ sung tên Điều vào ngữ cảnh, kết quả sơ bộ trên 74 câu: Recall tăng từ 0,734 lên 0,761, số mã đúng bị gỡ giảm từ 17 xuống 8. Kết quả cũ được giữ lại để so sánh trước và sau trong báo cáo.",
+  "So với kế hoạch trong đề cương, đến hết tuần 11 đã trôi qua 11 trên 14 tuần, tức 79% thời gian, và nhóm hoàn thành 46 trên 75 hạng mục, khoảng 61%. Giai đoạn 0, Sprint 1, 2 và 3 đã xong; Sprint 3 xong sớm từ 16/10. Phần kỹ thuật của Sprint 4 xong ngày 28/10, sớm khoảng một tuần, và thực nghiệm của Sprint 5 đã chạy lần đầu. Phần cần theo dõi là các việc của bạn Hùng trong Sprint 4: ghép giao diện với API, chấm tay 20 câu và bản nháp Chương 1, 2, hạn ngày 04/11.",
+  "Từ nay đến khi nộp còn ba tuần. Tuần 12 hoàn tất thực nghiệm: chạy lại RQ3, RQ4 với bước kiểm chứng đã sửa, chạy lại RQ1, RQ2 trên 77 câu Zalo, đo độ trễ, ghép giao diện với API và chấm tay; ngày 08/11 đóng băng tính năng. Tuần 13 phân tích kết quả, vẽ biểu đồ, phân tích 20 trường hợp sai, viết Chương 1 đến 4 và đóng gói Docker. Tuần 14 hoàn thiện Chương 5, kiểm tra Turnitin, làm slide và video demo; ngày 18/11 gửi thầy bản hoàn chỉnh, và nộp trước 23 giờ 59 ngày 21/11.",
+  "Có sáu khó khăn chính. Lớn nhất là hạn mức API miễn phí: Gemini 500 lượt mỗi ngày, Groq 200 nghìn token mỗi ngày; nhóm dùng cache, pipeline chạy tiếp được và chạy ablation trên mẫu 60 câu cố định. Gemini đôi khi báo quá tải; các lượt lỗi được ghi lại và chạy lại sau. Lỗi bước kiểm chứng gỡ nhầm đã được sửa. Một giới hạn em sẽ ghi rõ trong báo cáo là prompt được chỉnh sau khi thấy lỗi trên tập kiểm thử, vì chưa có tập dev riêng. Bộ chấm LLM đang chấm dễ nên cần kiểm định bằng chấm tay. Cuối cùng, mẫu còn nhỏ nên kết quả trình bày như xu hướng kèm số câu.",
+  "Tóm lại, Sprint 4 xong sớm, thực nghiệm RQ3 và RQ4 đã có kết quả lần đầu, hai lỗi phát hiện được đã sửa và đang chạy lại; tuần 12 nhóm tập trung hoàn tất thực nghiệm và đóng băng tính năng ngày 08/11. Em xin ý kiến thầy hai điểm: thứ nhất, có nên trình bày việc bước kiểm chứng bằng LLM nhỏ gỡ nhầm trích dẫn đúng như một phát hiện của RQ3, kèm số liệu trước và sau khi sửa không; thứ hai, mẫu 60 câu cho ablation và 12 câu cho RQ4 đã đủ cho báo cáo hay cần mở rộng thêm. Em xin cảm ơn thầy đã lắng nghe."
+ ]
+}

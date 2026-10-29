@@ -31,7 +31,10 @@ class ScriptedClient:
     def _create(self, model, messages, **params):
         node = node_of(messages)
         self.seen.append((node, messages))
-        reply = self.replies[node].pop(0)
+        return self._wrap(self.replies[node].pop(0))
+
+    @staticmethod
+    def _wrap(reply):
         content = reply if isinstance(reply, str) else json.dumps(reply, ensure_ascii=False)
         return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=content))])
 

@@ -1,0 +1,1 @@
+Kết quả RQ3/RQ4 trước khi sửa verify(b) (29/10): prompt verify chỉ thấy nội dung Khoản, không có tên Điều, và quy tắc chặt → gỡ nhầm trích dẫn đúng (full, 179 câu: 63 mã bị gỡ, 47 thuộc căn cứ chuẩn). Giữ để so sánh trước/sau trong báo cáo. Bảng full vs baseline 179 câu: tạo lại bằng report_rows trên các file jsonl ở đây.
