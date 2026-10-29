@@ -2061,16 +2061,16 @@
  },
  {
   "id": "M_017",
-  "question": "Vào tháng 6/2021, công ty muốn ký hợp đồng lao động mùa vụ 5 tháng với nhân viên thì có được phép không?",
+  "question": "Vào tháng 6/2021, công ty có được ký loại hợp đồng lao động theo mùa vụ không, hay phải dùng loại hợp đồng nào?",
   "type": "temporal",
   "domain": "lao_dong",
   "event_date": "2021-06-15",
   "gold_citations": [
    "BLLD2019_Dieu20_Khoan1"
   ],
-  "reference_answer": "Không được, vì BLLĐ 2019 đã bãi bỏ loại hợp đồng lao động theo mùa vụ, chỉ còn 2 loại: không xác định thời hạn và xác định thời hạn.",
+  "reference_answer": "Không còn loại hợp đồng lao động theo mùa vụ riêng: BLLĐ 2019 chỉ còn 2 loại là hợp đồng không xác định thời hạn và hợp đồng xác định thời hạn (không quá 36 tháng). Công việc mùa vụ ký hợp đồng xác định thời hạn.",
   "source": "manual",
-  "checked_by": "Dat"
+  "checked_by": null
  },
  {
   "id": "M_018",

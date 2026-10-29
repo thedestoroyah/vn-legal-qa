@@ -1,0 +1,11 @@
+{
+  "answer": "Câu hỏi nằm ngoài phạm vi hệ thống. Hệ thống chỉ hỗ trợ Bộ luật Dân sự, Bộ luật Lao động, Luật Doanh nghiệp và Luật Thương mại.",
+  "refused": true,
+  "citations": [],
+  "retrieved_chunks": [],
+  "trace": [
+    {"node": "route", "output": {"route_type": "out_of_scope", "event_date": null, "direct_ref": null}, "ms": 900, "llm_calls": 1},
+    {"node": "refuse", "output": {"refused": true, "refuse_reason": "out_of_scope"}, "ms": 0, "llm_calls": 0}
+  ]
+}
+
