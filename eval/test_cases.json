@@ -2321,5 +2321,429 @@
   "reference_answer": "Ngoài phạm vi kho dữ liệu (thuộc Luật Thuế thu nhập cá nhân).",
   "source": "manual",
   "checked_by": "Dat"
+ },
+ {
+  "id": "M_038",
+  "question": "Tháng 9/2019, công ty thuê tôi làm một công việc tạm thời trong 2 tháng, hai bên chỉ thỏa thuận miệng, không ký giấy tờ gì. Hợp đồng lao động bằng lời nói như vậy có hợp pháp không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2019-09-05",
+  "gold_citations": [
+   "BLLD2012_Dieu16_Khoan2"
+  ],
+  "reference_answer": "Hợp pháp. Theo BLLĐ 2012, đối với công việc tạm thời có thời hạn dưới 03 tháng, các bên có thể giao kết hợp đồng lao động bằng lời nói.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_039",
+  "question": "Năm 2023, cửa hàng nhận một nhân viên làm việc trong 2 tháng và chỉ thỏa thuận bằng lời nói. Giao kết hợp đồng lao động bằng lời nói trong trường hợp này có đúng luật không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2023-03-01",
+  "gold_citations": [
+   "BLLD2019_Dieu14_Khoan2"
+  ],
+  "reference_answer": "Không đúng. Theo BLLĐ 2019, chỉ được giao kết hợp đồng lao động bằng lời nói đối với hợp đồng có thời hạn dưới 01 tháng (trừ một số trường hợp); hợp đồng 2 tháng phải giao kết bằng văn bản (hoặc qua phương tiện điện tử).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_040",
+  "question": "Năm 2018, thanh tra lao động phát hiện hợp đồng lao động của một công ty có nội dung trái pháp luật. Thanh tra lao động có quyền tuyên bố hợp đồng đó vô hiệu không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2018-06-12",
+  "gold_citations": [
+   "BLLD2012_Dieu51_Khoan1"
+  ],
+  "reference_answer": "Có. Theo BLLĐ 2012, Thanh tra lao động và Tòa án nhân dân đều có quyền tuyên bố hợp đồng lao động vô hiệu.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_041",
+  "question": "Tháng 7/2022, tôi phát hiện hợp đồng lao động đã ký có điều khoản trái luật. Cơ quan nào có quyền tuyên bố hợp đồng vô hiệu, thanh tra lao động có thẩm quyền này không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2022-07-10",
+  "gold_citations": [
+   "BLLD2019_Dieu50"
+  ],
+  "reference_answer": "Chỉ Tòa án nhân dân có quyền tuyên bố hợp đồng lao động vô hiệu; theo BLLĐ 2019 thanh tra lao động không có thẩm quyền này.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_042",
+  "question": "Tháng 3/2020, công ty phát hiện một nhân viên đã cung cấp thông tin không trung thực về bằng cấp khi giao kết hợp đồng lao động. Công ty có được đơn phương chấm dứt hợp đồng lao động vì lý do này không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2020-03-16",
+  "gold_citations": [
+   "BLLD2012_Dieu38_Khoan1"
+  ],
+  "reference_answer": "Không. Theo BLLĐ 2012, khoản 1 Điều 38 chỉ cho người sử dụng lao động đơn phương chấm dứt hợp đồng trong 4 trường hợp (thường xuyên không hoàn thành công việc; ốm đau, tai nạn điều trị dài ngày; thiên tai, hỏa hoạn, bất khả kháng; không có mặt sau thời hạn tạm hoãn); cung cấp thông tin không trung thực không thuộc các trường hợp này.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_043",
+  "question": "Năm 2022, công ty phát hiện người lao động đã cung cấp không trung thực thông tin về kinh nghiệm làm việc khi giao kết hợp đồng, làm ảnh hưởng đến việc tuyển dụng. Công ty có quyền đơn phương chấm dứt hợp đồng không và có phải báo trước không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2022-09-20",
+  "gold_citations": [
+   "BLLD2019_Dieu36_Khoan1",
+   "BLLD2019_Dieu36_Khoan2"
+  ],
+  "reference_answer": "Có quyền, theo điểm g khoản 1 Điều 36 BLLĐ 2019 (thông tin không trung thực thuộc khoản 2 Điều 16, làm ảnh hưởng đến việc tuyển dụng). Phải báo trước theo khoản 2: ít nhất 45 ngày với hợp đồng không xác định thời hạn, 30 ngày với hợp đồng từ 12 đến 36 tháng, 03 ngày làm việc với hợp đồng dưới 12 tháng.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_044",
+  "question": "Năm 2019, một nhân viên có hành vi quấy rối tình dục đồng nghiệp tại nơi làm việc. Theo quy định về các trường hợp áp dụng kỷ luật sa thải lúc đó, công ty có thể sa thải nhân viên này vì hành vi quấy rối tình dục không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2019-10-08",
+  "gold_citations": [
+   "BLLD2012_Dieu126"
+  ],
+  "reference_answer": "Không thể sa thải chỉ vì hành vi quấy rối tình dục: Điều 126 BLLĐ 2012 không quy định đây là căn cứ sa thải riêng. Chỉ sa thải được nếu hành vi đồng thời thuộc một trường hợp khác tại Điều 126, chẳng hạn gây thiệt hại nghiêm trọng hoặc đe dọa gây thiệt hại đặc biệt nghiêm trọng về tài sản, lợi ích của người sử dụng lao động (khoản 1).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_045",
+  "question": "Tháng 4/2023, một nhân viên quấy rối tình dục tại nơi làm việc và hành vi này đã được quy định trong nội quy lao động của công ty. Công ty có được áp dụng hình thức kỷ luật sa thải không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2023-04-14",
+  "gold_citations": [
+   "BLLD2019_Dieu125_Khoan2"
+  ],
+  "reference_answer": "Có. Theo khoản 2 Điều 125 BLLĐ 2019, quấy rối tình dục tại nơi làm việc được quy định trong nội quy lao động là trường hợp được áp dụng kỷ luật sa thải.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_046",
+  "question": "Năm 2018, tôi làm công việc văn phòng bình thường, ban ngày, liên tục 7 giờ mỗi ngày. Theo luật, tôi có được nghỉ giữa giờ ít nhất 30 phút tính vào giờ làm việc không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2018-11-20",
+  "gold_citations": [
+   "BLLD2012_Dieu108_Khoan1"
+  ],
+  "reference_answer": "Không thuộc trường hợp bắt buộc. Theo BLLĐ 2012, người lao động làm việc liên tục 08 giờ (hoặc 06 giờ đối với công việc đặc biệt nặng nhọc, độc hại, nguy hiểm) mới được nghỉ giữa giờ ít nhất 30 phút; làm 7 giờ công việc bình thường chưa đủ điều kiện.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_047",
+  "question": "Năm 2024, tôi làm việc 7 tiếng mỗi ngày vào ban ngày. Tôi có được nghỉ giữa giờ không và tối thiểu bao lâu?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2024-02-05",
+  "gold_citations": [
+   "BLLD2019_Dieu109_Khoan1"
+  ],
+  "reference_answer": "Có. Theo khoản 1 Điều 109 BLLĐ 2019, người lao động làm việc từ 06 giờ trở lên trong một ngày được nghỉ giữa giờ ít nhất 30 phút liên tục (làm ban đêm ít nhất 45 phút).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_048",
+  "question": "Tháng 6/2020, tôi có tranh chấp với công ty về tiền lương. Thời hiệu để tôi yêu cầu giải quyết tranh chấp lao động cá nhân này là bao lâu?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2020-06-01",
+  "gold_citations": [
+   "BLLD2012_Dieu202_Khoan1",
+   "BLLD2012_Dieu202_Khoan2"
+  ],
+  "reference_answer": "Theo BLLĐ 2012: 06 tháng đối với yêu cầu hòa giải viên lao động hòa giải và 01 năm đối với yêu cầu Tòa án giải quyết, kể từ ngày phát hiện ra hành vi vi phạm quyền, lợi ích hợp pháp.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_049",
+  "question": "Năm 2022, tôi muốn yêu cầu Hội đồng trọng tài lao động giải quyết tranh chấp với công ty về việc bị trừ lương. Thời hiệu yêu cầu là bao lâu?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2022-10-03",
+  "gold_citations": [
+   "BLLD2019_Dieu190_Khoan2"
+  ],
+  "reference_answer": "09 tháng kể từ ngày phát hiện ra hành vi mà bên tranh chấp cho rằng quyền và lợi ích hợp pháp của mình bị vi phạm (khoản 2 Điều 190 BLLĐ 2019).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_050",
+  "question": "Tháng 2/2019, một nhân viên công ty nhập ngũ thực hiện nghĩa vụ quân sự. Công ty có phải tạm ứng tiền lương cho người này không, và người lao động có phải hoàn trả khoản tạm ứng không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2019-02-18",
+  "gold_citations": [
+   "BLLD2012_Dieu100_Khoan2"
+  ],
+  "reference_answer": "Theo khoản 2 Điều 100 BLLĐ 2012, người sử dụng lao động phải tạm ứng tiền lương tương ứng số ngày nghỉ thực hiện nghĩa vụ công dân từ 01 tuần trở lên (tối đa 01 tháng lương); người lao động phải hoàn lại, trừ trường hợp thực hiện nghĩa vụ quân sự nên người nhập ngũ không phải hoàn trả.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_051",
+  "question": "Năm 2023, tôi nhận lệnh nhập ngũ theo Luật Nghĩa vụ quân sự. Tôi có được công ty tạm ứng tiền lương không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2023-02-10",
+  "gold_citations": [
+   "BLLD2019_Dieu101_Khoan2"
+  ],
+  "reference_answer": "Không. Theo khoản 2 Điều 101 BLLĐ 2019, người lao động nhập ngũ theo quy định của Luật Nghĩa vụ quân sự thì không được tạm ứng tiền lương.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_052",
+  "question": "Tháng 8/2020, do sự cố đặc biệt, công ty trả lương chậm 10 ngày so với kỳ hạn. Công ty có phải trả thêm tiền lãi cho người lao động không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2020-08-15",
+  "gold_citations": [
+   "BLLD2012_Dieu96"
+  ],
+  "reference_answer": "Có. Theo Điều 96 BLLĐ 2012, trường hợp đặc biệt không thể trả lương đúng hạn thì không được chậm quá 01 tháng và phải trả thêm cho người lao động một khoản tiền ít nhất bằng lãi suất huy động tiền gửi do Ngân hàng Nhà nước công bố tại thời điểm trả lương, không phụ thuộc số ngày chậm.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_053",
+  "question": "Năm 2023, vì lý do bất khả kháng, dù đã tìm mọi biện pháp khắc phục, công ty vẫn phải trả lương chậm 10 ngày so với kỳ hạn. Công ty có phải đền bù tiền lãi cho người lao động không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2023-05-10",
+  "gold_citations": [
+   "BLLD2019_Dieu97_Khoan4"
+  ],
+  "reference_answer": "Không bắt buộc. Theo khoản 4 Điều 97 BLLĐ 2019, trả lương chậm vì bất khả kháng không được quá 30 ngày; chỉ khi chậm từ 15 ngày trở lên mới phải đền bù khoản tiền ít nhất bằng lãi của số tiền trả chậm.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_054",
+  "question": "Năm 2017, nhân viên công ty được gọi thực hiện nghĩa vụ tham gia Dân quân tự vệ. Đây có phải là trường hợp tạm hoãn thực hiện hợp đồng lao động theo luật không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2017-05-22",
+  "gold_citations": [
+   "BLLD2012_Dieu32_Khoan1",
+   "BLLD2012_Dieu32_Khoan5"
+  ],
+  "reference_answer": "Không phải trường hợp tạm hoãn đương nhiên theo luật. Điều 32 BLLĐ 2012 chỉ nêu nghĩa vụ quân sự, bị tạm giữ, tạm giam, đưa vào trường giáo dưỡng, cơ sở cai nghiện, giáo dục bắt buộc, lao động nữ mang thai; tham gia Dân quân tự vệ chỉ được tạm hoãn nếu hai bên thỏa thuận (khoản 5).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_055",
+  "question": "Tháng 2/2022, tôi được gọi thực hiện nghĩa vụ tham gia Dân quân tự vệ. Hợp đồng lao động của tôi có được tạm hoãn không, và trong thời gian tạm hoãn tôi có được hưởng lương không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2022-02-21",
+  "gold_citations": [
+   "BLLD2019_Dieu30_Khoan1",
+   "BLLD2019_Dieu30_Khoan2"
+  ],
+  "reference_answer": "Có, theo điểm a khoản 1 Điều 30 BLLĐ 2019. Trong thời gian tạm hoãn người lao động không được hưởng lương và quyền, lợi ích đã giao kết trong hợp đồng, trừ trường hợp hai bên thỏa thuận hoặc pháp luật quy định khác.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_056",
+  "question": "Năm 2019, trong thời gian thử việc tôi làm đạt yêu cầu nhưng muốn nghỉ. Tôi có được hủy bỏ thỏa thuận thử việc mà không cần báo trước và không phải bồi thường không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2019-04-03",
+  "gold_citations": [
+   "BLLD2012_Dieu29_Khoan2"
+  ],
+  "reference_answer": "Không thuộc quyền hủy bỏ theo khoản 2 Điều 29 BLLĐ 2012: quyền hủy bỏ thỏa thuận thử việc không cần báo trước, không phải bồi thường chỉ áp dụng khi việc làm thử không đạt yêu cầu mà hai bên đã thỏa thuận; việc làm thử đã đạt yêu cầu thì nằm ngoài phạm vi quy định này.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_057",
+  "question": "Năm 2024, đang trong thời gian thử việc và công việc vẫn đạt yêu cầu, tôi muốn nghỉ. Tôi có phải báo trước hoặc bồi thường cho công ty không?",
+  "type": "temporal",
+  "domain": "lao_dong",
+  "event_date": "2024-06-10",
+  "gold_citations": [
+   "BLLD2019_Dieu27_Khoan2"
+  ],
+  "reference_answer": "Không. Theo khoản 2 Điều 27 BLLĐ 2019, trong thời gian thử việc mỗi bên có quyền hủy bỏ hợp đồng thử việc hoặc hợp đồng lao động đã giao kết mà không cần báo trước và không phải bồi thường.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_058",
+  "question": "Điều 429 Bộ luật Dân sự 2015 quy định thời hiệu khởi kiện về hợp đồng là bao lâu?",
+  "type": "direct",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu429"
+  ],
+  "reference_answer": "03 năm, kể từ ngày người có quyền yêu cầu biết hoặc phải biết quyền và lợi ích hợp pháp của mình bị xâm phạm.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_059",
+  "question": "Theo khoản 1 Điều 20 BLDS 2015, người thành niên là người bao nhiêu tuổi?",
+  "type": "direct",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu20_Khoan1"
+  ],
+  "reference_answer": "Người từ đủ mười tám tuổi trở lên.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_060",
+  "question": "Khoản 3 Điều 418 Bộ luật Dân sự 2015 quy định thế nào về quan hệ giữa phạt vi phạm và bồi thường thiệt hại?",
+  "type": "direct",
+  "domain": "dan_su",
+  "event_date": null,
+  "gold_citations": [
+   "BLDS2015_Dieu418_Khoan3"
+  ],
+  "reference_answer": "Các bên có thể thỏa thuận bên vi phạm chỉ chịu phạt vi phạm hoặc vừa chịu phạt vi phạm vừa bồi thường thiệt hại; nếu có thỏa thuận phạt vi phạm nhưng không thỏa thuận vừa phạt vừa bồi thường thì bên vi phạm chỉ phải chịu phạt vi phạm.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_061",
+  "question": "Điều 46 Luật Doanh nghiệp 2020 quy định công ty trách nhiệm hữu hạn hai thành viên trở lên có bao nhiêu thành viên?",
+  "type": "direct",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu46_Khoan1"
+  ],
+  "reference_answer": "Từ 02 đến 50 thành viên là tổ chức, cá nhân.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_062",
+  "question": "Điểm b khoản 1 Điều 111 Luật Doanh nghiệp 2020 nói gì về số lượng cổ đông?",
+  "type": "direct",
+  "domain": "doanh_nghiep",
+  "event_date": null,
+  "gold_citations": [
+   "LDN2020_Dieu111_Khoan1"
+  ],
+  "reference_answer": "Cổ đông có thể là tổ chức, cá nhân; số lượng cổ đông tối thiểu là 03 và không hạn chế số lượng tối đa.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_063",
+  "question": "Điều 319 Luật Thương mại 2005 quy định gì?",
+  "type": "direct",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu319"
+  ],
+  "reference_answer": "Thời hiệu khởi kiện đối với tranh chấp thương mại là hai năm, kể từ thời điểm quyền và lợi ích hợp pháp bị xâm phạm (trừ trường hợp tại điểm e khoản 1 Điều 237).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_064",
+  "question": "Nội dung khoản 1 Điều 113 Bộ luật Lao động 2019 là gì?",
+  "type": "direct",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu113_Khoan1"
+  ],
+  "reference_answer": "Người lao động làm việc đủ 12 tháng cho một người sử dụng lao động được nghỉ hằng năm hưởng nguyên lương: 12 ngày làm việc (điều kiện bình thường); 14 ngày (chưa thành niên, khuyết tật, công việc nặng nhọc, độc hại, nguy hiểm); 16 ngày (công việc đặc biệt nặng nhọc, độc hại, nguy hiểm).",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_065",
+  "question": "Theo Điều 98 BLLĐ 2019, làm thêm giờ vào ngày nghỉ lễ, tết được trả lương ít nhất bao nhiêu phần trăm?",
+  "type": "direct",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2019_Dieu98_Khoan1"
+  ],
+  "reference_answer": "Ít nhất 300%, chưa kể tiền lương ngày lễ, tết, ngày nghỉ có hưởng lương đối với người lao động hưởng lương ngày.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_066",
+  "question": "Theo Bộ luật Lao động 2012 (Luật số 10/2012/QH13), Điều 104 quy định thời giờ làm việc bình thường như thế nào?",
+  "type": "direct",
+  "domain": "lao_dong",
+  "event_date": null,
+  "gold_citations": [
+   "BLLD2012_Dieu104"
+  ],
+  "reference_answer": "Không quá 08 giờ trong 01 ngày và 48 giờ trong 01 tuần; nếu quy định theo tuần thì không quá 10 giờ trong 01 ngày và 48 giờ trong 01 tuần (khuyến khích tuần 40 giờ); không quá 06 giờ trong 01 ngày với công việc đặc biệt nặng nhọc, độc hại, nguy hiểm. (Bộ luật này đã hết hiệu lực từ 01/01/2021.)",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
+ },
+ {
+  "id": "M_067",
+  "question": "Điều 306 Luật Thương mại 2005 cho bên bị vi phạm quyền gì khi bên kia chậm thanh toán?",
+  "type": "direct",
+  "domain": "thuong_mai",
+  "event_date": null,
+  "gold_citations": [
+   "LTM2005_Dieu306"
+  ],
+  "reference_answer": "Quyền yêu cầu trả tiền lãi trên số tiền chậm trả theo lãi suất nợ quá hạn trung bình trên thị trường tại thời điểm thanh toán tương ứng với thời gian chậm trả, trừ trường hợp có thỏa thuận khác hoặc pháp luật có quy định khác.",
+  "source": "manual",
+  "checked_by": "Dat",
+  "drafted_by": "Claude"
  }
 ]
