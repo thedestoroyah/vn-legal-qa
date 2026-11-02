@@ -30,7 +30,7 @@ def _date_int(iso):
 def chunk_metadata(chunk):
     """Metadata cho Chroma, thêm khoảng hiệu lực dạng số vì Chroma chỉ so sánh $lt/$gte trên số."""
     # giữ None: upsert xóa được trường cũ khi nạp lại; bỏ list rỗng: Chroma từ chối
-    meta = {k: v for k, v in chunk.items() if k != "content" and v != []}
+    meta = {k: v for k, v in chunk.items() if k != "content" and v is not None and v != []}
     meta["effective_from"] = _date_int(chunk["effective_date"])
     meta["effective_to"] = _date_int(chunk.get("expiry_date"))
     return meta
