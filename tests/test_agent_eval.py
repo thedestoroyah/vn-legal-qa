@@ -149,3 +149,42 @@ def test_cmd_run_passes_cache_dir(tmp_path, monkeypatch):
     (tmp_path / "c.json").write_text(json.dumps([case("a")]), encoding="utf-8")
     agent_eval.main(["run", "--rq", "rq3", "--configs", "full", "--cache-dir", str(tmp_path / "fresh")])
     assert seen["cache_dir"] == str(tmp_path / "fresh")
+
+
+def test_paired_diff_zero_when_runs_identical():
+    rows = [{"id": i, "config": c, "recall": v} for i, v in enumerate([1.0, 0.0, 0.5]) for c in ("full", "x")]
+    assert agent_eval.paired_diff(rows, "full", "recall") == {"x": (3, 0.0, 0.0, 0.0)}
+
+
+def test_paired_diff_uses_only_cases_with_both_values_and_ci_brackets_mean():
+    rows = ([{"id": i, "config": "full", "recall": 1.0} for i in range(20)]
+            + [{"id": i, "config": "x", "recall": 0.0 if i < 10 else 1.0} for i in range(20)]
+            + [{"id": 99, "config": "x", "recall": 0.0}, {"id": 98, "config": "full", "recall": None},
+               {"id": 98, "config": "x", "recall": 1.0}])
+    n, diff, lo, hi = agent_eval.paired_diff(rows, "full", "recall")["x"]
+    assert (n, diff) == (20, -0.5) and lo <= -0.5 <= hi < 0
+    assert agent_eval.paired_diff(rows, "full", "recall") == agent_eval.paired_diff(rows, "full", "recall")
+
+
+def test_diff_markdown_marks_ci_excluding_zero():
+    rows = ([{"id": i, "config": "full", **dict.fromkeys(agent_eval.CI_METRICS, 1.0)} for i in range(10)]
+            + [{"id": i, "config": "x", **dict.fromkeys(agent_eval.CI_METRICS, 0.0)} for i in range(10)])
+    md = agent_eval.diff_markdown(rows, "full")
+    assert "| x | 10 | -1.000* [-1.000; -1.000] |" in md and "full" in md
+    rows.append({"id": 0, "config": "y", **dict.fromkeys(agent_eval.CI_METRICS, 0.0), "version_ok": None})
+    rows += [{"id": i, "config": "y", **dict.fromkeys(agent_eval.CI_METRICS, 0.0)} for i in range(1, 10)]
+    assert "(n=9)" in agent_eval.diff_markdown(rows, "full")
+
+
+def test_cmd_report_filters_configs_writes_out_and_appends_ci(tmp_path, monkeypatch):
+    monkeypatch.setattr(agent_eval, "CASES_PATH", tmp_path / "c.json")
+    monkeypatch.setattr(agent_eval, "RESULTS_DIR", tmp_path)
+    (tmp_path / "c.json").write_text(json.dumps([case("a"), case("b")]), encoding="utf-8")
+    for cid in ("a", "b"):
+        for run in ("full", "baseline", "no_verify"):
+            agent_eval.append_jsonl(tmp_path / "agent_rq3.jsonl", {"id": cid, "run": run, "response": response()})
+    out = tmp_path / "full_vs_baseline.md"
+    agent_eval.main(["report", "--rq", "rq3", "--configs", "full", "baseline", "--ci", "--out", str(out)])
+    md = out.read_text(encoding="utf-8")
+    assert "| baseline | all | 2 |" in md and "no_verify" not in md and "Chênh lệch so với `full`" in md
+    assert not (tmp_path / "agent_rq3.md").exists()

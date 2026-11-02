@@ -5,6 +5,7 @@ Chạy dần qua nhiều ngày theo quota free tier: kết quả thô ghi nối 
   python -m eval.agent_eval run --rq rq3 --configs no_router no_grading no_verify --subset 60
   python -m eval.agent_eval run --rq rq4
   python -m eval.agent_eval report --rq rq3 [--subset 60]
+  python -m eval.agent_eval report --rq rq3 --configs full baseline --common --ci --out eval/results/agent_rq3_full179.md
   python -m eval.agent_eval judge --rq rq3
   python -m eval.agent_eval sheet --rq rq3 --n 20
   python -m eval.agent_eval agree --rq rq3 --filled eval/results/grading_rq3_hung.csv
@@ -33,6 +34,7 @@ RUNS = {
 }
 CASE_TYPES = {"rq3": None, "rq4": {"temporal"}}
 METRICS = ("answered", "precision", "recall", "refusal_ok", "version_ok", "faithfulness", "correctness", "llm_calls", "ms")
+CI_METRICS = ("answered", "precision", "recall", "refusal_ok", "version_ok", "correctness")
 
 
 def paths(rq):
@@ -181,6 +183,54 @@ def to_markdown(summary):
         notes.append(f"Cảnh báo: các run phủ số câu khác nhau {sizes}; chạy `report --common` để so trên cùng tập câu.")
     return "\n".join(head + lines + notes) + "\n"
 
+def paired_diff(rows, ref, metric, n_boot=2000, seed=SEED):
+    """Chênh lệch trung bình (run − ref) của `metric`, ghép cặp theo câu, kèm khoảng tin cậy bootstrap 95%.
+
+    Ghép cặp vì các run chạy trên cùng câu: so trực tiếp từng câu loại được độ khó khác nhau giữa các câu, hẹp
+    hơn nhiều so với so hai trung bình độc lập.
+
+    Args:
+        rows: dòng của report_rows ({"id", "config", <metric>}).
+        ref: run làm mốc (vd "full").
+        metric: tên cột; câu có giá trị None ở một trong hai run bị bỏ.
+
+    Returns:
+        {run: (n cặp, chênh lệch, cận dưới, cận trên)} cho mọi run khác ref có ít nhất một cặp.
+    """
+    values = {(r["id"], r["config"]): r[metric] for r in rows}
+    base = {cid: v for (cid, run), v in values.items() if run == ref and v is not None}
+    rng = random.Random(seed)
+    out = {}
+    for run in sorted({run for _, run in values} - {ref}):
+        diffs = [values[(cid, run)] - v for cid, v in base.items() if values.get((cid, run)) is not None]
+        if not diffs:
+            continue
+        boots = sorted(sum(rng.choices(diffs, k=len(diffs))) / len(diffs) for _ in range(n_boot))
+        out[run] = (len(diffs), sum(diffs) / len(diffs), boots[int(0.025 * n_boot)], boots[int(0.975 * n_boot) - 1])
+    return out
+
+
+def diff_markdown(rows, ref):
+    """Bảng Markdown chênh lệch so với `ref` (xem paired_diff) cho CI_METRICS; '*' = khoảng tin cậy không chứa 0."""
+    diffs = {m: paired_diff(rows, ref, m) for m in CI_METRICS}
+    runs = sorted({run for d in diffs.values() for run in d})
+    head = [f"Chênh lệch so với `{ref}` (ghép cặp theo câu, bootstrap 95%; * = khoảng không chứa 0; n = số câu "
+            "của cột Recall):", "", "| run | n | " + " | ".join(CI_METRICS) + " |", "|" + "---|" * (len(CI_METRICS) + 2)]
+    lines = []
+    for run in runs:
+        n = diffs["recall"].get(run, (0,))[0]
+        cells = []
+        for m in CI_METRICS:
+            if run not in diffs[m]:
+                cells.append("–")
+                continue
+            k, d, lo, hi = diffs[m][run]
+            # cột ít câu hơn hẳn (vd version_ok chỉ có câu temporal) phải ghi n để khỏi đọc nhầm dấu *
+            cells.append(f"{d:.3f}{'*' if lo > 0 or hi < 0 else ''} [{lo:.3f}; {hi:.3f}]" + (f" (n={k})" if k != n else ""))
+        lines.append(f"| {run} | {n} | " + " | ".join(cells) + " |")
+    return "\n".join(head + lines) + "\n"
+
+
 def judge_results(llm, cases, results, out_path, contexts):
     """Chấm mọi kết quả thuộc `cases` chưa có trong `out_path`, ghi nối từng dòng; hết quota thì dừng sớm.
 
@@ -269,11 +319,20 @@ def cmd_run(args):
 
 
 def cmd_report(args):
-    """Lệnh `report`: tính chỉ số (gộp điểm bộ chấm nếu có), in và ghi bảng agent_<rq>.md."""
+    """Lệnh `report`: tính chỉ số (gộp điểm bộ chấm nếu có), in và ghi bảng (mặc định agent_<rq>.md, hoặc --out).
+
+    --configs chỉ giữ các run đã nêu; --ci thêm bảng chênh lệch so với run đầu tiên của rq có mặt (vd full).
+    """
     p = paths(args.rq)
     judged = {(r["id"], r["run"]): r for r in read_jsonl(p["judge"])} if p["judge"].exists() else {}
-    md = to_markdown(summarize(report_rows(_cases(args), load_results(p["results"]), judged, args.common), METRICS))
-    p["report"].write_text(md, encoding="utf-8")
+    results = {k: v for k, v in load_results(p["results"]).items() if not args.configs or k[1] in args.configs}
+    rows = report_rows(_cases(args), results, judged, args.common)
+    md = to_markdown(summarize(rows, METRICS))
+    if args.ci:
+        present = {r["config"] for r in rows}
+        ref = next((run for run in RUNS[args.rq] if run in present), None)
+        md += "\n" + diff_markdown(rows, ref) if ref else ""
+    Path(args.out or p["report"]).write_text(md, encoding="utf-8")
     print(md)
 
 
@@ -321,6 +380,9 @@ def build_parser():
             p.add_argument("--cache-dir", help="thư mục cache LLM; đặt thư mục mới để đo latency không dùng cache")
         if name == "report":
             p.add_argument("--common", action="store_true", help="chỉ tính câu đã có kết quả ở mọi run")
+            p.add_argument("--configs", nargs="+", help="chỉ báo cáo các run này")
+            p.add_argument("--ci", action="store_true", help="thêm bảng chênh lệch so với full, bootstrap 95%%")
+            p.add_argument("--out", help="file bảng Markdown (mặc định agent_<rq>.md)")
         if name in ("sheet", "agree"):
             p.add_argument("--run", default="full", help="run cần chấm tay")
         if name == "sheet":
