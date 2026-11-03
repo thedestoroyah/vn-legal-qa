@@ -1,0 +1,438 @@
+<mxfile host="Electron" agent="draw.io">
+  <diagram id="vn-legal-qa-activity" name="Activity Diagram">
+    <mxGraphModel dx="2146" dy="1304" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1350" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title_box" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;fontStyle=1;align=center;verticalAlign=middle;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;SƠ ĐỒ HOẠT ĐỘNG (ACTIVITY DIAGRAM)&lt;br&gt;Luồng xử lý câu hỏi pháp luật trong hệ thống Agentic-RAG&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="1580" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_ui_api" parent="1" style="swimlane;horizontal=1;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#333333;" value="1. Giao diện &amp; API Gateway" vertex="1">
+          <mxGeometry height="1155" width="310" x="40" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="act_err_422" parent="lane_ui_api" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=14;fontStyle=1;verticalAlign=middle;" value="&lt;p&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;HTTP &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;422&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Dữ &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;liệu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;đầu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;vào &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;không &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;hợp &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;lệ&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;hoặc &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;vượt &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;giới &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;hạn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;cho &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;phép&lt;/span&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="65" width="240" x="35" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="Rc0bBKVGKaZ6xEj2czKJ-4" parent="lane_ui_api" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;fontSize=14;" value="000" vertex="1">
+          <mxGeometry height="30" width="30" x="141" y="1105" as="geometry" />
+        </mxCell>
+        <mxCell id="Rc0bBKVGKaZ6xEj2czKJ-5" parent="lane_ui_api" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=light-dark(#000000, #ff9090);fontSize=14;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="140" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="act_err_503" parent="lane_ui_api" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=14;fontStyle=1;" value="API Error – HTTP 503&lt;br&gt;Dịch vụ xử lý gặp lỗi hoặc không khả dụng" vertex="1">
+          <mxGeometry height="75" width="240" x="35" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_route_ret" parent="1" style="swimlane;horizontal=1;startSize=36;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#1a365d;" value="2. Phân tích câu hỏi &amp; Truy xuất căn cứ theo hiệu lực thời gian" vertex="1">
+          <mxGeometry height="1155" width="660" x="350" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_use_router" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="use_router&#xa;== True?" vertex="1">
+          <mxGeometry height="60" width="120" x="65" y="47" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_lookup_ok" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Tìm thấy &amp;amp;&#xa;còn hiệu lực?" vertex="1">
+          <mxGeometry height="65" width="130" x="30" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_has_evidence" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Có kết quả&#xa;(evidence &amp;gt; 0)?" vertex="1">
+          <mxGeometry height="65" width="130" x="320" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_use_grading" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="use_grading&#xa;== True?" vertex="1">
+          <mxGeometry height="65" width="130" x="500" y="535" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="lane_route_ret" source="dec_has_evidence" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="dec_use_grading" value="Có">
+          <mxGeometry relative="1" x="-0.0769" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="500" y="517.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_grade" parent="lane_route_ret" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;" value="&lt;font&gt;Node [grade]: Đánh giá mức độ liên quan của Evidence&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;&lt;font&gt;- Xác định: relevant_ids, sufficient, rewrite&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;&lt;font&gt;- Lọc giữ lại các đoạn có chunk_id thuộc relevant_ids&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="85" width="360" x="290" y="645" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="lane_route_ret" source="dec_use_grading" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;endArrow=classic;endFill=1;" target="act_grade" value="True">
+          <mxGeometry relative="1" x="0.0065" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="565" y="635" />
+              <mxPoint x="565" y="635" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_rewrite" parent="lane_route_ret" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Cập nhật truy vấn: query = rewrite&#xa;Tăng bộ đếm n_rewrites += 1 (Tối đa 2 lần)" vertex="1">
+          <mxGeometry height="65" width="270" x="30" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_sufficient" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="sufficient == True&lt;br&gt;or n_rewrites &amp;gt;= 2?" vertex="1">
+          <mxGeometry height="75" width="180" x="395" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="lane_route_ret" source="act_grade" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontSize=14;" target="dec_sufficient">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="735" />
+              <mxPoint x="480" y="735" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="lane_route_ret" source="dec_sufficient" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="act_rewrite" value="Chưa đủ &amp;amp; có rewrite&#xa;(n_rewrites &amp;lt; 2)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_evidence_after_grade" parent="lane_route_ret" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Còn đoạn căn cứ&#xa;(evidence &amp;gt; 0)?" vertex="1">
+          <mxGeometry height="65" width="140" x="415" y="865" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="lane_route_ret" source="dec_sufficient" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="dec_evidence_after_grade" value="Đủ hoặc hết lượt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_gen_ver" parent="1" style="swimlane;horizontal=1;startSize=36;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#1e4620;" value="3. Sinh câu trả lời, Kiểm chứng trích dẫn 2 tầng &amp; Từ chối" vertex="1">
+          <mxGeometry height="1155" width="580" x="1010" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_gen_refuse" parent="lane_gen_ver" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;LLM trả về&lt;br&gt;KHÔNG_ĐỦ_CĂN_CỨ?&lt;/font&gt;" vertex="1">
+          <mxGeometry height="65" width="160" x="193" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="act_pack_response" parent="lane_gen_ver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=14;fontStyle=1;" value="&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Node [Agent.run()]:&lt;/span&gt;&amp;nbsp;đóng gói kết quả trả về&lt;br&gt;{question, answer, status, citations, chunks, trace, timings}" vertex="1">
+          <mxGeometry height="55" width="410" x="68" y="1075" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_lost_sents" parent="lane_gen_ver" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Có câu bị mất hết&#xa;trích dẫn (lost_sentences)?" vertex="1">
+          <mxGeometry height="75" width="187" x="166" y="843" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_can_regen" parent="lane_gen_ver" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="n_generations&#xa;&amp;lt; 2?" vertex="1">
+          <mxGeometry height="65" width="120" x="410" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="e37" edge="1" parent="lane_gen_ver" source="dec_lost_sents" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="dec_can_regen" value="Có">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act_generate" parent="lane_gen_ver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Node [generate]: Sinh câu trả lời&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;-&amp;nbsp; Tổng hợp câu trả lời bằng tiếng Việt dựa trên danh sách Evidence đã chọn&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;-&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Yêu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;cầu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;mỗi &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;nhận &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;định &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;pháp &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;lý &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;phải &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;gắn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;mã &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;nguồn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;tham &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;chiếu &lt;/span&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;[chunk_id]&lt;/code&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;-&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Cập &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;nhật &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;số &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;lần &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;sinh &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;câu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;trả &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;lời &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;(&lt;/span&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;n_generations += 1&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="448" x="49" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="lane_gen_ver" source="act_generate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1e4620;strokeWidth=1.5;fontSize=14;" target="dec_gen_refuse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e38" edge="1" parent="lane_gen_ver" source="dec_can_regen" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="act_generate" value="Đúng (Sinh lại 1 lần)">
+          <mxGeometry relative="1" x="0.1593" y="60" as="geometry">
+            <mxPoint y="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="530" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_status_answered" parent="lane_gen_ver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Giữ nguyên câu trả lời đã xác thực&#xa;Đặt status = &#39;answered&#39;&#xa;(Hoặc &#39;refused&#39; nếu citations rỗng)" vertex="1">
+          <mxGeometry height="75" width="240" x="30" y="940.75" as="geometry" />
+        </mxCell>
+        <mxCell id="e36" edge="1" parent="lane_gen_ver" source="dec_lost_sents" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="act_status_answered" value="Không">
+          <mxGeometry relative="1" x="0.0804" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="150" y="842.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e41" edge="1" parent="lane_gen_ver" source="act_status_answered" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.5;fontSize=14;" target="act_pack_response">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="1025" />
+              <mxPoint x="150" y="1025" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_status_partial" parent="lane_gen_ver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Gắn nhãn &#39;(chưa có căn cứ)&#39; vào câu mất trích dẫn&#xa;(label_sentences) — Đặt status = &#39;partial&#39;&#xa;(Hoặc &#39;refused&#39; nếu toàn bộ câu mất trích dẫn)" vertex="1">
+          <mxGeometry height="120.5" width="260" x="280" y="918" as="geometry" />
+        </mxCell>
+        <mxCell id="e39" edge="1" parent="lane_gen_ver" source="dec_can_regen" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_status_partial" value="Sai (&amp;gt;= 2 lần)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="465" y="895" />
+              <mxPoint x="465" y="895" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e42" edge="1" parent="lane_gen_ver" source="act_status_partial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;strokeWidth=1.5;fontSize=14;" target="act_pack_response">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="980" />
+              <mxPoint x="280" y="980" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_verify_b" parent="lane_gen_ver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=14;align=left;spacingLeft=8;" value="Node [verify - Tầng (b)]: LLM Verification] – Kiểm chứng nội dung trích dẫn&lt;br&gt;- Trích xuất các cặp câu trả lời và đoạn Evidence được trích dẫn (&lt;code&gt;sentence&lt;/code&gt;, &lt;code&gt;chunk_id&lt;/code&gt;)&lt;br&gt;- Sử dụng LLM để kiểm tra mức độ hỗ trợ của đoạn Evidence đối với từng câu khẳng định (&lt;code&gt;supported = true/false&lt;/code&gt;)&lt;br&gt;- Loại bỏ các cặp trích dẫn không được Evidence hỗ trợ (&lt;code&gt;unsupported&lt;/code&gt;)" vertex="1">
+          <mxGeometry height="132.5" width="430" x="67" y="687.5" as="geometry" />
+        </mxCell>
+        <mxCell id="e35" edge="1" parent="lane_gen_ver" source="act_verify_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1e4620;strokeWidth=1.5;fontSize=14;" target="dec_lost_sents">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="835" />
+              <mxPoint x="260" y="835" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dec_use_verify" parent="lane_gen_ver" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="use_verify&#xa;== True?" vertex="1">
+          <mxGeometry height="60" width="120" x="213" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" edge="1" parent="lane_gen_ver" source="dec_gen_refuse" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1e4620;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="dec_use_verify" value="Không (Có câu trả lời)">
+          <mxGeometry relative="1" x="-0.5385" y="77" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e33" edge="1" parent="lane_gen_ver" source="dec_use_verify" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.2;dashed=1;fontFamily=Arial;fontSize=14;" target="act_status_answered" value="False (no_verify)">
+          <mxGeometry relative="1" x="-0.75" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="45" y="570" />
+              <mxPoint x="45" y="910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e34" edge="1" parent="lane_gen_ver" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1e4620;strokeWidth=1.5;fontSize=14;entryX=0.497;entryY=0.016;entryDx=0;entryDy=0;entryPerimeter=0;" target="act_verify_b">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="281.5" y="675" />
+            </Array>
+            <mxPoint x="281.5" y="667.5" as="sourcePoint" />
+            <mxPoint x="281.5" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act_input" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Người dùng nhập câu hỏi&lt;br&gt;trên giao diện" vertex="1">
+          <mxGeometry height="45" width="240" x="75" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_api_mode" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Cấu hình&#xa;API_URL?" vertex="1">
+          <mxGeometry height="65" width="130" x="130" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="act_sample" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontFamily=Arial;fontSize=14;dashed=1;" value="&lt;div&gt;Sử dụng Mock Sample Response&lt;/div&gt;&lt;div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="45" width="240" x="75" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="act_post_ask" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=14;" value="&lt;div&gt;POST /api/ask&lt;/div&gt;&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="55" width="240" x="75" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_valid_req" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Request&#xa;hợp lệ?" vertex="1">
+          <mxGeometry height="65" width="130" x="130" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="act_render_ui" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=14;fontStyle=1;" value="&lt;p&gt;Hiển thị kết quả trên giao diện&lt;/p&gt;&lt;p&gt;Câu trả lời, trích dẫn nguồn, thông tin lỗi hoặc dữ liệu mẫu (tùy trường hợp).&lt;/p&gt;" vertex="1">
+          <mxGeometry height="75" width="260" x="66" y="1078" as="geometry" />
+        </mxCell>
+        <mxCell id="act_route" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Node Router (LLM: &lt;code&gt;route_query&lt;/code&gt;)&lt;div&gt;Trích xuất chủ đề, loại câu hỏi, ngày áp dụng và các thông tin liên quan&lt;br&gt;(Trích xuất: qtype, law_id, article, event_date&lt;br&gt;Fallback khi lỗi JSON: qtype=&#39;situational&#39;)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="392" x="598" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_qtype" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontStyle=1;" value="Phân nhánh&#xa;qtype?" vertex="1">
+          <mxGeometry height="65" width="130" x="705" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="act_lookup" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Node [lookup_article]:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Tra &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;cứu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Điều &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;luật&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;-&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Tra &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;cứu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Điều &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;luật &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;theo &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;mã &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;văn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;bản &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;và &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;số &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Điều&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;-&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;Kiểm &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;tra &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;hiệu &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;lực &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;pháp &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;luật &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;tại &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;ngày &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;truy &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff)); text-align: center;&quot;&gt;vấn&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="288" x="382" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="act_date_policy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;align=left;spacingLeft=8;" value="&lt;div&gt;Sử dụng luồng Retrieval mặc định&lt;/div&gt;Xác định ngày lọc hiệu lực (_query_date):&lt;br&gt;- event: event_date hoặc TODAY&lt;br&gt;- current: TODAY&lt;br&gt;- any: không lọc ngày (None)" vertex="1">
+          <mxGeometry height="90" width="295" x="685" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="act_retrieve" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=14;align=left;spacingLeft=8;" value="Node [retrieve]: Truy xuất văn bản pháp luật&lt;br&gt;1. Hybrid Retrieval: BM25 + Dense Retrieval&lt;br&gt;2. Lọc hiệu lực: effective_from &amp;lt;= d &amp;lt; effective_to&lt;br&gt;3. Kết hợp RRF (k=60) + CrossEncoder (bge-reranker-v2-m3)&lt;br&gt;4. Hợp nhất Evidence, loại bỏ kết quả trùng lặp" vertex="1">
+          <mxGeometry height="100" width="340" x="650" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="act_refuse" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=14;align=left;spacingLeft=8;fontStyle=1;" value="Node [refuse]: Từ chối trả lời an toàn&#xa;- out_of_scope: Thông báo chỉ hỗ trợ 5 văn bản pháp luật&#xa;- no_evidence: Thông báo không tìm thấy điều khoản phù hợp&#xa;Đặt status = &#39;refused&#39;, citations = []" vertex="1">
+          <mxGeometry height="100" width="410" x="1085" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="act_verify_a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=14;align=left;spacingLeft=8;" value="Node [verify – Tầng (a): Regex] – Chuẩn hóa và kiểm tra mã trích dẫn&lt;br&gt;- Chuẩn hóa định dạng mã trích dẫn: &lt;code&gt;[A, B]&lt;/code&gt; → &lt;code&gt;[A][B]&lt;/code&gt;&lt;div&gt;-&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Kiểm &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;tra &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;và &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;loại &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;bỏ &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;các &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;mã &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;trích &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;dẫn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;không &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;tồn &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;tại &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;trong &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;tập &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;Evidence &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;(&lt;/span&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;hallucinated_ids&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="430" x="1075" y="652.5" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="act_input" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=1.5;fontSize=14;" target="dec_api_mode">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="dec_api_mode" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_sample" value="No - (Offline)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="dec_api_mode" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_post_ask" value="Yes - (HTTP)">
+          <mxGeometry relative="1" x="-0.1329" y="-30" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="330" y="298" />
+              <mxPoint x="330" y="472" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_sample_render" edge="1" parent="1" source="act_sample" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1.2;dashed=1;fontSize=14;" target="act_render_ui">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="55" y="388" />
+              <mxPoint x="55" y="1105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="act_post_ask" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=1.5;fontSize=14;" target="dec_valid_req">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="dec_valid_req" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_err_422" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_422_end" edge="1" parent="1" source="act_err_422" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.2;fontSize=14;" target="act_render_ui">
+          <mxGeometry relative="1" x="-0.0306" as="geometry">
+            <Array as="points">
+              <mxPoint x="55" y="662.5" />
+              <mxPoint x="55" y="1105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_503_end" edge="1" parent="1" source="act_err_503" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.2;fontSize=14;" target="act_render_ui">
+          <mxGeometry relative="1" x="-0.5461" as="geometry">
+            <Array as="points">
+              <mxPoint x="55" y="772.5" />
+              <mxPoint x="55" y="1105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="dec_valid_req" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="dec_use_router" value="Yes">
+          <mxGeometry relative="1" x="0.3208" as="geometry">
+            <mxPoint y="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="370" y="557.5" />
+              <mxPoint x="370" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="dec_use_router" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_route" value="True">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="dec_use_router" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1.2;dashed=1;fontFamily=Arial;fontSize=14;" target="act_date_policy" value="False (no_router / baseline)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="475" y="305" />
+              <mxPoint x="832" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="dec_qtype" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1" target="act_lookup" value="direct&#xa;(có law_id &amp;amp; article)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="522" y="262" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="dec_qtype" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_date_policy" value="situational">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="dec_qtype" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="act_refuse" value="out_of_scope">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="262.5" />
+              <mxPoint x="1020" y="262.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="act_lookup" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontSize=14;" target="dec_lookup_ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="dec_lookup_ok" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d6b656;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_retrieve" value="Không (Fallback)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="462.5" />
+              <mxPoint x="620" y="462.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;entryX=0.517;entryY=-0.001;entryDx=0;entryDy=0;entryPerimeter=0;" target="act_generate" value="Có (Bỏ qua grade)">
+          <mxGeometry relative="1" x="-0.2773" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="465" y="550" />
+              <mxPoint x="1040" y="550" />
+              <mxPoint x="1040" y="330" />
+              <mxPoint x="1290.6" y="330" />
+            </Array>
+            <mxPoint x="465" y="496" as="sourcePoint" />
+            <mxPoint x="1075" y="469.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="act_date_policy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;entryX=0.558;entryY=-0.001;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=14;" target="act_retrieve">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="act_retrieve" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1a365d;strokeWidth=1.5;fontSize=14;" target="dec_has_evidence">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="735" y="560" />
+              <mxPoint x="735" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="dec_use_grading" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.2;dashed=1;fontFamily=Arial;fontSize=14;" target="act_generate" value="False&amp;nbsp;">
+          <mxGeometry relative="1" x="-0.8566" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1040" y="682" />
+              <mxPoint x="1040" y="330" />
+              <mxPoint x="1290" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="act_rewrite" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;fontSize=14;" target="act_retrieve">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="dec_evidence_after_grade" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=1.5;fontFamily=Arial;fontSize=14;fontStyle=1;" target="act_generate" value="Còn căn cứ">
+          <mxGeometry relative="1" x="-0.8779" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1040" y="982.5" />
+              <mxPoint x="1040" y="330" />
+              <mxPoint x="1290" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="dec_evidence_after_grade" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_refuse" value="Rỗng (0 đoạn)">
+          <mxGeometry relative="1" x="-0.8447" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="830" y="1035" />
+              <mxPoint x="1025" y="1035" />
+              <mxPoint x="1025" y="262" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e30" edge="1" parent="1" source="dec_gen_refuse" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.5;fontFamily=Arial;fontSize=14;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="act_refuse" value="Có (Từ chối)">
+          <mxGeometry relative="1" x="-0.5883" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1520" y="512.5" />
+              <mxPoint x="1520" y="262" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e32" edge="1" parent="1" source="dec_use_verify" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1e4620;strokeWidth=1.5;fontFamily=Arial;fontSize=14;" target="act_verify_a" value="True">
+          <mxGeometry relative="1" x="-0.1111" y="27" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1283" y="660" />
+              <mxPoint x="1283" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e40" edge="1" parent="1" source="act_refuse" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;strokeWidth=1.5;fontSize=14;" target="act_pack_response">
+          <mxGeometry relative="1" x="0.1737" as="geometry">
+            <Array as="points">
+              <mxPoint x="1570" y="262.5" />
+              <mxPoint x="1570" y="1167.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e43" edge="1" parent="1" source="act_pack_response" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=1.5;fontSize=14;" target="act_render_ui">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="1187.5" />
+              <mxPoint x="710" y="1115.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e44" edge="1" parent="1" source="act_render_ui" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=14;" target="Rc0bBKVGKaZ6xEj2czKJ-4">
+          <mxGeometry relative="1" x="-0.4848" as="geometry">
+            <mxPoint x="195" y="1185.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rc0bBKVGKaZ6xEj2czKJ-6" edge="1" parent="1" source="Rc0bBKVGKaZ6xEj2czKJ-5" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=light-dark(#000000, #ff9090);rounded=0;defaultLabelBackgroundColor=page;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=14;" target="act_input" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="335" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rc0bBKVGKaZ6xEj2czKJ-8" edge="1" parent="1" source="act_route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.685;entryY=0.154;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;" target="dec_qtype">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

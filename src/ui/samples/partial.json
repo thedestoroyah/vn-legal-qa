@@ -1,0 +1,29 @@
+{
+  "answer": "Có. Bên chậm trả tiền phải trả lãi trên số tiền chậm trả, tương ứng với thời gian chậm trả [BLDS2015_Dieu357_Khoan1]. Lãi suất chậm trả luôn cố định 20% một năm (chưa có căn cứ).",
+  "refused": false,
+  "citations": [
+    {
+      "chunk_id": "BLDS2015_Dieu357_Khoan1",
+      "document": "Bộ luật Dân sự 2015",
+      "article": "Điều 357",
+      "clause": "Khoản 1",
+      "content": "Trường hợp bên có nghĩa vụ chậm trả tiền thì bên đó phải trả lãi đối với số tiền chậm trả tương ứng với thời gian chậm trả."
+    }
+  ],
+  "retrieved_chunks": [
+    {"chunk_id": "BLDS2015_Dieu357_Khoan1", "score": 0.91},
+    {"chunk_id": "BLDS2015_Dieu468_Khoan1", "score": 0.62}
+  ],
+  "trace": [
+    {"node": "route", "output": {"route_type": "situational", "event_date": null, "direct_ref": null}, "ms": 800, "llm_calls": 1},
+    {"node": "retrieve", "output": {"queries": ["Mua hàng trả chậm có bị tính lãi không?"], "evidence": ["BLDS2015_Dieu357_Khoan1"]}, "ms": 5200, "llm_calls": 0},
+    {"node": "grade", "output": {"sufficient": false, "rewrite": true, "queries": ["Mua hàng trả chậm có bị tính lãi không?", "lãi suất chậm trả tiền mức tối đa"], "n_rewrites": 1}, "ms": 700, "llm_calls": 1},
+    {"node": "retrieve", "output": {"queries": ["Mua hàng trả chậm có bị tính lãi không?", "lãi suất chậm trả tiền mức tối đa"], "evidence": ["BLDS2015_Dieu357_Khoan1", "BLDS2015_Dieu468_Khoan1"]}, "ms": 5100, "llm_calls": 0},
+    {"node": "grade", "output": {"sufficient": true, "rewrite": false}, "ms": 650, "llm_calls": 1},
+    {"node": "generate", "output": {"insufficient": false, "n_generations": 1}, "ms": 2000, "llm_calls": 1},
+    {"node": "verify", "output": {"removed": ["BLDS2015_Dieu468_Khoan1"], "regenerate": true, "unsupported": ["Lãi suất chậm trả luôn cố định 20% một năm [BLDS2015_Dieu468_Khoan1]."]}, "ms": 900, "llm_calls": 1},
+    {"node": "generate", "output": {"insufficient": false, "n_generations": 2}, "ms": 1900, "llm_calls": 1},
+    {"node": "verify", "output": {"removed": ["BLDS2015_Dieu468_Khoan1"], "regenerate": false, "unsupported": [], "refused": false}, "ms": 850, "llm_calls": 1}
+  ]
+}
+

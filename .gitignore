@@ -5,6 +5,7 @@ __pycache__/
 .idea/
 .vscode/
 chroma_db/
+chroma_db*/
 qdrant_storage/
 !data/processed/.gitkeep
 .cache/

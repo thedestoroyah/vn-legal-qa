@@ -18,64 +18,16 @@
     }
   ],
   "retrieved_chunks": [
-    {
-      "chunk_id": "BLDS2015_Dieu357_Khoan1",
-      "score": 0.91
-    },
-    {
-      "chunk_id": "BLDS2015_Dieu357_Khoan2",
-      "score": 0.87
-    },
-    {
-      "chunk_id": "BLDS2015_Dieu468_Khoan1",
-      "score": 0.62
-    }
+    {"chunk_id": "BLDS2015_Dieu357_Khoan1", "score": 0.91},
+    {"chunk_id": "BLDS2015_Dieu357_Khoan2", "score": 0.87},
+    {"chunk_id": "BLDS2015_Dieu468_Khoan1", "score": 0.62}
   ],
   "trace": [
-    {
-      "node": "route",
-      "output": {
-        "type": "situational",
-        "event_date": null
-      },
-      "ms": 820,
-      "llm_calls": 1
-    },
-    {
-      "node": "retrieve",
-      "output": {
-        "query": "chậm trả tiền phải trả lãi",
-        "top": [
-          "BLDS2015_Dieu357_Khoan1",
-          "BLDS2015_Dieu357_Khoan2"
-        ]
-      },
-      "ms": 1450,
-      "llm_calls": 0
-    },
-    {
-      "node": "grade",
-      "output": {
-        "sufficient": true
-      },
-      "ms": 760,
-      "llm_calls": 1
-    },
-    {
-      "node": "generate",
-      "output": {
-        "citations": 2
-      },
-      "ms": 2100,
-      "llm_calls": 1
-    },
-    {
-      "node": "verify",
-      "output": {
-        "removed": []
-      },
-      "ms": 900,
-      "llm_calls": 1
-    }
+    {"node": "route", "output": {"route_type": "situational", "event_date": null, "direct_ref": null}, "ms": 820, "llm_calls": 1},
+    {"node": "retrieve", "output": {"queries": ["Bên mua trả tiền chậm có phải trả lãi không?"], "evidence": ["BLDS2015_Dieu357_Khoan1", "BLDS2015_Dieu357_Khoan2", "BLDS2015_Dieu468_Khoan1"]}, "ms": 5400, "llm_calls": 0},
+    {"node": "grade", "output": {"sufficient": true, "rewrite": false}, "ms": 760, "llm_calls": 1},
+    {"node": "generate", "output": {"insufficient": false, "n_generations": 1}, "ms": 2100, "llm_calls": 1},
+    {"node": "verify", "output": {"removed": [], "regenerate": false, "unsupported": [], "refused": false}, "ms": 900, "llm_calls": 1}
   ]
 }
+

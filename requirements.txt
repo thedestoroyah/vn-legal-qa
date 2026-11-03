@@ -8,3 +8,5 @@ underthesea==9.5.0
 openai==3.26.1
 pytest==9.1.1
 langgraph==1.2.15
+nicegui==3.18.0
+python-dotenv==1.2.2
