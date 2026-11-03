@@ -69,6 +69,7 @@ class PageState:
     api_error: str = ""
     api_hint: str = ""
     sidebar_open: bool = True
+    history_expanded: bool = True
     panel_open: bool = False
     selected: CitationItem | None = None
     article: ArticleResponse | None = None
@@ -132,6 +133,22 @@ async def chat_page(api: LegalQAApiClient) -> None:
         except Exception:
             pass
 
+    # ---------- Cuộn danh sách lịch sử tới mục đang chọn ----------
+    def scroll_history_to_active() -> None:
+        try:
+            ui.run_javascript(
+                """
+                setTimeout(() => {
+                    const active = document.querySelector('.session-history-list .conv-item.conv-active');
+                    if (active) {
+                        active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    }
+                }, 80);
+                """
+            )
+        except Exception:
+            pass
+
     def sync_composer_state() -> None:
         text = (box.value or "").strip()
         state.draft = box.value or ""
@@ -156,14 +173,14 @@ async def chat_page(api: LegalQAApiClient) -> None:
     # ---------- Hành động API & Hội thoại ----------
     async def check_api() -> None:
         state.api_ok = None
-        sidebar_scroll_view.refresh()
+        sidebar_api_view.refresh()
         banner_view.refresh()
         try:
             health = await api.health()
             state.api_ok, state.api_model, state.api_error, state.api_hint = True, health.model, "", ""
         except ApiClientError as e:
             state.api_ok, state.api_error, state.api_hint = False, e.message, e.hint
-        sidebar_scroll_view.refresh()
+        sidebar_api_view.refresh()
         banner_view.refresh()
 
     async def open_article(c: CitationItem) -> None:
@@ -193,8 +210,8 @@ async def chat_page(api: LegalQAApiClient) -> None:
         state.busy, state.started, state.elapsed = True, time.monotonic(), 0.0
         sync_composer_state()
         chat_view.refresh()
-        sidebar_header_view.refresh()
-        sidebar_scroll_view.refresh()
+        sidebar_actions_view.refresh()
+        sidebar_history_view.refresh()
         scroll_messages(force=True)
         try:
             turn.response = await api.ask(turn.question, turn.config)
@@ -212,8 +229,8 @@ async def chat_page(api: LegalQAApiClient) -> None:
             state.current.updated_at = datetime.now()
             sync_composer_state()
             chat_view.refresh()
-            sidebar_header_view.refresh()
-            sidebar_scroll_view.refresh()
+            sidebar_actions_view.refresh()
+            sidebar_history_view.refresh()
             article_view.refresh()
             scroll_messages(force=False)
 
@@ -251,17 +268,19 @@ async def chat_page(api: LegalQAApiClient) -> None:
         state.current_index = len(state.conversations) - 1
         state.selected = state.article = None
         chat_view.refresh()
-        sidebar_header_view.refresh()
-        sidebar_scroll_view.refresh()
+        sidebar_actions_view.refresh()
+        sidebar_history_view.refresh()
         article_view.refresh()
+        scroll_history_to_active()
 
     def select_conversation(i: int) -> None:
         state.current_index = i
         chat_view.refresh()
-        sidebar_header_view.refresh()
-        sidebar_scroll_view.refresh()
+        sidebar_actions_view.refresh()
+        sidebar_history_view.refresh()
         article_view.refresh()
         scroll_messages(force=True)
+        scroll_history_to_active()
 
     def delete_conversation(i: int) -> None:
         if len(state.conversations) <= 1:
@@ -272,8 +291,8 @@ async def chat_page(api: LegalQAApiClient) -> None:
             len(state.conversations) - 1,
         )
         chat_view.refresh()
-        sidebar_header_view.refresh()
-        sidebar_scroll_view.refresh()
+        sidebar_actions_view.refresh()
+        sidebar_history_view.refresh()
         article_view.refresh()
 
     def clear_all_conversations() -> None:
@@ -281,8 +300,8 @@ async def chat_page(api: LegalQAApiClient) -> None:
         state.current_index = 0
         state.selected = state.article = None
         chat_view.refresh()
-        sidebar_header_view.refresh()
-        sidebar_scroll_view.refresh()
+        sidebar_actions_view.refresh()
+        sidebar_history_view.refresh()
         article_view.refresh()
         ui.notify("Đã xóa toàn bộ lịch sử hội thoại trong phiên.", type="info", position="bottom-right")
 
@@ -317,13 +336,15 @@ async def chat_page(api: LegalQAApiClient) -> None:
     # ==========================================================================
     with ui.element("div").classes("app-shell"):
         # ----------------------------------------------------------------------
-        # 1. SIDEBAR BÊN TRÁI (Header cố định + Scroll Area + Footer cố định)
+        # 1. SIDEBAR BÊN TRÁI (Header + Actions + Scroll Area + Footer)
         # ----------------------------------------------------------------------
-        with ui.element("aside").classes("app-sidebar") as sidebar_el:
+        with ui.element("aside").classes("app-sidebar sidebar") as sidebar_el:
             with ui.element("div").classes("sidebar-header"):
+                sidebar.brand(on_close_sidebar=toggle_sidebar)
+
+            with ui.element("div").classes("sidebar-actions"):
                 @ui.refreshable
-                def sidebar_header_view() -> None:
-                    sidebar.brand(on_close_sidebar=toggle_sidebar)
+                def sidebar_actions_view() -> None:
                     sidebar.new_chat_actions(
                         state,
                         new_conversation,
@@ -331,11 +352,11 @@ async def chat_page(api: LegalQAApiClient) -> None:
                         on_export=export_conversation_md,
                     )
 
-                sidebar_header_view()
+                sidebar_actions_view()
 
-            with ui.element("div").classes("sidebar-scroll"):
+            with ui.element("div").classes("sidebar-content sidebar-scroll"):
                 @ui.refreshable
-                def sidebar_scroll_view() -> None:
+                def sidebar_history_view() -> None:
                     sidebar.conversations(
                         state,
                         new_conversation,
@@ -343,11 +364,20 @@ async def chat_page(api: LegalQAApiClient) -> None:
                         delete_conversation,
                         include_top_buttons=False,
                     )
-                    sidebar.config_select(state)
-                    sidebar.api_status(state, check_api)
-                    sidebar.scope()
 
-                sidebar_scroll_view()
+                sidebar_history_view()
+
+                with ui.element("div").classes("sidebar-section"):
+                    sidebar.config_select(state)
+
+                @ui.refreshable
+                def sidebar_api_view() -> None:
+                    sidebar.api_status(state, check_api)
+
+                sidebar_api_view()
+
+                with ui.element("div").classes("sidebar-section"):
+                    sidebar.scope()
 
             with ui.element("div").classes("sidebar-footer"):
                 sidebar.footer_disclaimer()

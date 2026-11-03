@@ -30,10 +30,12 @@ def new_chat_actions(
     on_clear_all: Callable[[], None] | None = None,
     on_export: Callable[[], None] | None = None,
 ) -> None:
-    with ui.row().classes("w-full gap-1.5 no-wrap mt-2"):
-        ui.button("Hội thoại mới", icon="add_comment", on_click=on_new).props(
+    with ui.row().classes("w-full gap-1.5 no-wrap"):
+        btn = ui.button("Hội thoại mới", icon="add_comment", on_click=on_new).props(
             "unelevated dense no-caps color=primary"
         ).classes("grow py-1 text-xs font-semibold")
+        if getattr(state, "busy", False):
+            btn.disable()
         if on_export is not None and state.current.turns:
             ui.button(icon="ios_share", on_click=on_export).props("outline dense size=sm color=primary").tooltip(
                 "Sao chép toàn bộ hội thoại (.md)"
@@ -56,18 +58,20 @@ def conversations(
     if include_top_buttons:
         new_chat_actions(state, on_new, on_clear_all, on_export)
 
+    history_open = getattr(state, "history_expanded", True)
     with ui.expansion(
         f"Lịch sử trong phiên ({len(state.conversations)})",
         icon="forum",
-        value=True,
-    ).props("dense header-class='text-xs font-semibold text-slate-600 px-1'").classes(
-        "w-full max-w-full overflow-hidden bg-white border border-slate-200 rounded-lg px-1.5 py-0.5"
-    ):
-        with ui.column().classes("w-full max-w-full gap-1 py-1 min-w-0 overflow-hidden"):
+        value=history_open,
+    ).props("dense header-class='text-xs font-semibold text-slate-700 px-1'").classes(
+        "session-history w-full max-w-full bg-white border border-slate-200 rounded-lg px-1.5 py-0.5 min-w-0"
+    ) as exp:
+        exp.on_value_change(lambda e: setattr(state, "history_expanded", bool(e.value)))
+        with ui.column().classes("session-history-list w-full max-w-full no-wrap gap-1 py-1 min-w-0"):
             for i, conv in enumerate(state.conversations):
                 active = i == state.current_index
                 with ui.row().classes(
-                    "w-full max-w-full items-center no-wrap conv-item overflow-hidden" + (" conv-active" if active else "")
+                    "w-full max-w-full items-center no-wrap conv-item" + (" conv-active" if active else "")
                 ):
                     ui.icon(
                         "chat_bubble" if active else "chat_bubble_outline",
@@ -75,7 +79,7 @@ def conversations(
                         color="primary" if active else "grey-6",
                     ).classes("mr-1.5 shrink-0")
                     with ui.column().classes("gap-0 flex-1 cursor-pointer min-w-0 overflow-hidden").on(
-                        "click", lambda i=i: on_select(i)
+                        "click", lambda _, idx=i: on_select(idx)
                     ):
                         ui.label(conv.title).classes(
                             "w-full text-xs truncate " + ("font-semibold text-blue-950" if active else "text-slate-700")
@@ -84,9 +88,11 @@ def conversations(
                             "w-full text-[10px] text-slate-400 truncate"
                         )
                     if len(state.conversations) > 1:
-                        ui.button(icon="close", on_click=lambda i=i: on_delete(i)).props(
-                            "flat round dense size=xs color=grey-7"
-                        ).tooltip("Xóa hội thoại này")
+                        ui.button(icon="close").props(
+                            "flat round dense size=xs color=grey-7 @click.stop"
+                        ).tooltip("Xóa hội thoại này").on(
+                            "click", lambda _, idx=i: on_delete(idx)
+                        )
 
 
 def config_select(state) -> None:
