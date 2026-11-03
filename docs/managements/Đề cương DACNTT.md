@@ -532,18 +532,20 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 ### SPRINT 6 (16/11 – 27/11/2026): ĐÓNG GÓI VÀ HOÀN THIỆN
 
-**Phạm Huỳnh Quốc Đạt:**
+**Phạm Huỳnh Quốc Đạt (chi tiết: docs/superpowers/plans/2026-11-16-sprint6-dat.md):**
 
-- [ ] Dockerfile và docker-compose (dịch vụ api và ui, volume cho chroma_db và cache mô hình).
-- [ ] README: cài đặt, chạy ứng dụng, tái lập thực nghiệm (lệnh evaluate.py cho từng RQ).
-- [ ] Dọn mã nguồn: xóa file thừa, chạy linter, toàn bộ kiểm thử đạt.
-- [ ] Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin.
+- [ ] Task 1 — Sửa lỗi nhỏ ảnh hưởng người dùng/tái lập: JSONL ghi dở, `/api/article` phân biệt hoa thường, lỗi chỉ mục trả 500 dạng text, điểm chấm JSON hỏng không được chấm lại; xóa `eval/validate_chunks.py`.
+- [ ] Task 2 — Dockerfile và docker-compose (dịch vụ api và ui, gắn chroma_db, cache mô hình, cache LLM).
+- [ ] Task 3 — README: chạy bằng Docker, cài đặt, dữ liệu và chỉ mục, tái lập từng bảng số liệu RQ1–RQ4.
+- [ ] Task 4 — Dọn mã nguồn: lint lỗi pyflakes, xóa file thừa, toàn bộ kiểm thử đạt.
+- [ ] Task 5 — Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin.
 
-**Hoàng Sinh Hùng:**
+**Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-11-16-sprint6-hung.md):**
 
-- [ ] Định dạng báo cáo theo mẫu TDTU (mục lục, danh mục hình và bảng, tài liệu tham khảo APA).
-- [ ] Slide bảo vệ (15–20 slide): vấn đề → câu hỏi nghiên cứu → kiến trúc → demo → kết quả RQ1–RQ4 → hạn chế và hướng phát triển.
-- [ ] Video demo 3–5 phút với 4 kịch bản: câu tình huống, câu có mốc thời gian năm 2020, câu ngoài phạm vi bị từ chối, câu tra cứu trực tiếp điều luật.
+- [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn); chụp lại ảnh.
+- [ ] H23 — Ghép báo cáo theo mẫu TDTU (mục lục, danh mục hình và bảng, tóm tắt, tài liệu tham khảo APA).
+- [ ] H24 — Slide bảo vệ (15–20 slide): vấn đề → câu hỏi nghiên cứu → kiến trúc → demo → kết quả RQ1–RQ4 → hạn chế và hướng phát triển.
+- [ ] H25 — Video demo 3–5 phút với 4 kịch bản: câu tình huống, câu có mốc thời gian năm 2020, câu ngoài phạm vi bị từ chối, câu tra cứu trực tiếp điều luật.
 
 **Cả hai:**
 
