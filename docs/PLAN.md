@@ -114,24 +114,28 @@ Hạn nộp **23:59 04/12/2026** (dời từ 21/11, báo ngày 03/11). Thiết k
 
 ## Sprint 5 (05/11 – 15/11/2026): Thực nghiệm đầy đủ và viết báo cáo
 
-**Mục tiêu sprint:** đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 12/11 (sau ngày này chỉ sửa lỗi).
+**Mục tiêu sprint:** số liệu RQ1–RQ4 đã đủ (chạy xong 03/11, gồm tập giữ riêng 30 câu); sprint này đo latency, phân tích lỗi, vẽ biểu đồ và viết bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 12/11 (sau ngày này chỉ sửa lỗi). Plan: `docs/superpowers/plans/2026-11-05-sprint5-dat.md`; thẻ Hùng: `docs/sprints/2026-11-05-sprint5-hung.md`.
 
 ### Phạm Huỳnh Quốc Đạt
 
-- [ ] Chạy đủ RQ3 theo lịch (đo 28/10: full ≈ 3,6 lượt Gemini thật/câu; baseline và ablation gần như trúng cache): ngày 1 `run --rq rq3 --configs full` (115 câu còn lại, ≈ 410 lượt); ngày 2 `--configs baseline` (179 câu) và `--configs no_router no_grading no_verify --subset 60` (≈ 150 lượt); mỗi ngày ≤ 450 lượt, judge (Groq) sau mỗi ngày. RQ4 đã chạy đủ 28/10 (12 câu temporal × 3 chính sách); chạy lại nếu Hùng sửa câu temporal (H16). Chạy lại RQ1/RQ2 (`eval.evaluate`) vì Zalo còn 77 câu.
-- [ ] Chạy riêng 20 câu không dùng cache để đo độ trễ.
-- [ ] Bảng tổng hợp và biểu đồ (matplotlib) cho từng RQ.
-- [ ] Phân tích lỗi trên 20 trường hợp sai, phân loại: truy xuất sai Điều, sai văn bản (DRM), sai phiên bản, trích dẫn không được hỗ trợ, định tuyến sai.
-- [ ] Viết Chương 3 (thiết kế hệ thống, kiến trúc) và Chương 4 (thực nghiệm và kết quả).
+- [x] Chạy đủ RQ3 (5 cấu hình × 209 câu), RQ4 (3 chính sách × 32 câu temporal), chấm Groq; chạy lại RQ1/RQ2 trên 77 câu Zalo; chạy lại M_017 sau khi Hùng sửa (H16).
+- [ ] Task 1 — API báo lỗi nhanh khi LLM quá tải (số lần thử lại của API giảm còn 2).
+- [ ] Task 2 — Điểm chấm gắn với câu trả lời đã chấm (`answer_sha`), không phải xóa tay dòng judge khi chạy lại.
+- [ ] Task 3 — Đo latency 20 câu không dùng cache (5 cấu hình), bảng trung vị/p90.
+- [ ] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`), bảng tổng hợp loại lỗi sau khi gán nhãn.
+- [ ] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
+- [ ] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
 
 ### Hoàng Sinh Hùng
 
-- [ ] Hỗ trợ phân tích lỗi: đọc đầu ra, gán loại lỗi.
-- [ ] Hoàn thành Chương 1 và Chương 2.
-- [ ] Sơ đồ: use case, activity (luồng hỏi đáp), sequence (UI → API → tác tử), kiến trúc tổng thể; ảnh chụp giao diện.
-- [ ] Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
+- [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
+- [ ] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo).
+- [ ] H18 — Sơ đồ use case và sequence.
+- [ ] H20 — Gán nhãn lỗi 20 câu.
+- [ ] H12 — Bản nháp Chương 2.
+- [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
 
-**Nghiệm thu sprint (15/11):** đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
+**Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–5.
 
 ## Sprint 6 (16/11 – 27/11/2026): Đóng gói và hoàn thiện
 
