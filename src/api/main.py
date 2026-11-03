@@ -15,6 +15,10 @@ from src.agent.state import CONFIGS
 
 log = logging.getLogger("vn_legal_qa.api")
 MAX_QUESTION = 1000
+# người dùng đang chờ trên giao diện: thà báo lỗi sớm còn hơn treo 3 phút; eval chạy nền vẫn thử lại 8 lần
+API_LLM_MAX_RETRIES = 2
+# Gemini quá tải đôi khi trả lời rất chậm thay vì báo 503: chặn mỗi lượt gọi ở 30 s để không giữ khóa quá lâu
+API_LLM_TIMEOUT = 30
 LLM_ERROR = "Dịch vụ mô hình ngôn ngữ đang quá tải hoặc tạm thời không khả dụng. Vui lòng thử lại sau ít phút."
 
 
@@ -28,7 +32,7 @@ class AskRequest(BaseModel):
 
 def _load_real_agent():
     from src.agent.run import load_agent
-    return load_agent()
+    return load_agent(max_retries=API_LLM_MAX_RETRIES, timeout=API_LLM_TIMEOUT)
 
 
 def create_app(load=_load_real_agent):

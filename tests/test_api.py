@@ -91,3 +91,12 @@ def test_article_found_and_missing(tmp_path):
 def test_health_reports_model(tmp_path):
     with client_for(real_agent(tmp_path)) as client:
         assert client.get("/health").json() == {"status": "ok", "model": "fake"}
+
+
+def test_real_agent_loader_uses_few_retries(monkeypatch):
+    seen = {}
+    monkeypatch.setattr("src.agent.run.load_agent", lambda **kw: seen.update(kw) or "agent")
+    from src.api import main
+    assert main._load_real_agent() == "agent"
+    assert seen["max_retries"] == main.API_LLM_MAX_RETRIES == 2
+    assert seen["timeout"] == main.API_LLM_TIMEOUT == 30

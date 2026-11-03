@@ -126,7 +126,7 @@ def _load_env_file(path=ENV_PATH):
             os.environ.setdefault(key.strip(), value.strip().strip("'\""))
 
 
-def from_env(prefix="LLM", cache_dir=CACHE_DIR, env_path=ENV_PATH):
+def from_env(prefix="LLM", cache_dir=CACHE_DIR, env_path=ENV_PATH, max_retries=None, timeout=None):
     """Dựng LLM từ biến môi trường hoặc file .env.
 
     Args:
@@ -134,6 +134,8 @@ def from_env(prefix="LLM", cache_dir=CACHE_DIR, env_path=ENV_PATH):
             (bắt buộc) và _MIN_INTERVAL, _MAX_RETRIES (tùy chọn).
         cache_dir: thư mục cache.
         env_path: đường dẫn file .env (mặc định ở gốc repo).
+        max_retries: số lần SDK thử lại khi gặp 429/5xx; None thì đọc <prefix>_MAX_RETRIES (mặc định 8).
+        timeout: giây chờ tối đa mỗi lượt gọi; None dùng mặc định của SDK (600 s).
 
     Raises:
         RuntimeError: thiếu biến bắt buộc.
@@ -144,7 +146,9 @@ def from_env(prefix="LLM", cache_dir=CACHE_DIR, env_path=ENV_PATH):
     if missing:
         raise RuntimeError(f"thiếu biến môi trường: {', '.join(missing)} (xem .env.example)")
     base_url = os.environ[f"{prefix}_BASE_URL"]
-    client = OpenAI(base_url=base_url, api_key=os.environ[f"{prefix}_API_KEY"],
-                    max_retries=int(os.environ.get(f"{prefix}_MAX_RETRIES", DEFAULT_MAX_RETRIES)))
+    extra = {} if timeout is None else {"timeout": timeout}
+    client = OpenAI(base_url=base_url, api_key=os.environ[f"{prefix}_API_KEY"], **extra,
+                    max_retries=max_retries if max_retries is not None
+                    else int(os.environ.get(f"{prefix}_MAX_RETRIES", DEFAULT_MAX_RETRIES)))
     return LLM(client, os.environ[f"{prefix}_MODEL"], cache_dir, base_url,
                float(os.environ.get(f"{prefix}_MIN_INTERVAL", 0)))

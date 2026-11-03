@@ -50,12 +50,14 @@ def to_response(state):
             "trace": state["trace"]}
 
 
-def load_agent(variant="clause_header", cache_dir=None):
+def load_agent(variant="clause_header", cache_dir=None, max_retries=None, timeout=None):
     """Dựng Agent thật: LLM từ .env (LLM_*), Retriever trên biến thể đã nạp Chroma (tải mô hình, chậm lần đầu).
 
     Args:
         variant: biến thể chỉ mục (xem src.ingestion.index.VARIANTS).
         cache_dir: thư mục cache LLM; None dùng cache mặc định (đặt thư mục mới để đo latency không dùng cache).
+        max_retries: số lần thử lại khi LLM lỗi 429/5xx; None theo biến môi trường LLM_MAX_RETRIES.
+        timeout: giây chờ tối đa mỗi lượt gọi LLM; None theo mặc định của SDK.
 
     Returns:
         Agent sẵn sàng trả lời.
@@ -63,7 +65,7 @@ def load_agent(variant="clause_header", cache_dir=None):
     from src.generation.llm import CACHE_DIR, from_env
     from src.retrieval.retriever import load_retriever
     laws = json.loads(LAWS_PATH.read_text(encoding="utf-8"))
-    return Agent(Deps(from_env("LLM", cache_dir or CACHE_DIR), load_retriever(variant), laws))
+    return Agent(Deps(from_env("LLM", cache_dir or CACHE_DIR, max_retries=max_retries, timeout=timeout), load_retriever(variant), laws))
 
 def print_result(out):
     """In câu trả lời, danh sách trích dẫn và các bước trace ra màn hình."""

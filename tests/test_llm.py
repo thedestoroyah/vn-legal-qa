@@ -188,3 +188,16 @@ def test_waited_accumulates_throttle_sleep(tmp_path, monkeypatch):
     llm.chat(MSG)
     llm.chat([{"role": "user", "content": "câu khác"}])
     assert 9 < llm.waited <= 10
+
+
+def test_from_env_max_retries_argument_overrides_env(monkeypatch, tmp_path):
+    for k, v in {"LLM_BASE_URL": "https://example.com/v1", "LLM_API_KEY": "k", "LLM_MODEL": "m",
+                 "LLM_MAX_RETRIES": "8"}.items():
+        monkeypatch.setenv(k, v)
+    assert from_env(env_path=tmp_path / ".env", max_retries=2).client.max_retries == 2
+
+
+def test_from_env_timeout_argument_sets_client_timeout(monkeypatch, tmp_path):
+    for k, v in {"LLM_BASE_URL": "https://example.com/v1", "LLM_API_KEY": "k", "LLM_MODEL": "m"}.items():
+        monkeypatch.setenv(k, v)
+    assert from_env(env_path=tmp_path / ".env", timeout=30).client.timeout == 30
