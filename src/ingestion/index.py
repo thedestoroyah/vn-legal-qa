@@ -29,7 +29,7 @@ def _date_int(iso):
 
 def chunk_metadata(chunk):
     """Metadata cho Chroma, thêm khoảng hiệu lực dạng số vì Chroma chỉ so sánh $lt/$gte trên số."""
-    # giữ None: upsert xóa được trường cũ khi nạp lại; bỏ list rỗng: Chroma từ chối
+    # bỏ None và list rỗng: có bản Chroma từ chối; trường cũ được xóa nhờ delete trước upsert trong build_index
     meta = {k: v for k, v in chunk.items() if k != "content" and v is not None and v != []}
     meta["effective_from"] = _date_int(chunk["effective_date"])
     meta["effective_to"] = _date_int(chunk.get("expiry_date"))
@@ -76,8 +76,11 @@ def build_index(chunks, embed, db_path=DB_PATH, rebuild=False, collection=COLLEC
     col = client.get_or_create_collection(collection, metadata={"hnsw:space": "cosine"})
     for i in range(0, len(chunks), BATCH):
         batch = chunks[i:i + BATCH]
+        ids = [c["chunk_id"] for c in batch]
+        # upsert chỉ ghi đè trường có mặt; xóa trước để trường đã bỏ (vd expiry_date) không còn sót
+        col.delete(ids=ids)
         col.upsert(
-            ids=[c["chunk_id"] for c in batch],
+            ids=ids,
             embeddings=embed([embedding_text(c) if with_header else c["content"] for c in batch]),
             documents=[c["content"] for c in batch],
             metadatas=[chunk_metadata(c) for c in batch],
