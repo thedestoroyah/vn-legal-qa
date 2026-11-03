@@ -241,3 +241,4 @@ Tính theo câu, **12/20 câu là lỗi thật của hệ thống, 8/20 câu là
 4. **Cỡ mẫu.** Nhiều chênh lệch cùng chiều nhưng chưa có ý nghĩa (router với Correctness; `event` so với `any`). Ước tính cần vài trăm câu có mốc thời gian để các chênh lệch cỡ này có ý nghĩa.
 5. **Phạm vi văn bản.** 5 văn bản, bản gốc chưa hợp nhất sửa đổi; không có Nghị định, Thông tư hướng dẫn. Câu hỏi cần văn bản dưới luật sẽ bị từ chối hoặc trả lời thiếu.
 6. **Hạn mức API miễn phí.** Mô hình tác tử bị giới hạn 500 lượt/ngày và thường xuyên báo quá tải; mọi cấu hình phải dùng cùng một mô hình nhỏ (`gemini-3.1-flash-lite`). Kết quả có thể khác với mô hình lớn hơn.
+7. **Reranker cắt đoạn dài.** Cross-encoder chỉ đọc tối đa 512 token cho cặp (câu hỏi, đoạn). 56/1.693 Điều (3,3%) dài hơn mức này nên phần cuối Điều không được rerank xét tới; với đoạn cấp Khoản chỉ 3/4.853 đoạn (0,1%) bị ảnh hưởng. Biến thể cấp Điều ở RQ2 vì vậy có thể bị đánh giá thấp hơn đôi chút, dù vẫn cao nhất trên câu Zalo.

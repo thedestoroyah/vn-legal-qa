@@ -5,7 +5,7 @@ Chạy dần qua nhiều ngày theo quota free tier: kết quả thô ghi nối 
   python -m eval.agent_eval run --rq rq3 --configs no_router no_grading no_verify --subset 60
   python -m eval.agent_eval run --rq rq4
   python -m eval.agent_eval report --rq rq3 [--subset 60]
-  python -m eval.agent_eval report --rq rq3 --configs full baseline --common --ci --out eval/results/agent_rq3_full179.md
+  python -m eval.agent_eval report --rq rq3 --configs full baseline --common --ci --out eval/results/agent_rq3_full_baseline.md
   python -m eval.agent_eval judge --rq rq3
   python -m eval.agent_eval sheet --rq rq3 --n 20
   python -m eval.agent_eval agree --rq rq3 --filled eval/results/grading_rq3_hung.csv
