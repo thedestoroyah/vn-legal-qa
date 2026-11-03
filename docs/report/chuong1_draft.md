@@ -12,7 +12,7 @@ Pháp luật Việt Nam được thể hiện qua một khối lượng lớn v�
 
 ### 1.1.2. Cơ hội và hạn chế của mô hình ngôn ngữ lớn
 
-Các mô hình ngôn ngữ lớn (LLM) cho phép trả lời câu hỏi bằng ngôn ngữ tự nhiên, nhưng có thể "bịa" nội dung (hallucination) và đưa ra trích dẫn không chính xác. Trong lĩnh vực pháp luật, đây là rủi ro nghiêm trọng: một câu trả lời nghe hợp lý nhưng dựa trên điều luật không tồn tại hoặc đã hết hiệu lực có thể khiến người dùng đưa ra quyết định sai. Kỹ thuật Retrieval-Augmented Generation (RAG) giảm rủi ro này bằng cách truy xuất các đoạn văn bản liên quan rồi yêu cầu LLM trả lời dựa trên các đoạn đó (Lewis và cộng sự, 2020 `[CẦN KIỂM TRA]`). Tuy nhiên, Gao và cộng sự (2023) chỉ ra rằng ngay cả các mô hình mạnh vẫn thường sinh trích dẫn không hỗ trợ cho khẳng định. Vì vậy, một hệ thống hỏi đáp pháp luật cần thêm cơ chế **kiểm chứng trích dẫn** sau khi sinh câu trả lời.
+Các mô hình ngôn ngữ lớn (LLM) cho phép trả lời câu hỏi bằng ngôn ngữ tự nhiên, nhưng có thể "bịa" nội dung (hallucination) và đưa ra trích dẫn không chính xác. Trong lĩnh vực pháp luật, đây là rủi ro nghiêm trọng: một câu trả lời nghe hợp lý nhưng dựa trên điều luật không tồn tại hoặc đã hết hiệu lực có thể khiến người dùng đưa ra quyết định sai. Kỹ thuật Retrieval-Augmented Generation (RAG) giảm rủi ro này bằng cách truy xuất các đoạn văn bản liên quan rồi yêu cầu LLM trả lời dựa trên các đoạn đó (Lewis và cộng sự, 2020). Tuy nhiên, Gao và cộng sự (2023) chỉ ra rằng ngay cả các mô hình mạnh vẫn thường sinh trích dẫn không hỗ trợ cho khẳng định. Vì vậy, một hệ thống hỏi đáp pháp luật cần thêm cơ chế **kiểm chứng trích dẫn** sau khi sinh câu trả lời.
 
 ### 1.1.3. Vấn đề hiệu lực theo thời gian
 
