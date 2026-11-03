@@ -11,6 +11,10 @@ Nhãn (cột category, nhiều nhãn cách nhau bằng ";"):
   dinh_tuyen_sai          router xếp nhầm loại câu hoặc trích sai ngày sự việc
   tu_choi_nham            câu trong phạm vi nhưng bị từ chối
   dap_an_mau_tranh_cai    hệ thống trả lời hợp lý; đáp án mẫu hoặc căn cứ chuẩn mới có vấn đề
+  tra_loi_thieu_y         trích đúng nhưng câu trả lời bỏ điều kiện, con số mà câu hỏi cần
+  trich_them_lien_quan    trích thêm Điều có liên quan ngoài căn cứ chuẩn (chỉ số trừ điểm, không phải lỗi thật)
+  bo_cham_qua_chat        bộ chấm trừ điểm vì thiếu chi tiết mà câu hỏi không hỏi tới (rubric R5)
+  khong_phai_loi          chỉ số báo lỗi nhưng xem kỹ thì câu trả lời / từ chối là hợp lý
   khac                    loại khác, ghi rõ ở cột note
 """
 import argparse
@@ -26,7 +30,8 @@ from eval.agent_eval import CASES_PATH, RESULTS_DIR, SEED, load_judged, load_res
 SHEET_PATH = RESULTS_DIR / "errors_rq3.csv"
 REPORT_PATH = RESULTS_DIR / "errors_rq3.md"
 CATEGORIES = ("truy_xuat_sai_dieu", "sai_van_ban", "sai_phien_ban", "trich_dan_khong_ho_tro", "dinh_tuyen_sai",
-              "tu_choi_nham", "dap_an_mau_tranh_cai", "khac")
+              "tu_choi_nham", "dap_an_mau_tranh_cai", "tra_loi_thieu_y", "trich_them_lien_quan", "bo_cham_qua_chat",
+              "khong_phai_loi", "khac")
 FIELDS = ("id", "source", "type", "question", "reference_answer", "gold", "cited", "route", "answer", "hints",
           "category", "note")
 
