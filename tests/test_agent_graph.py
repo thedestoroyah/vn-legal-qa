@@ -119,3 +119,12 @@ def test_trace_ms_excludes_rate_limit_sleep(tmp_path):
     d.llm.min_interval = 0.3  # lượt gọi thật thứ hai trở đi phải ngủ ~0.3 s
     steps = {step["node"]: step for step in run(d)["trace"]}
     assert steps["grade"]["ms"] < 150
+
+
+def test_trace_api_calls_excludes_cache_hits(tmp_path):
+    d = make_deps(tmp_path, FakeRetriever([[chunk(A)], [chunk(A)]]), route=[SIT], grade=[OK], generate=[f"Có [{A}]."],
+                  verify=[CLEAN])
+    first = {step["node"]: step for step in run(d)["trace"]}
+    second = {step["node"]: step for step in run(d)["trace"]}
+    assert first["route"]["api_calls"] == 1 and first["retrieve"]["api_calls"] == 0
+    assert second["route"]["llm_calls"] == 1 and second["route"]["api_calls"] == 0

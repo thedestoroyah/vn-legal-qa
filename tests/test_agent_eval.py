@@ -5,7 +5,7 @@ import openai
 import pytest
 
 from eval import agent_eval
-from eval.agent_eval import (load_results, parse_run, report_rows, run_agent, score, select_cases, stratified,
+from eval.agent_eval import (answer_sha, load_results, parse_run, report_rows, run_agent, score, select_cases, stratified,
                              to_markdown)
 from eval.evaluate import summarize
 
@@ -188,3 +188,59 @@ def test_cmd_report_filters_configs_writes_out_and_appends_ci(tmp_path, monkeypa
     md = out.read_text(encoding="utf-8")
     assert "| baseline | all | 2 |" in md and "no_verify" not in md and "Chênh lệch so với `full`" in md
     assert not (tmp_path / "agent_rq3.md").exists()
+
+
+def test_answer_sha_changes_with_answer_or_citations():
+    a = response()
+    assert answer_sha(a) == answer_sha(json.loads(json.dumps(a)))
+    assert answer_sha(a) != answer_sha({**a, "answer": "y"})
+    assert answer_sha(a) != answer_sha(response(cited=("BLDS2015_Dieu358_Khoan1",)))
+
+
+def test_load_judged_ignores_rows_of_stale_answer(tmp_path):
+    results = {("A", "full"): response()}
+    path = tmp_path / "j.jsonl"
+    agent_eval.append_jsonl(path, {"id": "A", "run": "full", "answer_sha": "cu", "correctness": 0.0})
+    assert agent_eval.load_judged(path, results) == {}
+    agent_eval.append_jsonl(path, {"id": "A", "run": "full", "answer_sha": answer_sha(response()), "correctness": 1.0})
+    assert agent_eval.load_judged(path, results)[("A", "full")]["correctness"] == 1.0
+
+
+def test_judge_results_rejudges_changed_answer(tmp_path, monkeypatch):
+    monkeypatch.setattr("eval.judge.judge", lambda llm, case, resp, ctx: {"faithfulness": 1.0, "correctness": 1.0})
+    path = tmp_path / "j.jsonl"
+    agent_eval.append_jsonl(path, {"id": "A", "run": "full", "answer_sha": "cu", "correctness": 0.0})
+    written = agent_eval.judge_results(None, [case("A")], {("A", "full"): response()}, path, {})
+    assert written == 1
+    assert agent_eval.load_judged(path, {("A", "full"): response()})[("A", "full")]["correctness"] == 1.0
+
+
+def test_paths_with_tag_use_separate_files():
+    p = agent_eval.paths("rq3", tag="latency")
+    assert p["results"].name == "agent_rq3_latency.jsonl"
+    assert p["judge"].name == "agent_rq3_latency_judge.jsonl"
+    assert p["report"].name == "agent_rq3_latency.md"
+    assert agent_eval.paths("rq3")["results"].name == "agent_rq3.jsonl"
+
+
+def test_latency_markdown_median_p90_in_seconds():
+    rows = [{"config": "full", "ms": ms, "llm_calls": 2, "api_calls": 2} for ms in (1000, 2000, 3000, 4000)]
+    rows.append({"config": "baseline", "ms": 500, "llm_calls": 1, "api_calls": 1})
+    md = agent_eval.latency_markdown(rows)
+    assert "| full | 4 | 2.50 | 3.70 | 2.0 | 0 |" in md
+    assert "| baseline | 1 | 0.50 | 0.50 | 1.0 | 0 |" in md
+
+
+def test_latency_markdown_skips_rows_served_from_cache():
+    rows = [{"config": "full", "ms": 1000, "llm_calls": 2, "api_calls": 2},
+            {"config": "full", "ms": 10, "llm_calls": 2, "api_calls": 0},
+            {"config": "full", "ms": 50, "llm_calls": 2, "api_calls": None},
+            {"config": "full", "ms": 3000, "llm_calls": 2, "api_calls": 2}]
+    assert "| full | 2 | 2.00 | 2.80 | 2.0 | 2 |" in agent_eval.latency_markdown(rows)
+
+
+def test_score_sums_api_calls_or_none_when_missing():
+    assert score(case("A"), "full", response())["api_calls"] is None
+    resp = response()
+    resp["trace"] = [{**s, "api_calls": 1} for s in resp["trace"]]
+    assert score(case("A"), "full", resp)["api_calls"] == 2

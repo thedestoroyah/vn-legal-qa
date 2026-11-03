@@ -19,14 +19,15 @@ def _summary(update):
 
 
 def _traced(name, fn, deps):
-    """Bọc một nút: đo thời gian, đếm lượt gọi LLM (qua `deps.llm.requests`) và nối một bước vào `trace`."""
+    """Bọc một nút: đo thời gian, đếm lượt gọi LLM (`llm_calls`, gồm cả trúng cache; `api_calls`, chỉ lượt gọi
+    API thật) và nối một bước vào `trace`."""
     def step(state):
-        calls, waited, start = deps.llm.requests, deps.llm.waited, time.perf_counter()
+        calls, api, waited, start = deps.llm.requests, deps.llm.calls, deps.llm.waited, time.perf_counter()
         update = fn(state, deps)
         # trừ thời gian ngủ giãn cách RPM: latency của RQ3 phải phản ánh hệ thống, không phải giới hạn free tier
         elapsed = time.perf_counter() - start - (deps.llm.waited - waited)
         record = {"node": name, "output": _summary(update), "ms": max(0, round(elapsed * 1000)),
-                  "llm_calls": deps.llm.requests - calls}
+                  "llm_calls": deps.llm.requests - calls, "api_calls": deps.llm.calls - api}
         return {**update, "trace": [record]}
     return step
 

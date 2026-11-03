@@ -9,11 +9,20 @@ Chạy dần qua nhiều ngày theo quota free tier: kết quả thô ghi nối 
   python -m eval.agent_eval judge --rq rq3
   python -m eval.agent_eval sheet --rq rq3 --n 20
   python -m eval.agent_eval agree --rq rq3 --filled eval/results/grading_rq3_hung.csv
+Đo latency không cache (file kết quả riêng agent_rq3_latency.jsonl): mỗi cấu hình, mỗi lần chạy lại dùng một
+thư mục cache MỚI (các cấu hình có chung prompt route/grade/generate nên dùng chung cache sẽ trúng cache của nhau);
+LLM_MAX_RETRIES=0 để thời gian không lẫn lúc SDK chờ thử lại (câu lỗi chạy lại ở lần sau, với cache mới).
+  LLM_MAX_RETRIES=0 python -m eval.agent_eval run --rq rq3 --subset 20 --tag latency --configs full \
+      --cache-dir .cache/llm_latency/full_1
+  python -m eval.agent_eval report --rq rq3 --subset 20 --tag latency --common --latency \
+      --out eval/results/agent_rq3_latency.md
 """
 import argparse
 import csv
+import hashlib
 import json
 import random
+import statistics
 import sys
 from pathlib import Path
 
@@ -37,10 +46,11 @@ METRICS = ("answered", "precision", "recall", "refusal_ok", "version_ok", "faith
 CI_METRICS = ("answered", "precision", "recall", "refusal_ok", "version_ok", "correctness")
 
 
-def paths(rq):
-    """Đường dẫn các file kết quả của một rq."""
-    return {"results": RESULTS_DIR / f"agent_{rq}.jsonl", "judge": RESULTS_DIR / f"agent_{rq}_judge.jsonl",
-            "report": RESULTS_DIR / f"agent_{rq}.md", "sheet": RESULTS_DIR / f"grading_{rq}.csv"}
+def paths(rq, tag=None):
+    """Đường dẫn các file kết quả của một rq; tag (vd "latency") tách kết quả, điểm và bảng ra file riêng."""
+    stem = f"agent_{rq}_{tag}" if tag else f"agent_{rq}"
+    return {"results": RESULTS_DIR / f"{stem}.jsonl", "judge": RESULTS_DIR / f"{stem}_judge.jsonl",
+            "report": RESULTS_DIR / f"{stem}.md", "sheet": RESULTS_DIR / f"grading_{rq}.csv"}
 
 
 def parse_run(run):
@@ -103,6 +113,34 @@ def load_results(path):
     return {(r["id"], r["run"]): r["response"] for r in rows if "error" not in r}
 
 
+def answer_sha(response):
+    """Dấu vân tay 16 ký tự hex của câu trả lời (nội dung, từ chối, mã trích dẫn); đổi khi chạy lại ra kết quả khác."""
+    key = {"answer": response["answer"], "refused": response["refused"],
+           "citations": [c["chunk_id"] for c in response["citations"]]}
+    return hashlib.sha1(json.dumps(key, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+
+
+def load_judged(path, results):
+    """Điểm chấm còn hiệu lực: {(id, run): dòng judge} chỉ gồm dòng có answer_sha khớp câu trả lời hiện tại.
+
+    Args:
+        path: file agent_<rq>_judge.jsonl; không tồn tại thì trả {}.
+        results: {(id, run): response} như load_results.
+
+    Returns:
+        Dòng sau thắng dòng trước; dòng thiếu answer_sha hoặc của câu trả lời cũ (đã chạy lại) bị bỏ qua.
+    """
+    path = Path(path)
+    if not path.exists():
+        return {}
+    out = {}
+    for r in read_jsonl(path):
+        key = (r["id"], r["run"])
+        if key in results and r.get("answer_sha") == answer_sha(results[key]):
+            out[key] = r
+    return out
+
+
 def run_agent(agent, cases, runs, out_path):
     """Chạy tác tử cho mọi (run, câu) chưa xong, ghi nối từng dòng vào `out_path`.
 
@@ -144,7 +182,9 @@ def score(case, run, response):
     return {"id": case["id"], "config": run, "source": case["source"], "type": case["type"],
             "answered": float(not response["refused"]), "precision": precision, "recall": recall, "refusal_ok": float(refusal_correct(case, response)),
             "version_ok": None if version is None else float(version),
-            "llm_calls": sum(s["llm_calls"] for s in response["trace"]), "ms": sum(s["ms"] for s in response["trace"])}
+            "llm_calls": sum(s["llm_calls"] for s in response["trace"]), "ms": sum(s["ms"] for s in response["trace"]),
+            "api_calls": sum(s["api_calls"] for s in response["trace"])
+            if all("api_calls" in s for s in response["trace"]) else None}
 
 
 def report_rows(cases, results, judged, common=False):
@@ -182,6 +222,34 @@ def to_markdown(summary):
     if len(set(sizes.values())) > 1:
         notes.append(f"Cảnh báo: các run phủ số câu khác nhau {sizes}; chạy `report --common` để so trên cùng tập câu.")
     return "\n".join(head + lines + notes) + "\n"
+
+def latency_markdown(rows):
+    """Bảng độ trễ theo run: n, trung vị và p90 (giây), số lượt LLM trung bình, số câu bị loại.
+
+    Chỉ tính câu mà mọi lượt LLM đều là gọi API thật (api_calls == llm_calls): câu trúng cache, hoặc kết quả cũ
+    không ghi api_calls, sẽ đo thấp hơn thực tế nên bị loại và đếm ở cột cuối.
+    """
+    groups, skipped = {}, {}
+    for r in rows:
+        if r.get("api_calls") == r["llm_calls"]:
+            groups.setdefault(r["config"], []).append(r)
+        else:
+            skipped[r["config"]] = skipped.get(r["config"], 0) + 1
+            groups.setdefault(r["config"], [])
+    lines = ["| run | n | Trung vị (s) | p90 (s) | LLM/câu | Bỏ (trúng cache) |", "|---|---|---|---|---|---|"]
+    for run, rs in groups.items():
+        if not rs:
+            lines.append(f"| {run} | 0 | – | – | – | {skipped.get(run, 0)} |")
+            continue
+        secs = [r["ms"] / 1000 for r in rs]
+        p90 = statistics.quantiles(secs, n=10, method="inclusive")[8] if len(secs) > 1 else secs[0]
+        calls = sum(r["llm_calls"] for r in rs) / len(rs)
+        lines.append(f"| {run} | {len(rs)} | {statistics.median(secs):.2f} | {p90:.2f} | {calls:.1f} "
+                     f"| {skipped.get(run, 0)} |")
+    lines += ["", "Không dùng cache LLM; đã trừ thời gian chờ giãn cách RPM của free tier; gồm cả truy xuất và rerank "
+              "trên CPU."]
+    return "\n".join(lines) + "\n"
+
 
 def paired_diff(rows, ref, metric, n_boot=2000, seed=SEED):
     """Chênh lệch trung bình (run − ref) của `metric`, ghép cặp theo câu, kèm khoảng tin cậy bootstrap 95%.
@@ -232,14 +300,16 @@ def diff_markdown(rows, ref):
 
 
 def judge_results(llm, cases, results, out_path, contexts):
-    """Chấm mọi kết quả thuộc `cases` chưa có trong `out_path`, ghi nối từng dòng; hết quota thì dừng sớm.
+    """Chấm mọi kết quả thuộc `cases` chưa có điểm khớp câu trả lời hiện tại (xem load_judged), ghi nối từng dòng.
+
+    Hết quota thì dừng sớm; chạy lại để tiếp.
 
     Returns:
         Số dòng mới ghi.
     """
     from eval.judge import judge
     out_path = Path(out_path)
-    done = {(r["id"], r["run"]) for r in read_jsonl(out_path)} if out_path.exists() else set()
+    done = set(load_judged(out_path, results))
     by_id = {c["id"]: c for c in cases}
     written = 0
     for (cid, run), resp in results.items():
@@ -253,7 +323,7 @@ def judge_results(llm, cases, results, out_path, contexts):
         except openai.APIError as e:
             print(f"bỏ qua {run}/{cid}: {e!r}"[:300], file=sys.stderr)
             continue
-        append_jsonl(out_path, {"id": cid, "run": run, **verdict})
+        append_jsonl(out_path, {"id": cid, "run": run, "answer_sha": answer_sha(resp), **verdict})
         written += 1
     return written
 
@@ -314,7 +384,7 @@ def cmd_run(args):
     from src.agent.run import load_agent  # nạp mô hình chậm: chỉ khi chạy thật
     agent = load_agent(cache_dir=args.cache_dir)
     runs = args.configs or RUNS[args.rq]
-    written = run_agent(agent, _cases(args), runs, paths(args.rq)["results"])
+    written = run_agent(agent, _cases(args), runs, paths(args.rq, args.tag)["results"])
     print(f"ghi {written} dòng; {agent.deps.llm.calls} lượt gọi API thật ({agent.deps.llm.requests} lượt logic)")
 
 
@@ -323,15 +393,17 @@ def cmd_report(args):
 
     --configs chỉ giữ các run đã nêu; --ci thêm bảng chênh lệch so với run đầu tiên của rq có mặt (vd full).
     """
-    p = paths(args.rq)
-    judged = {(r["id"], r["run"]): r for r in read_jsonl(p["judge"])} if p["judge"].exists() else {}
+    p = paths(args.rq, args.tag)
     results = {k: v for k, v in load_results(p["results"]).items() if not args.configs or k[1] in args.configs}
+    judged = load_judged(p["judge"], results)
     rows = report_rows(_cases(args), results, judged, args.common)
     md = to_markdown(summarize(rows, METRICS))
     if args.ci:
         present = {r["config"] for r in rows}
         ref = next((run for run in RUNS[args.rq] if run in present), None)
         md += "\n" + diff_markdown(rows, ref) if ref else ""
+    if args.latency:
+        md += "\n" + latency_markdown(rows)
     Path(args.out or p["report"]).write_text(md, encoding="utf-8")
     print(md)
 
@@ -341,7 +413,7 @@ def cmd_judge(args):
     from eval.judge import load_contexts
     from src.generation.llm import from_env
     llm = from_env("JUDGE")
-    p = paths(args.rq)
+    p = paths(args.rq, args.tag)
     written = judge_results(llm, _cases(args), load_results(p["results"]), p["judge"], load_contexts())
     print(f"chấm {written} câu; {llm.calls} lượt gọi API thật")
 
@@ -349,15 +421,15 @@ def cmd_judge(args):
 def cmd_sheet(args):
     """Lệnh `sheet`: tạo phiếu chấm tay CSV grading_<rq>.csv cho một run."""
     from eval.judge import load_contexts
-    p = paths(args.rq)
+    p = paths(args.rq, args.tag)
     n = write_sheet(_cases(args), load_results(p["results"]), args.run, args.n, p["sheet"], load_contexts())
     print(f"ghi {n} câu vào {p['sheet']}; mỗi người chép một bản rồi điền cột faithfulness, correctness (0 / 0,5 / 1)")
 
 
 def cmd_agree(args):
     """Lệnh `agree`: in tỷ lệ khớp giữa phiếu chấm tay đã điền (--filled) và bộ chấm LLM."""
-    p = paths(args.rq)
-    judged = {(r["id"], r["run"]): r for r in read_jsonl(p["judge"])}
+    p = paths(args.rq, args.tag)
+    judged = load_judged(p["judge"], load_results(p["results"]))
     with open(args.filled, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
     for metric, (rate, n) in agreement(rows, judged, args.run).items():
@@ -374,6 +446,7 @@ def build_parser():
         p.add_argument("--rq", choices=sorted(RUNS), required=True)
         p.add_argument("--subset", type=int, help="mẫu phân tầng khoảng N câu (cố định theo SEED)")
         p.add_argument("--limit", type=int, help="chỉ N câu đầu (chạy thử)")
+        p.add_argument("--tag", help="tách file kết quả: agent_<rq>_<tag>.jsonl (vd latency)")
         p.set_defaults(fn=fn)
         if name == "run":
             p.add_argument("--configs", nargs="+", help="tên run, vd full baseline full@any (mặc định: mọi run của rq)")
@@ -383,6 +456,8 @@ def build_parser():
             p.add_argument("--configs", nargs="+", help="chỉ báo cáo các run này")
             p.add_argument("--ci", action="store_true", help="thêm bảng chênh lệch so với full, bootstrap 95%%")
             p.add_argument("--out", help="file bảng Markdown (mặc định agent_<rq>.md)")
+            p.add_argument("--latency", action="store_true",
+                           help="thêm bảng trung vị/p90 độ trễ (lượt chạy không cache)")
         if name in ("sheet", "agree"):
             p.add_argument("--run", default="full", help="run cần chấm tay")
         if name == "sheet":
