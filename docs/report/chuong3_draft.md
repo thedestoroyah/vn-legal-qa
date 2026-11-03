@@ -86,7 +86,7 @@ Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; t
 | Nút | Lượt LLM | Việc làm | Đi tiếp |
 |---|---|---|---|
 | `route` | 1 | Phân loại câu hỏi: tình huống (`situational`), tra cứu trực tiếp một Điều (`direct`), ngoài phạm vi (`out_of_scope`); trích ngày sự việc; với câu `direct` trích văn bản và số Điều | ngoài phạm vi → `refuse`; `direct` → `lookup_article`; còn lại → `retrieve` |
-| `lookup_article` | 0 | Lấy toàn văn Điều được hỏi, nếu văn bản có hiệu lực tại ngày sự việc | có → `generate`; không → `retrieve` |
+| `lookup_article` | 0 | Lấy toàn văn Điều được hỏi, nếu văn bản có hiệu lực tại ngày sự việc; câu không nêu ngày sự việc thì trả đúng Điều người dùng nêu, kể cả của văn bản đã hết hiệu lực | có → `generate`; không → `retrieve` |
 | `retrieve` | 0 | Tìm 5 đoạn bằng truy vấn mới nhất, lọc hiệu lực, gộp vào bằng chứng của các vòng trước (tối đa 15 đoạn, bỏ trùng) | không có gì → `refuse`; còn lại → `grade` |
 | `grade` | 1 | Đánh giá bằng chứng đã đủ trả lời chưa; chưa đủ thì đề xuất truy vấn mới | đủ → `generate`; chưa đủ và còn lượt viết lại (tối đa 2) → `retrieve`; hết lượt → `refuse` |
 | `generate` | 1 | Sinh câu trả lời tiếng Việt, mỗi câu gắn mã đoạn dạng `[BLLD2019_Dieu20_Khoan1]`; được phép trả "không đủ căn cứ" | không đủ căn cứ → `refuse`; còn lại → `verify` |

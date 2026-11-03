@@ -73,11 +73,15 @@ def lookup_article(state, deps):
 
     Returns:
         {"evidence": [Điều]}; [] nếu không có Điều đó hoặc văn bản không có hiệu lực tại `event_date`.
+        Chính sách event mà không có ngày sự việc: trả Điều người dùng đã nêu đích danh, kể cả văn bản đã hết
+        hiệu lực (vd "Theo BLLĐ 2012, Điều 104…"); chính sách current vẫn chỉ nhận văn bản còn hiệu lực.
     """
     ref = state["direct_ref"]
     article = deps.retriever.get_article(ref["law_id"], ref["article"])
+    named_without_date = state["date_policy"] == "event" and state["event_date"] is None
+    date = ANY_DATE if named_without_date else _search_date(state)
     # văn bản chưa có hiệu lực (hoặc đã hết) tại event_date: coi như không có, đồ thị rơi về retrieve rồi từ chối
-    return {"evidence": [article] if article and is_valid_at(article, _search_date(state)) else []}
+    return {"evidence": [article] if article and is_valid_at(article, date) else []}
 
 
 def _merge(old, new):

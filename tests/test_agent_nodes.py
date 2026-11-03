@@ -240,3 +240,20 @@ def test_lookup_article_any_policy_ignores_validity(tmp_path):
 @pytest.mark.parametrize("kind", [["direct"], {"a": 1}, 3])
 def test_route_non_string_type_defaults_to_situational(tmp_path, kind):
     assert routed(tmp_path, type=kind)["route_type"] == "situational"
+
+
+EXPIRED = {**chunk("BLLD2012_Dieu104"), "effective_date": "2013-05-01", "expiry_date": "2021-01-01"}
+NAMED_2012 = {"law_id": "BLLD2012", "article": "104"}
+
+
+def test_lookup_article_returns_expired_law_the_user_named_without_event_date(tmp_path):
+    # "Theo BLLĐ 2012, Điều 104 quy định gì?": không có ngày sự việc thì trả đúng Điều người dùng hỏi
+    r = FakeRetriever(articles={"BLLD2012_Dieu104": EXPIRED})
+    state = {**initial_state("q"), "direct_ref": NAMED_2012}
+    assert nodes.lookup_article(state, make_deps(tmp_path, r)) == {"evidence": [EXPIRED]}
+
+
+def test_lookup_article_current_policy_still_drops_expired_law(tmp_path):
+    r = FakeRetriever(articles={"BLLD2012_Dieu104": EXPIRED})
+    state = {**initial_state("q", date_policy="current"), "direct_ref": NAMED_2012}
+    assert nodes.lookup_article(state, make_deps(tmp_path, r)) == {"evidence": []}
