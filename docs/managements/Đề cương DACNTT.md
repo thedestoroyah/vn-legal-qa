@@ -157,7 +157,7 @@ Nhóm khảo sát các nghiên cứu liên quan trực tiếp đến bài toán 
   - Giới hạn về phiên bản văn bản: Kho dữ liệu dùng văn bản gốc khi ban hành, chưa hợp nhất các lần sửa đổi, bổ sung sau đó (ví dụ các luật sửa đổi Luật Doanh nghiệp 2020); câu trả lời có thể không phản ánh nội dung đã được sửa đổi.
   - Giới hạn về loại hình dữ liệu: Tập trung duy nhất vào văn bản quy phạm pháp luật thành văn (Statutory Law); không bao gồm án lệ, bản án tòa án hay các tình huống tranh tụng thực tế.
   - Giới hạn về tư vấn pháp lý: Hệ thống chỉ đóng vai trò công cụ hỗ trợ tra cứu và cung cấp thông tin tham khảo, không có giá trị pháp lý chính thức và không thay thế cho ý kiến tư vấn của luật sư.
-  - Giới hạn về tài nguyên tính toán và thời gian: Dự án tập trung vào kỹ thuật đóng gói hệ thống phần mềm (Engineering & System Integration) trước hạn chót 21/11/2026; không thực hiện tiền huấn luyện (pre-train) hay fine-tune mô hình nền tảng từ đầu.
+  - Giới hạn về tài nguyên tính toán và thời gian: Dự án tập trung vào kỹ thuật đóng gói hệ thống phần mềm (Engineering & System Integration) trước hạn chót 04/12/2026; không thực hiện tiền huấn luyện (pre-train) hay fine-tune mô hình nền tảng từ đầu.
 
 ## 9. Nội dung/ phương pháp nghiên cứu
 
@@ -188,7 +188,7 @@ Nhóm khảo sát các nghiên cứu liên quan trực tiếp đến bài toán 
 ### 9.2. Phương pháp nghiên cứu
 
 - **Phương pháp Kỹ thuật Phần mềm (Software Engineering Methodology):**
-  - Áp dụng mô hình phát triển phần mềm linh hoạt (Agile/Scrum rút gọn), chia dự án thành các chu kỳ chạy nước rút (sprints 1–2 tuần) để liên tục tích hợp, kiểm thử và bàn giao sản phẩm trước hạn chót 21/11/2026.
+  - Áp dụng mô hình phát triển phần mềm linh hoạt (Agile/Scrum rút gọn), chia dự án thành các chu kỳ chạy nước rút (sprints 1–2 tuần) để liên tục tích hợp, kiểm thử và bàn giao sản phẩm trước hạn chót 04/12/2026.
 - **Phương pháp Tổ chức và Lưu trữ Dữ liệu Phân cấp (Hierarchical Chunking):**
   - Tổ chức dữ liệu theo định dạng JSON/JSONL có cấu trúc, lưu trữ metadata phong phú kèm theo từng đoạn chunk để phục vụ việc lọc theo khoảng hiệu lực tại thời điểm của tình huống trước khi truy xuất.
 - **Phương pháp Truy xuất Thông tin Kết hợp (Hybrid Information Retrieval):**
@@ -234,7 +234,7 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 ## 11. Kế hoạch thực hiện tiến độ dự kiến
 
-- Thời gian thực hiện: Từ 15/08/2026 đến 21/11/2026 (khoảng 14 tuần). Giai đoạn triển khai kỹ thuật gồm 6 sprint từ 09/10/2026; phân công chi tiết từng nhiệm vụ xem Phụ lục B.
+- Thời gian thực hiện: Từ 15/08/2026 đến 04/12/2026 (khoảng 16 tuần). Giai đoạn triển khai kỹ thuật gồm 6 sprint từ 09/10/2026; phân công chi tiết từng nhiệm vụ xem Phụ lục B.
 - Phân công vai trò: Phạm Huỳnh Quốc Đạt phụ trách lõi kỹ thuật (truy xuất, tác tử, API, đánh giá tự động); Hoàng Sinh Hùng phụ trách dữ liệu (kho văn bản, tập kiểm thử), giao diện và báo cáo.
 
 ### Giai đoạn 0 (15/08 – 08/10/2026): Khảo sát và đề cương
@@ -268,16 +268,16 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - Kết quả: Bản thử nghiệm chạy hoàn chỉnh từ đầu đến cuối (End-to-End MVP); pipeline đánh giá chạy được.
 - Tiến độ tích lũy: 75%.
 
-### Sprint 5 (05/11 – 11/11/2026): Thực nghiệm đầy đủ và viết báo cáo
+### Sprint 5 (05/11 – 15/11/2026): Thực nghiệm đầy đủ và viết báo cáo
 
-- Nội dung: Chạy thực nghiệm RQ3, RQ4; phân tích lỗi; viết các chương báo cáo. Đóng băng tính năng ngày 08/11.
+- Nội dung: Chạy thực nghiệm RQ3, RQ4; phân tích lỗi; viết các chương báo cáo. Đóng băng tính năng ngày 12/11.
 - Kết quả: Đầy đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
 - Tiến độ tích lũy: 90%.
 
-### Sprint 6 (12/11 – 21/11/2026): Đóng gói và hoàn thiện
+### Sprint 6 (16/11 – 27/11/2026): Đóng gói và hoàn thiện
 
 - Nội dung: Docker, README, dọn mã nguồn; hoàn thiện báo cáo theo mẫu TDTU; slide và video demo.
-- Kết quả: Báo cáo hoàn chỉnh ngày 18/11; dự phòng 19–20/11; nộp trước 23:59 ngày 21/11/2026.
+- Kết quả: Báo cáo hoàn chỉnh ngày 27/11; rà soát và dự phòng 28/11–03/12; nộp ngày 03/12, hạn chót 23:59 ngày 04/12/2026.
 - Tiến độ tích lũy: 100%.
 
 **Phương án dự phòng:**
@@ -505,9 +505,9 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 **Nghiệm thu sprint (04/11):** hỏi trên giao diện nhận câu trả lời thật kèm trích dẫn bấm được; evaluate.py chạy được trên 10 câu.
 
-### SPRINT 5 (05/11 – 11/11/2026): THỰC NGHIỆM ĐẦY ĐỦ VÀ VIẾT BÁO CÁO
+### SPRINT 5 (05/11 – 15/11/2026): THỰC NGHIỆM ĐẦY ĐỦ VÀ VIẾT BÁO CÁO
 
-**Mục tiêu sprint:** đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 08/11 (sau ngày này chỉ sửa lỗi).
+**Mục tiêu sprint:** đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 12/11 (sau ngày này chỉ sửa lỗi).
 
 **Phạm Huỳnh Quốc Đạt:**
 
@@ -524,9 +524,9 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - [ ] Sơ đồ: use case, activity (luồng hỏi đáp), sequence (UI → API → tác tử), kiến trúc tổng thể; ảnh chụp giao diện.
 - [ ] Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
 
-**Nghiệm thu sprint (11/11):** đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
+**Nghiệm thu sprint (15/11):** đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
 
-### SPRINT 6 (12/11 – 21/11/2026): ĐÓNG GÓI VÀ HOÀN THIỆN
+### SPRINT 6 (16/11 – 27/11/2026): ĐÓNG GÓI VÀ HOÀN THIỆN
 
 **Phạm Huỳnh Quốc Đạt:**
 
@@ -543,4 +543,4 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 **Cả hai:**
 
-- [ ] 18/11: báo cáo hoàn chỉnh. 19–20/11: dự phòng và tập dượt bảo vệ. 21/11: nộp trước 23:59.
+- [ ] 27/11: báo cáo hoàn chỉnh. 28/11–03/12: rà soát, dự phòng và tập dượt bảo vệ. 03/12: nộp (hạn chót 23:59 04/12).

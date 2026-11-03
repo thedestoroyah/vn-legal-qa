@@ -1,6 +1,6 @@
 # Kế hoạch thực hiện
 
-Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-qa-design.md](superpowers/specs/2026-10-09-agentic-legal-qa-design.md). Định dạng dữ liệu chung (file raw, laws.json, chunk, test case, API): Phụ lục A trong [đề cương](managements/Đề%20cương%20DACNTT.md). Bản này đồng bộ với Phụ lục B của [đề cương](managements/Đề%20cương%20DACNTT.md); sửa một bên thì sửa cả bên kia.
+Hạn nộp **23:59 04/12/2026** (dời từ 21/11, báo ngày 03/11). Thiết kế: [specs/2026-10-09-agentic-legal-qa-design.md](superpowers/specs/2026-10-09-agentic-legal-qa-design.md). Định dạng dữ liệu chung (file raw, laws.json, chunk, test case, API): Phụ lục A trong [đề cương](managements/Đề%20cương%20DACNTT.md). Bản này đồng bộ với Phụ lục B của [đề cương](managements/Đề%20cương%20DACNTT.md); sửa một bên thì sửa cả bên kia.
 
 Đánh dấu `[x]` khi xong. *Xong khi* = tiêu chí nghiệm thu.
 
@@ -112,9 +112,9 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 **Nghiệm thu sprint (04/11):** hỏi trên giao diện nhận câu trả lời thật kèm trích dẫn bấm được; evaluate.py chạy được trên 10 câu.
 
-## Sprint 5 (05/11 – 11/11/2026): Thực nghiệm đầy đủ và viết báo cáo
+## Sprint 5 (05/11 – 15/11/2026): Thực nghiệm đầy đủ và viết báo cáo
 
-**Mục tiêu sprint:** đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 08/11 (sau ngày này chỉ sửa lỗi).
+**Mục tiêu sprint:** đủ số liệu cho RQ1–RQ4; bản nháp báo cáo khoảng 80%. Đóng băng tính năng ngày 12/11 (sau ngày này chỉ sửa lỗi).
 
 ### Phạm Huỳnh Quốc Đạt
 
@@ -131,9 +131,9 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 - [ ] Sơ đồ: use case, activity (luồng hỏi đáp), sequence (UI → API → tác tử), kiến trúc tổng thể; ảnh chụp giao diện.
 - [ ] Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
 
-**Nghiệm thu sprint (11/11):** đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
+**Nghiệm thu sprint (15/11):** đủ bảng số liệu và biểu đồ RQ1–RQ4; bản nháp báo cáo khoảng 80%.
 
-## Sprint 6 (12/11 – 21/11/2026): Đóng gói và hoàn thiện
+## Sprint 6 (16/11 – 27/11/2026): Đóng gói và hoàn thiện
 
 ### Phạm Huỳnh Quốc Đạt
 
@@ -150,4 +150,4 @@ Hạn nộp **23:59 21/11/2026**. Thiết kế: [specs/2026-10-09-agentic-legal-
 
 ### Cả hai
 
-- [ ] 18/11: báo cáo hoàn chỉnh. 19–20/11: dự phòng và tập dượt bảo vệ. 21/11: nộp trước 23:59.
+- [ ] 27/11: báo cáo hoàn chỉnh. 28/11–03/12: rà soát, dự phòng và tập dượt bảo vệ. 03/12: nộp (hạn chót 23:59 04/12).

@@ -89,7 +89,7 @@ Tập kiểm thử gồm 179 câu hỏi từ ba nguồn, kết quả được b�
 
 ## 1.4. Phương pháp thực hiện
 
-Dự án áp dụng mô hình Agile/Scrum rút gọn với 6 sprint từ 09/10 đến 21/11/2026. Hai thành viên phân công như sau: Phạm Huỳnh Quốc Đạt phụ trách lõi kỹ thuật (truy xuất, tác tử, API, đánh giá tự động); Hoàng Sinh Hùng phụ trách dữ liệu (kho văn bản, tập kiểm thử), giao diện và báo cáo. Về đánh giá:
+Dự án áp dụng mô hình Agile/Scrum rút gọn với 6 sprint từ 09/10 đến 04/12/2026. Hai thành viên phân công như sau: Phạm Huỳnh Quốc Đạt phụ trách lõi kỹ thuật (truy xuất, tác tử, API, đánh giá tự động); Hoàng Sinh Hùng phụ trách dữ liệu (kho văn bản, tập kiểm thử), giao diện và báo cáo. Về đánh giá:
 
 - Các chỉ số truy xuất, trích dẫn và phiên bản được tính tự động bằng cách đối chiếu với nhãn chuẩn.
 - Chất lượng câu trả lời (Faithfulness, Answer Correctness) được chấm bằng LLM-as-a-judge theo định nghĩa của RAGAS (Es và cộng sự, 2024). Bộ chấm này được kiểm định bằng chấm tay độc lập của hai thành viên.

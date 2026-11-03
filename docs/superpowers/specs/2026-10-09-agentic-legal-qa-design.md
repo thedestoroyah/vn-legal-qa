@@ -6,7 +6,7 @@ Ngày: 2026-10-09 (cập nhật 2026-10-16) · Trạng thái: đã duyệt · Ng
 
 Hệ thống trả lời câu hỏi pháp luật tiếng Việt, trích dẫn tới Điều/Khoản **đúng phiên bản văn bản có hiệu lực tại thời điểm của tình huống**, có tác tử tự kiểm chứng trích dẫn. Mỗi câu hỏi nghiên cứu có một bảng số liệu trả lời nó.
 
-Ràng buộc: 2 người, hạn 21/11/2026, LLM qua API miễn phí (Gemini / Groq), embedding và reranker chạy local trên CPU, không fine-tune.
+Ràng buộc: 2 người, hạn 04/12/2026 (dời từ 21/11), LLM qua API miễn phí (Gemini / Groq), embedding và reranker chạy local trên CPU, không fine-tune.
 
 Chỉ tiêu: Hit@5 ≥ 80%, Recall@10 ≥ 75%, Citation Precision ≥ 85%.
 
