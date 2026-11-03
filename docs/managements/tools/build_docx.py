@@ -161,7 +161,8 @@ out.append(para(CAPTION, [("Bảng 4.1. ", True), ("Khó khăn, rủi ro và gi�
 out.append(table(["Khó khăn / rủi ro", "Giải pháp"], ch4["rows"], [3600, 5400]))
 out.append(copy.deepcopy(AFTER_TBL))
 date = copy.deepcopy(SIGN_DATE)
-out.append(set_runs(date, [(f"TP. Hồ Chí Minh, ngày 30 tháng 10 năm 2026", False)]) if date.findall(qn("w:r")) else date)
+dd, mm, yyyy = M["date"].split("/")
+out.append(set_runs(date, [(f"TP. Hồ Chí Minh, ngày {int(dd)} tháng {int(mm)} năm {yyyy}", False)]) if date.findall(qn("w:r")) else date)
 sign = copy.deepcopy(SIGN_TBL)
 out.append(sign)
 for el in out:

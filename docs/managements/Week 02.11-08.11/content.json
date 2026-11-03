@@ -1,0 +1,279 @@
+{
+ "meta": {
+  "title": "PHÁT TRIỂN HỆ THỐNG HỎI ĐÁP PHÁP LUẬT VIỆT NAM DỰA TRÊN AGENTIC-RAG VỚI TRUY XUẤT CĂN CỨ THEO HIỆU LỰC VÀ KIỂM CHỨNG TRÍCH DẪN",
+  "short": "Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG",
+  "report": "BÁO CÁO TIẾN ĐỘ TUẦN 12",
+  "course": "ĐỒ ÁN CÔNG NGHỆ THÔNG TIN",
+  "week": "Tuần 12 (02/11 – 08/11/2026)",
+  "dates": "02/11 – 08/11/2026",
+  "code": "ĐA127",
+  "supervisor": "PGS.TS. Lê Anh Cường",
+  "students": [
+   "Phạm Huỳnh Quốc Đạt - 52300098",
+   "Hoàng Sinh Hùng - 52300106"
+  ],
+  "date": "06/11/2026",
+  "footer": "ĐA127 2026–2027 | Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG | Báo cáo tuần 12",
+  "title_vi": "Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn",
+  "title_en": "Developing a Vietnamese Legal Question Answering System based on Agentic-RAG with Temporally-Aware Legal Retrieval and Citation Verification"
+ },
+ "summary": "Tuần 12 hoàn tất toàn bộ thực nghiệm RQ1–RQ4 và phần kỹ thuật của Sprint 5 trước khi sprint bắt đầu: chạy lại thực nghiệm sau khi sửa bước kiểm chứng, bổ sung tập kiểm thử giữ riêng 30 câu soạn và chốt trước khi chạy, kiểm định bộ chấm, đo độ trễ, phân tích lỗi; có bản nháp Chương 1, 3, 4 và giao diện web NiceGUI kết nối API. Hạn nộp dời sang 23:59 ngày 04/12/2026; kế hoạch đã điều chỉnh tương ứng.",
+ "ch1": {
+  "title": "TIẾN ĐỘ THỰC HIỆN VÀ KẾT QUẢ ĐẠT ĐƯỢC TUẦN NÀY",
+  "intro": "Tuần 12 (02/11 – 08/11/2026) gồm cuối Sprint 4 (29/10 – 04/11, Tích hợp hệ thống và đánh giá câu trả lời) và đầu Sprint 5 (05/11 – 15/11, Thực nghiệm đầy đủ và viết báo cáo). Sprint 4 đã hoàn thành; phần việc của Đạt trong Sprint 5 xong ngày 03/11, trước khi sprint bắt đầu; còn 4 thẻ viết báo cáo và sơ đồ của Hùng, hạn 15/11.",
+  "sections": [
+   {
+    "h": "Chạy lại thực nghiệm sau khi sửa bước kiểm chứng",
+    "items": [
+     [
+      "Bước kiểm chứng phiên bản 2",
+      "trên 179 câu, cấu hình full: Citation Recall 0,784 → 0,830, Citation Precision 0,840 → 0,850, đúng phiên bản luật 0,667 → 0,833; số mã trích dẫn bị gỡ 63 → 28, trong đó căn cứ đúng bị gỡ nhầm 47 → 21; số câu phải sinh lại 21 → 14."
+     ],
+     [
+      "RQ1, RQ2 trên 77 câu Zalo",
+      "truy xuất lai kèm rerank đạt Hit@5 0,844, Recall@10 0,872 (đạt chỉ tiêu ≥ 0,80 và ≥ 0,75); phân đoạn theo cấu trúc luật hơn hẳn cắt cố định 200 từ (Hit@5 0,844–0,883 so với 0,597)."
+     ],
+     [
+      "Kiểm định thống kê",
+      "mọi so sánh giữa các cấu hình là ghép cặp theo câu, kèm khoảng tin cậy bootstrap 95%; chênh lệch chỉ được coi là có ý nghĩa khi khoảng tin cậy không chứa 0."
+     ]
+    ]
+   },
+   {
+    "h": "Tập kiểm thử giữ riêng 30 câu (chốt trước khi chạy)",
+    "items": [
+     [
+      "Thiết kế",
+      "20 câu có mốc thời gian theo 10 cặp quy định khác nhau giữa BLLĐ 2012 và BLLĐ 2019, 10 câu tra cứu trực tiếp một Điều; giả thuyết, cách phân tích và câu hỏi được chốt và lưu trên repo trước khi chạy hệ thống, sau khi prompt đã cố định."
+     ],
+     [
+      "Mục đích",
+      "giảm giới hạn \"prompt được chỉnh sau khi thấy lỗi trên tập kiểm thử\" và tăng mẫu RQ4 từ 12 lên 32 câu có mốc thời gian; tập kiểm thử tăng từ 179 lên 209 câu."
+     ],
+     [
+      "Rà soát câu M_017",
+      "Hùng viết lại câu hỏi bị mơ hồ; câu được chạy lại ở cả 5 cấu hình RQ3 và 3 chính sách RQ4."
+     ]
+    ]
+   },
+   {
+    "h": "Kết quả RQ3 trên 209 câu",
+    "text": "Năm cấu hình chạy trên cùng 209 câu, đã chấm đủ; độ trễ đo riêng trên 19 câu không dùng cache.",
+    "table": {
+     "caption": "Bảng 1.1. Kết quả RQ3 trên 209 câu (đúng phiên bản tính trên 32 câu có mốc thời gian)",
+     "head": [
+      "Cấu hình",
+      "Trả lời",
+      "Citation P",
+      "Citation R",
+      "Đúng phiên bản",
+      "Correctness",
+      "Lượt LLM/câu",
+      "Độ trễ (s)"
+     ],
+     "rows": [
+      ["full", "0,871", "0,870", "0,825", "0,750", "0,871", "4,0", "15,9"],
+      ["no_router", "0,876", "0,833", "0,791", "0,500", "0,830", "3,2", "12,7"],
+      ["no_grading", "0,861", "0,868", "0,810", "0,750", "0,871", "3,0", "8,8"],
+      ["no_verify", "0,871", "0,859", "0,859", "0,750", "0,867", "3,0", "11,0"],
+      ["baseline", "0,895", "0,795", "0,810", "0,500", "0,826", "1,0", "6,9"]
+     ]
+    },
+    "after": "So với full (ghép cặp, * = có ý nghĩa ở mức 95%): bỏ router làm tỷ lệ đúng phiên bản giảm 0,250*; baseline kém full ở Citation Precision (−0,060*) và đúng phiên bản (−0,250*); bỏ bước kiểm chứng làm Citation Recall tăng 0,034* nhưng Precision giảm 0,016*, tức bước kiểm chứng đổi một phần recall lấy độ chính xác của trích dẫn; bỏ bước đánh giá bằng chứng không tạo khác biệt đo được. Trên 30 câu giữ riêng, full đạt Citation Precision 0,978 so với 0,740 của no_router; giả thuyết H1 (router giúp trích đúng phiên bản) được ủng hộ, các chỉ số khác cùng chiều nhưng chưa đủ mạnh."
+   },
+   {
+    "h": "Kết quả RQ4 trên 32 câu có mốc thời gian",
+    "table": {
+     "caption": "Bảng 1.2. Kết quả RQ4 trên 32 câu có mốc thời gian (cấu hình full)",
+     "head": [
+      "Chính sách lọc",
+      "Trả lời",
+      "Đúng phiên bản",
+      "Correctness"
+     ],
+     "rows": [
+      ["Theo ngày sự việc", "0,781", "0,750", "0,766"],
+      ["Không lọc", "0,875", "0,562", "0,703"],
+      ["Chỉ văn bản còn hiệu lực", "0,719", "0,438", "0,578"]
+     ]
+    },
+    "after": "Giả thuyết H2: lọc theo ngày sự việc hơn \"chỉ văn bản còn hiệu lực\" có ý nghĩa (đúng phiên bản −0,312*, Correctness −0,188*); hơn \"không lọc\" cùng chiều (−0,188) nhưng khoảng tin cậy chạm 0, nên chưa khẳng định. Kết quả trên 20 câu giữ riêng cho cùng kết luận."
+   },
+   {
+    "h": "Kiểm chứng trích dẫn, bộ chấm, độ trễ và phân tích lỗi",
+    "items": [
+     [
+      "Phép thử tiêm trích dẫn sai",
+      "thay một trích dẫn đúng bằng một đoạn không liên quan rồi chạy lại bước kiểm chứng: phát hiện 96/97 lần, không gỡ nhầm mã đúng nào."
+     ],
+     [
+      "Kiểm định bộ chấm LLM",
+      "chấm tay 20 câu: khớp 0,950 (Faithfulness) và 0,917 (Correctness), nhưng bộ chấm cho điểm tối đa ở mọi câu trong mẫu (kappa = 0), nên chỉ dùng làm chỉ số phụ; kết luận chính dựa trên chỉ số tính bằng code."
+     ],
+     [
+      "Độ trễ",
+      "19 câu, không dùng cache: trung vị 15,9 s ở full, 6,9 s ở baseline; riêng truy xuất và rerank trên CPU mất khoảng 5,5 s."
+     ],
+     [
+      "Phân tích lỗi 20 câu",
+      "12/20 là lỗi thật của hệ thống (5 trích dẫn không hỗ trợ nội dung, 3 từ chối nhầm, 2 truy xuất sai Điều, 2 trả lời thiếu ý); 8/20 do chỉ số báo nhầm (trích thêm Điều liên quan, bộ chấm quá chặt, đáp án mẫu gây tranh cãi)."
+     ]
+    ]
+   },
+   {
+    "h": "Hệ thống, giao diện và báo cáo",
+    "items": [
+     [
+      "Giao diện web NiceGUI",
+      "kết nối API; thẻ trích dẫn mở toàn văn Điều, thẻ hiệu lực văn bản, dòng thời gian các bước của tác tử; hiển thị trên laptop, máy tính bảng, điện thoại; đã kiểm với 4 kịch bản demo."
+     ],
+     [
+      "Hoàn thiện hệ thống",
+      "API báo lỗi trong khoảng 20–50 s khi mô hình quá tải thay vì gần 3 phút; tra cứu trực tiếp trả đúng Điều của văn bản đã hết hiệu lực khi người dùng nêu rõ; 319 test tự động đạt (tăng từ 274)."
+     ],
+     [
+      "Báo cáo",
+      "bản nháp Chương 1, 3, 4; 4 biểu đồ RQ1–RQ4; sơ đồ kiến trúc, activity và đồ thị tác tử; đối chiếu toàn bộ tài liệu tham khảo với nguồn gốc: sửa 3 mục, bổ sung 1 mục."
+     ]
+    ]
+   },
+   {
+    "h": "Phần việc của từng thành viên",
+    "items": [
+     [
+      "Phạm Huỳnh Quốc Đạt",
+      "chạy lại RQ1–RQ4; thiết kế, chạy tập giữ riêng; kiểm định thống kê, phép thử kiểm chứng, chấm tay kiểm định bộ chấm; đo độ trễ, phân tích lỗi, vẽ biểu đồ; hoàn thành 7/7 task Sprint 5; bản nháp Chương 3–4; tra tài liệu tham khảo; lập lại kế hoạch theo hạn nộp mới."
+     ],
+     [
+      "Hoàng Sinh Hùng",
+      "giao diện web NiceGUI kết nối API và sửa lỗi bố cục; giao diện Streamlit với 3 phản hồi mẫu; thang chấm tay và rà soát prompt chấm; rà soát, viết lại câu M_017; bản nháp Chương 1; sơ đồ kiến trúc, activity, đồ thị tác tử; ảnh chụp giao diện."
+     ]
+    ]
+   }
+  ]
+ },
+ "ch2": {
+  "title": "ĐÁNH GIÁ TIẾN ĐỘ SO VỚI KẾ HOẠCH CỦA KHOA",
+  "intro": "Hạn nộp được dời từ 21/11 sang 23:59 ngày 04/12/2026; theo đề cương cập nhật, đề tài thực hiện từ 15/08 đến 04/12/2026 (khoảng 16 tuần). Đến cuối tuần 12 đã trôi qua 12/16 tuần (75% thời gian).",
+  "table": {
+   "caption": "Bảng 2.1. Đối chiếu kế hoạch trong đề cương và tình trạng của nhóm",
+   "head": [
+    "Tuần",
+    "Giai đoạn theo đề cương",
+    "Tình trạng"
+   ],
+   "rows": [
+    ["1 – 8", "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương", "Hoàn thành"],
+    ["8 – 9", "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng", "Hoàn thành"],
+    ["9 – 10", "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10", "Hoàn thành"],
+    ["10 – 11", "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG", "Hoàn thành sớm (16/10)"],
+    ["11 – 12", "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời", "Hoàn thành"],
+    ["12 – 13", "Sprint 5 (05/11 – 15/11): thực nghiệm đầy đủ, đóng băng 12/11", "Phần của Đạt xong (03/11); còn 4 thẻ của Hùng"],
+    ["14 – 15", "Sprint 6 (16/11 – 27/11): đóng gói, hoàn thiện báo cáo", "Chưa đến hạn"],
+    ["16", "Dự phòng (28/11 – 03/12); nộp 03/12, hạn chót 04/12", "Chưa đến hạn"],
+    ["Sau 04/12", "Bảo vệ phản biện", "Chưa đến hạn"]
+   ]
+  },
+  "verdict": [
+   [
+    "Tổng thể",
+    "đúng tiến độ, phần kỹ thuật sớm khoảng 1,5 tuần: 62/74 hạng mục trong kế hoạch chi tiết đã xong (84%)."
+   ],
+   [
+    "Vượt kế hoạch",
+    "toàn bộ thực nghiệm RQ1–RQ4, độ trễ, phân tích lỗi và biểu đồ (Sprint 5) xong trước khi Sprint 5 bắt đầu."
+   ],
+   [
+    "Cần theo dõi",
+    "4 thẻ báo cáo của Hùng hạn 15/11: Chương 2, Chương 5, cập nhật số liệu Chương 1, sơ đồ use case và sequence."
+   ]
+  ]
+ },
+ "ch3": {
+  "title": "KẾ HOẠCH CHI TIẾT TỪ NAY ĐẾN KHI KẾT THÚC ĐỀ TÀI",
+  "intro": "Mốc đóng băng tính năng 12/11/2026; báo cáo hoàn chỉnh 27/11/2026; nộp ngày 03/12, hạn chót 23:59 ngày 04/12/2026.",
+  "weeks": [
+   {
+    "name": "Tuần 13",
+    "dates": "09/11 – 15/11/2026",
+    "goal": "Hoàn thiện bản nháp báo cáo",
+    "items": [
+     "Chương 2 và Chương 5; cập nhật số liệu Chương 1 (Hùng)",
+     "Sơ đồ use case và sequence (Hùng)",
+     "Rà soát Chương 3–4 theo số liệu cuối (Đạt)",
+     "12/11: đóng băng tính năng",
+     "15/11: nghiệm thu Sprint 5, đủ bản nháp Chương 1–5"
+    ]
+   },
+   {
+    "name": "Tuần 14 – 15",
+    "dates": "16/11 – 27/11/2026",
+    "goal": "Đóng gói và hoàn thiện",
+    "items": [
+     "Docker, docker-compose; README tái lập thực nghiệm",
+     "Dọn mã nguồn, sửa các lỗi nhỏ còn lại; cải thiện giao diện",
+     "Ghép báo cáo theo mẫu TDTU; kiểm tra Turnitin",
+     "Slide bảo vệ và video demo 4 kịch bản",
+     "27/11: báo cáo hoàn chỉnh"
+    ]
+   },
+   {
+    "name": "Tuần 16",
+    "dates": "28/11 – 04/12/2026",
+    "goal": "Dự phòng và nộp",
+    "items": [
+     "Rà soát lần cuối, gửi GVHD",
+     "Tập dượt bảo vệ",
+     "Nộp ngày 03/12 (hạn chót 23:59 ngày 04/12/2026)"
+    ]
+   }
+  ],
+  "after": "Sau 04/12: bảo vệ phản biện theo lịch của Khoa."
+ },
+ "ch4": {
+  "title": "KHÓ KHĂN, RỦI RO VÀ GIẢI PHÁP KHẮC PHỤC",
+  "rows": [
+   [
+    "Gemini quá tải (lỗi 503) kéo dài nhiều giờ, ví dụ chiều 03/11",
+    "Đã kiểm tra trên hai mạng khác nhau: lỗi phía máy chủ Google, không do mạng. API báo lỗi nhanh kèm thông báo thân thiện; thực nghiệm chính đã chạy xong nên chỉ ảnh hưởng demo. Quay video demo khi mô hình ổn định, ghi sẵn bản dự phòng."
+   ],
+   [
+    "Hạn mức API miễn phí (Gemini 500 lượt/ngày/key, Groq khoảng 100 lượt chấm/ngày/key)",
+    "Các lượt chạy chính đã xong; cache đĩa giữa các lần chạy; pipeline tự dừng khi hết hạn mức và chạy tiếp đúng chỗ."
+   ],
+   [
+    "Bộ chấm LLM dễ dãi (cho điểm tối đa ở mọi câu trong mẫu chấm tay, kappa = 0)",
+    "Kết luận chính dựa vào chỉ số tính bằng code (trích dẫn, đúng phiên bản, từ chối); Faithfulness, Correctness chỉ là chỉ số phụ; ghi rõ là giới hạn."
+   ],
+   [
+    "Một số chênh lệch chưa có ý nghĩa thống kê do cỡ mẫu",
+    "Báo cáo kèm khoảng tin cậy và số câu; nêu cả giả thuyết chưa được ủng hộ đúng như đã chốt trước."
+   ],
+   [
+    "Prompt được chỉnh sau khi thấy lỗi trên tập kiểm thử",
+    "Tập giữ riêng 30 câu soạn và chốt sau khi cố định prompt; kết quả trên tập này cùng chiều với tập cũ."
+   ],
+   [
+    "Phần viết báo cáo dồn vào tuần 13",
+    "Thẻ việc chi tiết cho từng chương; Chương 3–4 đã có làm khung số liệu; hạn nội bộ 15/11, còn 2 tuần đệm trước 27/11."
+   ],
+   [
+    "Router còn xếp nhầm 3/209 câu trong phạm vi thành ngoài phạm vi",
+    "Không sửa prompt thêm để giữ tính khách quan của kết quả (tập giữ riêng đã dùng); ghi vào giới hạn và hướng phát triển."
+   ]
+  ]
+ },
+ "notes": [
+  "Em chào thầy. Hôm nay nhóm em báo cáo tiến độ tuần 12, từ 02/11 đến 08/11/2026, của đề tài ĐA127: Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn. Tuần này có ba điểm chính, thể hiện ở ba thẻ bên phải: toàn bộ thực nghiệm RQ1 đến RQ4 đã hoàn tất; nhóm bổ sung một tập kiểm thử giữ riêng 30 câu được chốt trước khi chạy; và hạn nộp được dời sang ngày 04/12, kế hoạch đã điều chỉnh theo. Bài báo cáo gồm bốn phần: kết quả tuần này, đánh giá tiến độ, kế hoạch đến khi kết thúc, và khó khăn, rủi ro.",
+  "Đây là các con số tóm tắt của tuần. Tập kiểm thử tăng lên 209 câu nhờ 30 câu giữ riêng. Bộ kiểm thử tự động có 319 test và đều đạt. Phép thử tiêm trích dẫn sai cho thấy bước kiểm chứng phát hiện 96 trên 97 trích dẫn sai. Độ trễ trung vị của cấu hình đầy đủ là 15,9 giây. Về kế hoạch, 62 trên 74 hạng mục đã xong. Bên trái là các việc đã hoàn thành; bên phải là các việc đang làm, chủ yếu là các chương báo cáo và sơ đồ của bạn Hùng, hạn 15/11.",
+  "Slide này trình bày sáu kết quả về thực nghiệm. Sau khi sửa bước kiểm chứng, Recall của cấu hình đầy đủ tăng từ 0,784 lên 0,830, số trích dẫn đúng bị gỡ nhầm giảm từ 47 xuống 21. RQ1 và RQ2 chạy lại trên 77 câu Zalo, truy xuất lai kèm rerank đạt Hit@5 0,844 và Recall@10 0,872, đạt chỉ tiêu đề ra. Tuần trước em có xin ý kiến thầy về cỡ mẫu; nhóm đã chọn mở rộng bằng một tập giữ riêng 30 câu: 20 câu có mốc thời gian, 10 câu tra cứu trực tiếp, được soạn và chốt cùng giả thuyết trước khi chạy hệ thống, để kết quả không bị ảnh hưởng bởi việc chỉnh prompt. Mọi so sánh đều ghép cặp theo câu và kèm khoảng tin cậy bootstrap 95%.",
+  "Đây là kết quả RQ3 trên cùng 209 câu cho cả năm cấu hình. So với cấu hình đầy đủ, bỏ router làm tỷ lệ trích đúng phiên bản luật giảm 0,250 và chênh lệch này có ý nghĩa thống kê, vì không có router thì không trích được ngày sự việc. Baseline kém rõ nhất ở độ chính xác trích dẫn. Bỏ bước kiểm chứng làm Recall tăng 0,034 nhưng Precision giảm 0,016, nghĩa là bước kiểm chứng đổi một phần recall lấy độ chính xác của trích dẫn. Bỏ bước đánh giá bằng chứng không tạo khác biệt đo được. Trên 30 câu giữ riêng, cấu hình đầy đủ có Precision 0,978 so với 0,740 khi bỏ router.",
+  "RQ4 nay có 32 câu có mốc thời gian. Lọc theo ngày sự việc trích đúng phiên bản luật 0,750; không lọc đạt 0,562; chỉ lấy văn bản còn hiệu lực đạt 0,438. Chênh lệch giữa lọc theo ngày sự việc và chỉ lấy văn bản còn hiệu lực có ý nghĩa thống kê. Chênh lệch với cách không lọc cùng chiều nhưng khoảng tin cậy chạm 0, nên nhóm ghi nhận là chưa khẳng định được, đúng như cam kết trong bản chốt trước là báo cáo cả giả thuyết chưa được ủng hộ.",
+  "Slide này gồm hai nhóm kết quả. Bên trái là độ tin cậy của đánh giá: phép thử tiêm trích dẫn sai cho thấy bước kiểm chứng bắt được 96 trên 97 trường hợp mà không gỡ nhầm mã đúng nào. Chấm tay 20 câu khớp với bộ chấm LLM ở mức 0,95 và 0,92, nhưng bộ chấm cho điểm tối đa ở mọi câu, nên nhóm chỉ dùng điểm của bộ chấm làm chỉ số phụ. Bên phải: độ trễ trung vị 15,9 giây ở cấu hình đầy đủ, trong đó truy xuất và rerank trên CPU mất khoảng 5,5 giây. Phân tích 20 câu sai cho thấy 12 câu là lỗi thật của hệ thống, nhiều nhất là trích dẫn không hỗ trợ nội dung; 8 câu còn lại do chỉ số báo nhầm.",
+  "Về hệ thống và báo cáo: bạn Hùng đã xây dựng giao diện web NiceGUI kết nối với API, có thẻ trích dẫn mở được toàn văn Điều luật, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử; giao diện hiển thị được trên laptop, máy tính bảng và điện thoại, và đã chạy đúng với bốn kịch bản demo. Em bổ sung xử lý lỗi để API báo lỗi nhanh khi mô hình quá tải, và sửa lỗi tra cứu Điều của văn bản đã hết hiệu lực. Về báo cáo, đã có bản nháp Chương 1, 3, 4, bốn biểu đồ cho RQ1 đến RQ4, các sơ đồ kiến trúc, và toàn bộ tài liệu tham khảo đã được đối chiếu với nguồn gốc.",
+  "So với kế hoạch trong đề cương đã cập nhật hạn nộp mới, đến hết tuần 12 đã trôi qua 12 trên 16 tuần, tức 75% thời gian, và nhóm hoàn thành 62 trên 74 hạng mục, khoảng 84%. Sprint 4 đã xong; phần của em trong Sprint 5 xong ngày 03/11, trước khi sprint bắt đầu. Phần cần theo dõi là bốn thẻ báo cáo của bạn Hùng: Chương 2, Chương 5, cập nhật số liệu Chương 1 và sơ đồ use case, sequence, hạn ngày 15/11.",
+  "Từ nay đến khi nộp còn bốn tuần. Tuần 13 hoàn thiện bản nháp báo cáo: Chương 2, 5, sơ đồ còn thiếu, rà soát Chương 3 và 4; ngày 12/11 đóng băng tính năng và ngày 15/11 nghiệm thu Sprint 5. Tuần 14 và 15 đóng gói bằng Docker, viết README tái lập thực nghiệm, ghép báo cáo theo mẫu TDTU, kiểm tra Turnitin, làm slide và video demo; ngày 27/11 có báo cáo hoàn chỉnh. Tuần 16 là thời gian dự phòng; nhóm dự kiến nộp ngày 03/12, trước hạn chót 04/12.",
+  "Có bảy khó khăn chính, slide trình bày sáu. Gemini thường xuyên báo quá tải; nhóm đã kiểm tra trên hai mạng khác nhau và xác định là lỗi phía máy chủ, nên API được sửa để báo lỗi nhanh, và vì thực nghiệm đã xong nên chỉ ảnh hưởng tới demo. Hạn mức API miễn phí không còn là rủi ro lớn vì các lượt chạy chính đã xong. Bộ chấm LLM dễ dãi nên kết luận chính dựa vào chỉ số tính bằng code. Một số chênh lệch chưa có ý nghĩa thống kê, nhóm báo cáo kèm khoảng tin cậy. Giới hạn chỉnh prompt trên tập kiểm thử được giảm nhờ tập giữ riêng. Cuối cùng, phần viết báo cáo dồn vào tuần 13, nên nhóm đã chia thẻ việc chi tiết và giữ hai tuần đệm.",
+  "Tóm lại, thực nghiệm RQ1 đến RQ4 đã hoàn tất kèm kiểm định thống kê và tập giữ riêng; hệ thống đã có giao diện web chạy đầy đủ; báo cáo đã có bản nháp ba chương. Sau báo cáo tuần trước, nhóm đã tự chốt hai điểm: trình bày bước kiểm chứng như một đánh đổi trong RQ3, có phép thử tiêm trích dẫn sai đi kèm, và mở rộng mẫu bằng tập giữ riêng. Tuần 13 nhóm tập trung hoàn thiện bản nháp Chương 1 đến 5. Em xin cảm ơn thầy đã lắng nghe."
+ ]
+}
