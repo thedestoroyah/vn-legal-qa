@@ -208,7 +208,6 @@
 {"id": "M_014", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ Điều 86 Luật Thương mại 2005, không có thông tin sai lệch; đáp ứng đầy đủ nội dung mẫu.", "called": true}
 {"id": "M_015", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Điều 306 Luật Thương mại 2005, đúng với nội dung mẫu; không có thông tin sai hay thiếu.", "called": true}
 {"id": "M_016", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer that the contract is lawful.", "called": true}
-{"id": "M_017", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa trên nội dung đoạn trích nhưng kết luận trái với đáp án mẫu, nên sai về correctness.", "called": true}
 {"id": "M_020", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời phản ánh đúng nội dung đoạn trích (2 ngày), nhưng không khớp với đáp án mẫu (1 ngày).", "called": true}
 {"id": "M_021", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định 02 ngày nghỉ Quốc khánh, có trong đoạn trích; đáp ứng đúng kết luận mẫu.", "called": true}
 {"id": "M_022", "run": "baseline", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
@@ -523,7 +522,6 @@
 {"id": "M_012", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời liệt kê đầy đủ các trường hợp miễn trách nhiệm đúng như Điều 294 và nêu nghĩa vụ chứng minh theo Điều 294 khoản 2; không có thông tin sai lệch.", "called": true}
 {"id": "M_013", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 141 khoản 1, đúng với đáp án mẫu; không thiếu hay sai thông tin.", "called": true}
 {"id": "M_016", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Khoản 1 và Khoản 3 Điều 22; đáp án khớp với kết luận hợp lệ của mẫu.", "called": true}
-{"id": "M_017", "run": "full", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa trên Điều 18 cho phép ký hợp đồng mùa vụ dưới 12 tháng, nhưng không khớp với đáp án mẫu cho rằng không được phép.", "called": true}
 {"id": "M_019", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng quy định về thời gian báo trước 30 ngày và quyền đơn phương chấm dứt; các khẳng định đều dựa trên đoạn trích.", "called": true}
 {"id": "M_022", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
 {"id": "M_023", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are supported by the excerpts and the conclusion matches the sample answer.", "called": true}
@@ -642,7 +640,6 @@
 {"id": "M_012", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời liệt kê đầy đủ các trường hợp miễn trách nhiệm đúng như Điều 294 và nêu nghĩa vụ chứng minh theo Điều 294 khoản 2; không có thông tin sai lệch.", "called": true}
 {"id": "M_013", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 141 khoản 1, đúng với đáp án mẫu; không thiếu hay sai thông tin.", "called": true}
 {"id": "M_016", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Khoản 1 và Khoản 3 Điều 22; đáp án khớp với kết luận hợp lệ của mẫu.", "called": true}
-{"id": "M_017", "run": "no_verify", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời phản ánh đúng các quy định trong đoạn trích, nhưng kết luận trái với đáp án mẫu.", "called": true}
 {"id": "M_019", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng quy định về thời gian báo trước 30 ngày và quyền đơn phương chấm dứt; các khẳng định đều dựa trên đoạn trích.", "called": true}
 {"id": "M_022", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
 {"id": "M_023", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
@@ -761,7 +758,6 @@
 {"id": "M_012", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời liệt kê đầy đủ các trường hợp miễn trách nhiệm đúng như Điều 294 và nêu nghĩa vụ chứng minh theo Điều 294 khoản 2; không có thông tin sai lệch.", "called": true}
 {"id": "M_013", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 141 khoản 1, đúng với đáp án mẫu; không thiếu hay sai thông tin.", "called": true}
 {"id": "M_016", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Khoản 1 và Khoản 3 Điều 22; đáp án khớp với kết luận hợp lệ của mẫu.", "called": true}
-{"id": "M_017", "run": "no_grading", "faithfulness": 1.0, "correctness": 0.0, "reason": "Khẳng định được phép ký hợp đồng mùa vụ có trong đoạn trích, nhưng kết luận trái với đáp án mẫu (đáp án mẫu nói không được).", "called": true}
 {"id": "M_019", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng quy định về thời gian báo trước 30 ngày và quyền đơn phương chấm dứt; các khẳng định đều dựa trên đoạn trích.", "called": true}
 {"id": "M_022", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định về thời gian tối đa 60 ngày và yêu cầu căn cứ vào tính chất công việc có trong đoạn trích; kết luận đúng với đáp án mẫu.", "called": true}
 {"id": "M_023", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are supported by the excerpts and the conclusion matches the sample answer.", "called": true}
@@ -880,7 +876,6 @@
 {"id": "M_012", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời liệt kê đầy đủ các trường hợp miễn trách nhiệm đúng như Điều 294 và nêu nghĩa vụ chứng minh theo Điều 294 khoản 2; không có thông tin sai lệch.", "called": true}
 {"id": "M_013", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 141 khoản 1, đúng với đáp án mẫu; không thiếu hay sai thông tin.", "called": true}
 {"id": "M_016", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định hợp đồng mùa vụ dưới 12 tháng hợp pháp, dựa trên Điều 18 khoản 2; đáp ứng đúng kết luận mẫu.", "called": true}
-{"id": "M_017", "run": "no_router", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa trên Điều 18 cho phép ký hợp đồng mùa vụ dưới 12 tháng, nhưng không khớp với đáp án mẫu cho rằng không được phép.", "called": true}
 {"id": "M_019", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Khoản 1 Điều 35, thời gian 30 ngày; không có thông tin không có trong đoạn trích.", "called": true}
 {"id": "M_022", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
 {"id": "M_023", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa trên quy định không quá 180 ngày cho người quản lý doanh nghiệp, nên 150 ngày hợp pháp; thông tin này có trong đoạn trích và khớp đáp án mẫu.", "called": true}
@@ -892,3 +887,159 @@
 {"id": "M_031", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời liệt kê đầy đủ các đối tượng trong Khoản 2 Điều 17 và không có thông tin không có trong đoạn trích; đáp ứng đúng yêu cầu mẫu.", "called": true}
 {"id": "M_032", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời nêu đúng nội dung trách nhiệm đào tạo, bồi dưỡng, nâng cao kỹ năng của người sử dụng lao động, phù hợp với các khoản 1 và 2 của Điều 60; đáp ứng yêu cầu chính của đáp án mẫu.", "called": true}
 {"id": "M_034", "run": "no_router", "faithfulness": null, "correctness": 1.0, "reason": "từ chối", "called": false}
+{"id": "M_028", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung các khoản 1 và 2 của Điều 357; khái quát đúng theo đáp án mẫu.", "called": true}
+{"id": "M_038", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Điều 16 khoản 2, khẳng định hợp pháp vì thời hạn dưới 03 tháng; khớp với đáp án mẫu.", "called": true}
+{"id": "M_039", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
+{"id": "M_040", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định quyền của thanh tra lao động dựa trên Điều 51 khoản 1, đúng với đáp án mẫu.", "called": true}
+{"id": "M_041", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Điều 50 và Điều 214 Khoản 5; đáp ứng đúng kết luận mẫu.", "called": true}
+{"id": "M_042", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_043", "run": "full", "faithfulness": 1.0, "correctness": 0.5, "reason": "Khẳng định quyền chấm dứt và yêu cầu báo trước dựa trên các khoản trích, nhưng không nêu chi tiết thời hạn báo trước như đáp án mẫu.", "called": true}
+{"id": "M_044", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_045", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định công ty có thể sa thải vì quấy rối tình dục được quy định trong nội quy, đúng với Khoản 2 Điều 125 và không sai lệch.", "called": true}
+{"id": "M_046", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_047", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định được nghỉ ít nhất 30 phút, đúng với Điều 109 khoản 1; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_048", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn các khoản 1 và 2 Điều 202, đúng với đáp án mẫu; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_049", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 2 Điều 190, đúng thời hiệu 09 tháng như đáp án mẫu.", "called": true}
+{"id": "M_050", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều có trong Khoản 2 Điều 100 và khớp với đáp án mẫu; không có sai lệch.", "called": true}
+{"id": "M_051", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_052", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Điều 96 BLLĐ 2012 và khớp với đáp án mẫu; không có thông tin không có trong đoạn trích.", "called": true}
+{"id": "M_053", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Khoản 4 Điều 97 BLLĐ 2019 và phản ánh đúng kết luận mẫu: không phải đền bù vì chậm trả dưới 15 ngày.", "called": true}
+{"id": "M_054", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_055", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào các khoản 1 và 2 Điều 30 BLLĐ 2019; kết luận khớp với đáp án mẫu.", "called": true}
+{"id": "M_056", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_057", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định khoản 2 Điều 27, đúng với đáp án mẫu; không cần báo trước hay bồi thường.", "called": true}
+{"id": "M_058", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_059", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 1 Điều 20, khớp với đáp án mẫu.", "called": true}
+{"id": "M_060", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung khoản 3 Điều 418 và khớp với đáp án mẫu; không có thông tin sai lệch.", "called": true}
+{"id": "M_061", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định số thành viên từ 02 đến 50, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_062", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng nội dung về số lượng cổ đông trong đoạn trích và đáp ứng yêu cầu câu hỏi.", "called": true}
+{"id": "M_063", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_064", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời bao gồm đầy đủ các ngày nghỉ và điều kiện như trong khoản 1 Điều 113, khớp với đáp án mẫu.", "called": true}
+{"id": "M_065", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định 300% và điều kiện kèm theo, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_066", "run": "full", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_067", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_038", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_039", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
+{"id": "M_040", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_041", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Điều 50 và Điều 214 Khoản 5; đáp ứng đúng kết luận mẫu.", "called": true}
+{"id": "M_042", "run": "no_router", "faithfulness": 1.0, "correctness": 0.0, "reason": "Khẳng định có quyền chấm dứt dựa trên khoản g) của Điều 36 đúng với đoạn trích, nhưng kết luận trái với đáp án mẫu, nên sai.", "called": true}
+{"id": "M_043", "run": "no_router", "faithfulness": 1.0, "correctness": 0.5, "reason": "Khẳng định quyền chấm dứt và nghĩa vụ báo trước dựa trên các khoản trích, nhưng không nêu chi tiết thời hạn báo trước như đáp án mẫu.", "called": true}
+{"id": "M_044", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_045", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định công ty có thể sa thải dựa trên khoản 2 Điều 125, đúng với nội dung trích và đáp án mẫu.", "called": true}
+{"id": "M_046", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_047", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khớp với nội dung Điều 109 khoản 1, cho biết nghỉ ít nhất 30 phút cho người làm việc trên 6 giờ ban ngày; không có thông tin nào sai hoặc thiếu.", "called": true}
+{"id": "M_048", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các thời hiệu 06 tháng, 09 tháng và 01 năm đều có trong các khoản trích và khớp với đáp án mẫu; thông tin bổ sung không sai.", "called": true}
+{"id": "M_049", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 2 Điều 190, đúng thời hiệu 09 tháng như đáp án mẫu.", "called": true}
+{"id": "M_050", "run": "no_router", "faithfulness": 1.0, "correctness": 0.5, "reason": "Câu trả lời đúng về việc không tạm ứng tiền lương cho người nhập ngũ, nhưng không trả lời rõ ràng rằng người lao động không phải hoàn trả khoản tạm ứng.", "called": true}
+{"id": "M_051", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định không được tạm ứng tiền lương khi nhập ngũ, đúng với nội dung khoản 2 Điều 101; kết luận khớp đáp án mẫu.", "called": true}
+{"id": "M_052", "run": "no_router", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa đúng vào Khoản 4 Điều 97 BLLĐ 2019, nhưng kết luận trái với đáp án mẫu yêu cầu trả lãi.", "called": true}
+{"id": "M_053", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Khoản 4 Điều 97 BLLĐ 2019 và kết luận không phải đền bù vì chậm <15 ngày; khớp với đáp án mẫu.", "called": true}
+{"id": "M_054", "run": "no_router", "faithfulness": 1.0, "correctness": 0.0, "reason": "Khẳng định đúng theo đoạn trích nhưng mâu thuẫn với đáp án mẫu về việc không phải trường hợp tạm hoãn tự động.", "called": true}
+{"id": "M_055", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào khoản 1 và khoản 2 Điều 30, khẳng định hợp đồng được tạm hoãn và không hưởng lương; phù hợp với đáp án mẫu.", "called": true}
+{"id": "M_056", "run": "no_router", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa đúng vào Điều 27 khoản 2 nên faithful, nhưng kết luận \"có\" trái với đáp án mẫu, vì mẫu cho rằng không được hủy bỏ khi đã đạt yêu cầu.", "called": true}
+{"id": "M_057", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định khoản 2 Điều 27, đúng với đáp án mẫu; không cần báo trước hay bồi thường.", "called": true}
+{"id": "M_058", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên nội dung Điều 429, đúng thời hạn 03 năm và điều kiện tính thời hiệu như mẫu.", "called": true}
+{"id": "M_059", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 20 khoản 1, đúng với đoạn trích; đáp án khớp mẫu về tuổi thành niên.", "called": true}
+{"id": "M_060", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung Khoản 3 Điều 418 và khớp với đáp án mẫu; không có thông tin sai lệch.", "called": true}
+{"id": "M_061", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 1 Điều 46 và khớp với đáp án mẫu về số thành viên từ 02 đến 50.", "called": true}
+{"id": "M_062", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời nêu đúng số lượng cổ đông tối thiểu và không giới hạn tối đa, có trong đoạn trích; đáp ứng yêu cầu câu hỏi về số lượng cổ đông.", "called": true}
+{"id": "M_063", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời chứa đầy đủ nội dung của Điều 319 và khớp với đáp án mẫu; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_064", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung khoản 1 Điều 113 và khớp với đáp án mẫu; không có thông tin sai hoặc không có trong đoạn trích.", "called": true}
+{"id": "M_065", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định 300% và không sai so với đáp án mẫu.", "called": true}
+{"id": "M_066", "run": "no_router", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_067", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời chứa đầy đủ quyền yêu cầu trả tiền lãi và điều kiện loại trừ như trong Điều 306, khớp với đáp án mẫu.", "called": true}
+{"id": "M_038", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Nội dung pháp lý đúng và có căn cứ trong đoạn trích, nhưng kết luận trái ngược với đáp án mẫu.", "called": true}
+{"id": "M_039", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
+{"id": "M_040", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa trên Điều 50 nên đúng về nội dung, nhưng mâu thuẫn với đáp án mẫu khi khẳng định thanh tra lao động không có quyền tuyên bố vô hiệu.", "called": true}
+{"id": "M_041", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên các điều 50 và 214; đáp án trùng khớp với đáp án mẫu.", "called": true}
+{"id": "M_042", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Khẳng định có quyền chấm dứt dựa trên khoản g) của Điều 36 đúng với đoạn trích, nhưng kết luận trái với đáp án mẫu, nên sai.", "called": true}
+{"id": "M_043", "run": "baseline", "faithfulness": 1.0, "correctness": 0.5, "reason": "Khẳng định quyền chấm dứt và nghĩa vụ báo trước dựa trên các khoản quy định, nhưng không nêu chi tiết thời hạn báo trước như đáp án mẫu.", "called": true}
+{"id": "M_044", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa trên các đoạn trích nhưng kết luận trái với đáp án mẫu, nên không đúng.", "called": true}
+{"id": "M_045", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định công ty có thể sa thải dựa trên khoản 2 Điều 125, đúng với nội dung trích và đáp án mẫu.", "called": true}
+{"id": "M_047", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khớp với nội dung Điều 109 khoản 1, cho biết nghỉ ít nhất 30 phút cho người làm việc trên 6 giờ ban ngày; không có thông tin nào sai hoặc thiếu.", "called": true}
+{"id": "M_048", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các thời hiệu 06 tháng, 09 tháng và 01 năm đều có trong các khoản trích và khớp với đáp án mẫu; thông tin bổ sung không sai.", "called": true}
+{"id": "M_049", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 2 Điều 190, đúng thời hiệu 09 tháng như đáp án mẫu.", "called": true}
+{"id": "M_050", "run": "baseline", "faithfulness": 1.0, "correctness": 0.5, "reason": "Câu trả lời đúng về việc không tạm ứng tiền lương cho người nhập ngũ, nhưng không trả lời rõ ràng rằng người lao động không phải hoàn trả khoản tạm ứng.", "called": true}
+{"id": "M_051", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định không được tạm ứng tiền lương, đúng với nội dung khoản 2 Điều 101 và khớp với đáp án mẫu.", "called": true}
+{"id": "M_052", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa đúng vào Khoản 4 Điều 97 BLLĐ 2019 về mức chậm trả từ 15 ngày trở lên, nhưng kết luận trái với đáp án mẫu yêu cầu phải trả lãi.", "called": true}
+{"id": "M_053", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Khoản 4 Điều 97 BLLĐ 2019 và đúng kết luận rằng không phải đền bù vì chậm 10 ngày (<15 ngày).", "called": true}
+{"id": "M_054", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Khẳng định đúng theo đoạn trích nhưng mâu thuẫn với đáp án mẫu về việc không phải trường hợp tạm hoãn tự động.", "called": true}
+{"id": "M_055", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào khoản 1 và khoản 2 Điều 30, khẳng định hợp đồng được tạm hoãn và không hưởng lương; phù hợp với đáp án mẫu.", "called": true}
+{"id": "M_056", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa đúng vào Điều 27 khoản 2 nên faithful, nhưng kết luận \"có\" trái với đáp án mẫu, vì mẫu cho rằng không được hủy bỏ khi đã đạt yêu cầu.", "called": true}
+{"id": "M_057", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định khoản 2 Điều 27, đúng với đáp án mẫu; không cần báo trước hay bồi thường.", "called": true}
+{"id": "M_058", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên nội dung Điều 429, đúng thời hạn 03 năm và điều kiện tính thời hiệu như mẫu.", "called": true}
+{"id": "M_059", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung Điều 20 khoản 1, đúng với đoạn trích; đáp án khớp mẫu về tuổi thành niên.", "called": true}
+{"id": "M_060", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung Khoản 3 Điều 418 và khớp với đáp án mẫu; không có thông tin sai lệch.", "called": true}
+{"id": "M_061", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 1 Điều 46 và khớp với đáp án mẫu về số thành viên từ 02 đến 50.", "called": true}
+{"id": "M_062", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời nêu đúng số lượng cổ đông tối thiểu và không giới hạn tối đa, có trong đoạn trích; đáp ứng yêu cầu câu hỏi về số lượng cổ đông.", "called": true}
+{"id": "M_063", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời chứa đầy đủ nội dung của Điều 319 và khớp với đáp án mẫu; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_064", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung khoản 1 Điều 113 và khớp với đáp án mẫu; không có thông tin sai hoặc không có trong đoạn trích.", "called": true}
+{"id": "M_065", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định 300% và không sai so với đáp án mẫu.", "called": true}
+{"id": "M_066", "run": "baseline", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_067", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời chứa đầy đủ quyền yêu cầu trả tiền lãi và điều kiện loại trừ như trong Điều 306, khớp với đáp án mẫu.", "called": true}
+{"id": "M_038", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Điều 16 khoản 2, khẳng định hợp pháp vì thời hạn dưới 03 tháng; khớp với đáp án mẫu.", "called": true}
+{"id": "M_039", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
+{"id": "M_040", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định quyền của thanh tra lao động dựa trên Điều 51 khoản 1, đúng với đáp án mẫu.", "called": true}
+{"id": "M_041", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên các điều 50 và 214; đáp án trùng khớp với đáp án mẫu.", "called": true}
+{"id": "M_042", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_043", "run": "no_grading", "faithfulness": 1.0, "correctness": 0.5, "reason": "Khẳng định quyền chấm dứt và yêu cầu báo trước dựa trên các khoản trích, nhưng không nêu chi tiết thời hạn báo trước như đáp án mẫu.", "called": true}
+{"id": "M_044", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_045", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định công ty có thể sa thải vì quấy rối tình dục được quy định trong nội quy, đúng với Khoản 2 Điều 125 và không sai lệch.", "called": true}
+{"id": "M_046", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_047", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định được nghỉ ít nhất 30 phút, đúng với Điều 109 khoản 1; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_048", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn các khoản 1 và 2 Điều 202, đúng với đáp án mẫu; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_049", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 2 Điều 190, đúng thời hiệu 09 tháng như đáp án mẫu.", "called": true}
+{"id": "M_050", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều có trong Khoản 2 Điều 100 và khớp với đáp án mẫu; không có sai lệch.", "called": true}
+{"id": "M_051", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_052", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Điều 96 BLLĐ 2012 và khớp với đáp án mẫu; không có thông tin không có trong đoạn trích.", "called": true}
+{"id": "M_053", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Khoản 4 Điều 97 BLLĐ 2019 và phản ánh đúng kết luận mẫu: không phải đền bù vì chậm trả dưới 15 ngày.", "called": true}
+{"id": "M_054", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_055", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào các khoản 1 và 2 Điều 30 BLLĐ 2019; kết luận khớp với đáp án mẫu.", "called": true}
+{"id": "M_056", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_057", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định khoản 2 Điều 27, đúng với đáp án mẫu; không cần báo trước hay bồi thường.", "called": true}
+{"id": "M_058", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_059", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 1 Điều 20, khớp với đáp án mẫu.", "called": true}
+{"id": "M_060", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung khoản 3 Điều 418 và khớp với đáp án mẫu; không có thông tin sai lệch.", "called": true}
+{"id": "M_061", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định số thành viên từ 02 đến 50, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_062", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng nội dung về số lượng cổ đông trong đoạn trích và đáp ứng yêu cầu câu hỏi.", "called": true}
+{"id": "M_063", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_064", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời bao gồm đầy đủ các ngày nghỉ và điều kiện như trong khoản 1 Điều 113, khớp với đáp án mẫu.", "called": true}
+{"id": "M_065", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định 300% và điều kiện kèm theo, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_066", "run": "no_grading", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_067", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_038", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào Điều 16 khoản 2, khẳng định hợp pháp vì thời hạn dưới 03 tháng; khớp với đáp án mẫu.", "called": true}
+{"id": "M_039", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the conclusion matches the sample answer.", "called": true}
+{"id": "M_040", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định quyền của thanh tra lao động dựa trên Điều 51 khoản 1, đúng với đáp án mẫu.", "called": true}
+{"id": "M_041", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều dựa trên Điều 50 và Điều 214 Khoản 5; đáp ứng đúng kết luận mẫu.", "called": true}
+{"id": "M_042", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_043", "run": "no_verify", "faithfulness": 1.0, "correctness": 0.5, "reason": "Khẳng định quyền chấm dứt và yêu cầu báo trước dựa trên các khoản trích, nhưng không nêu chi tiết thời hạn báo trước như đáp án mẫu.", "called": true}
+{"id": "M_044", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_045", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định công ty có thể sa thải vì quấy rối tình dục được quy định trong nội quy, đúng với Khoản 2 Điều 125 và không sai lệch.", "called": true}
+{"id": "M_046", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_047", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời khẳng định được nghỉ ít nhất 30 phút, đúng với Điều 109 khoản 1; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_048", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn các khoản 1 và 2 Điều 202, đúng với đáp án mẫu; không có thông tin sai hoặc thiếu.", "called": true}
+{"id": "M_049", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 2 Điều 190, đúng thời hiệu 09 tháng như đáp án mẫu.", "called": true}
+{"id": "M_050", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by Điều 100 khoản 2 và không mâu thuẫn với đáp án mẫu.", "called": true}
+{"id": "M_051", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_052", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Điều 96 BLLĐ 2012 và khớp với đáp án mẫu; không có thông tin không có trong đoạn trích.", "called": true}
+{"id": "M_053", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa hoàn toàn vào Khoản 4 Điều 97 BLLĐ 2019 và đúng kết luận rằng không phải đền bù vì chậm 10 ngày (<15 ngày).", "called": true}
+{"id": "M_054", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_055", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời dựa đúng vào các khoản 1 và 2 Điều 30 BLLĐ 2019; kết luận khớp với đáp án mẫu.", "called": true}
+{"id": "M_056", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_057", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định khoản 2 Điều 27, đúng với đáp án mẫu; không cần báo trước hay bồi thường.", "called": true}
+{"id": "M_058", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_059", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn từ khoản 1 Điều 20, khớp với đáp án mẫu.", "called": true}
+{"id": "M_060", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung khoản 3 Điều 418 và khớp với đáp án mẫu; không có thông tin sai lệch.", "called": true}
+{"id": "M_061", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định số thành viên từ 02 đến 50, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_062", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đúng nội dung về số lượng cổ đông trong đoạn trích và đáp ứng yêu cầu câu hỏi.", "called": true}
+{"id": "M_063", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_064", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời bao gồm đầy đủ các ngày nghỉ và điều kiện như trong khoản 1 Điều 113, khớp với đáp án mẫu.", "called": true}
+{"id": "M_065", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời trích nguyên văn quy định 300% và điều kiện kèm theo, đúng với đoạn trích và đáp án mẫu.", "called": true}
+{"id": "M_066", "run": "no_verify", "faithfulness": null, "correctness": 0.0, "reason": "từ chối", "called": false}
+{"id": "M_067", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Câu trả lời phản ánh đầy đủ nội dung đoạn trích và khớp với đáp án mẫu.", "called": true}
+{"id": "M_046", "run": "baseline", "faithfulness": 1.0, "correctness": 0.0, "reason": "Câu trả lời dựa hoàn toàn vào các đoạn trích, nhưng kết luận về việc được nghỉ không phù hợp với đáp án mẫu.", "called": true}
+{"id": "M_017", "run": "full", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the answer correctly states that only indefinite or fixed‑term contracts (≤36 months) are used, even for seasonal work.", "called": true}
+{"id": "M_017", "run": "baseline", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều có trong các khoản trích và đáp ứng kết luận mẫu: không có hợp đồng mùa vụ riêng, chỉ dùng hợp đồng không xác định hoặc xác định thời hạn (≤36 tháng).", "called": true}
+{"id": "M_017", "run": "no_router", "faithfulness": 1.0, "correctness": 1.0, "reason": "Các khẳng định đều có trong các khoản trích và đáp ứng kết luận mẫu: không có hợp đồng mùa vụ riêng, chỉ dùng hợp đồng không xác định hoặc xác định thời hạn (≤36 tháng).", "called": true}
+{"id": "M_017", "run": "no_grading", "faithfulness": 1.0, "correctness": 1.0, "reason": "All statements are directly supported by the cited provisions and the answer correctly states that only indefinite or fixed‑term contracts (≤36 months) are used, even for seasonal work.", "called": true}
+{"id": "M_017", "run": "no_verify", "faithfulness": 1.0, "correctness": 1.0, "reason": "Both statements are directly supported by the cited provisions and the answer correctly states that only indefinite or fixed‑term contracts (max 36 months) are allowed, with seasonal work using a fixed‑term contract.", "called": true}
