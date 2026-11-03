@@ -72,11 +72,56 @@
       "Độ trễ (s)"
      ],
      "rows": [
-      ["full", "0,871", "0,870", "0,825", "0,750", "0,871", "4,0", "15,9"],
-      ["no_router", "0,876", "0,833", "0,791", "0,500", "0,830", "3,2", "12,7"],
-      ["no_grading", "0,861", "0,868", "0,810", "0,750", "0,871", "3,0", "8,8"],
-      ["no_verify", "0,871", "0,859", "0,859", "0,750", "0,867", "3,0", "11,0"],
-      ["baseline", "0,895", "0,795", "0,810", "0,500", "0,826", "1,0", "6,9"]
+      [
+       "full",
+       "0,871",
+       "0,870",
+       "0,825",
+       "0,750",
+       "0,871",
+       "4,0",
+       "15,9"
+      ],
+      [
+       "no_router",
+       "0,876",
+       "0,833",
+       "0,791",
+       "0,500",
+       "0,830",
+       "3,2",
+       "12,7"
+      ],
+      [
+       "no_grading",
+       "0,861",
+       "0,868",
+       "0,810",
+       "0,750",
+       "0,871",
+       "3,0",
+       "8,8"
+      ],
+      [
+       "no_verify",
+       "0,871",
+       "0,859",
+       "0,859",
+       "0,750",
+       "0,867",
+       "3,0",
+       "11,0"
+      ],
+      [
+       "baseline",
+       "0,895",
+       "0,795",
+       "0,810",
+       "0,500",
+       "0,826",
+       "1,0",
+       "6,9"
+      ]
      ]
     },
     "after": "So với full (ghép cặp, * = có ý nghĩa ở mức 95%): bỏ router làm tỷ lệ đúng phiên bản giảm 0,250*; baseline kém full ở Citation Precision (−0,060*) và đúng phiên bản (−0,250*); bỏ bước kiểm chứng làm Citation Recall tăng 0,034* nhưng Precision giảm 0,016*, tức bước kiểm chứng đổi một phần recall lấy độ chính xác của trích dẫn; bỏ bước đánh giá bằng chứng không tạo khác biệt đo được. Trên 30 câu giữ riêng, full đạt Citation Precision 0,978 so với 0,740 của no_router; giả thuyết H1 (router giúp trích đúng phiên bản) được ủng hộ, các chỉ số khác cùng chiều nhưng chưa đủ mạnh."
@@ -92,9 +137,24 @@
       "Correctness"
      ],
      "rows": [
-      ["Theo ngày sự việc", "0,781", "0,750", "0,766"],
-      ["Không lọc", "0,875", "0,562", "0,703"],
-      ["Chỉ văn bản còn hiệu lực", "0,719", "0,438", "0,578"]
+      [
+       "Theo ngày sự việc",
+       "0,781",
+       "0,750",
+       "0,766"
+      ],
+      [
+       "Không lọc",
+       "0,875",
+       "0,562",
+       "0,703"
+      ],
+      [
+       "Chỉ văn bản còn hiệu lực",
+       "0,719",
+       "0,438",
+       "0,578"
+      ]
      ]
     },
     "after": "Giả thuyết H2: lọc theo ngày sự việc hơn \"chỉ văn bản còn hiệu lực\" có ý nghĩa (đúng phiên bản −0,312*, Correctness −0,188*); hơn \"không lọc\" cùng chiều (−0,188) nhưng khoảng tin cậy chạm 0, nên chưa khẳng định. Kết quả trên 20 câu giữ riêng cho cùng kết luận."
@@ -163,15 +223,51 @@
     "Tình trạng"
    ],
    "rows": [
-    ["1 – 8", "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương", "Hoàn thành"],
-    ["8 – 9", "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng", "Hoàn thành"],
-    ["9 – 10", "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10", "Hoàn thành"],
-    ["10 – 11", "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG", "Hoàn thành sớm (16/10)"],
-    ["11 – 12", "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời", "Hoàn thành"],
-    ["12 – 13", "Sprint 5 (05/11 – 15/11): thực nghiệm đầy đủ, đóng băng 12/11", "Phần của Đạt xong (03/11); còn 4 thẻ của Hùng"],
-    ["14 – 15", "Sprint 6 (16/11 – 27/11): đóng gói, hoàn thiện báo cáo", "Chưa đến hạn"],
-    ["16", "Dự phòng (28/11 – 03/12); nộp 03/12, hạn chót 04/12", "Chưa đến hạn"],
-    ["Sau 04/12", "Bảo vệ phản biện", "Chưa đến hạn"]
+    [
+     "1 – 8",
+     "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương",
+     "Hoàn thành"
+    ],
+    [
+     "8 – 9",
+     "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng",
+     "Hoàn thành"
+    ],
+    [
+     "9 – 10",
+     "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10",
+     "Hoàn thành"
+    ],
+    [
+     "10 – 11",
+     "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG",
+     "Hoàn thành sớm (16/10)"
+    ],
+    [
+     "11 – 12",
+     "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời",
+     "Hoàn thành"
+    ],
+    [
+     "12 – 13",
+     "Sprint 5 (05/11 – 15/11): thực nghiệm đầy đủ, đóng băng 12/11",
+     "Phần của Đạt xong (03/11); còn 4 thẻ của Hùng"
+    ],
+    [
+     "14 – 15",
+     "Sprint 6 (16/11 – 27/11): đóng gói, hoàn thiện báo cáo",
+     "Chưa đến hạn"
+    ],
+    [
+     "16",
+     "Dự phòng (28/11 – 03/12); nộp 03/12, hạn chót 04/12",
+     "Chưa đến hạn"
+    ],
+    [
+     "Sau 04/12",
+     "Bảo vệ phản biện",
+     "Chưa đến hạn"
+    ]
    ]
   },
   "verdict": [
@@ -235,31 +331,31 @@
   "rows": [
    [
     "Gemini quá tải (lỗi 503) kéo dài nhiều giờ, ví dụ chiều 03/11",
-    "Đã kiểm tra trên hai mạng khác nhau: lỗi phía máy chủ Google, không do mạng. API báo lỗi nhanh kèm thông báo thân thiện; thực nghiệm chính đã chạy xong nên chỉ ảnh hưởng demo. Quay video demo khi mô hình ổn định, ghi sẵn bản dự phòng."
+    "Giảm thiểu: đã kiểm tra trên hai mạng khác nhau: lỗi phía máy chủ Google, không do mạng. API báo lỗi nhanh kèm thông báo thân thiện; thực nghiệm chính đã chạy xong nên chỉ ảnh hưởng demo. Quay video demo khi mô hình ổn định, ghi sẵn bản dự phòng."
    ],
    [
     "Hạn mức API miễn phí (Gemini 500 lượt/ngày/key, Groq khoảng 100 lượt chấm/ngày/key)",
-    "Các lượt chạy chính đã xong; cache đĩa giữa các lần chạy; pipeline tự dừng khi hết hạn mức và chạy tiếp đúng chỗ."
+    "Đã xử lý: các lượt chạy chính đã xong; cache đĩa giữa các lần chạy; pipeline tự dừng khi hết hạn mức và chạy tiếp đúng chỗ."
    ],
    [
     "Bộ chấm LLM dễ dãi (cho điểm tối đa ở mọi câu trong mẫu chấm tay, kappa = 0)",
-    "Kết luận chính dựa vào chỉ số tính bằng code (trích dẫn, đúng phiên bản, từ chối); Faithfulness, Correctness chỉ là chỉ số phụ; ghi rõ là giới hạn."
+    "Chấp nhận, ghi vào giới hạn: kết luận chính dựa vào chỉ số tính bằng code (trích dẫn, đúng phiên bản, từ chối); Faithfulness, Correctness chỉ là chỉ số phụ; ghi rõ là giới hạn."
    ],
    [
     "Một số chênh lệch chưa có ý nghĩa thống kê do cỡ mẫu",
-    "Báo cáo kèm khoảng tin cậy và số câu; nêu cả giả thuyết chưa được ủng hộ đúng như đã chốt trước."
+    "Chấp nhận, ghi vào giới hạn: báo cáo kèm khoảng tin cậy và số câu; nêu cả giả thuyết chưa được ủng hộ đúng như đã chốt trước."
    ],
    [
     "Prompt được chỉnh sau khi thấy lỗi trên tập kiểm thử",
-    "Tập giữ riêng 30 câu soạn và chốt sau khi cố định prompt; kết quả trên tập này cùng chiều với tập cũ."
+    "Giảm thiểu: tập giữ riêng 30 câu soạn và chốt sau khi cố định prompt, kết quả cùng chiều với tập cũ; 179 câu cũ vẫn là tập đã dùng khi chỉnh prompt."
    ],
    [
     "Phần viết báo cáo dồn vào tuần 13",
-    "Thẻ việc chi tiết cho từng chương; Chương 3–4 đã có làm khung số liệu; hạn nội bộ 15/11, còn 2 tuần đệm trước 27/11."
+    "Đang theo dõi: thẻ việc chi tiết cho từng chương; Chương 3–4 đã có làm khung số liệu; hạn nội bộ 15/11, còn 2 tuần đệm trước 27/11."
    ],
    [
     "Router còn xếp nhầm 3/209 câu trong phạm vi thành ngoài phạm vi",
-    "Không sửa prompt thêm để giữ tính khách quan của kết quả (tập giữ riêng đã dùng); ghi vào giới hạn và hướng phát triển."
+    "Chấp nhận, ghi vào giới hạn: không sửa prompt thêm để giữ tính khách quan của kết quả (tập giữ riêng đã dùng); ghi vào giới hạn và hướng phát triển."
    ]
   ]
  },
@@ -273,7 +369,7 @@
   "Về hệ thống và báo cáo: bạn Hùng đã xây dựng giao diện web NiceGUI kết nối với API, có thẻ trích dẫn mở được toàn văn Điều luật, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử; giao diện hiển thị được trên laptop, máy tính bảng và điện thoại, và đã chạy đúng với bốn kịch bản demo. Em bổ sung xử lý lỗi để API báo lỗi nhanh khi mô hình quá tải, và sửa lỗi tra cứu Điều của văn bản đã hết hiệu lực. Về báo cáo, đã có bản nháp Chương 1, 3, 4, bốn biểu đồ cho RQ1 đến RQ4, các sơ đồ kiến trúc, và toàn bộ tài liệu tham khảo đã được đối chiếu với nguồn gốc.",
   "So với kế hoạch trong đề cương đã cập nhật hạn nộp mới, đến hết tuần 12 đã trôi qua 12 trên 16 tuần, tức 75% thời gian, và nhóm hoàn thành 62 trên 74 hạng mục, khoảng 84%. Sprint 4 đã xong; phần của em trong Sprint 5 xong ngày 03/11, trước khi sprint bắt đầu. Phần cần theo dõi là bốn thẻ báo cáo của bạn Hùng: Chương 2, Chương 5, cập nhật số liệu Chương 1 và sơ đồ use case, sequence, hạn ngày 15/11.",
   "Từ nay đến khi nộp còn bốn tuần. Tuần 13 hoàn thiện bản nháp báo cáo: Chương 2, 5, sơ đồ còn thiếu, rà soát Chương 3 và 4; ngày 12/11 đóng băng tính năng và ngày 15/11 nghiệm thu Sprint 5. Tuần 14 và 15 đóng gói bằng Docker, viết README tái lập thực nghiệm, ghép báo cáo theo mẫu TDTU, kiểm tra Turnitin, làm slide và video demo; ngày 27/11 có báo cáo hoàn chỉnh. Tuần 16 là thời gian dự phòng; nhóm dự kiến nộp ngày 03/12, trước hạn chót 04/12.",
-  "Có bảy khó khăn chính, slide trình bày sáu. Gemini thường xuyên báo quá tải; nhóm đã kiểm tra trên hai mạng khác nhau và xác định là lỗi phía máy chủ, nên API được sửa để báo lỗi nhanh, và vì thực nghiệm đã xong nên chỉ ảnh hưởng tới demo. Hạn mức API miễn phí không còn là rủi ro lớn vì các lượt chạy chính đã xong. Bộ chấm LLM dễ dãi nên kết luận chính dựa vào chỉ số tính bằng code. Một số chênh lệch chưa có ý nghĩa thống kê, nhóm báo cáo kèm khoảng tin cậy. Giới hạn chỉnh prompt trên tập kiểm thử được giảm nhờ tập giữ riêng. Cuối cùng, phần viết báo cáo dồn vào tuần 13, nên nhóm đã chia thẻ việc chi tiết và giữ hai tuần đệm.",
+  "Có bảy khó khăn chính, slide trình bày sáu, mỗi giải pháp ghi rõ tình trạng: đã xử lý, giảm thiểu hay chấp nhận là giới hạn của đề tài. Gemini thường xuyên báo quá tải; nhóm đã kiểm tra trên hai mạng khác nhau và xác định là lỗi phía máy chủ, nên API được sửa để báo lỗi nhanh, và vì thực nghiệm đã xong nên chỉ ảnh hưởng tới demo. Hạn mức API miễn phí không còn là rủi ro lớn vì các lượt chạy chính đã xong. Bộ chấm LLM dễ dãi và cỡ mẫu còn nhỏ là hai giới hạn nhóm chấp nhận: kết luận chính dựa vào chỉ số tính bằng code, kèm khoảng tin cậy. Giới hạn chỉnh prompt trên tập kiểm thử được giảm nhờ tập giữ riêng, nhưng chưa hết vì 179 câu cũ vẫn là tập đã dùng khi chỉnh. Cuối cùng, phần viết báo cáo dồn vào tuần 13, nên nhóm đã chia thẻ việc chi tiết và giữ hai tuần đệm.",
   "Tóm lại, thực nghiệm RQ1 đến RQ4 đã hoàn tất kèm kiểm định thống kê và tập giữ riêng; hệ thống đã có giao diện web chạy đầy đủ; báo cáo đã có bản nháp ba chương. Sau báo cáo tuần trước, nhóm đã tự chốt hai điểm: trình bày bước kiểm chứng như một đánh đổi trong RQ3, có phép thử tiêm trích dẫn sai đi kèm, và mở rộng mẫu bằng tập giữ riêng. Tuần 13 nhóm tập trung hoàn thiện bản nháp Chương 1 đến 5. Em xin cảm ơn thầy đã lắng nghe."
  ]
 }

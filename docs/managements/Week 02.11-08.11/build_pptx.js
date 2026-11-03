@@ -263,19 +263,23 @@ function twoColumns(s, cols) {
   const short = ["Gemini quá tải (503)", "Hạn mức API miễn phí", "Bộ chấm LLM dễ dãi", "Cỡ mẫu", "Chỉnh prompt trên tập kiểm thử", "Báo cáo dồn vào tuần 13"];
   const detail = ["Kéo dài nhiều giờ, ví dụ chiều 03/11", "Gemini 500 lượt/ngày/key; Groq ≈ 100 lượt chấm", "Điểm tối đa ở mọi câu chấm tay (kappa = 0)",
     "Vài chênh lệch chưa có ý nghĩa thống kê", "Chưa có tập dev riêng", "4 thẻ của Hùng, hạn 15/11"];
-  const fix = ["Lỗi phía máy chủ (đã thử 2 mạng). API báo lỗi nhanh; thực nghiệm đã xong; quay demo khi ổn định, ghi sẵn bản dự phòng.",
-    "Các lượt chạy chính đã xong; cache đĩa; pipeline tự dừng khi hết hạn mức và chạy tiếp đúng chỗ.",
-    "Kết luận chính dựa vào chỉ số tính bằng code; điểm bộ chấm là chỉ số phụ, ghi rõ giới hạn.",
-    "Báo cáo kèm khoảng tin cậy, số câu; nêu cả giả thuyết chưa được ủng hộ.",
-    "Tập giữ riêng 30 câu chốt sau khi cố định prompt; kết quả cùng chiều.",
-    "Thẻ việc chi tiết; Chương 3–4 đã có làm khung số liệu; còn 2 tuần đệm trước 27/11."];
+  // [tình trạng, giải pháp]: tách "đã xử lý" khỏi "giảm thiểu" và "chấp nhận là giới hạn" để người đọc không hiểu là đã hết
+  const fix = [["Giảm thiểu", "Lỗi phía máy chủ (đã thử 2 mạng). API báo lỗi nhanh; quay demo khi ổn định, ghi sẵn bản dự phòng."],
+    ["Đã xử lý", "Các lượt chạy chính đã xong; cache đĩa; pipeline tự dừng khi hết hạn mức, chạy tiếp đúng chỗ."],
+    ["Chấp nhận, ghi vào giới hạn", "Kết luận chính dựa vào chỉ số tính bằng code; điểm bộ chấm là chỉ số phụ."],
+    ["Chấp nhận, ghi vào giới hạn", "Báo cáo kèm khoảng tin cậy, số câu; nêu cả giả thuyết chưa được ủng hộ."],
+    ["Giảm thiểu", "Tập giữ riêng 30 câu chốt sau khi cố định prompt; 179 câu cũ vẫn là tập đã dùng khi chỉnh."],
+    ["Đang theo dõi", "Thẻ việc chi tiết; Chương 3–4 đã có khung số liệu; còn 2 tuần đệm trước 27/11."]];
+  const STATUS_COLOR = { "Đã xử lý": COL.green, "Giảm thiểu": COL.sky };
   short.forEach((h, i) => {
     const x = 0.6 + (i % 3) * 4.1, y = 1.6 + Math.floor(i / 3) * 2.65;
     card(s, x, y, 3.85, 2.45, { fill: COL.white });
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x + 0.15, y: y + 0.15, w: 3.55, h: 1.0, rectRadius: 0.08, fill: { color: COL.warnBg }, line: { color: COL.warnBg } });
     T(s, [{ text: h, options: { bold: true, breakLine: true } }, { text: detail[i], options: { fontSize: 11.5 } }],
       { x: x + 0.3, y: y + 0.18, w: 3.3, h: 0.95, fontSize: 14, color: COL.warn, valign: "middle" });
-    T(s, fix[i], { x: x + 0.3, y: y + 1.25, w: 3.3, h: 1.15, fontSize: 12.5 });
+    const [st, text] = fix[i];
+    T(s, [{ text: st, options: { bold: true, color: STATUS_COLOR[st] || COL.warn, breakLine: true } }, { text }],
+      { x: x + 0.3, y: y + 1.22, w: 3.3, h: 1.18, fontSize: 12, paraSpaceAfter: 2 });
   });
 }
 
