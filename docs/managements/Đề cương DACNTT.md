@@ -475,10 +475,10 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 - [x] Làm trước các thẻ Sprint 2 còn dở (ưu tiên H1, H2, H6).
 - [x] H8 — Panel toàn văn Điều, tô sáng Khoản được trích (src/ui/article_view.py, sample_articles.json).
-- [ ] H9 — Hiển thị từ chối, nhãn "(chưa có căn cứ)", dòng tóm tắt từng bước trace; 3 phản hồi mẫu trong src/ui/samples/.
+- [x] H9 — Hiển thị từ chối, nhãn "(chưa có căn cứ)", dòng tóm tắt từng bước trace; 3 phản hồi mẫu trong src/ui/samples/. → xong (giao diện NiceGUI, Sprint 4).
 - [ ] ~~H10 — docs/judge_prompts.md~~ → thay bằng H10' (Sprint 4): duyệt prompt chấm trong eval/judge.py.: prompt chấm Faithfulness và Answer Correctness (0 / 0,5 / 1, đầu ra JSON) theo RAGAS (Đạt duyệt).
-- [ ] H11 — docs/rubric.md: thang chấm tay 3 mức kèm ví dụ và quy tắc biên.
-- [ ] H12 — Bản nháp Chương 2 (BM25, dense, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph, đặc thù văn bản luật).
+- [x] H11 — docs/rubric.md: thang chấm tay 3 mức kèm ví dụ và quy tắc biên. → xong (`docs/rubric.md`).
+- [ ] ~~H12 — Bản nháp Chương 2 (BM25, dense, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph, đặc thù văn bản luật).~~ → chuyển sang Sprint 5.
 
 **Nghiệm thu sprint (28/10):** CLI trả lời đúng nhánh cho 4 loại câu hỏi; giao diện chạy với dữ liệu mẫu. Nếu tác tử chưa ổn định: áp dụng phương án dự phòng tại mục 11.
 
@@ -494,15 +494,15 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - [x] Task 4 — eval/judge.py (Groq gpt-oss-120b, 1 lượt/câu, Faithfulness + Correctness 0 / 0,5 / 1; từ chối và câu ngoài phạm vi chấm bằng code); agent_eval judge/sheet/agree (phiếu chấm tay CSV, tỷ lệ khớp).
 - [x] Task 5 — src/api/main.py: POST /api/ask (422 đầu vào sai, 503 LLM lỗi, phục vụ tuần tự), GET /api/article/{law_id}/{article}, GET /health; nạp mô hình một lần khi khởi động.
 - [x] Task 6 — Chạy thử pipeline trên 10 câu RQ3 + 12 câu RQ4, đo quota thực tế, ghi lịch chạy đủ vào Sprint 5.
-- [ ] Chấm tay độc lập 20 câu trả lời (cùng Hùng, phiếu eval/results/grading_rq3.csv).
+- [x] Chấm tay độc lập 20 câu trả lời (cùng Hùng, phiếu eval/results/grading_rq3.csv). → Đạt chấm một mình (`grading_rq3_dat.csv`), Hùng không chấm.
 
 **Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-10-28-sprint4-hung.md):**
 
-- [ ] Làm nốt thẻ Sprint 3: H9, H10' (duyệt prompt chấm trong eval/judge.py thay cho H10), H11, H12.
-- [ ] H16 — Xem lại câu M_017 (đáp án mẫu dễ tranh cãi).
-- [ ] H13 — Ghép giao diện với API (API_URL; không đặt thì dùng phản hồi mẫu), vòng chờ, thông báo lỗi; kiểm cùng Đạt.
-- [ ] H14 — Chấm tay độc lập 20 câu; tỷ lệ khớp người–LLM và giữa 2 người ghi vào docs/rubric.md.
-- [ ] H15 — Bản nháp Chương 1 (tổng quan đề tài).
+- [x] Làm nốt thẻ Sprint 3: H9, H10' (duyệt prompt chấm trong eval/judge.py thay cho H10), H11, H12. → H9, H10', H11 xong; H12 chuyển sang Sprint 5.
+- [x] H16 — Xem lại câu M_017 (đáp án mẫu dễ tranh cãi). → Hùng sửa câu hỏi, Đạt chạy lại 03/11.
+- [x] H13 — Ghép giao diện với API (API_URL; không đặt thì dùng phản hồi mẫu), vòng chờ, thông báo lỗi; kiểm cùng Đạt. → xong (NiceGUI gọi API, kiểm 03/11).
+- [x] H14 — Chấm tay độc lập 20 câu; tỷ lệ khớp người–LLM và giữa 2 người ghi vào docs/rubric.md. → Đạt chấm thay (khớp 0,950 / 0,917; kappa = 0).
+- [x] H15 — Bản nháp Chương 1 (tổng quan đề tài). → xong (`docs/report/chuong1_draft.md`).
 
 **Nghiệm thu sprint (04/11):** hỏi trên giao diện nhận câu trả lời thật kèm trích dẫn bấm được; evaluate.py chạy được trên 10 câu.
 
@@ -513,17 +513,17 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 **Phạm Huỳnh Quốc Đạt (chi tiết: docs/superpowers/plans/2026-11-05-sprint5-dat.md):**
 
 - [x] Chạy đủ RQ3 (5 cấu hình × 209 câu), RQ4 (3 chính sách × 32 câu temporal), chấm Groq; chạy lại RQ1/RQ2 trên 77 câu Zalo; chạy lại M_017 sau khi Hùng sửa (H16).
-- [ ] Task 1 — API báo lỗi nhanh khi LLM quá tải (số lần thử lại của API giảm còn 2).
-- [ ] Task 2 — Điểm chấm gắn với câu trả lời đã chấm (`answer_sha`), không phải xóa tay dòng judge khi chạy lại.
-- [ ] Task 3 — Đo latency 20 câu không dùng cache (5 cấu hình), bảng trung vị/p90.
-- [ ] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`); Đạt gán nhãn (thay H20 của Hùng) và lập bảng tổng hợp loại lỗi.
-- [ ] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
-- [ ] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
+- [x] Task 1 — API báo lỗi nhanh khi LLM quá tải (số lần thử lại của API giảm còn 2).
+- [x] Task 2 — Điểm chấm gắn với câu trả lời đã chấm (`answer_sha`), không phải xóa tay dòng judge khi chạy lại.
+- [x] Task 3 — Đo latency 20 câu không dùng cache (5 cấu hình), bảng trung vị/p90.
+- [x] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`); Đạt gán nhãn (thay H20 của Hùng) và lập bảng tổng hợp loại lỗi.
+- [x] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
+- [x] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
 
 **Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-11-05-sprint5-hung.md):**
 
 - [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
-- [ ] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo).
+- [x] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo). → Đạt kiểm 03/11 (4 kịch bản qua API + giao diện).
 - [ ] H18 — Sơ đồ use case và sequence.
 - [ ] H12 — Bản nháp Chương 2.
 - [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
