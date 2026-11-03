@@ -21,18 +21,17 @@ Cảm ơn Hùng về giao diện NiceGUI, sơ đồ activity/kiến trúc, `rubr
 | H17 | Cập nhật số liệu Chương 1 | 07/11 | — |
 | H19 | Kiểm giao diện NiceGUI với API thật, cùng Đạt | 07/11 | Task 1 của Đạt |
 | H18 | Sơ đồ use case và sequence | 09/11 | — |
-| H20 | Gán nhãn lỗi 20 câu | 10/11 | Task 4 của Đạt (06/11) |
 | H12 | Bản nháp Chương 2 (thẻ Sprint 3) | 10/11 | — |
 | H21 | Bản nháp Chương 5 | 15/11 | Chương 4 của Đạt (bản nháp) |
 
-Nghiệm thu Sprint 5 (15/11): có bản nháp Chương 1, 2, 5; đủ 4 sơ đồ; phiếu lỗi đã gán nhãn; giao diện chạy với API thật trên máy Đạt.
+Nghiệm thu Sprint 5 (15/11): có bản nháp Chương 1, 2, 5; đủ 4 sơ đồ; giao diện chạy với API thật trên máy Đạt.
 
 ## Quy trình chung
 
 - Luôn `git pull` trước khi làm. Commit nhỏ theo từng thẻ, dạng `docs: ...`, `feat(ui): ...`.
 - **Không sửa** code của Đạt: `src/agent/`, `src/api/`, `src/generation/`, `src/retrieval/`, `src/ingestion/`, `eval/*.py`, `tests/` của các phần đó. Thấy lỗi thì báo Đạt.
 - **Không sửa** `eval/manual_cases.json`, `eval/test_cases.json`, `eval/results/subset_*.json` mà chưa báo Đạt: sửa một câu đã chạy là phải chạy lại và tốn quota (xem `AGENTS.md`).
-- File của Hùng: `src/ui/`, `assets/`, `docs/report/chuong1_draft.md`, `chuong2_draft.md`, `chuong5_draft.md`, phiếu `eval/results/errors_rq3.csv` (chỉ cột `category`, `note`).
+- File của Hùng: `src/ui/`, `assets/`, `docs/report/chuong1_draft.md`, `chuong2_draft.md`, `chuong5_draft.md`.
 - Bản nháp viết Markdown trong `docs/report/`, cùng quy ước với `chuong1_draft.md`. Tài liệu ngoài mục 12 đề cương ghi `[CẦN KIỂM TRA]`. Số liệu chỉ lấy từ `eval/results/*.md`, không lấy từ chat hay trí nhớ của AI.
 
 ---
@@ -83,7 +82,9 @@ Tên nút, tên endpoint, tên trường lấy đúng từ code (`src/agent/grap
 
 **Xong khi:** 2 file `.drawio` và 2 file `.png` (rộng ≥ 1600 px, chữ đọc được khi in A4) trong `assets/diagrams/`; Đạt xem và không có tên nào lệch với code.
 
-## H20 — Gán nhãn lỗi 20 câu
+## H20 — Gán nhãn lỗi 20 câu (Đạt đảm nhận từ 03/11, Hùng không cần làm)
+
+Giữ lại mô tả dưới đây làm hướng dẫn gán nhãn.
 
 **Đầu vào:** `eval/results/errors_rq3.csv` (Đạt tạo ngày 06/11). Mỗi dòng là một câu cấu hình `full` trả lời chưa tốt, kèm câu hỏi, đáp án mẫu, căn cứ chuẩn (`gold`), căn cứ đã trích (`cited`), loại định tuyến (`route`), câu trả lời, và gợi ý tự động (`hints`).
 
@@ -98,6 +99,10 @@ Tên nút, tên endpoint, tên trường lấy đúng từ code (`src/agent/grap
 | `dinh_tuyen_sai` | Router xếp nhầm loại câu (vd câu tra cứu trực tiếp bị coi là tình huống), hoặc trích sai ngày sự việc |
 | `tu_choi_nham` | Câu trong phạm vi nhưng hệ thống từ chối |
 | `dap_an_mau_tranh_cai` | Hệ thống trả lời hợp lý; đáp án mẫu hoặc căn cứ chuẩn mới là chỗ có vấn đề |
+| `tra_loi_thieu_y` | Trích đúng nhưng câu trả lời bỏ điều kiện, con số mà câu hỏi cần |
+| `trich_them_lien_quan` | Trích thêm Điều có liên quan ngoài căn cứ chuẩn (chỉ số trừ điểm, không phải lỗi thật) |
+| `bo_cham_qua_chat` | Bộ chấm trừ điểm vì thiếu chi tiết mà câu hỏi không hỏi tới (rubric R5) |
+| `khong_phai_loi` | Chỉ số báo lỗi nhưng xem kỹ thì câu trả lời hoặc việc từ chối là hợp lý |
 | `khac` | Không thuộc loại nào ở trên (ghi rõ trong `note`) |
 
 **Các bước:**

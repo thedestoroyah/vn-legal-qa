@@ -122,7 +122,7 @@ Hạn nộp **23:59 04/12/2026** (dời từ 21/11, báo ngày 03/11). Thiết k
 - [ ] Task 1 — API báo lỗi nhanh khi LLM quá tải (số lần thử lại của API giảm còn 2).
 - [ ] Task 2 — Điểm chấm gắn với câu trả lời đã chấm (`answer_sha`), không phải xóa tay dòng judge khi chạy lại.
 - [ ] Task 3 — Đo latency 20 câu không dùng cache (5 cấu hình), bảng trung vị/p90.
-- [ ] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`), bảng tổng hợp loại lỗi sau khi gán nhãn.
+- [ ] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`); Đạt gán nhãn (thay H20 của Hùng) và lập bảng tổng hợp loại lỗi.
 - [ ] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
 - [ ] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
 
@@ -131,7 +131,6 @@ Hạn nộp **23:59 04/12/2026** (dời từ 21/11, báo ngày 03/11). Thiết k
 - [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
 - [ ] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo).
 - [ ] H18 — Sơ đồ use case và sequence.
-- [ ] H20 — Gán nhãn lỗi 20 câu.
 - [ ] H12 — Bản nháp Chương 2.
 - [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
 

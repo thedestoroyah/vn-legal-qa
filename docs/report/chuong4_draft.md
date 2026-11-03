@@ -2,7 +2,6 @@
 
 > **Bản nháp Task 7 Sprint 5** — Đạt, 03/11/2026. Mọi số liệu lấy từ `eval/results/`; mỗi bảng ghi file nguồn trong comment.
 > Số thập phân trong file nguồn dùng dấu chấm; khi chép sang báo cáo đổi thành dấu phẩy.
-> Mục đánh dấu `[CHỜ ...]` còn thiếu dữ liệu: latency (Task 3, đang chờ API Gemini hết quá tải), phân tích lỗi (H20, Hùng gán nhãn).
 
 ## 4.1. Thiết lập thực nghiệm
 
@@ -150,18 +149,33 @@ Verify (b) bắt được 96/97 trích dẫn sai mà không gỡ nhầm mã đú
 Phiên bản đầu của verify (b) chỉ cho mô hình xem nội dung Khoản, không có tên Điều. Trên 179 câu, nó gỡ 63 mã trích dẫn, trong đó 47 mã là căn cứ chuẩn. Phiên bản hiện tại thêm tên văn bản, số và tên Điều vào prompt: số mã bị gỡ còn 28 (21 là căn cứ chuẩn), số câu phải sinh lại giảm từ 21 xuống 14; Citation Recall của `full` tăng từ 0,784 lên 0,830, Citation Precision từ 0,840 lên 0,850, đúng phiên bản từ 0,667 lên 0,833.
 <!-- nguồn: eval/results/v1_vs_v2.md -->
 
-### 4.4.5. Độ trễ `[CHỜ Task 3]`
+### 4.4.5. Độ trễ
 
 <!-- nguồn: eval/results/agent_rq3_latency.md -->
-Độ trễ đo trên 20 câu (mẫu phân tầng cố định `subset_rq3_20.json`), mỗi cấu hình chạy với một bộ đệm LLM trống riêng (các cấu hình có chung prompt nên dùng chung bộ đệm sẽ trúng kết quả của nhau), không thử lại khi API lỗi (câu lỗi được chạy lại với bộ đệm mới). Chỉ tính câu mà mọi lượt gọi LLM đều là gọi API thật (ghi trong trace). Thời gian đã trừ phần chờ giãn cách của gói API miễn phí; gồm cả truy xuất và rerank trên CPU.
+Độ trễ đo trên 19 câu (mẫu phân tầng cố định `subset_rq3_20.json`, đo ngày 03/11/2026), mỗi cấu hình chạy với một bộ đệm LLM trống riêng (các cấu hình có chung prompt nên dùng chung bộ đệm sẽ trúng kết quả của nhau), không thử lại khi API lỗi (câu lỗi được chạy lại với bộ đệm mới). Chỉ tính câu mà mọi lượt gọi LLM đều là gọi API thật (ghi trong trace). Thời gian đã trừ phần chờ giãn cách của gói API miễn phí; gồm cả truy xuất và rerank trên CPU.
 
-| Cấu hình | n | Trung vị (s) | p90 (s) | LLM/câu |
+**Bảng 4.8.** Độ trễ mỗi câu hỏi theo cấu hình.
+
+| Cấu hình | n | Trung vị (s) | p90 (s) | Lượt LLM/câu |
 |---|---|---|---|---|
-| … | … | … | … | … |
+| baseline | 19 | 6,9 | 12,0 | 1,0 |
+| full | 18 | 15,9 | 26,3 | 3,8 |
+| no_router | 18 | 12,7 | 25,4 | 3,2 |
+| no_grading | 18 | 8,8 | 21,2 | 2,9 |
+| no_verify | 18 | 11,0 | 30,0 | 2,8 |
+
+Ba câu (một ở mỗi cấu hình `full`, `no_router`, `no_grading`) bị loại vì có lượt gọi LLM trùng đầu vào với một lượt trước đó trong cùng câu nên lấy từ bộ đệm; một câu của `no_verify` bị loại vì API báo quá tải (503) và không chạy lại được trong ngày đo.
+
+Ở cấu hình `full`, trung vị thời gian theo bước là: truy xuất 5,5 s (phần lớn là rerank trên CPU), sinh câu trả lời 2,3 s, verify 2,2 s, route 1,9 s, grade 1,4 s. Như vậy:
+
+- `baseline` mất khoảng 7 giây dù chỉ gọi LLM một lần: thời gian chủ yếu nằm ở truy xuất và rerank.
+- `full` chậm gấp khoảng 2,3 lần `baseline` (trung vị 15,9 s so với 6,9 s), vì thêm 3 lượt LLM và, ở câu cần viết lại truy vấn, thêm vòng truy xuất. p90 khoảng 26 giây.
+- Bỏ grade giảm trung vị nhiều nhất (15,9 s xuống 8,8 s): ngoài 1 lượt LLM, grade còn kéo theo các vòng truy xuất lại.
+- Mỗi lượt LLM của gói miễn phí mất khoảng 1,5–2,5 giây; thời gian thực tế người dùng chờ còn cộng thêm phần giãn cách 15 lượt/phút của gói miễn phí (đã trừ khỏi bảng).
 
 ## 4.5. RQ4: Chính sách lọc theo hiệu lực
 
-**Bảng 4.8.** Ba chính sách trên 32 câu có mốc thời gian (cấu hình `full`).
+**Bảng 4.9.** Ba chính sách trên 32 câu có mốc thời gian (cấu hình `full`).
 <!-- nguồn: eval/results/agent_rq4.md -->
 
 | Chính sách | Trả lời | Cit. P | Cit. R | Đúng phiên bản | Correctness |
@@ -170,7 +184,7 @@ Phiên bản đầu của verify (b) chỉ cho mô hình xem nội dung Khoản,
 | current (chỉ văn bản còn hiệu lực) | 0,719 | 0,606 | 0,469 | 0,438 | 0,578 |
 | any (không lọc) | 0,875 | 0,764 | 0,625 | 0,562 | 0,703 |
 
-**Bảng 4.9.** Chênh lệch so với `event`.
+**Bảng 4.10.** Chênh lệch so với `event`.
 <!-- nguồn: eval/results/agent_rq4.md (32 câu), agent_rq4_heldout20.md (20 câu giữ riêng) -->
 
 | Chính sách | Tập | Cit. R | Đúng phiên bản | Correctness |
@@ -188,16 +202,32 @@ Giả thuyết chốt trước H2 là `event` hơn cả `current` và `any` về
 - **event so với current: được ủng hộ.** Chênh lệch có ý nghĩa trên cả 32 câu và 20 câu giữ riêng. Chỉ lấy văn bản còn hiệu lực thì BLLĐ 2012 bị loại hẳn, mọi sự việc trước 2021 bị trả lời theo luật mới hoặc bị từ chối.
 - **event so với any: chưa được ủng hộ đủ mạnh.** `any` kém `event` 0,188 (32 câu) và 0,250 (20 câu) về đúng phiên bản, nhưng khoảng tin cậy chạm 0. Khi không lọc, cả hai phiên bản cùng có thể xuất hiện trong ngữ cảnh và mô hình nhiều lúc tự chọn đúng phiên bản theo ngày nêu trong câu hỏi; có 2/32 câu trích cả hai phiên bản. `any` trả lời nhiều nhất (0,875) nhưng độ chính xác trích dẫn thấp hơn rõ (0,764 so với 0,907).
 
-## 4.6. Phân tích lỗi `[CHỜ H20]`
+## 4.6. Phân tích lỗi
 
-Cấu hình `full` có 72/209 câu có ít nhất một dấu hiệu chưa tốt (từ chối nhầm, thiếu căn cứ chuẩn, trích thừa, sai phiên bản hoặc Correctness < 1). Lấy mẫu 20 câu, phân tầng theo dấu hiệu, gán nhãn loại lỗi thủ công.
-<!-- nguồn: eval/results/errors_rq3.csv, errors_rq3.md (python -m eval.error_analysis report) -->
+Cấu hình `full` có 72/209 câu có ít nhất một dấu hiệu chưa tốt theo chỉ số (từ chối nhầm, thiếu căn cứ chuẩn, trích thừa, sai phiên bản hoặc Correctness < 1). Nhóm lấy mẫu 20 câu, phân tầng theo dấu hiệu, và một thành viên đọc từng câu (câu hỏi, đáp án mẫu, căn cứ chuẩn, căn cứ đã trích, toàn văn Điều liên quan) để gán loại lỗi. Danh mục loại lỗi định trước có 7 loại; sau lượt gán đầu, 10/20 câu rơi vào "khác", nên nhóm tách thêm 4 loại từ chính ghi chú của người gán (Bảng 4.11).
 
-| Loại lỗi | Số câu | Ví dụ |
-|---|---|---|
-| … | … | … |
+**Bảng 4.11.** Loại lỗi trên 20 câu của cấu hình `full` (một câu có thể thuộc nhiều loại).
+<!-- nguồn: eval/results/errors_rq3.md, errors_rq3.csv (python -m eval.error_analysis report) -->
 
-Cần viết sau khi có nhãn: loại lỗi chiếm đa số; các câu từ chối nhầm của tập giữ riêng (vd M_051); câu có đáp án mẫu gây tranh cãi.
+| Nhóm | Loại lỗi | Số câu | Ví dụ |
+|---|---|---|---|
+| Lỗi của hệ thống | Trích dẫn không hỗ trợ nội dung câu | 5 | Z_40cab1ef, Z_1a6404b7, M_041 |
+| | Từ chối nhầm | 3 | Z_0d0c6088, M_051, Z_57aadc7a |
+| | Định tuyến sai (xếp nhầm là ngoài phạm vi) | 2 | M_051, Z_57aadc7a |
+| | Truy xuất sai Điều | 2 | DN_010, M_051 |
+| | Trả lời thiếu điều kiện, con số câu hỏi cần | 2 | M_043, LD_013 |
+| | Lấy nhầm văn bản | 1 | Z_7c95f6ee |
+| Chỉ số báo nhầm | Trích thêm Điều có liên quan ngoài căn cứ chuẩn | 4 | M_023, Z_4824d7b0, DS_006 |
+| | Bộ chấm trừ điểm vì thiếu chi tiết câu hỏi không hỏi | 2 | M_004, DN_008 |
+| | Đáp án mẫu gây tranh cãi | 1 | TM_012 |
+| | Không phải lỗi (từ chối thận trọng, hợp lý) | 1 | Z_212e7377 |
+
+Tính theo câu, **12/20 câu là lỗi thật của hệ thống, 8/20 câu là chỉ số báo nhầm**. Bốn nhận xét:
+
+1. **Trích dẫn "gần đúng" lọt qua verify (b).** Cả 5 câu có trích dẫn không hỗ trợ đều đã qua verify (b) mà không bị gỡ. Đoạn bị trích thường cùng chủ đề nhưng không phải căn cứ trực tiếp: ví dụ M_041 trích Điều 214 khoản 5 BLLĐ 2019 (thanh tra lao động "xử lý theo thẩm quyền" vi phạm) để khẳng định giới hạn thẩm quyền tuyên bố hợp đồng vô hiệu; DS_002 trích Điều 138 khoản 3 BLDS 2015 (người đại diện theo ủy quyền) cho câu về giao dịch của người từ 15 đến dưới 18 tuổi. Đối chiếu với phép thử ở mục 4.4.3 (bắt 96/97 mồi): verify (b) bắt tốt trích dẫn lạc đề, nhưng yếu với trích dẫn có liên quan một phần do chính mô hình sinh ra. Đây là giới hạn của việc dùng cùng một mô hình nhỏ để vừa sinh vừa kiểm.
+2. **Router quá chặt với câu dân sự đời thường.** 2/3 câu từ chối nhầm do router xếp câu hỏi là ngoài phạm vi: M_051 (tạm ứng lương, BLLĐ 2019 Điều 101) và Z_57aadc7a (quyền xác định dân tộc, BLDS 2015 Điều 29). Lỗi này cùng dạng với lỗi đã sửa ở prompt router trước đó, cho thấy quy tắc phạm vi vẫn chưa bao quát hết. Ngoài mẫu 20 câu, M_066 (hỏi thẳng một Điều của BLLĐ 2012 đã hết hiệu lực, không nêu ngày sự việc) bị từ chối vì truy xuất mặc định chỉ lấy văn bản còn hiệu lực: câu tra cứu trực tiếp nên bỏ qua lọc hiệu lực khi người dùng đã nêu rõ văn bản.
+3. **Chỉ số trích dẫn phạt cả căn cứ bổ sung hợp lý.** 4 câu bị tính Citation Precision thấp chỉ vì trích thêm Điều có liên quan (ví dụ Z_4824d7b0 kết hợp quy tắc chung của BLDS với quy tắc chuyên ngành của Luật Thương mại về chuyển rủi ro) mà căn cứ chuẩn chỉ có một Điều. M_023 còn bị tính sai phiên bản chỉ vì trích thêm Luật Doanh nghiệp 2020: chỉ số đúng phiên bản hiện coi mọi văn bản được trích, không riêng văn bản lao động. Như vậy Citation Precision trong mục 4.4 là cận dưới.
+4. **Bộ chấm không ổn định theo hướng.** Kiểm định ở mục 4.1.4 cho thấy bộ chấm dễ dãi (cho 1 ở mọi câu trong mẫu); ở đây lại có 2 câu bộ chấm cho Correctness 0,5 dù câu trả lời đúng điều câu hỏi hỏi, chỉ thiếu chi tiết phụ trong đáp án mẫu (trường hợp R5 trong thang chấm). Correctness vì vậy chỉ nên đọc như chỉ số bổ trợ.
 
 ## 4.7. Thảo luận và giới hạn
 
