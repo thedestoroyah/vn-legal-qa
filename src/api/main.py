@@ -9,9 +9,11 @@ from typing import Literal
 
 import openai
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from src.agent.state import CONFIGS
+from src.retrieval.retriever import IndexMismatchError
 
 log = logging.getLogger("vn_legal_qa.api")
 MAX_QUESTION = 1000
@@ -20,6 +22,7 @@ API_LLM_MAX_RETRIES = 2
 # Gemini quá tải đôi khi trả lời rất chậm thay vì báo 503: chặn mỗi lượt gọi ở 30 s để không giữ khóa quá lâu
 API_LLM_TIMEOUT = 30
 LLM_ERROR = "Dịch vụ mô hình ngôn ngữ đang quá tải hoặc tạm thời không khả dụng. Vui lòng thử lại sau ít phút."
+INDEX_ERROR = "Chỉ mục dữ liệu chưa sẵn sàng hoặc lệch với dữ liệu. Liên hệ quản trị để nạp lại chỉ mục."
 
 
 class AskRequest(BaseModel):
@@ -52,9 +55,14 @@ def create_app(load=_load_real_agent):
 
     app = FastAPI(title="Hỏi đáp pháp luật Việt Nam", lifespan=lifespan)
 
+    @app.exception_handler(IndexMismatchError)
+    def index_error(request, exc):
+        log.error("Lỗi chỉ mục khi xử lý %s", request.url.path, exc_info=exc)
+        return JSONResponse(status_code=500, content={"detail": INDEX_ERROR})
+
     @app.post("/api/ask")
     def ask(req: AskRequest):
-        """Trả lời một câu hỏi theo Phụ lục A.5; LLM lỗi sau khi đã thử lại thì 503."""
+        """Trả lời một câu hỏi theo Phụ lục A.5; LLM lỗi sau khi đã thử lại thì 503, chỉ mục lệch thì 500 (index_error)."""
         try:
             with lock:
                 return state["agent"].run(req.question, req.config)

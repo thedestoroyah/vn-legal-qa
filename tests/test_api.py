@@ -1,5 +1,6 @@
 import threading
 import time
+from types import SimpleNamespace
 
 import httpx
 import openai
@@ -7,7 +8,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.agent.run import Agent
-from src.api.main import LLM_ERROR, MAX_QUESTION, create_app
+from src.api.main import INDEX_ERROR, LLM_ERROR, MAX_QUESTION, create_app
+from src.retrieval.retriever import IndexMismatchError, Retriever
 from tests.agent_fakes import FakeRetriever, chunk, make_deps
 
 A = "BLDS2015_Dieu357_Khoan1"
@@ -100,3 +102,35 @@ def test_real_agent_loader_uses_few_retries(monkeypatch):
     assert main._load_real_agent() == "agent"
     assert seen["max_retries"] == main.API_LLM_MAX_RETRIES == 2
     assert seen["timeout"] == main.API_LLM_TIMEOUT == 30
+
+
+class Broken:
+    """Tác tử giả luôn ném `error` khi trả lời."""
+
+    def __init__(self, error):
+        self.error = error
+
+    def run(self, *a, **k):
+        raise self.error
+
+
+def test_index_error_returns_json_500():
+    with client_for(Broken(IndexMismatchError("chỉ mục lệch"))) as client:
+        r = client.post("/api/ask", json={"question": "q"})
+    assert r.status_code == 500 and r.json()["detail"] == INDEX_ERROR
+
+
+def test_other_runtime_error_is_not_reported_as_index_error():
+    # lỗi khác (vd torch hết RAM) mà báo "nạp lại chỉ mục" thì người dùng tốn 2 giờ nạp vô ích
+    app = create_app(lambda: Broken(RuntimeError("hết RAM")))
+    with TestClient(app, raise_server_exceptions=False) as client:
+        r = client.post("/api/ask", json={"question": "q"})
+    assert r.status_code == 500 and INDEX_ERROR not in r.text
+
+
+def test_article_route_ignores_case():
+    retriever = Retriever([chunk("BLDS2015_Dieu357_Khoan1")], None, None)
+    agent = SimpleNamespace(deps=SimpleNamespace(retriever=retriever))
+    with client_for(agent) as client:
+        r = client.get("/api/article/blds2015/357")
+    assert r.status_code == 200 and r.json()["chunk_id"] == "BLDS2015_Dieu357"

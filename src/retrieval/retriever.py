@@ -16,6 +16,10 @@ RERANK_TOP = 10  # số ứng viên đưa vào reranker; 20 mất 11 s/câu trê
 RERANK_MODEL = "BAAI/bge-reranker-v2-m3"
 
 
+class IndexMismatchError(RuntimeError):
+    """Chỉ mục Chroma thiếu hoặc lệch với file chunk; sửa bằng lệnh nạp lại nêu trong thông báo."""
+
+
 def rrf(rankings, k=RRF_K):
     """Reciprocal Rank Fusion: điểm = tổng 1/(k + hạng) qua các danh sách."""
     scores = {}
@@ -53,7 +57,7 @@ class Retriever:
 
         Raises:
             ValueError: mode hoặc date sai.
-            RuntimeError: chỉ mục Chroma lệch với file chunk.
+            IndexMismatchError: chỉ mục Chroma lệch với file chunk.
         """
         if mode not in MODES:
             raise ValueError(f"mode phải thuộc {MODES}, nhận {mode!r}")
@@ -75,8 +79,8 @@ class Retriever:
     def _check_known(self, ids):
         stale = [cid for cid in ids if cid not in self.by_id]
         if stale:
-            raise RuntimeError(f"chỉ mục lệch với file chunk ({stale[0]}): chạy lại "
-                               "python -m src.ingestion.index --variant <biến thể> --rebuild")
+            raise IndexMismatchError(f"chỉ mục lệch với file chunk ({stale[0]}): chạy lại "
+                                     "python -m src.ingestion.index --variant <biến thể> --rebuild")
 
     def _rerank(self, query, candidates):
         if self.rerank is None:
@@ -90,13 +94,13 @@ class Retriever:
         """Toàn văn một Điều.
 
         Args:
-            law_id: mã văn bản (vd BLDS2015).
-            number: số Điều, dạng chuỗi hoặc số (vd 357, "50a").
+            law_id: mã văn bản, không phân biệt hoa thường (vd BLDS2015).
+            number: số Điều, dạng chuỗi hoặc số, không phân biệt hoa thường (vd 357, "50a").
 
         Returns:
             Chunk cấp Điều (chunk_id là khóa Điều, content gồm dẫn nhập và các Khoản); None nếu không có.
         """
-        key = f"{law_id}_Dieu{number}"
+        key = f"{law_id.upper()}_Dieu{str(number).lower()}"
         parts = [c for cid, c in self.by_id.items() if article_key(cid) == key]
         return article_chunks(parts)[0] if parts else None
 
@@ -110,14 +114,18 @@ def load_retriever(variant="clause_header", embed=None, rerank=None, db_path=DB_
         db_path: thư mục ChromaDB.
 
     Raises:
-        RuntimeError: số chunk trong Chroma khác file chunk (cần nạp lại với --rebuild).
+        IndexMismatchError: chưa có chỉ mục hoặc số chunk trong Chroma khác file chunk (cần nạp lại với --rebuild).
     """
     file, collection, with_header = VARIANTS[variant]
     chunks = read_jsonl(PROCESSED_DIR / file)
-    col = chromadb.PersistentClient(path=str(db_path)).get_collection(collection)
+    try:
+        col = chromadb.PersistentClient(path=str(db_path)).get_collection(collection)
+    except chromadb.errors.NotFoundError as e:
+        raise IndexMismatchError(f"chưa có chỉ mục {collection} trong {db_path}: chạy "
+                                 f"python -m src.ingestion.index --variant {variant} --rebuild") from e
     if col.count() != len(chunks):
-        raise RuntimeError(f"chỉ mục {collection} có {col.count()} chunk, file chunk có {len(chunks)}: chạy lại "
-                           f"python -m src.ingestion.index --variant {variant} --rebuild")
+        raise IndexMismatchError(f"chỉ mục {collection} có {col.count()} chunk, file chunk có {len(chunks)}: chạy lại "
+                                 f"python -m src.ingestion.index --variant {variant} --rebuild")
     text_fn = embedding_text if with_header else (lambda c: c["content"])
     return Retriever(chunks, BM25Index(chunks, text_fn), DenseIndex(col, embed or make_embedder()),
                      rerank or make_reranker(), text_fn)

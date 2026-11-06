@@ -4,7 +4,7 @@ import json
 
 from src.ingestion.index import build_index
 from src.retrieval import retriever as retriever_module
-from src.retrieval.retriever import CANDIDATES, RERANK_TOP, Retriever, load_retriever, rrf
+from src.retrieval.retriever import CANDIDATES, RERANK_TOP, IndexMismatchError, Retriever, load_retriever, rrf
 
 
 class FakeIndex:
@@ -76,7 +76,7 @@ def test_errors_and_empty_query():
 
 def test_stale_index_gives_rebuild_hint():
     r = make(dense=(("ghost", 0.9),))
-    with pytest.raises(RuntimeError, match="--rebuild"):
+    with pytest.raises(IndexMismatchError, match="--rebuild"):
         r.search("q", mode="dense")
 
 
@@ -117,7 +117,7 @@ def test_punctuation_only_query_touches_no_index(mode):
 
 def test_stale_candidate_under_rerank_gives_rebuild_hint():
     r = make(dense=(("ghost", 0.9),), rerank=lambda q, t: [0.0] * len(t))
-    with pytest.raises(RuntimeError, match="--rebuild"):
+    with pytest.raises(IndexMismatchError, match="--rebuild"):
         r.search("q")
 
 
@@ -130,8 +130,20 @@ def test_load_retriever_rejects_index_with_different_chunk_count(tmp_path, monke
     embed = lambda texts: [[1.0, 0.0] for _ in texts]
     rerank = lambda q, t: [0.0] * len(t)
     build_index(rows[:2], embed, tmp_path / "db")
-    with pytest.raises(RuntimeError, match="--rebuild"):
+    with pytest.raises(IndexMismatchError, match="--rebuild"):
         load_retriever("clause_header", embed=embed, rerank=rerank, db_path=tmp_path / "db")
     build_index(rows, embed, tmp_path / "db")
     hits = load_retriever("clause_header", embed=embed, rerank=rerank, db_path=tmp_path / "db").search("x", mode="bm25")
     assert [h["chunk_id"] for h in hits] == ["A_Dieu1"]
+
+
+def test_load_retriever_missing_collection_tells_how_to_index(tmp_path, monkeypatch):
+    monkeypatch.setattr(retriever_module, "PROCESSED_DIR", tmp_path)
+    (tmp_path / "chunks.jsonl").write_text(json.dumps(chunk("A_Dieu1")), encoding="utf-8")
+    with pytest.raises(IndexMismatchError, match=r"src\.ingestion\.index --variant clause_header --rebuild"):
+        load_retriever("clause_header", embed=lambda t: [], rerank=lambda q, t: [], db_path=tmp_path / "empty_db")
+
+
+def test_get_article_ignores_case():
+    r = Retriever([chunk("BLDS2015_Dieu50a_Khoan1", "A", "Khoản 1")], FakeIndex([]), FakeIndex([]))
+    assert r.get_article("blds2015", "50A")["chunk_id"] == "BLDS2015_Dieu50a"
