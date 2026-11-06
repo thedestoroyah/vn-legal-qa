@@ -222,9 +222,27 @@ def build_all(structured_dir, laws):
     return clause, article_chunks(clause), fixed
 
 
-def read_jsonl(path):
-    """Đọc file JSON Lines thành danh sách dict, bỏ dòng trống."""
-    return [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+def read_jsonl(path, partial_tail=False):
+    """Đọc file JSON Lines thành danh sách dict, bỏ dòng trống.
+
+    Args:
+        path: đường dẫn file.
+        partial_tail: True với file kết quả ghi nối dần: dòng cuối hỏng là dòng ghi dở khi tiến trình bị dừng,
+            được bỏ kèm cảnh báo ra stderr để lệnh chạy lại tiếp được. False với file đầu vào (chunk, câu hỏi):
+            mọi dòng hỏng đều báo lỗi, vì thiếu dòng cuối ở đây là âm thầm mất dữ liệu.
+
+    Raises:
+        ValueError: có dòng hỏng ngoài trường hợp trên (json.JSONDecodeError hoặc UnicodeDecodeError).
+    """
+    # đọc bytes: bộ đệm ghi có thể cắt giữa ký tự UTF-8, read_text sẽ lỗi trước khi biết đó là dòng cuối
+    lines = [line for line in Path(path).read_bytes().splitlines() if line.strip()]
+    rows = [json.loads(line) for line in (lines[:-1] if partial_tail else lines)]
+    if partial_tail and lines:
+        try:
+            rows.append(json.loads(lines[-1]))
+        except ValueError:
+            print(f"cảnh báo: bỏ dòng cuối ghi dở của {path}", file=sys.stderr)
+    return rows
 
 
 def write_jsonl(path, rows):

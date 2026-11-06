@@ -3,6 +3,7 @@ from src.generation.prompts import format_context
 from src.ingestion.legal_chunker import ARTICLE_OUT_PATH, OUT_PATH, read_jsonl
 
 SCORES = {0.0, 0.5, 1.0}
+BAD_JSON = "bộ chấm không trả JSON hợp lệ"
 JUDGE_ROLE = "Bạn là giám khảo chấm câu trả lời của một hệ thống hỏi đáp pháp luật Việt Nam."
 JUDGE_RULES = """Chấm theo NỘI DUNG PHÁP LÝ: không trừ điểm vì diễn đạt khác, câu dài hơn, thêm chữ nối hay văn phong.
 
@@ -81,7 +82,7 @@ def judge(llm, case, response, contexts):
     try:
         out = llm.chat_json(judge_messages(case["question"], response["answer"], used, reference))
     except ValueError:
-        return {"faithfulness": None, "correctness": None, "reason": "bộ chấm không trả JSON hợp lệ", "called": True}
+        return {"faithfulness": None, "correctness": None, "reason": BAD_JSON, "called": True}
     return {"faithfulness": _score(out.get("faithfulness")),
             "correctness": _score(out.get("correctness")) if reference else None,
             "reason": str(out.get("reason") or "")[:300], "called": True}

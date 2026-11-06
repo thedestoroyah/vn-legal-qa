@@ -2,12 +2,12 @@ import json
 
 import httpx
 import openai
-import pytest
 
 from eval import agent_eval
 from eval.agent_eval import (answer_sha, load_results, parse_run, report_rows, run_agent, score, select_cases, stratified,
                              to_markdown)
 from eval.evaluate import summarize
+from src.ingestion.legal_chunker import read_jsonl
 
 
 def case(cid, source="zalo", kind="situational", gold=("BLDS2015_Dieu357",)):
@@ -244,3 +244,77 @@ def test_score_sums_api_calls_or_none_when_missing():
     resp = response()
     resp["trace"] = [{**s, "api_calls": 1} for s in resp["trace"]]
     assert score(case("A"), "full", resp)["api_calls"] == 2
+
+
+def test_judge_results_does_not_record_broken_json_verdict(tmp_path, capsys):
+    class BadJudge:
+        calls = 0
+
+        def chat_json(self, messages):
+            self.calls += 1
+            raise ValueError("JSON hỏng")
+
+    llm, path = BadJudge(), tmp_path / "j.jsonl"
+    results = {("A", "full"): response()}
+    contexts = {"clause": {}, "article": {}}
+    assert agent_eval.judge_results(llm, [case("A")], results, path, contexts) == 0
+    assert not path.exists()
+    assert "A" in capsys.readouterr().err
+    # lần chạy sau phải gọi lại bộ chấm, không coi câu đó là đã chấm
+    assert agent_eval.judge_results(llm, [case("A")], results, path, contexts) == 0
+    assert llm.calls == 2
+
+
+def test_close_partial_line_drops_cut_off_line(tmp_path):
+    path = tmp_path / "r.jsonl"
+    path.write_text('{"id": "A"}\n{"id": ', encoding="utf-8")
+    agent_eval.close_partial_line(path)
+    assert path.read_text(encoding="utf-8") == '{"id": "A"}\n'
+
+
+def test_close_partial_line_drops_line_cut_inside_utf8_character(tmp_path):
+    path = tmp_path / "r.jsonl"
+    path.write_bytes('{"id": "A"}\n'.encode("utf-8") + '{"id": "Đ'.encode("utf-8")[:-1])
+    agent_eval.close_partial_line(path)
+    assert path.read_text(encoding="utf-8") == '{"id": "A"}\n'
+
+
+def test_close_partial_line_drops_broken_last_line_ending_with_newline(tmp_path):
+    path = tmp_path / "r.jsonl"
+    path.write_text('{"id": "A"}\n{"id": \n', encoding="utf-8")
+    agent_eval.close_partial_line(path)
+    assert path.read_text(encoding="utf-8") == '{"id": "A"}\n'
+
+
+def test_close_partial_line_terminates_complete_last_line(tmp_path):
+    path = tmp_path / "r.jsonl"
+    path.write_text('{"id": "A"}', encoding="utf-8")
+    agent_eval.close_partial_line(path)
+    assert path.read_text(encoding="utf-8") == '{"id": "A"}\n'
+
+
+def test_close_partial_line_leaves_healthy_or_missing_file_alone(tmp_path):
+    path = tmp_path / "r.jsonl"
+    agent_eval.close_partial_line(path)
+    assert not path.exists()
+    path.write_text('{"id": "A"}\n', encoding="utf-8")
+    agent_eval.close_partial_line(path)
+    assert path.read_text(encoding="utf-8") == '{"id": "A"}\n'
+
+
+def test_run_agent_resumes_twice_after_cut_off_line(tmp_path):
+    path = tmp_path / "r.jsonl"
+    path.write_text(json.dumps({"id": "A", "run": "full", "response": response()}) + '\n{"id": "B", "ru', encoding="utf-8")
+    cases = [case("A"), case("B"), case("C")]
+    assert run_agent(FakeAgent(), cases, ["full"], path) == 2
+    assert run_agent(FakeAgent(), cases, ["full"], path) == 0
+    assert set(load_results(path)) == {("A", "full"), ("B", "full"), ("C", "full")}
+
+
+def test_judge_results_resumes_after_cut_off_line(tmp_path, monkeypatch):
+    monkeypatch.setattr("eval.judge.judge", lambda llm, case, resp, ctx: {"faithfulness": 1.0, "correctness": 1.0})
+    path = tmp_path / "j.jsonl"
+    path.write_text('{"id": "X", "run": "full", "answer_sha": "cu"}\n{"id": "A", "ru', encoding="utf-8")
+    results = {("A", "full"): response()}
+    assert agent_eval.judge_results(None, [case("A")], results, path, {}) == 1
+    assert agent_eval.judge_results(None, [case("A")], results, path, {}) == 0

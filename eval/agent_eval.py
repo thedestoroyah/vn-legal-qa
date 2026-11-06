@@ -14,13 +14,14 @@ thư mục cache MỚI (các cấu hình có chung prompt route/grade/generate n
 LLM_MAX_RETRIES=0 để thời gian không lẫn lúc SDK chờ thử lại (câu lỗi chạy lại ở lần sau, với cache mới).
   LLM_MAX_RETRIES=0 python -m eval.agent_eval run --rq rq3 --subset 20 --tag latency --configs full \
       --cache-dir .cache/llm_latency/full_1
-  python -m eval.agent_eval report --rq rq3 --subset 20 --tag latency --common --latency \
+  python -m eval.agent_eval report --rq rq3 --subset 20 --tag latency --latency \
       --out eval/results/agent_rq3_latency.md
 """
 import argparse
 import csv
 import hashlib
 import json
+import os
 import random
 import statistics
 import sys
@@ -106,10 +107,36 @@ def append_jsonl(path, row):
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def close_partial_line(path):
+    """Dọn dòng cuối của file JSONL trước khi ghi nối tiếp; dòng JSON hỏng bị cắt, dòng đủ mà thiếu xuống dòng được thêm.
+
+    Không dọn thì dòng mới dính vào dòng dở, thành dòng hỏng giữa file mà read_jsonl từ chối đọc. Gọi một lần lúc bắt
+    đầu chạy, không gọi ở mỗi lần ghi: dòng dở chỉ có thể do lần chạy trước để lại, còn gọi liên tục thì có thể cắt
+    nhầm dòng đang ghi dở của tiến trình khác chạy song song trên cùng file.
+
+    Args:
+        path: file JSONL; không tồn tại thì không làm gì.
+    """
+    path = Path(path)
+    data = path.read_bytes() if path.exists() else b""
+    body = data.rstrip()
+    if not body:
+        return
+    start = body.rfind(b"\n") + 1
+    try:
+        json.loads(body[start:])
+    except ValueError:
+        os.truncate(path, start)
+        return
+    if not data.endswith(b"\n"):
+        with path.open("ab") as f:
+            f.write(b"\n")
+
+
 def load_results(path):
     """{(id, run): response} của các dòng chạy thành công; dòng lỗi bị bỏ qua, trùng thì lấy dòng sau."""
     path = Path(path)
-    rows = read_jsonl(path) if path.exists() else []
+    rows = read_jsonl(path, partial_tail=True) if path.exists() else []
     return {(r["id"], r["run"]): r["response"] for r in rows if "error" not in r}
 
 
@@ -134,7 +161,7 @@ def load_judged(path, results):
     if not path.exists():
         return {}
     out = {}
-    for r in read_jsonl(path):
+    for r in read_jsonl(path, partial_tail=True):
         key = (r["id"], r["run"])
         if key in results and r.get("answer_sha") == answer_sha(results[key]):
             out[key] = r
@@ -155,6 +182,7 @@ def run_agent(agent, cases, runs, out_path):
         lỗi API khác ghi thành dòng {"error"} để lần chạy sau thử lại.
     """
     done = set(load_results(out_path))
+    close_partial_line(out_path)
     written = 0
     for run in runs:
         config, policy = parse_run(run)
@@ -302,14 +330,15 @@ def diff_markdown(rows, ref):
 def judge_results(llm, cases, results, out_path, contexts):
     """Chấm mọi kết quả thuộc `cases` chưa có điểm khớp câu trả lời hiện tại (xem load_judged), ghi nối từng dòng.
 
-    Hết quota thì dừng sớm; chạy lại để tiếp.
+    Hết quota thì dừng sớm; chạy lại để tiếp. Bộ chấm trả JSON hỏng thì không ghi, để lần chạy sau chấm lại.
 
     Returns:
         Số dòng mới ghi.
     """
-    from eval.judge import judge
+    from eval.judge import BAD_JSON, judge
     out_path = Path(out_path)
     done = set(load_judged(out_path, results))
+    close_partial_line(out_path)
     by_id = {c["id"]: c for c in cases}
     written = 0
     for (cid, run), resp in results.items():
@@ -322,6 +351,9 @@ def judge_results(llm, cases, results, out_path, contexts):
             return written
         except openai.APIError as e:
             print(f"bỏ qua {run}/{cid}: {e!r}"[:300], file=sys.stderr)
+            continue
+        if verdict.get("reason") == BAD_JSON:
+            print(f"bộ chấm trả JSON hỏng ở {run}/{cid}: không ghi, lần chạy sau chấm lại", file=sys.stderr)
             continue
         append_jsonl(out_path, {"id": cid, "run": run, "answer_sha": answer_sha(resp), **verdict})
         written += 1

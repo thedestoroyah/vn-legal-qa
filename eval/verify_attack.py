@@ -19,7 +19,7 @@ from types import SimpleNamespace
 
 import openai
 
-from eval.agent_eval import CASES_PATH, RESULTS_DIR, SEED, append_jsonl, load_results
+from eval.agent_eval import CASES_PATH, RESULTS_DIR, SEED, append_jsonl, close_partial_line, load_results
 from eval.judge import load_contexts, used_contexts
 from src.agent.nodes import _unsupported_pairs
 from src.generation.citations import cited_ids, cited_sentences, sentences
@@ -102,7 +102,8 @@ def cmd_run(args):
     llm = from_env("LLM")
     contexts = load_contexts()
     pool = list(contexts["clause"].values())
-    done = {(r["id"], r["kind"]) for r in read_jsonl(OUT_PATH)} if OUT_PATH.exists() else set()
+    done = {(r["id"], r["kind"]) for r in read_jsonl(OUT_PATH, partial_tail=True)} if OUT_PATH.exists() else set()
+    close_partial_line(OUT_PATH)
     for case, resp in _targets(args.n):
         used = used_contexts(resp, contexts)
         used_ids = {c["chunk_id"] for c in used}
@@ -137,7 +138,7 @@ def cmd_run(args):
 
 def cmd_report(args):
     """In và ghi bảng tỷ lệ phát hiện / báo động nhầm theo loại mồi."""
-    rows = read_jsonl(OUT_PATH)
+    rows = read_jsonl(OUT_PATH, partial_tail=True)
     lines = ["| Loại mồi | n | Phát hiện (mồi bị gỡ) | Báo động nhầm (mã khác bị gỡ) |", "|---|---|---|---|"]
     for kind, (n, hit, fa) in summary(rows).items():
         lines.append(f"| {kind} | {n} | {hit:.3f} | {'–' if fa is None else f'{fa:.3f}'} |")

@@ -1,4 +1,5 @@
 import random
+from types import SimpleNamespace
 
 from eval import verify_attack as va
 from tests.agent_fakes import chunk, make_llm
@@ -64,3 +65,14 @@ def test_inject_raises_when_code_not_in_sentence():
     import pytest
     with pytest.raises(ValueError):
         va.inject(ANSWER, 0, "BLDS2015_Dieu468_Khoan1", "X_Dieu1")
+
+
+def test_cmd_run_repairs_cut_off_line_before_appending(tmp_path, monkeypatch):
+    path = tmp_path / "v.jsonl"
+    path.write_text('{"id": "A", "kind": "x"}\n{"id": ', encoding="utf-8")
+    monkeypatch.setattr(va, "OUT_PATH", path)
+    monkeypatch.setattr("src.generation.llm.from_env", lambda prefix: SimpleNamespace(calls=0))
+    monkeypatch.setattr(va, "load_contexts", lambda: {"clause": {}})
+    monkeypatch.setattr(va, "_targets", lambda n: [])
+    va.cmd_run(SimpleNamespace(n=1))
+    assert path.read_text(encoding="utf-8") == '{"id": "A", "kind": "x"}\n'

@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from src.ingestion.legal_chunker import article_chunks, article_key, build_all, chunk_law, fixed_chunk, render_text
+from src.ingestion.legal_chunker import article_chunks, article_key, build_all, chunk_law, fixed_chunk, read_jsonl, render_text
 
 META = {
     "law_id": "BLDS2015",
@@ -207,3 +207,30 @@ def test_fixed_chunk_main_article_is_the_one_with_most_words():
 
 def test_fixed_chunk_outside_articles_has_no_main_article():
     assert fixed_chunk("BỘ LUẬT\nChương I\nQUY ĐỊNH", META, size=50, overlap=0)[0]["main_article"] is None
+
+
+def test_read_jsonl_skips_truncated_last_line(tmp_path, capsys):
+    p = tmp_path / "r.jsonl"
+    p.write_text('{"a": 1}\n{"a": 2}\n{"a": ', encoding="utf-8")
+    assert read_jsonl(p, partial_tail=True) == [{"a": 1}, {"a": 2}]
+    assert "r.jsonl" in capsys.readouterr().err
+
+
+def test_read_jsonl_skips_last_line_cut_inside_utf8_character(tmp_path):
+    p = tmp_path / "r.jsonl"
+    p.write_bytes('{"a": "Đ"}\n'.encode("utf-8") + '{"a": "Đ'.encode("utf-8")[:-1])
+    assert read_jsonl(p, partial_tail=True) == [{"a": "Đ"}]
+
+
+def test_read_jsonl_still_rejects_broken_line_in_middle(tmp_path):
+    p = tmp_path / "r.jsonl"
+    p.write_text('{"a": 1}\n{"a": \n{"a": 3}\n', encoding="utf-8")
+    with pytest.raises(json.JSONDecodeError):
+        read_jsonl(p, partial_tail=True)
+
+
+def test_read_jsonl_rejects_truncated_input_file_by_default(tmp_path):
+    p = tmp_path / "chunks.jsonl"
+    p.write_text('{"a": 1}\n{"a": ', encoding="utf-8")
+    with pytest.raises(json.JSONDecodeError):
+        read_jsonl(p)
