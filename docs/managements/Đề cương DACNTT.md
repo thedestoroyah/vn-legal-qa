@@ -525,7 +525,7 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
 - [x] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo). → Đạt kiểm 03/11 (4 kịch bản qua API + giao diện).
 - [ ] H18 — Sơ đồ use case và sequence.
-- [ ] H12 — Bản nháp Chương 2.
+- [x] H12 — Bản nháp Chương 2. → có bản nháp 06/11 (`docs/report/chuong2_draft.md`), chưa rà.
 - [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
 
 **Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–5.
