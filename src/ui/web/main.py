@@ -3,8 +3,11 @@
 Chạy (từ thư mục gốc dự án):
     uvicorn src.api.main:app --port 8000              # terminal 1: backend
     python -m src.ui.web.main                         # terminal 2: giao diện, mở http://127.0.0.1:8080
-Biến môi trường: API_URL (mặc định http://localhost:8000), FRONTEND_HOST, FRONTEND_PORT, API_TIMEOUT.
+Biến môi trường: API_URL (mặc định http://localhost:8000), FRONTEND_HOST, FRONTEND_PORT, API_TIMEOUT,
+UI_LOCAL_FALLBACK (đặt 0 để tắt dữ liệu dự phòng khi không nối được API; docker-compose.yml đặt sẵn).
 """
+import os
+
 from nicegui import ui
 
 from src.ui.web.api.client import LegalQAApiClient
@@ -14,7 +17,7 @@ from src.ui.web.pages.chat import chat_page
 
 @ui.page("/")
 async def index() -> None:
-    await chat_page(LegalQAApiClient(enable_local_fallback=True))
+    await chat_page(LegalQAApiClient(enable_local_fallback=os.environ.get("UI_LOCAL_FALLBACK", "1") != "0"))
 
 
 def main() -> None:

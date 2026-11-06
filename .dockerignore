@@ -1,0 +1,15 @@
+.venv/
+.git/
+.env
+chroma_db*
+.cache/
+.superpowers/
+.pytest_cache/
+docs/
+assets/
+tests/
+zalo-ai-legal-text-retrieval-vn/
+data/raw/*.doc*
+data/normalized/
+data/structured/
+**/__pycache__/

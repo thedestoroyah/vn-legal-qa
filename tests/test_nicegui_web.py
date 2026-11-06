@@ -314,5 +314,27 @@ class TestNiceGUIWebIntegration(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(len(state.conversations[0].turns), 2)
 
 
+def _client_built_by_index(monkeypatch):
+    from src.ui.web import main as web_main
+    seen = []
+
+    async def fake_chat_page(client):
+        seen.append(client)
+
+    monkeypatch.setattr(web_main, "chat_page", fake_chat_page)
+    asyncio.run(web_main.index())
+    return seen[0]
+
+
+def test_index_turns_fallback_off_when_env_says_so(monkeypatch):
+    monkeypatch.setenv("UI_LOCAL_FALLBACK", "0")
+    assert _client_built_by_index(monkeypatch)._enable_local_fallback is False
+
+
+def test_index_keeps_fallback_by_default(monkeypatch):
+    monkeypatch.delenv("UI_LOCAL_FALLBACK", raising=False)
+    assert _client_built_by_index(monkeypatch)._enable_local_fallback is True
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

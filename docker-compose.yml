@@ -1,0 +1,39 @@
+# Chạy: docker compose up (cần .env và chroma_db/ đã nạp chỉ mục; xem README).
+services:
+  api:
+    # cả hai dịch vụ cùng khai build: nếu ui chỉ có image, compose có thể thử pull từ Docker Hub khi chưa build
+    build: .
+    image: vn-legal-qa
+    command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    ports:
+      # chỉ mở trên máy này: Docker publish cổng bỏ qua tường lửa, người cùng mạng có thể tiêu quota LLM qua /api/ask
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ${HF_CACHE:-~/.cache/huggingface}:/root/.cache/huggingface
+      - ./.cache/llm:/app/.cache/llm
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      # lần đầu có thể tải khoảng 7 GB mô hình; api lên là healthy ngay nên chờ dài không làm chậm các lần sau
+      start_period: 2h
+
+  ui:
+    build: .
+    image: vn-legal-qa
+    command: python -m src.ui.web.main
+    environment:
+      API_URL: http://api:8000
+      FRONTEND_HOST: 0.0.0.0
+      FRONTEND_PORT: "8080"
+      API_TIMEOUT: "180"
+      # API chết thì giao diện phải báo lỗi, không trả dữ liệu dự phòng chưa kiểm chứng
+      UI_LOCAL_FALLBACK: "0"
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      api:
+        condition: service_healthy
