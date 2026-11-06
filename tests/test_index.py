@@ -1,5 +1,3 @@
-import json
-
 import chromadb
 
 from src.ingestion.index import build_index, chunk_metadata, embedding_text

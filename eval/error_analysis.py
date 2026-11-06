@@ -23,7 +23,6 @@ import json
 import random
 import sys
 from collections import Counter
-from pathlib import Path
 
 from eval.agent_eval import CASES_PATH, RESULTS_DIR, SEED, load_judged, load_results, paths, report_rows
 
