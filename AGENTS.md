@@ -62,6 +62,7 @@ python -m eval.agent_eval judge --rq rq3
 python -m eval.agent_eval report --rq rq3 --common --ci --out eval/results/<tên>.md
 uvicorn src.api.main:app --port 8000       # backend
 python -m src.ui.web.main                  # giao diện NiceGUI, http://127.0.0.1:8080
+docker compose up --build                  # API + giao diện bằng Docker (cần .env, chroma_db/; xem README mục 1)
 ```
 
 Biến môi trường: xem `.env.example`. Không commit `.env`, không dán key vào chat hay log.
