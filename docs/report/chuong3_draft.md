@@ -157,9 +157,10 @@ Tác tử được nạp một lần khi khởi động. Các câu hỏi đượ
 |---|---|
 | API mô hình báo quá hạn mức (429) hoặc quá tải (5xx) | Thư viện tự chờ lũy tiến rồi thử lại: 8 lần khi chạy thực nghiệm; 2 lần khi phục vụ API, để người dùng nhận thông báo trong vài chục giây thay vì chờ tới 3 phút |
 | Hết số lần thử khi phục vụ API | Trả mã 503 với thông báo "Dịch vụ mô hình ngôn ngữ đang quá tải hoặc tạm thời không khả dụng…", ghi chi tiết vào log máy chủ |
-| Mô hình trả JSON hỏng | Thử lại một lần kèm nhắc "chỉ trả về JSON"; vẫn hỏng thì dùng mặc định an toàn: router coi là câu tình huống, grade coi là đủ bằng chứng, verify (b) không gỡ gì |
+| Mô hình trả JSON hỏng | Thử lại một lần kèm nhắc "chỉ trả về JSON"; vẫn hỏng thì dùng mặc định an toàn: router coi là câu tình huống, grade coi là đủ bằng chứng, verify (b) không gỡ gì. Riêng bộ chấm: không ghi điểm, lần chạy sau chấm lại |
 | Ngày sự việc sai định dạng; văn bản hoặc Điều do router trích không có trong kho | Bỏ ngày; câu `direct` rơi về truy xuất thường |
 | Đầu vào API sai (rỗng, quá dài, cấu hình lạ) | Trả mã 422 |
+| Chỉ mục thiếu hoặc lệch với file chunk | Khi khởi động: dịch vụ dừng, log nêu lệnh nạp lại. Khi đang phục vụ: trả mã 500 với thông báo "Chỉ mục dữ liệu chưa sẵn sàng hoặc lệch với dữ liệu…", ghi chi tiết vào log máy chủ |
 | Truy xuất không có kết quả, hoặc grade kết luận không đủ sau 2 lần viết lại | Từ chối, nêu lý do |
 | Mô hình gắn mã trích dẫn không có trong bằng chứng | Verify (a) gỡ trước khi trả về; không có ngoại lệ |
-| Chạy thực nghiệm bị dừng giữa chừng (hết hạn mức) | Mỗi kết quả ghi ngay một dòng JSONL; chạy lại thì bỏ qua câu đã xong. Điểm chấm gắn với mã băm câu trả lời, nên câu được chạy lại sẽ được chấm lại |
+| Chạy thực nghiệm bị dừng giữa chừng (hết hạn mức) | Mỗi kết quả ghi ngay một dòng JSONL; chạy lại thì bỏ qua câu đã xong, dòng cuối ghi dở bị bỏ và câu đó được chạy lại. Điểm chấm gắn với mã băm câu trả lời, nên câu được chạy lại sẽ được chấm lại |

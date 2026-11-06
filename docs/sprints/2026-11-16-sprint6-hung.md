@@ -43,9 +43,12 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 4. **Giảm bóng đổ**: các `box-shadow` có độ mờ ≥ 10px đổi thành viền 1px (`border: 1px solid #e2e8f0`), trừ thanh bên trượt ra trên điện thoại.
 5. **Đổi nhãn**: "Trợ lý pháp luật Agentic-RAG" → "Câu trả lời"; dòng phụ dưới tên ứng dụng "Agentic-RAG · 5 văn bản luật" → "5 văn bản luật · tra cứu theo hiệu lực". Tên kỹ thuật (Agentic-RAG, LLM) chỉ giữ trong phần "Các bước tác tử" và trang thông tin.
 6. Giữ nguyên: thẻ trích dẫn, panel toàn văn Điều, thẻ hiệu lực, dòng thời gian các bước, giao diện điện thoại.
+7. **Nhãn riêng khi dùng dữ liệu dự phòng** (`components/sidebar.py`, khoảng dòng 123). Chạy venv mà không nối được API thì giao diện vẫn hiện "Đã kết nối" và tự dùng dự phòng: có key thì tác tử chỉ truy xuất bằng BM25 (dòng `Model` vẫn ghi gemini nên không phân biệt được), không có key thì trả câu ghi sẵn hoặc đoạn BM25 chưa kiểm chứng. Khi `client._using_fallback` đúng, hiện nhãn "Dữ liệu dự phòng" thay cho "Đã kết nối". (Docker đã tắt dự phòng bằng `UI_LOCAL_FALLBACK=0`, Đạt đã sửa `main.py`.)
+8. **Sửa gợi ý lỗi** (`api/client.py`, khoảng dòng 129): "đợi vài giây rồi bấm Thử lại" chỉ đúng với lỗi 503. Với lỗi 500 (chỉ mục lỗi, thử lại không có tác dụng) thì bỏ gợi ý này.
 
 **Xong khi:**
 - `pytest -q` pass hết.
+- Chạy `README.md` mục 1 một lượt trên Windows (PowerShell, Docker Desktop): ghi lại mọi chỗ khác với README và báo Đạt.
 - Chạy API + giao diện (lệnh trong `AGENTS.md`), hỏi 4 câu của H25: hiển thị đúng như trước, không còn nút đánh giá, gradient, hiệu ứng nhấp nháy.
 - Chụp lại 6 ảnh trong `assets/screenshots_nicegui/` (ghi đè đúng tên file cũ, cùng kích thước 1440×900 / 1366×768 / 1024×768 / 390×844).
 - Đạt xem ảnh và đồng ý.
@@ -73,7 +76,7 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 ## H25 — Video demo 3–5 phút
 
-**Chuẩn bị:** dùng giao diện sau H22; mạng ổn định (hotspot, không dùng mạng thư viện vì chậm hơn); **thử trước 1 câu** — nếu Gemini báo quá tải (503) thì chờ, không quay lúc đang lỗi. Chạy API và giao diện như `AGENTS.md`.
+**Chuẩn bị:** dùng giao diện sau H22; mạng ổn định (hotspot, không dùng mạng thư viện vì chậm hơn); **thử trước 1 câu** — nếu Gemini báo quá tải (503) thì chờ, không quay lúc đang lỗi. Chạy API và giao diện như `AGENTS.md`. **Trước khi quay, mở `http://localhost:8000/health` phải thấy `"status":"ok"`:** API chưa chạy thì giao diện vẫn hiện "Đã kết nối" nhưng dùng dự phòng (chỉ BM25), câu trả lời trong video sẽ không phải của hệ thống đầy đủ.
 
 **4 kịch bản** (gõ đúng các câu sau):
 1. Tình huống: "Bên mua trả tiền chậm có phải trả lãi không?" — bấm một thẻ trích dẫn để mở toàn văn Điều.

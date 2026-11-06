@@ -76,7 +76,7 @@ route ──┬─ out_of_scope ────────────────
 ## 6. Xử lý lỗi
 
 - LLM: lỗi 429 thì chờ lũy tiến rồi thử lại. JSON hỏng thì thử lại 1 lần, sau đó dùng mặc định (route mặc định là `situational`, grade mặc định là `sufficient`).
-- API: đầu vào sai trả 422. LLM lỗi hết số lần thử trả 503 kèm thông báo thân thiện, log chi tiết ở phía server.
+- API: đầu vào sai trả 422. LLM lỗi hết số lần thử trả 503 kèm thông báo thân thiện, log chi tiết ở phía server. Chỉ mục thiếu hoặc lệch với file chunk: khi khởi động thì dừng và nêu lệnh nạp lại; khi đang phục vụ thì trả 500 JSON, log chi tiết.
 - Không bao giờ trả về một câu trả lời có trích dẫn chưa qua bước verify(a).
 
 ## 7. Đánh giá

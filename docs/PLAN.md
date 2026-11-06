@@ -142,19 +142,19 @@ Plan: `docs/superpowers/plans/2026-11-16-sprint6-dat.md`; thẻ Hùng: `docs/spr
 
 ### Phạm Huỳnh Quốc Đạt
 
-- [ ] Task 1 — Sửa lỗi nhỏ ảnh hưởng người dùng/tái lập: JSONL ghi dở, `/api/article` phân biệt hoa thường, lỗi chỉ mục trả 500 dạng text, điểm chấm JSON hỏng không được chấm lại; xóa `eval/validate_chunks.py`.
-- [ ] Task 2 — Dockerfile và docker-compose (dịch vụ api và ui, gắn chroma_db, cache mô hình, cache LLM).
-- [ ] Task 3 — README: chạy bằng Docker, cài đặt, dữ liệu và chỉ mục, tái lập từng bảng số liệu RQ1–RQ4.
-- [ ] Task 4 — Dọn mã nguồn: lint lỗi pyflakes, xóa file thừa, toàn bộ kiểm thử đạt.
+- [x] Task 1 — Sửa lỗi nhỏ ảnh hưởng người dùng/tái lập: JSONL ghi dở, `/api/article` phân biệt hoa thường, lỗi chỉ mục trả 500 dạng text, điểm chấm JSON hỏng không được chấm lại; xóa `eval/validate_chunks.py`.
+- [ ] Task 2 — Dockerfile và docker-compose (dịch vụ api và ui, gắn chroma_db, cache mô hình, cache LLM). → đã chạy được; còn Đạt mở giao diện bằng trình duyệt kiểm một lần.
+- [x] Task 3 — README: chạy bằng Docker, cài đặt, dữ liệu và chỉ mục, tái lập từng bảng số liệu RQ1–RQ4.
+- [x] Task 4 — Dọn mã nguồn: lint lỗi pyflakes, xóa file thừa, toàn bộ kiểm thử đạt.
 - [ ] Task 5 — Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin.
 
 ### Hoàng Sinh Hùng
 
-- [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn); chụp lại ảnh.
+- [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn; nhãn riêng khi dùng dữ liệu dự phòng); chụp lại ảnh.
 - [ ] H23 — Ghép báo cáo theo mẫu TDTU (mục lục, danh mục hình và bảng, tóm tắt, tài liệu tham khảo APA).
 - [ ] H24 — Slide bảo vệ (15–20 slide): vấn đề → câu hỏi nghiên cứu → kiến trúc → demo → kết quả RQ1–RQ4 → hạn chế và hướng phát triển.
 - [ ] H25 — Video demo 3–5 phút với 4 kịch bản: câu tình huống, câu có mốc thời gian năm 2020, câu ngoài phạm vi bị từ chối, câu tra cứu trực tiếp điều luật.
 
 ### Cả hai
 
-- [ ] 27/11: báo cáo hoàn chỉnh. 28/11–03/12: rà soát, dự phòng và tập dượt bảo vệ. 03/12: nộp (hạn chót 23:59 04/12).
+- [ ] 27/11: báo cáo hoàn chỉnh. 28/11–03/12: rà soát, dự phòng và tập dượt bảo vệ. 03/12: nộp repo kèm `chroma_db.zip` (hạn chót 23:59 04/12).
