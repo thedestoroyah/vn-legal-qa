@@ -1,8 +1,8 @@
 # CHƯƠNG 1. TỔNG QUAN ĐỀ TÀI
 
-> **Bản nháp H15** — Hùng, 29/10/2026. Viết bằng Markdown để chép vào file báo cáo theo mẫu khoa.
-> Quy ước trích dẫn: chỉ dùng tài liệu ở mục 12 đề cương. Tài liệu ngoài danh sách gắn `[CẦN KIỂM TRA]` để Đạt tra lại trước khi đưa vào bản chính.
-> Số liệu lấy từ repo ngày 29/10. Kiểm tra lại trước khi nộp nếu tập kiểm thử thay đổi.
+> **Bản nháp H15** — Hùng, 29/10/2026; **cập nhật H17** — Đạt, 10/11/2026 (tập kiểm thử 209 câu, tập giữ riêng, giao diện, kiểm định bộ chấm, lịch). Viết bằng Markdown để chép vào file báo cáo theo mẫu khoa.
+> Quy ước trích dẫn: chỉ dùng tài liệu ở mục 12 đề cương. Tài liệu ngoài danh sách gắn `[CẦN KIỂM TRA]` để Đạt tra lại trước khi đưa vào bản chính. Kiểm 10/11: không còn chỗ nào gắn nhãn này.
+> Số liệu lấy từ repo ngày 10/11 (`eval/test_cases.json`). Kiểm tra lại trước khi nộp nếu tập kiểm thử thay đổi.
 
 ## 1.1. Đặt vấn đề
 
@@ -21,7 +21,7 @@ Một đặc thù quan trọng của pháp luật là **hiệu lực theo thời
 - Bộ luật Lao động 2012 có ba loại hợp đồng lao động, trong đó có hợp đồng theo mùa vụ hoặc theo một công việc nhất định dưới 12 tháng (Điều 22). Bộ luật Lao động 2019 chỉ còn hai loại: không xác định thời hạn và xác định thời hạn (Điều 20).
 - Theo Bộ luật Lao động 2012, người lao động làm hợp đồng xác định thời hạn chỉ được đơn phương chấm dứt hợp đồng khi có một trong các lý do luật định (Điều 37). Theo Bộ luật Lao động 2019, người lao động chỉ cần báo trước (Điều 35).
 
-Vì vậy, một câu hỏi như "Năm 2019, tôi muốn nghỉ việc chỉ báo trước 30 ngày có được không?" phải được trả lời theo Bộ luật Lao động 2012, dù văn bản này đã hết hiệu lực. Theo khảo sát của nhóm (mục 7 đề cương), các hệ thống hỏi đáp pháp luật tiếng Việt hiện có coi kho văn bản là tĩnh và chỉ gồm văn bản hiện hành, nên không xử lý được loại câu hỏi này.
+Vì vậy, một câu hỏi như "Năm 2019, tôi muốn nghỉ việc chỉ báo trước 30 ngày có được không?" phải được trả lời theo Bộ luật Lao động 2012, dù văn bản này đã hết hiệu lực. Theo khảo sát của nhóm (Chương 2), hai hệ thống hỏi đáp pháp luật tiếng Việt gần nhất với đề tài không xét việc chọn phiên bản văn bản theo thời điểm sự việc, và hai bộ dữ liệu có công bố định dạng (Zalo AI 2021, ALQAC 2025) không kèm thời điểm này, nên chưa đánh giá được loại câu hỏi trên.
 
 ### 1.1.4. Hướng tiếp cận Agentic-RAG
 
@@ -38,8 +38,8 @@ RAG truy xuất một lượt có một số hạn chế: không phân biệt c�
 1. **Kho dữ liệu có cấu trúc:** chuẩn hóa 5 văn bản thuộc 4 lĩnh vực (Dân sự, Lao động, Doanh nghiệp, Thương mại), phân đoạn theo cấu trúc Chương → Mục → Điều → Khoản, gắn siêu dữ liệu về khoảng hiệu lực.
 2. **Truy xuất đa phương pháp:** cài đặt và so sánh BM25, tìm kiếm ngữ nghĩa (dense), tìm kiếm lai bằng Reciprocal Rank Fusion và xếp hạng lại bằng cross-encoder. Chỉ tiêu: Hit Rate@5 ≥ 80%, Recall@10 ≥ 75%.
 3. **Tác tử Agentic-RAG có kiểm chứng trích dẫn:** đồ thị trạng thái gồm các bước định tuyến, truy xuất có lọc hiệu lực, đánh giá bằng chứng và viết lại truy vấn, sinh câu trả lời, kiểm chứng trích dẫn hai lớp. Chỉ tiêu: Citation Precision ≥ 85%. Hệ thống từ chối khi câu hỏi ngoài phạm vi hoặc không đủ căn cứ.
-4. **Ứng dụng web:** giao diện Streamlit gọi backend FastAPI. Người dùng bấm vào trích dẫn để đọc toàn văn điều luật và xem các bước tác tử đã thực hiện.
-5. **Bộ dữ liệu kiểm thử và đánh giá:** khoảng 180 câu hỏi từ ba nguồn, đo chất lượng truy xuất, trích dẫn, câu trả lời, độ đúng phiên bản và chi phí.
+4. **Ứng dụng web:** giao diện NiceGUI gọi backend FastAPI. Người dùng bấm vào trích dẫn để đọc toàn văn điều luật và xem các bước tác tử đã thực hiện.
+5. **Bộ dữ liệu kiểm thử và đánh giá:** 209 câu hỏi từ ba nguồn, trong đó có một tập giữ riêng 30 câu soạn sau khi đã cố định prompt; đo chất lượng truy xuất, trích dẫn, câu trả lời, độ đúng phiên bản và chi phí.
 
 ### 1.2.3. Câu hỏi nghiên cứu
 
@@ -73,11 +73,13 @@ Kho dữ liệu gồm 5 văn bản luật:
 
 Đơn vị truy xuất là Khoản, các Điểm nằm trong Khoản. Hệ thống đồng thời cho phép lấy toàn văn Điều chứa Khoản đó.
 
-Tập kiểm thử gồm 179 câu hỏi từ ba nguồn, kết quả được báo cáo tách riêng theo nguồn:
+Tập kiểm thử gồm 209 câu hỏi từ ba nguồn, kết quả được báo cáo tách riêng theo nguồn:
 
 - 77 câu do người viết, chọn lọc từ bộ Zalo AI Legal Text Retrieval 2021 (Zalo AI, 2021), gán nhãn cấp Điều.
 - 65 câu tổng hợp (synthetic) sinh bằng LLM và kiểm định tay 20 câu.
-- 37 câu nhóm tự soạn: câu tình huống, 12 câu có mốc thời gian, 5 câu tra cứu trực tiếp và 5 câu ngoài phạm vi.
+- 67 câu nhóm tự soạn: 15 câu tình huống, 32 câu có mốc thời gian, 15 câu tra cứu trực tiếp và 5 câu ngoài phạm vi.
+
+Trong 67 câu tự soạn, 30 câu (M_038–M_067: 20 câu có mốc thời gian, 10 câu tra cứu trực tiếp) là **tập giữ riêng**. Các câu này được soạn và chốt trước khi chạy hệ thống trên bất kỳ câu nào trong số đó, sau khi prompt của tác tử đã cố định. Vì prompt từng được chỉnh khi thấy lỗi trên các câu cũ, tập giữ riêng giúp kiểm tra rằng kết quả không chỉ "khớp" với những câu đã dùng để chỉnh (mục 5.1.1).
 
 ### 1.3.3. Giới hạn
 
@@ -89,10 +91,10 @@ Tập kiểm thử gồm 179 câu hỏi từ ba nguồn, kết quả được b�
 
 ## 1.4. Phương pháp thực hiện
 
-Dự án áp dụng mô hình Agile/Scrum rút gọn với 6 sprint từ 09/10 đến 04/12/2026. Hai thành viên phân công như sau: Phạm Huỳnh Quốc Đạt phụ trách lõi kỹ thuật (truy xuất, tác tử, API, đánh giá tự động); Hoàng Sinh Hùng phụ trách dữ liệu (kho văn bản, tập kiểm thử), giao diện và báo cáo. Về đánh giá:
+Đề tài thực hiện từ 15/08 đến 04/12/2026 theo mô hình Agile/Scrum rút gọn: sau giai đoạn khảo sát và đề cương (15/08–08/10), phần triển khai gồm 6 sprint từ 09/10 đến 27/11, tuần cuối dành cho rà soát và nộp. Hai thành viên phân công như sau: Phạm Huỳnh Quốc Đạt phụ trách lõi kỹ thuật (truy xuất, tác tử, API, đánh giá tự động); Hoàng Sinh Hùng phụ trách dữ liệu (kho văn bản, tập kiểm thử), giao diện và báo cáo. Về đánh giá:
 
 - Các chỉ số truy xuất, trích dẫn và phiên bản được tính tự động bằng cách đối chiếu với nhãn chuẩn.
-- Chất lượng câu trả lời (Faithfulness, Answer Correctness) được chấm bằng LLM-as-a-judge theo định nghĩa của RAGAS (Es và cộng sự, 2024). Bộ chấm này được kiểm định bằng chấm tay độc lập của hai thành viên.
+- Chất lượng câu trả lời được chấm bằng LLM-as-a-judge: Faithfulness theo định nghĩa của RAGAS (Es và cộng sự, 2024), Answer Correctness (so với đáp án mẫu) theo thư viện ragas. Bộ chấm được kiểm định bằng cách so với điểm chấm tay độc lập của một thành viên trên 20 câu trả lời (mục 5.1.4).
 
 ## 1.5. Đóng góp chính
 
@@ -105,8 +107,9 @@ Dự án áp dụng mô hình Agile/Scrum rút gọn với 6 sprint từ 09/10 �
 ## 1.6. Bố cục báo cáo
 
 - **Chương 1 – Tổng quan đề tài:** đặt vấn đề, mục tiêu, câu hỏi nghiên cứu, phạm vi và đóng góp.
-- **Chương 2 – Cơ sở lý thuyết:** BM25, truy xuất dày đặc, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph và đặc thù văn bản pháp luật Việt Nam.
-- **Chương 3 – Phân tích và thiết kế hệ thống:** kiến trúc tổng thể, pipeline dữ liệu, động cơ truy xuất, tác tử, API và giao diện.
-- **Chương 4 – Thực nghiệm và đánh giá:** tập kiểm thử, các chỉ số, kết quả RQ1–RQ4 và phân tích lỗi.
-- **Chương 5 – Kết luận và hướng phát triển:** kết quả đạt được, hạn chế và hướng mở rộng.
+- **Chương 2 – Tổng quan tài liệu:** các nghiên cứu liên quan trên thế giới và trong nước, vấn đề còn tồn tại và hướng tiếp cận của đề tài.
+- **Chương 3 – Cơ sở lý thuyết:** BM25, truy xuất dày đặc, RRF, cross-encoder, RAG, Agentic-RAG, LangGraph và đặc thù văn bản pháp luật Việt Nam.
+- **Chương 4 – Phân tích và thiết kế hệ thống:** kiến trúc tổng thể, pipeline dữ liệu, động cơ truy xuất, tác tử, API và giao diện.
+- **Chương 5 – Thực nghiệm và đánh giá:** tập kiểm thử, các chỉ số, kết quả RQ1–RQ4 và phân tích lỗi.
+- **Chương 6 – Kết luận và hướng phát triển:** kết quả đạt được, hạn chế và hướng mở rộng.
 

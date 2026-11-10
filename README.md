@@ -93,18 +93,18 @@ Kết quả thô đã có sẵn trong `eval/results/*.jsonl`. **Các lệnh ở 
 
 | Trong báo cáo | Lệnh | File kết quả |
 |---|---|---|
-| Bảng 4.1 (tập kiểm thử) | `python -m eval.import_cases` | `eval/test_cases.json` |
-| Bảng 4.2, RQ1 | `python -m eval.evaluate --rq rq1` (cần chỉ mục, khoảng 1 giờ CPU) | `eval/results/retrieval_rq1.md` |
-| Bảng 4.3, RQ2 | `python -m eval.evaluate --rq rq2` (cần 4 chỉ mục, khoảng 1 giờ CPU) | `eval/results/retrieval_rq2.md` |
-| Bảng 4.4, 4.5, RQ3 | `python -m eval.agent_eval report --rq rq3 --common --ci --out eval/results/agent_rq3_ablation209.md` | `eval/results/agent_rq3_ablation209.md` |
-| Bảng 4.6, 30 câu giữ riêng | `python -m eval.agent_eval report --rq rq3 --subset 30 --common --ci --out eval/results/agent_rq3_heldout30.md` | `eval/results/agent_rq3_heldout30.md` |
-| Bảng 4.7, phép thử kiểm chứng | `python -m eval.verify_attack report` | `eval/results/verify_attack.md` |
-| Bảng 4.8, độ trễ | `python -m eval.agent_eval report --rq rq3 --subset 20 --tag latency --latency --out eval/results/agent_rq3_latency.md` | `eval/results/agent_rq3_latency.md` |
-| Bảng 4.9, 4.10, RQ4 | `python -m eval.agent_eval report --rq rq4 --common --ci --out eval/results/agent_rq4.md` | `eval/results/agent_rq4.md` |
-| Bảng 4.10, 20 câu giữ riêng | `python -m eval.agent_eval report --rq rq4 --subset 20 --common --ci --out eval/results/agent_rq4_heldout20.md` | `eval/results/agent_rq4_heldout20.md` |
-| Bảng 4.11, phân tích lỗi | `python -m eval.error_analysis report` | `eval/results/errors_rq3.md` |
+| Bảng 5.1 (tập kiểm thử) | `python -m eval.import_cases` | `eval/test_cases.json` |
+| Bảng 5.2, RQ1 | `python -m eval.evaluate --rq rq1` (cần chỉ mục, khoảng 1 giờ CPU) | `eval/results/retrieval_rq1.md` |
+| Bảng 5.3, RQ2 | `python -m eval.evaluate --rq rq2` (cần 4 chỉ mục, khoảng 1 giờ CPU) | `eval/results/retrieval_rq2.md` |
+| Bảng 5.4, 5.5, RQ3 | `python -m eval.agent_eval report --rq rq3 --common --ci --out eval/results/agent_rq3_ablation209.md` | `eval/results/agent_rq3_ablation209.md` |
+| Bảng 5.6, 30 câu giữ riêng | `python -m eval.agent_eval report --rq rq3 --subset 30 --common --ci --out eval/results/agent_rq3_heldout30.md` | `eval/results/agent_rq3_heldout30.md` |
+| Bảng 5.7, phép thử kiểm chứng | `python -m eval.verify_attack report` | `eval/results/verify_attack.md` |
+| Bảng 5.8, độ trễ | `python -m eval.agent_eval report --rq rq3 --subset 20 --tag latency --latency --out eval/results/agent_rq3_latency.md` | `eval/results/agent_rq3_latency.md` |
+| Bảng 5.9, 5.10, RQ4 | `python -m eval.agent_eval report --rq rq4 --common --ci --out eval/results/agent_rq4.md` | `eval/results/agent_rq4.md` |
+| Bảng 5.10, 20 câu giữ riêng | `python -m eval.agent_eval report --rq rq4 --subset 20 --common --ci --out eval/results/agent_rq4_heldout20.md` | `eval/results/agent_rq4_heldout20.md` |
+| Bảng 5.11, phân tích lỗi | `python -m eval.error_analysis report` | `eval/results/errors_rq3.md` |
 | Tỷ lệ khớp người–bộ chấm | `python -m eval.agent_eval agree --rq rq3 --filled eval/results/grading_rq3_dat.csv` | in ra màn hình |
-| Hình 4.1–4.4 | `python -m eval.plots` | `docs/report/figures/*.png` |
+| Hình 5.1–5.4 | `python -m eval.plots` | `docs/report/figures/*.png` |
 
 `eval/results/v1_vs_v2.md` (so sánh hai phiên bản verify) được lập một lần từ `eval/results/v1_verify_strict/`, không có lệnh sinh tự động; code của bản v1 nằm trong lịch sử git.
 
