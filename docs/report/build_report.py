@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
+import mimetypes
 from pathlib import Path
 import re
 import struct
@@ -123,10 +124,13 @@ def pandoc_part(md: str, reference: Path, root: Path) -> Part:
 
     Raises:
         subprocess.CalledProcessError: pandoc lỗi (ví dụ thiếu ảnh mà Markdown vẫn trỏ tới).
+        ValueError: Markdown có chú thích chân trang (footnotes.xml không được ghép vào khung).
     """
     with tempfile.TemporaryDirectory() as tmp:
         out = Path(tmp) / "part.docx"
-        subprocess.run(["pandoc", "-f", "markdown", "-t", "docx", f"--reference-doc={reference}",
+        # Chương viết danh sách ngay sau dòng đoạn văn (không dòng trống): vẫn phải là danh sách
+        subprocess.run(["pandoc", "-f", "markdown+lists_without_preceding_blankline", "-t", "docx",
+                        f"--reference-doc={reference}",
                         f"--resource-path={root}", "-o", str(out)],
                        input=md, text=True, check=True, cwd=root)
         with zipfile.ZipFile(out) as z:
@@ -138,6 +142,8 @@ def pandoc_part(md: str, reference: Path, root: Path) -> Part:
             namespaces = dict(re.findall(r'xmlns:(\w+)="([^"]+)"', doc[:doc.index(">", doc.index("<w:document")) + 1]))
             body = doc[doc.index("<w:body>") + len("<w:body>"):doc.rindex("<w:sectPr")]
             body = _BOOKMARK.sub("", re.sub(r"\s+/>", "/>", body))
+            if "<w:footnoteReference" in body:
+                raise ValueError("chưa hỗ trợ chú thích chân trang Markdown ([^n]): viết thành câu trong đoạn")
             by_id = {a["Id"]: a for a in map(_attrs, _RELATIONSHIP.findall(rels_xml))}
             used = dict.fromkeys(re.findall(r'r:(?:embed|id|link)="([^"]+)"', body))
             rels = [(i, by_id[i]["Type"], by_id[i]["Target"], by_id[i].get("TargetMode")) for i in used]
@@ -174,15 +180,53 @@ def _paragraph(m: re.Match) -> str:
     return p
 
 
+TABLE_WIDTH_TWIPS = 8504   # 15 cm
+CHAR_TWIPS = 96            # bề rộng trung bình một ký tự Times New Roman 11pt (style BangNoiDung, ước lượng)
+CELL_PAD_TWIPS = 230       # lề trái + phải của ô
+PREFERRED_CHARS = 40       # ô dài hơn mức này thì chấp nhận xuống dòng
+
+
+def _fit_columns(tbl: str) -> str:
+    """Chia bề rộng cột theo nội dung: mỗi cột đủ chứa từ dài nhất (không cắt "Faithful|ness"), phần dư theo độ dài ô."""
+    grid = re.search(r"<w:tblGrid>(.*?)</w:tblGrid>", tbl, re.S)
+    if not grid:
+        return tbl
+    n = len(re.findall(r"<w:gridCol ", grid.group(1)))
+    longest, total = [1] * n, [1] * n
+    for row in re.findall(r"<w:tr\b.*?</w:tr>", tbl, re.S):
+        for j, cell in enumerate(re.findall(r"<w:tc>.*?</w:tc>", row, re.S)[:n]):
+            text = _text(cell)
+            longest[j] = max(longest[j], *(len(w) for w in text.split() or [""]))
+            total[j] = max(total[j], len(text))
+    minimum = [length * CHAR_TWIPS + CELL_PAD_TWIPS for length in longest]
+    preferred = [max(m, min(t, PREFERRED_CHARS) * CHAR_TWIPS + CELL_PAD_TWIPS) for m, t in zip(minimum, total)]
+    if sum(minimum) >= TABLE_WIDTH_TWIPS:
+        widths = [m * TABLE_WIDTH_TWIPS / sum(minimum) for m in minimum]
+    else:
+        room = [p - m for p, m in zip(preferred, minimum)]
+        extra = TABLE_WIDTH_TWIPS - sum(minimum)
+        widths = [m + (extra * r / sum(room) if sum(room) else extra / n) for m, r in zip(minimum, room)]
+    widths = [int(w) for w in widths]
+    widths[-1] += TABLE_WIDTH_TWIPS - sum(widths)
+    tbl = tbl.replace(grid.group(1), "".join(f'<w:gridCol w:w="{w}"/>' for w in widths))
+    layout = '<w:tblLayout w:type="fixed"/>'
+    tbl = tbl.replace("<w:tblLook", layout + "<w:tblLook", 1) if "<w:tblLook" in tbl else tbl.replace("</w:tblPr>", layout + "</w:tblPr>", 1)
+
+    def row(m: re.Match) -> str:
+        cells = iter(widths)
+        return re.sub(r"<w:tcPr/>", lambda _: f'<w:tcPr><w:tcW w:w="{next(cells, widths[-1])}" w:type="dxa"/></w:tcPr>', m.group(0))
+    return re.sub(r"<w:tr\b.*?</w:tr>", row, tbl, flags=re.S)
+
+
 def postprocess_body(body: str) -> str:
     """Đổi style của pandoc sang style khung TDTU và gắn trường SEQ cho chú thích.
 
-    FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → Normal để khỏi thụt dòng đầu); bảng → TableGrid,
-    rộng hết trang; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình {STYLEREF}.{SEQ}: …";
+    FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → BangNoiDung 11pt, không thụt dòng đầu); bảng → TableGrid,
+    rộng hết trang, cột chia theo nội dung; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình {STYLEREF}.{SEQ}: …";
     tiêu đề chương (Heading1) sang trang mới.
     """
     body = _PARAGRAPH.sub(_paragraph, body)
-    body = _TABLE.sub(lambda m: m.group(0).replace('<w:pStyle w:val="Compact"/>', '<w:pStyle w:val="Normal"/>'), body)
+    body = _TABLE.sub(lambda m: _fit_columns(m.group(0).replace('<w:pStyle w:val="Compact"/>', '<w:pStyle w:val="BangNoiDung"/>')), body)
     for old in ("FirstParagraph", "BodyText", "Compact"):
         body = body.replace(f'<w:pStyle w:val="{old}"/>', '<w:pStyle w:val="Nidungvnbn"/>')
     body = re.sub(r"<w:tblW [^>]*/>", '<w:tblW w:type="pct" w:w="5000"/>', body)          # bảng rộng hết trang
@@ -195,18 +239,22 @@ def postprocess_body(body: str) -> str:
 REPORT_DIR = Path(__file__).resolve().parent
 KHUNG = REPORT_DIR / "khung_TDTU.docx"
 OUT = REPORT_DIR / "final_52300098_52300106.docx"
-NUM_OFFSET = 1000          # id numbering của pandoc cộng thêm để không trùng numbering của khung
 DOCPR_START = 100000       # id ảnh (wp:docPr, pic:cNvPr) đánh lại từ đây, khung chỉ dùng id nhỏ hoặc ngẫu nhiên lớn
-# APA 7 theo Template_VN.dotx: thụt treo 0,5"; cỡ chữ và giãn dòng như thân bài (khung đang để kiểu IEEE "[1]")
+# APA 7 theo Template_VN.dotx: thụt treo 0,5", giãn dòng đôi; chữ 13pt như thân bài (khung đang để kiểu IEEE "[1]")
 BIBLIOGRAPHY_STYLE = ('<w:style w:type="paragraph" w:styleId="Bibliography"><w:name w:val="Bibliography"/>'
                       '<w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="37"/><w:unhideWhenUsed/>'
-                      '<w:pPr><w:spacing w:before="0" w:after="120" w:line="360" w:lineRule="auto"/>'
+                      '<w:pPr><w:spacing w:before="0" w:after="0" w:line="480" w:lineRule="auto"/>'
                       '<w:ind w:left="720" w:hanging="720"/></w:pPr><w:rPr><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr></w:style>')
 # Style pandoc dùng nhưng khung không có (pandoc chỉ lấy style từ khung): chữ code và khối code
 FALLBACK_STYLES = {
     "VerbatimChar": ('<w:style w:type="character" w:customStyle="1" w:styleId="VerbatimChar">'
                      '<w:name w:val="Verbatim Char"/><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/>'
                      '<w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>'),
+    # Chữ trong bảng: 11pt, dòng đơn, không thụt đầu dòng (bảng 9 cột như Bảng 5.4 mới vừa 15 cm)
+    "BangNoiDung": ('<w:style w:type="paragraph" w:customStyle="1" w:styleId="BangNoiDung">'
+                    '<w:name w:val="Nội dung bảng"/><w:basedOn w:val="Normal"/><w:qFormat/>'
+                    '<w:pPr><w:spacing w:before="20" w:after="20" w:line="240" w:lineRule="auto"/></w:pPr>'
+                    '<w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>'),
     "SourceCode": ('<w:style w:type="paragraph" w:customStyle="1" w:styleId="SourceCode">'
                    '<w:name w:val="Source Code"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:before="0" w:after="0"/>'
                    '<w:ind w:left="567"/></w:pPr><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/>'
@@ -215,29 +263,45 @@ FALLBACK_STYLES = {
 
 
 def _merge_numbering(base: str, part: Part, body: str) -> tuple[str, str]:
-    """Chép numbering mà body dùng (id cộng NUM_OFFSET) vào numbering của khung; trả (numbering, body)."""
+    """Chép numbering mà body dùng vào numbering của khung, id mới nối tiếp id lớn nhất đang có; trả (numbering, body)."""
     used = set(re.findall(r'<w:numId w:val="(\d+)"/>', body))
     if not used:
         return base, body
     nums = {m.group(1): m.group(0) for m in re.finditer(r'<w:num w:numId="(\d+)"[^>]*>.*?</w:num>', part.numbering, re.S)}
     abstracts = {m.group(1): m.group(0) for m in
                  re.finditer(r'<w:abstractNum [^>]*w:abstractNumId="(\d+)"[^>]*>.*?</w:abstractNum>', part.numbering, re.S)}
-    new_nums, new_abstracts = [], []
+    # Mỗi lần ghép (chương, tóm tắt, tài liệu…) nối tiếp id lớn nhất hiện có, không dùng độ lệch cố định
+    next_num = max(map(int, re.findall(r'<w:num w:numId="(\d+)"', base)), default=0) + 1
+    next_abs = max(map(int, re.findall(r'w:abstractNumId="(\d+)"', base)), default=-1) + 1
+    num_map, abs_map, new_nums, new_abstracts = {}, {}, [], []
     for nid in sorted(used, key=int):
         num = nums[nid]
         aid = re.search(r'<w:abstractNumId w:val="(\d+)"/>', num).group(1)
-        new_nums.append(num.replace(f'w:numId="{nid}"', f'w:numId="{int(nid) + NUM_OFFSET}"', 1)
-                        .replace(f'<w:abstractNumId w:val="{aid}"/>', f'<w:abstractNumId w:val="{int(aid) + NUM_OFFSET}"/>'))
-        abstract = abstracts[aid].replace(f'w:abstractNumId="{aid}"', f'w:abstractNumId="{int(aid) + NUM_OFFSET}"', 1)
-        if abstract not in new_abstracts:
-            new_abstracts.append(abstract)
-    body = re.sub(r'<w:numId w:val="(\d+)"/>', lambda m: f'<w:numId w:val="{int(m.group(1)) + NUM_OFFSET}"/>', body)
+        if aid not in abs_map:
+            abs_map[aid] = str(next_abs)
+            next_abs += 1
+            new_abstracts.append(abstracts[aid].replace(f'w:abstractNumId="{aid}"', f'w:abstractNumId="{abs_map[aid]}"', 1))
+        num_map[nid] = str(next_num)
+        next_num += 1
+        new_nums.append(num.replace(f'w:numId="{nid}"', f'w:numId="{num_map[nid]}"', 1)
+                        .replace(f'<w:abstractNumId w:val="{aid}"/>', f'<w:abstractNumId w:val="{abs_map[aid]}"/>'))
+    body = re.sub(r'<w:numId w:val="(\d+)"/>', lambda m: f'<w:numId w:val="{num_map.get(m.group(1), m.group(1))}"/>', body)
     # Thứ tự bắt buộc trong numbering.xml: mọi abstractNum đứng trước mọi num
     first_num = base.index("<w:num ")
     base = base[:first_num] + "".join(new_abstracts) + base[first_num:]
     tail = base.find("<w:numIdMacAtCleanup")
     tail = base.index("</w:numbering>") if tail < 0 else tail
     return base[:tail] + "".join(new_nums) + base[tail:], body
+
+
+def _declare_extension(files: dict[str, bytes], target: str) -> None:
+    # Word báo hỏng file nếu phần mở rộng ảnh (svg, jpg…) chưa có trong [Content_Types].xml
+    ext = target.rsplit(".", 1)[-1].lower()
+    types = files["[Content_Types].xml"].decode("utf-8")
+    if f'Extension="{ext}"' not in types and f"Extension='{ext}'" not in types:
+        mime = mimetypes.types_map.get("." + ext, "application/octet-stream")
+        files["[Content_Types].xml"] = types.replace(
+            "</Types>", f'<Default Extension="{ext}" ContentType="{mime}"/></Types>').encode("utf-8")
 
 
 def merge_part(files: dict[str, bytes], part: Part, tag: str) -> str:
@@ -259,6 +323,7 @@ def merge_part(files: dict[str, bytes], part: Part, tag: str) -> str:
         if mode is None and target.startswith("media/"):
             new_target = f"media/{tag}_{target.split('/', 1)[1]}"
             files["word/" + new_target] = part.media[target]
+            _declare_extension(files, new_target)
         else:
             new_target = target
         mode_attr = f' TargetMode="{mode}"' if mode else ""
@@ -273,6 +338,38 @@ def merge_part(files: dict[str, bytes], part: Part, tag: str) -> str:
             styles = styles.replace("</w:styles>", definition + "</w:styles>")
     files["word/styles.xml"] = styles.encode("utf-8")
     return body
+
+
+def _drop_unused_images(files: dict[str, bytes], document: str) -> None:
+    """Bỏ quan hệ ảnh mà thân bài không còn dùng (ảnh chương cũ của khung) và file ảnh không còn ai trỏ tới."""
+    used = set(re.findall(r'r:(?:embed|id|link)="([^"]+)"', document))
+    rels = files["word/_rels/document.xml.rels"].decode("utf-8")
+    for tag in _RELATIONSHIP.findall(rels):
+        a = _attrs(tag)
+        if a["Type"].endswith("/image") and a["Id"] not in used:
+            rels = rels.replace(tag, "")
+    files["word/_rels/document.xml.rels"] = rels.encode("utf-8")
+    referenced = set()
+    for name in [n for n in files if n.startswith("word/_rels/") and n.endswith(".rels")]:
+        referenced |= {"word/" + t for t in re.findall(r'Target="(media/[^"]+)"', files[name].decode("utf-8"))}
+    for name in [n for n in files if n.startswith("word/media/") and n not in referenced]:
+        del files[name]
+
+
+# Phần tử đứng sau updateFields trong CT_Settings (ECMA-376): chèn updateFields trước phần tử đầu tiên có mặt
+_AFTER_UPDATE_FIELDS = ("<w:hdrShapeDefaults", "<w:footnotePr", "<w:endnotePr", "<w:compat", "<w:docVars", "<w:rsids",
+                        "<m:mathPr", "<w:attachedSchema", "<w:themeFontLang", "<w:clrSchemeMapping",
+                        "<w:doNotIncludeSubdocsInStats", "<w:doNotAutoCompressPictures", "<w:forceUpgrade", "<w:captions",
+                        "<w:readModeInkLockDown", "<w:smartTagType", "<sl:schemaLibrary", "<w:shapeDefaults",
+                        "<w:doNotEmbedSmartTags", "<w:decimalSymbol", "<w:listSeparator")
+
+
+def _set_update_fields(settings: str) -> str:
+    if "<w:updateFields" in settings:
+        return settings
+    found = [i for i in (settings.find(t) for t in _AFTER_UPDATE_FIELDS) if i >= 0]
+    at = min(found) if found else settings.index("</w:settings>")
+    return settings[:at] + '<w:updateFields w:val="true"/>' + settings[at:]
 
 
 def _heading_span(document: str, text: str) -> tuple[int, int]:
@@ -496,12 +593,13 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
         warnings.append("chưa có docs/report/phan_dau.md: phần đầu giữ chữ mẫu của khung")
     document = clear_toc_results(document)
     document = _declare_namespaces(document, part.namespaces)
-    files["word/document.xml"] = _renumber_drawings(document).encode("utf-8")
-    settings = files["word/settings.xml"].decode("utf-8")
-    if "<w:updateFields" not in settings:     # Word/OnlyOffice hỏi cập nhật mục lục, danh mục khi mở file
-        files["word/settings.xml"] = settings.replace("</w:settings>", '<w:updateFields w:val="true"/></w:settings>').encode("utf-8")
+    document = _renumber_drawings(document)
+    _drop_unused_images(files, document)
+    files["word/document.xml"] = document.encode("utf-8")
+    # Word/OnlyOffice hỏi cập nhật mục lục, danh mục khi mở file
+    files["word/settings.xml"] = _set_update_fields(files["word/settings.xml"].decode("utf-8")).encode("utf-8")
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        for name in names + [n for n in files if n not in names]:
+        for name in [n for n in names if n in files] + [n for n in files if n not in names]:
             z.writestr(name, files[name])
     return warnings
 

@@ -92,7 +92,7 @@ def test_styles_mapped_images_centered_and_table_cells_not_indented():
     out = br.postprocess_body(body)
     assert out.count('<w:pStyle w:val="Nidungvnbn"/>') == 2           # đoạn thường + mục danh sách
     assert '<w:pStyle w:val="Caption"/><w:keepNext/>' in out             # ảnh căn giữa, dính với chú thích
-    assert '<w:tblStyle w:val="TableGrid"/>' in out and '<w:pStyle w:val="Normal"/>' in out
+    assert '<w:tblStyle w:val="TableGrid"/>' in out and '<w:pStyle w:val="BangNoiDung"/>' in out     # chữ bảng 11pt
 
 
 def test_figure_width_keeps_resolution_and_fits_page(tmp_path):
@@ -177,7 +177,9 @@ def test_captions_use_plain_seq_lists_keep_numbering_styles_exist(built):
         assert f'w:numId="{nid}"' in num
     defined = set(re.findall(r'w:styleId="([^"]+)"', styles))
     assert set(re.findall(r'<w:(?:pStyle|rStyle|tblStyle) w:val="([^"]+)"/>', doc)) <= defined
-    assert '<w:updateFields w:val="true"/>' in read_part(built, "word/settings.xml")
+    settings = read_part(built, "word/settings.xml")
+    assert '<w:updateFields w:val="true"/>' in settings
+    assert settings.index("<w:updateFields") < settings.index("<w:compat")      # đúng thứ tự schema CT_Settings
 
 
 def test_rebuild_is_stable_and_khung_untouched(tmp_path):
@@ -216,7 +218,8 @@ def test_citations_and_references_match():
 
 def test_reference_list_is_the_outline_list():
     refs = [l for l in (REPORT / "tai_lieu_tham_khao.md").read_text(encoding="utf-8").splitlines() if re.match(r"\w", l)]
-    assert len(refs) == 15 and refs == sorted(refs, key=str.casefold)
+    # APA 7 (9.44) "nothing precedes something": Nguyen, T.-M. đứng trước Nguyen Ba
+    assert len(refs) == 15 and refs == sorted(refs, key=lambda r: (r.split(",")[0].casefold(), r.casefold()))
     assert all("*" in r for r in refs)                                   # APA 7: tên nguồn in nghiêng
 
 
@@ -243,6 +246,7 @@ def test_bibliography_style_is_apa_hanging_indent_body_size(built):
     styles = read_part(built, "word/styles.xml")
     bib = re.search(r'<w:style [^>]*w:styleId="Bibliography".*?</w:style>', styles, re.S).group(0)
     assert '<w:ind w:left="720" w:hanging="720"/>' in bib and '<w:sz w:val="26"/>' in bib
+    assert 'w:after="0" w:line="480"' in bib                         # giãn dòng đôi như Template_VN.dotx
 
 
 def test_stale_toc_results_replaced_by_update_prompt(built):
@@ -251,3 +255,83 @@ def test_stale_toc_results_replaced_by_update_prompt(built):
     assert "No table of figures entries found" not in text and "LangGrahp" not in text   # chữ lưu sẵn của mục lục cũ
     assert len(re.findall(r"<w:instrText[^>]*> ?TOC ", doc)) == 3
     assert text.count(br.TOC_PROMPT) == 3
+
+
+def test_abbreviations_appear_in_chapters_and_cover_common_ones():
+    body = "\n".join(p.read_text(encoding="utf-8") for p in REPORT.glob("chuong*_draft.md"))
+    rows = re.findall(r"^\| (\S+) \| ", (REPORT / "phan_dau.md").read_text(encoding="utf-8"), re.M)
+    for abbr in rows:
+        assert re.search(rf"(?<![\w-]){re.escape(abbr)}(?![A-Za-zÀ-ỹ-])", body), abbr      # cho phép "RQ1", "MRR@10"
+    assert {"ALCE", "AI", "JSONL", "BGE-M3"} <= set(rows) and "BGE" not in rows
+
+
+@pytest.mark.skipif(shutil.which("pandoc") is None, reason="cần pandoc")
+def test_list_right_after_paragraph_is_a_list(tmp_path):
+    part = br.pandoc_part("## A\n\nCác nhóm câu hỏi:\n- *một:* x\n- *hai:* y\n", KHUNG, tmp_path)
+    assert part.body.count("<w:numPr>") == 2                    # không bị nối vào đoạn văn phía trên
+
+
+@pytest.mark.skipif(shutil.which("pandoc") is None, reason="cần pandoc")
+def test_markdown_footnote_is_rejected(tmp_path):
+    with pytest.raises(ValueError, match="chân trang"):
+        br.pandoc_part("Câu[^1].\n\n[^1]: Ghi chú.\n", KHUNG, tmp_path)
+
+
+@pytest.mark.skipif(shutil.which("pandoc") is None, reason="cần pandoc")
+def test_two_parts_with_lists_get_distinct_numbering(tmp_path):
+    with zipfile.ZipFile(KHUNG) as z:
+        files = {n: z.read(n) for n in z.namelist()}
+    bodies = []
+    for tag in ("X", "Y"):
+        part = br.pandoc_part("## A\n\n- một\n- hai\n", KHUNG, tmp_path)
+        part.body = br.postprocess_body(part.body)
+        bodies.append(br.merge_part(files, part, tag))
+    ids = [set(re.findall(r'<w:numId w:val="(\d+)"/>', b)) for b in bodies]
+    assert ids[0] and ids[1] and not ids[0] & ids[1]
+    num = files["word/numbering.xml"].decode("utf-8")
+    nums = re.findall(r'<w:num w:numId="(\d+)"', num)
+    abstracts = re.findall(r'<w:abstractNum [^>]*w:abstractNumId="(\d+)"', num)
+    assert len(nums) == len(set(nums)) and len(abstracts) == len(set(abstracts))
+
+
+def test_new_image_extension_gets_content_type():
+    files = {"[Content_Types].xml": b'<Types><Default Extension="png" ContentType="image/png"/></Types>',
+             "word/_rels/document.xml.rels": b"<Relationships></Relationships>",
+             "word/numbering.xml": b"<w:numbering></w:numbering>", "word/styles.xml": b"<w:styles></w:styles>"}
+    image = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
+    part = br.Part('<w:p><a:blip r:embed="rId9"/></w:p>', [("rId9", image, "media/x.svg", None)],
+                   {"media/x.svg": b"<svg/>"}, "", "", {})
+    br.merge_part(files, part, "T")
+    assert b'<Default Extension="svg" ContentType="image/svg+xml"/>' in files["[Content_Types].xml"]
+    assert files["word/media/T_x.svg"] == b"<svg/>"
+
+
+def test_no_unreferenced_media_left_in_package(built):
+    names = zip_names(built)
+    targets = set()
+    for rels in (n for n in names if n.startswith("word/_rels/") and n.endswith(".rels")):
+        targets |= {"word/" + t for t in re.findall(r'Target="(media/[^"]+)"', read_part(built, rels))}
+    assert {n for n in names if n.startswith("word/media/")} == targets
+    doc = read_part(built, "word/document.xml")
+    used = set(re.findall(r'r:(?:embed|id|link)="([^"]+)"', doc))
+    for tag in re.findall(r"<Relationship [^>]*/>", read_part(built, "word/_rels/document.xml.rels")):
+        if tag.count("/image\"") or 'relationships/image"' in tag:
+            assert re.search(r'Id="([^"]+)"', tag).group(1) in used, tag     # ảnh chương cũ của khung đã bỏ
+
+
+def test_table_columns_fit_their_longest_word():
+    tbl = ('<w:tbl><w:tblPr><w:tblStyle w:val="Table"/><w:tblW w:type="auto" w:w="0"/><w:tblLook w:val="0020"/></w:tblPr>'
+           '<w:tblGrid><w:gridCol w:w="4252"/><w:gridCol w:w="4252"/></w:tblGrid><w:tr>'
+           '<w:tc><w:tcPr/><w:p><w:r><w:t>Faithfulness</w:t></w:r></w:p></w:tc>'
+           '<w:tc><w:tcPr/><w:p><w:r><w:t>x</w:t></w:r></w:p></w:tc></w:tr></w:tbl>')
+    out = br.postprocess_body(tbl)
+    cols = [int(w) for w in re.findall(r'<w:gridCol w:w="(\d+)"/>', out)]
+    assert cols[0] > cols[1] and sum(cols) == br.TABLE_WIDTH_TWIPS
+    assert '<w:tblLayout w:type="fixed"/><w:tblLook' in out
+    assert [int(w) for w in re.findall(r'<w:tcW w:w="(\d+)" w:type="dxa"/>', out)] == cols
+
+
+def test_table_text_style_is_11pt_single_spaced(built):
+    styles = read_part(built, "word/styles.xml")
+    style = re.search(r'<w:style [^>]*w:styleId="BangNoiDung".*?</w:style>', styles, re.S).group(0)
+    assert '<w:sz w:val="22"/>' in style and 'w:line="240"' in style
