@@ -3,14 +3,16 @@
 > Nhật ký của Đạt, **track trong git từ 10/11** (trước đó bị gitignore). Bối cảnh ít đổi (đề tài, kiến trúc, quy tắc tập kiểm thử, lệnh): `AGENTS.md`. Claude Code tự nạp cả hai qua `IT_Project/CLAUDE.md` (thư mục cha, ngoài git), dù mở phiên ở `IT_Project/` hay `vn-legal-qa/`.
 >
 > Trước 10/11 file nằm ngoài git nên từng bị khôi phục về bản cũ (05/11, do rollback phiên). Từ 10/11 có lịch sử trong git: nếu ngày cập nhật ở trên cũ hơn `git log`, xem `git log -p -- docs/HANDOFF.md` trước khi tin file.
+>
+> **Quy tắc cập nhật (Đạt, 11/11):** khi Đạt yêu cầu cập nhật hoặc kiểm HANDOFF cho phiên mới: (1) rà lại **mọi mục cũ** (trạng thái, việc tiếp theo, prompt, kế hoạch) và sửa chỗ đã sai, không chỉ thêm mục mới ở cuối; (2) ghi **nhật ký của phiên** (commit, việc đã làm, số liệu, khó khăn và tình trạng, tiến độ PLAN) để làm báo cáo tuần; (3) đọc lại như một phiên mới chưa biết gì và kiểm đủ để làm tiếp.
 
 ## 1. Trạng thái
 
-**Git:** phiên 10/11 có 8 commit tài liệu trên `main` (`dc951b0` → commit plan H22, xem mục 6) + các commit 11/11: vá lỗi giao diện (H22 đã hủy, mục 6) và H23 ghép báo cáo (mục 7); Đạt push. Tag chỉ ở máy Đạt, chưa push: `ui-before-h22` (giao diện trước mọi sửa đổi), `h22-attempt` (bản H22 đầy đủ đã làm rồi bỏ: 12 commit, 353 test, review độc lập). Test: 363 pass. HANDOFF được track trong git từ 10/11.
+**Git:** phiên 10/11 có 8 commit tài liệu trên `main` (`dc951b0` → commit plan H22, xem mục 6) + 8 commit 10–11/11 (`43d4844` → commit HANDOFF cuối: vá lỗi giao diện, H23 ghép báo cáo, lỗi nhỏ sau review, HANDOFF) **chưa push**; không còn file sửa chưa commit, chỉ còn file chưa track (mục 8, "Trạng thái git"). Tag chỉ ở máy Đạt, chưa push: `ui-before-h22` (giao diện trước mọi sửa đổi), `h22-attempt` (bản H22 đầy đủ đã làm rồi bỏ: 12 commit, 353 test, review độc lập). Test: 371 pass. HANDOFF được track trong git từ 10/11.
 
 **Sprint 5 (05/11–15/11):** phần của Đạt xong hết (Task 1–7, phân tích lỗi, latency, kiểm giao diện H19). Sổ quyết định: `.superpowers/sdd/2026-11-05-sprint5-dat/progress.md`. **10/11: Đạt làm thay H17, H18, H21** (Hùng không cập nhật gì từ 06/11); sổ quyết định `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md`.
 
-**Sprint 6 (16/11–27/11, làm sớm được vì không phải tính năng mới):** plan đã được Đạt duyệt: `docs/superpowers/plans/2026-11-16-sprint6-dat.md`; thẻ Hùng `docs/sprints/2026-11-16-sprint6-hung.md` (H22 giao diện, H23 ghép báo cáo, H24 slide bảo vệ, H25 video demo). Chạy 06/11 theo `superpowers:executing-plans`: **Task 1, 3, 4 xong, đã commit và push; Task 2 chạy được, chỉ còn Đạt mở giao diện bằng trình duyệt một lần.** Đã qua review độc lập cuối; các lỗi Important và Minor của Sprint 6 đã sửa, trừ 2 mục giao diện ở H22 (mục 7–8). Image `vn-legal-qa` 3,23 GB đã build trên máy Đạt. Task 5 chờ Hùng ghép báo cáo (H23, hạn 24/11). Tiến độ và mọi quyết định: `.superpowers/sdd/2026-11-16-sprint6-dat/progress.md`.
+**Sprint 6 (16/11–27/11, làm sớm được vì không phải tính năng mới):** plan đã được Đạt duyệt: `docs/superpowers/plans/2026-11-16-sprint6-dat.md`; thẻ Hùng `docs/sprints/2026-11-16-sprint6-hung.md` (H22 giao diện, H23 ghép báo cáo, H24 slide bảo vệ, H25 video demo). Chạy 06/11 theo `superpowers:executing-plans`: **Task 1, 3, 4 xong, đã commit và push; Task 2 chạy được, chỉ còn Đạt mở giao diện bằng trình duyệt một lần.** Đã qua review độc lập cuối; các lỗi Important và Minor của Sprint 6 đã sửa (H22 mục 7 đã vá 11/11, mục 8 còn treo). Image `vn-legal-qa` 3,23 GB đã build trên máy Đạt. **H23 Đạt làm thay xong 11/11 (mục 7)**; Task 5 (rà soát, Turnitin) làm sau khi đổi khung báo cáo sang mẫu đúng (mục 8). Tiến độ và mọi quyết định: `.superpowers/sdd/2026-11-16-sprint6-dat/progress.md`.
 
 **Báo cáo tuần 12:** xong, **không sửa nữa** (`docs/managements/Week 02.11-08.11/`: content.json, build_pptx.js, build_xlsx.py, 3 file; ngày báo cáo 06/11). Việc làm ngày 06/11 tính vào báo cáo tuần 13, xem mục 5. Mỗi giải pháp ở chương 4 và slide 10 ghi tình trạng: Đã xử lý / Giảm thiểu / Chấp nhận, ghi vào giới hạn / Đang theo dõi. `build_docx.py` có tùy chọn `ch4.resolved` (danh sách [nhãn, nội dung]) in dưới Bảng 4.1, dùng từ tuần 13 cho khó khăn tuần trước đã xong.
 
@@ -33,12 +35,20 @@
 
 ## 2. Việc tiếp theo
 
-1. **H22 đã hủy (10/11, mục 6).** Không làm lại giao diện, không làm web riêng (trái mốc đóng băng, không thêm số liệu cho báo cáo). Còn treo: mục 8 thẻ H22 (gợi ý "đợi vài giây rồi bấm Thử lại" sai với lỗi 500), sửa nhỏ ở `src/ui/web/api/client.py` nếu muốn.
-2. **Task 2 Sprint 6:** Đạt mở giao diện qua `docker compose up --build` một lần (phải `--build`: image trên máy đang chứa giao diện H22 đã hủy), xác nhận thanh bên ghi "Đã kết nối · gemini-3.1-flash-lite", đánh dấu Task 2 ở `PLAN.md` và Phụ lục B.
-3. **Báo cáo tuần 13 (09.11–15.11, khoảng 13/11):** nội dung = mục 5 (việc 06/11) + mục 6 "Nhật ký phiên 10/11" (gồm H22: đánh giá, thử, hủy, vá 2 lỗi). Prompt ở mục 4.
-4. **Báo cáo docx (H23, Đạt làm thay, mục 7):** mở `docs/report/final_52300098_52300106.docx` bằng Word hoặc OnlyOffice, đồng ý cập nhật trường (file tự hỏi khi mở) để mục lục, danh mục hình, danh mục bảng có số trang; xem nhanh trước khi rà soát. **Task 5 Sprint 6 (rà soát, Turnitin) làm được ngay**, không chờ 24/11: sửa lỗi ở file `.md` rồi `python docs/report/build_report.py`.
-5. **Theo dõi Hùng** (không cập nhật gì từ 06/11): gửi tin nhắn mới (bản nháp trong phiên 11/11: H23 Đạt đã làm, Hùng chỉ còn H26, H24, H25). H26: 4 hình lưu đúng tên `assets/diagrams/bi_encoder.png`, `cross_encoder.png`, `naive_rag.png`, `agentic_rag.png`, bỏ Hình 3.5 khỏi `chuong3_draft.md` (hạn 20/11); build sẽ hết 5 cảnh báo "thiếu ảnh". H26 phần activity: sửa xong `activity.drawio`/`.png` thì Đạt thêm comment `<!-- Hình 4.8: assets/diagrams/activity.png -->` + chú thích vào Chương 4 rồi build lại. Khoảng 20/11 vẫn im lặng thì Đạt nhận H24 (slide).
-6. Tùy chọn: gỡ skill Taste (không hợp NiceGUI, Claude Code không đọc thư mục `.agents/`): `rm -rf IT_Project/.agents/skills/design-taste-frontend`; tắt gửi số liệu ẩn danh của Impeccable: `IT_Project/.claude/skills/impeccable/scripts/impeccable telemetry off`; cài Chromium (`sudo pacman -S chromium`) nếu muốn bộ phát hiện quét URL trực tiếp.
+**Ưu tiên phiên tới** (theo thứ tự):
+
+1. **Hỏi Đạt về git** (mục 8, "Trạng thái git"): Đạt push 8 commit; commit thư mục `HƯỚNG DẪN BÁO CÁO/`, bỏ file zip trùng; không commit file `.~lock…#`.
+2. **Sửa báo cáo tổng (báo cáo cuối kỳ, `docs/report/final_52300098_52300106.docx`), hạn nộp ELIT trước ngày công bố hội đồng 1 tuần, chậm nhất 04/12:**
+   1. *Đổi khung sang mẫu đúng của khoa* (mục 8): hỏi Đạt 3 câu hỏi mở, viết plan ngắn để Đạt duyệt, sửa `build_report.py` + test, build lại. Prompt ở mục 4.
+   2. *Đối chiếu quy định:* `HƯỚNG DẪN BÁO CÁO/2. Quy định và hướng dẫn/` (QĐ 2284 trình bày, hướng dẫn trình bày: lề, cỡ chữ, giãn dòng, đánh số trang, chú thích, tài liệu tham khảo) và sheet "Thông tin môn học_DỰ ÁN" mục "Các lưu ý về nội dung bài làm" + sheet "Rubric" (file Excel ở mục 8): sửa chỗ lệch ở khung hoặc ở nội dung chương.
+   3. *Rà soát nội dung (Task 5 Sprint 6):* đọc toàn bộ 6 chương theo rubric, số liệu khớp `eval/results/`, tham chiếu chéo, chính tả; sửa ở file `.md` rồi `python docs/report/build_report.py`. Prompt ở mục 4.
+   4. *Hình còn thiếu:* Hình 3.1–3.4 và activity (H26 của Hùng, hạn 20/11); Hùng im lặng thì Đạt tự vẽ hoặc bỏ hình và sửa câu dẫn. Build `--strict` phải hết cảnh báo.
+   5. *Hoàn thiện bản nộp:* mở docx bằng Word/OnlyOffice, cập nhật trường (Ctrl+A, F9) cho mục lục và danh mục; kiểm số trang; ghi ngày và ký ở trang cảm ơn, cam đoan; xuất PDF; Turnitin (Đạt tự nộp).
+   6. *Nộp:* file `52300098_52300106.zip` lên ELIT gồm báo cáo PDF, bản scan kế hoạch có chữ ký GVHD và các mục khác ghi trong sheet "Thông tin môn học_DỰ ÁN" (đọc đủ ô "Nội dung nộp bài"). Repo và `chroma_db.zip` nộp 03/12 (mục 3).
+3. **Báo cáo tuần 13 (09.11–15.11, nộp khoảng 13/11):** nội dung = mục 5 (việc 06/11) + mục 6 "Nhật ký phiên 10/11" + **mục 9 "Nhật ký phiên 10/11 tối – 11/11"**. Prompt ở mục 4.
+4. **Task 2 Sprint 6:** Đạt mở `docker compose up --build` một lần (phải `--build`: image trên máy đang chứa giao diện H22 đã hủy), thấy "Đã kết nối · gemini-3.1-flash-lite" thì đánh dấu Task 2 ở `PLAN.md` và Phụ lục B.
+5. **Theo dõi Hùng** (im lặng từ 06/11): gửi tin nhắn bản 11/11 (H23 Đạt đã làm; Hùng còn H26, H24, H25). H26: 4 hình lưu đúng tên `assets/diagrams/bi_encoder.png`, `cross_encoder.png`, `naive_rag.png`, `agentic_rag.png`, bỏ Hình 3.5 khỏi `chuong3_draft.md` (hạn 20/11), sửa `activity.drawio` rồi Đạt thêm `<!-- Hình 4.8: assets/diagrams/activity.png -->` + chú thích vào Chương 4. Khoảng 20/11 vẫn im lặng thì Đạt nhận H24 (slide).
+6. Còn treo, nhỏ: mục 8 thẻ H22 (gợi ý "đợi vài giây rồi bấm Thử lại" sai với lỗi 500, `src/ui/web/api/client.py`). Tùy chọn: gỡ skill Taste (`rm -rf IT_Project/.agents/skills/design-taste-frontend`), tắt số liệu ẩn danh của Impeccable (`IT_Project/.claude/skills/impeccable/scripts/impeccable telemetry off`).
 
 ## 3. Rủi ro và lỗi nhỏ còn hoãn
 
@@ -51,24 +61,18 @@
   - *Bỏ qua:* `_safe_date` nhận "any" từ LLM; `agree` crash với ô "x"; `judge_results` hết quota chưa có test; `_SPLIT_RE` tách câu sai sau "Đ."; `drop_citations` mất chữ thường chung ngoặc; `ID_RE` không nhận mã `fixed`; `lost_sentences` lệch chỉ số; `agent_smoke.md` bị ghi đè; BLDS Điều 688–689 gán sai Chương (Chương không dùng khi embedding); `get_article` trả None trên biến thể `fixed`; 4 lỗi review Sprint 5 (`parse_categories` nhãn trùng, `sheet --tag`, `answer_sha` không gồm đáp án mẫu, `plots._mean` nhóm rỗng).
 - **Docker chưa kiểm:** nạp đủ chỉ mục trong container (đã thử 3 chunk), tải mô hình trên máy sạch, chạy trên Windows.
 - **Bộ nộp:** `IT_Project/submission/chroma_db.zip` (73 MB, 4 chỉ mục, ngoài repo, đã kiểm giải nén và truy xuất thật) nộp kèm repo ngày 03/12. Nếu nạp lại chỉ mục thì phải tạo lại: `python -c "import shutil; shutil.make_archive('../submission/chroma_db', 'zip', root_dir='.', base_dir='chroma_db')"` khi không có container nào đang chạy.
-- **Tài liệu tham khảo đã tra 03/11** (arXiv API, ACL Anthology, Crossref, NeurIPS, bản PDF của tác giả): 13 mục mục 12 đề cương + Lewis 2020. Sửa: BGE-M3 → tên mới + Findings ACL 2024, 2318–2335; Reuter thêm trang 17–30; RAGAS 'Espinosa Anke'; thêm DOI. BM25 giữ 3(4) 333–389 (trang nhà xuất bản/Crossref ghi 4(1-2) 1–174 là sai). CRAG chỉ có bản arXiv. Chương 1 hết `[CẦN KIỂM TRA]`. Chưa làm: chuyển danh mục sang đúng định dạng mẫu khoa khi ghép docx (H23).
+- **Tài liệu tham khảo đã tra 03/11** (arXiv API, ACL Anthology, Crossref, NeurIPS, bản PDF của tác giả): 13 mục mục 12 đề cương + Lewis 2020. Sửa: BGE-M3 → tên mới + Findings ACL 2024, 2318–2335; Reuter thêm trang 17–30; RAGAS 'Espinosa Anke'; thêm DOI. BM25 giữ 3(4) 333–389 (trang nhà xuất bản/Crossref ghi 4(1-2) 1–174 là sai). CRAG chỉ có bản arXiv. Chương 1 hết `[CẦN KIỂM TRA]`. Danh mục đã chuyển sang APA 7 khi ghép docx (H23, `docs/report/tai_lieu_tham_khao.md`).
 
 ## 4. Gợi ý prompt cho phiên mới
-
-**Chạy H22 (giao diện)**
-```
-Chạy plan docs/superpowers/plans/2026-11-10-h22-ui-dat.md theo superpowers:executing-plans (native); mỗi task dùng skill impeccable với lệnh ghi trong plan. Đọc HANDOFF mục 6 "Công cụ" trước. Rollback: tag ui-before-h22. Commit theo plan, không push.
-```
-
 
 **Tiếp tục chung**
 ```
 Tóm tắt trạng thái hiện tại và 3 việc nên làm tiếp. Chưa làm gì, chưa commit.
 ```
 
-**Chạy Task 5 Sprint 6 (sau khi Hùng gửi docx H23)**
+**Chạy Task 5 Sprint 6 (sau khi đổi khung, mục 8)**
 ```
-Chạy Task 5 của plan docs/superpowers/plans/2026-11-16-sprint6-dat.md (rà soát báo cáo), đọc ledger .superpowers/sdd/2026-11-16-sprint6-dat/progress.md trước. Turnitin tôi tự nộp. Không commit, báo tôi khi xong.
+Chạy Task 5 của plan docs/superpowers/plans/2026-11-16-sprint6-dat.md (rà soát báo cáo), đọc ledger .superpowers/sdd/2026-11-16-sprint6-dat/progress.md trước. Báo cáo sinh bằng python docs/report/build_report.py: sửa lỗi ở file .md rồi build lại. Turnitin tôi tự nộp. Không commit, báo tôi khi xong.
 ```
 
 **Pull việc của Hùng**
@@ -78,7 +82,12 @@ Repo có cập nhật, pull về (theo CLAUDE.md), kiểm tra Hùng sửa gì, c
 
 **Báo cáo tuần mới**
 ```
-Đọc docs/managements/tools/README.md và docs/HANDOFF.md mục 5, 6. Làm báo cáo tuần 13 (09.11-15.11) trong docs/managements/Week 09.11-15.11: chép content.json, build_pptx.js, build_xlsx.py của tuần 12 rồi sửa; cùng 4 chương, cùng thiết kế. Tính cả việc làm ngày 06/11 ghi ở mục 5, thêm việc phát sinh từ 07/11 lấy từ git log (cả của Hùng). Khó khăn tuần 12 đã xong thì chuyển sang ch4.resolved, còn lại giữ nhãn tình trạng. Kiểm bằng ảnh render.
+Đọc docs/managements/tools/README.md và docs/HANDOFF.md mục 5, 6, 9. Làm báo cáo tuần 13 (09.11-15.11) trong docs/managements/Week 09.11-15.11: chép content.json, build_pptx.js, build_xlsx.py của tuần 12 rồi sửa; cùng 4 chương, cùng thiết kế. Tính cả việc làm ngày 06/11 ghi ở mục 5, thêm việc phát sinh từ 07/11 lấy từ git log (cả của Hùng). Khó khăn tuần 12 đã xong thì chuyển sang ch4.resolved, còn lại giữ nhãn tình trạng. Kiểm bằng ảnh render.
+```
+
+**Đổi khung báo cáo (phiên tới)**
+```
+Đọc HANDOFF mục 8. Đổi khung báo cáo sang TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx theo mục 8: hỏi tôi các câu hỏi mở trước, rồi viết plan ngắn (writing-plans) để tôi duyệt. Chưa commit.
 ```
 
 **Commit việc mới**
@@ -108,7 +117,7 @@ Các việc dưới đây làm ngày **06/11** (cuối tuần 12) nhưng **khôn
 - Lần đầu tải mô hình tới khoảng 7 GB (kế hoạch dự tính 4,5 GB) và nạp chỉ mục khoảng 2 giờ. Tình trạng: đã xử lý bằng `chroma_db.zip`, README ghi đúng dung lượng.
 - Docker chưa kiểm trên Windows và chưa thử tải mô hình trên máy sạch. Tình trạng: đang theo dõi, nhờ Hùng thử.
 
-**Kế hoạch phần còn lại trong báo cáo:** Sprint 6 của Đạt chỉ còn Task 5 (rà soát báo cáo, Turnitin) sau H23; việc còn lại của Hùng: H17, H18, H21, H22, H23, H24, H25.
+**Kế hoạch phần còn lại trong báo cáo** (cập nhật 11/11; bản 06/11 ghi Hùng còn H17–H25 nay đã cũ): Đạt: đổi khung báo cáo sang mẫu đúng, Task 5 (rà soát, Turnitin), Task 2 (mở Docker); Hùng: H26 (hình Chương 3, activity), H24 (slide), H25 (video). H17, H18, H21, H23 Đạt đã làm thay; H22 đã hủy.
 
 ## 6. Phiên 10/11 (Đạt + Claude), đã commit
 
@@ -172,16 +181,63 @@ Hùng không cập nhật gì từ 06/11 nên Đạt làm thay các thẻ đang 
 
 Đạt quyết định không chờ Hùng (im lặng từ 06/11), chạy plan `docs/superpowers/plans/2026-11-10-h23-report-dat.md` (native, 5 task). Sổ quyết định: `.superpowers/sdd/2026-11-10-h23-report-dat/progress.md`.
 
-**Cách làm:** script `docs/report/build_report.py` (thư viện chuẩn + `pandoc`, không thêm dependency): tiền xử lý 6 chương (bỏ ghi chú nháp, comment nguồn, số tiêu đề gõ tay; comment hình thành ảnh) → pandoc với khung làm reference → đổi style sang style khung (`Nidungvnbn`, `Caption`, `TableGrid`, `Bibliography`) → ghép vào `docs/report/khung_TDTU.docx`. Lệnh: `python docs/report/build_report.py` (`--strict` thoát mã 1 nếu còn cảnh báo). Kết quả `docs/report/final_52300098_52300106.docx`, khoảng 75 trang. 21 test trong `tests/test_build_report.py`. Ảnh: rộng tối đa 15 cm, giữ ≥ 150 dpi, cao ≤ 20 cm. Mục lục và hai danh mục trong file là dòng nhắc "Chưa cập nhật… F9" cho tới khi cập nhật trường.
+**Cách làm:** script `docs/report/build_report.py` (thư viện chuẩn + `pandoc`, không thêm dependency): tiền xử lý 6 chương (bỏ ghi chú nháp, comment nguồn, số tiêu đề gõ tay; comment hình thành ảnh) → pandoc với khung làm reference → đổi style sang style khung (`Nidungvnbn`, `Caption`, `TableGrid`, `Bibliography`) → ghép vào `docs/report/khung_TDTU.docx`. Lệnh: `python docs/report/build_report.py` (`--strict` thoát mã 1 nếu còn cảnh báo). Kết quả `docs/report/final_52300098_52300106.docx`, khoảng 75 trang. 29 test trong `tests/test_build_report.py`. Ảnh: rộng tối đa 15 cm, giữ ≥ 150 dpi, cao ≤ 20 cm. Mục lục và hai danh mục trong file là dòng nhắc "Chưa cập nhật… F9" cho tới khi cập nhật trường.
 
-**Theo mẫu khoa `docs/managements/Template_VN.dotx`** (Đạt đưa 10/11, đã commit): chú thích "Hình 4.1: …"/"Bảng 5.1: …" có trường `STYLEREF 1 \s` + `SEQ Hình \s 1` (danh mục hình, bảng tự cập nhật); bảng có chú thích ở trên, hình ở dưới; tài liệu tham khảo APA 7, thụt treo 0,5", tên nguồn in nghiêng.
+**Theo `docs/managements/Template_VN.dotx`** (Đạt đưa 10/11, đã commit; 11/11 Đạt báo đây là mẫu cũ/mẫu môn học, mẫu đúng ở mục 8): chú thích "Hình 4.1: …"/"Bảng 5.1: …" có trường `STYLEREF 1 \s` + `SEQ Hình \s 1` (danh mục hình, bảng tự cập nhật); bảng có chú thích ở trên, hình ở dưới; tài liệu tham khảo APA 7, thụt treo 0,5", tên nguồn in nghiêng.
 
 **Sửa so với khung của Hùng:** danh mục hình/bảng luôn rỗng (chú thích dùng mã "Hình_2." thay vì "Hình"); tài liệu tham khảo kiểu IEEE [1]… trong khi thân bài trích tác giả–năm → thay bằng 15 mục mục 12 đề cương (APA 7, có kiểm tự động trích dẫn ↔ danh mục); tiêu đề tiếng Anh khác đề cương → đúng nguyên văn mục 1; Tóm tắt, Abstract còn chữ mẫu → viết mới khoảng 200 từ mỗi bản từ số liệu Chương 6 (`docs/report/phan_dau.md`); bảng viết tắt trống → 20 từ có thật trong 6 chương; lời cảm ơn lặp chữ; cam đoan đổi "tôi" thành "chúng tôi" (Đạt quyết định). Chương mới sang trang, bảng rộng hết trang.
 
 **Nguồn Markdown đã sửa:** Chương 4 tách chú thích gộp "Hình 4.3–4.5", "Hình 4.6–4.7" thành từng hình; Chương 3 bỏ nhãn `[CẦN KIỂM TRA]` cạnh Lewis (2020) (tài liệu đã có ở mục 12).
 
-**Review độc lập (Opus):** 0 Critical, 3 Important, đã sửa có test: Hình 4.7 quá nhỏ, mục lục lưu sẵn của khung cũ, id ảnh pandoc không được đánh lại (sẽ trùng khi H26 thêm hình), tiêu đề cấp 4 Chương 3 lặp số. Không đưa `activity.png` vào báo cáo vì đang lệch code 7 điểm (H26). 10 lỗi nhỏ hoãn: dòng `Final: minor` trong sổ quyết định (đáng làm khi rảnh: thứ tự APA Nguyen, T.-M. trước Nguyen Ba; thêm ALCE, AI, JSONL vào bảng viết tắt; Chương 3 có danh sách viết liền trong đoạn).
+**Review độc lập (Opus):** 0 Critical, 3 Important, đã sửa có test: Hình 4.7 quá nhỏ, mục lục lưu sẵn của khung cũ, id ảnh pandoc không được đánh lại (sẽ trùng khi H26 thêm hình), tiêu đề cấp 4 Chương 3 lặp số. Không đưa `activity.png` vào báo cáo vì đang lệch code 7 điểm (H26). 10 lỗi nhỏ đã sửa nốt theo yêu cầu của Đạt (11/11): thứ tự APA, bảng viết tắt thêm AI/ALCE/JSONL, danh sách ngay sau dòng đoạn văn (Chương 3), numbering không trùng giữa các phần, kiểu file ảnh mới, vị trí updateFields, bỏ ~950 KB ảnh cũ, cột bảng theo nội dung + chữ bảng 11pt (style `BangNoiDung`), tài liệu tham khảo dòng đôi như mẫu khoa. Báo cáo khoảng 71 trang.
 
 **Còn lại:** 5 cảnh báo "thiếu ảnh" Hình 3.1–3.5 (chờ H26; hiện ô "[CHỜ HÌNH 3.x: …]" trong file); mở bằng Word/OnlyOffice cập nhật trường; trang ký (ngày, chữ ký) làm tay ở bản nộp.
 
 **Khó khăn (cho chương 4 báo cáo tuần 13):** Hùng không phản hồi, H23 hạn 24/11 chặn rà soát và Turnitin → Đạt làm bằng script, Markdown là nguồn duy nhất, build lại trong vài giây. *Đã xử lý.* Khung docx có lỗi định dạng ẩn (danh mục hình rỗng, kiểu trích dẫn lệch) → phát hiện khi đối chiếu với mẫu khoa. *Đã xử lý.*
+
+## 8. Đổi khung báo cáo sang mẫu đúng (Đạt báo 11/11, chưa làm)
+
+Khung đang dùng (`docs/report/khung_TDTU.docx`, do Hùng lấy từ mẫu mấy năm trước) và `docs/managements/Template_VN.dotx` (mẫu báo cáo môn học, nội dung ví dụ môn NLP) đều **sai mẫu**. Mẫu đúng: `docs/managements/HƯỚNG DẪN BÁO CÁO/3. Template báo cáo/DỰ ÁN CNTT/TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx`. Đạt nói: chỉ khác ở các trang đầu, từ Tóm tắt trở xuống giữ nguyên được.
+
+**Trạng thái git (11/11, cuối phiên):** 8 commit chưa push: `43d4844` vá giao diện · `ccc6f78` nguồn Chương 3, 4 · `69a384f` script build · `3e70871` phần đầu, tài liệu, docx · `4e4c66e` tài liệu · `e3b2d47` lỗi nhỏ sau review · `e5c27c0` viết tắt, thứ tự APA, docx build lại · commit HANDOFF cuối (HANDOFF, AGENTS). Không còn file sửa chưa commit (371 test pass). Không commit `docs/managements/.~lock.Template_VN.dotx#` (file khóa của OnlyOffice). Chưa track: thư mục `docs/managements/HƯỚNG DẪN BÁO CÁO/` (Đạt thêm 11/11, có mẫu đúng, quy định trình bày, file Excel) và file `HƯỚNG DẪN BÁO CÁO-20261110T174410Z-1-001.zip` (bản nén trùng nội dung): hỏi Đạt commit thư mục (khung mới cần mẫu trong repo để build lại được) và bỏ file zip.
+
+**Khác biệt đã đọc (11/11, chưa đọc hết):**
+- Bìa chính và bìa phụ: "HỌ VÀ TÊN SINH VIÊN 1 – MSSV", "… 2 – MSSV" đứng **trước** "TÊN ĐỀ TÀI"; sau tên đề tài là "DỰ ÁN CÔNG NGHỆ THÔNG TIN" rồi "TÊN CHUYÊN NGÀNH"; bìa phụ thêm "Người hướng dẫn / TS. Nguyễn Văn A". Khung cũ để tên đề tài trước, "Người thực hiện" ở dưới.
+- Mẫu đúng **không có** trang "PHẦN XÁC NHẬN VÀ ĐÁNH GIÁ CỦA GIẢNG VIÊN" (khung cũ có): sau cam đoan là "TÊN ĐỀ TÀI / TÓM TẮT".
+- Lời cảm ơn, cam đoan: câu chữ như khung cũ (cam đoan xưng "tôi"; Đạt đã chọn "chúng tôi").
+- **Lề trang khác trên toàn văn bản**, không chỉ trang đầu: mẫu đúng `top 1985, right 1134, bottom 1701, left 1985` twip (3,5 / 2 / 3 / 3,5 cm); khung cũ `1134 / 1134 (có section 851) / 1134 / 1701` (2 / 2 / 2 / 3 cm). Vùng chữ mẫu đúng rộng 15,5 cm (script đang giả định ảnh, bảng rộng tối đa 15 cm: vẫn vừa). Cần đối chiếu `HƯỚNG DẪN BÁO CÁO/2. Quy định và hướng dẫn/QĐ.2284.2020_Trình bày khóa luận.pdf` và `Huong dan trinh bay khoa luan TN, do an TN.docx` trước khi chọn lề.
+- Cùng đánh số tiêu đề "CHƯƠNG %1.", cùng 5 section, 3 header. Chưa so: style thân bài (`Nidungvnbn`?), style chú thích, định dạng chú thích hình/bảng, kiểu tài liệu tham khảo, trang Tóm tắt/Abstract (ô mẫu có còn chữ "(Time New Romans – 13)" và tiêu đề tiếng Anh "TITLE" không) → script `fill_front_matter` tìm đoạn theo các chữ mẫu đó, phải sửa theo mẫu mới.
+
+**Sheet "Thông tin môn học_DỰ ÁN"** (`HƯỚNG DẪN BÁO CÁO/Copy of QL. DỰ ÁN CNTT_ĐATN _KLTN.xlsx`; đọc bằng zipfile + sharedStrings, máy chưa có openpyxl trong .venv; các ô dài mới đọc 150 ký tự đầu, phiên sau đọc đủ): môn Dự án CNTT (504091), 3 tín chỉ, nhóm tối đa 2 SV; ngôn ngữ Tiếng Việt/Tiếng Anh; giữa kỳ (sau 8 tuần) chiếm 40% điểm; **nộp ELIT file `MSSV1_MSSV2.zip`** gồm báo cáo pdf, file scan kế hoạch có chữ ký GVHD, … (đọc đủ), trước 1 tuần so với ngày công bố hội đồng phản biện; khoa kiểm tra đạo văn và thể thức trình bày; 2 GV phản biện/đề tài, báo cáo trực tiếp, mang quyển báo cáo; mục "Các lưu ý về nội dung bài làm" (xác định vấn đề, ý nghĩa khoa học và thực tiễn, …) cần đọc đủ để đối chiếu Chương 1. Sheet "Rubric" chưa đọc (tiêu chí chấm, nên đọc trước khi rà soát Task 5).
+
+**Câu hỏi mở cho Đạt:** tên chuyên ngành ghi trên bìa (vd "KHOA HỌC MÁY TÍNH"?); bỏ hẳn trang xác nhận GV hay giữ; lề theo mẫu mới hay theo QĐ 2284.
+
+**Hướng làm đề xuất (cần plan + Đạt duyệt):** tạo khung mới từ mẫu đúng: phần từ đầu tới trước "TÓM TẮT" lấy của mẫu mới (điền tên, MSSV, tên đề tài nguyên văn đề cương mục 1, chuyên ngành, GVHD PGS.TS. Lê Anh Cường, năm 2026, lời cảm ơn, cam đoan "chúng tôi"), phần từ Tóm tắt trở xuống giữ của `khung_TDTU.docx` (để `build_report.py` khỏi đổi nhiều), lề trang mọi section theo mẫu mới; hoặc dùng thẳng mẫu mới làm khung nếu style thân bài trùng tên. Sửa `fill_front_matter` theo chữ mẫu mới, cập nhật test `test_front_matter_filled`, build lại, render kiểm (topdf.sh). Sửa thẻ H23, AGENTS.md (đã trỏ mẫu đúng), mục 7.
+
+## 9. Nhật ký phiên 10/11 tối – 11/11 (Đạt + Claude), dùng cho báo cáo tuần 13
+
+Ba việc lớn: chạy H22 rồi hủy (giữ giao diện cũ, chỉ vá lỗi sai sự thật); H23 ghép báo cáo bằng script (Đạt làm thay Hùng); phát hiện khung báo cáo dùng sai mẫu của khoa. Không sửa tác tử, API, prompt, tập kiểm thử: số liệu thực nghiệm không đổi.
+
+**Commit (chưa push):** `43d4844` vá lỗi giao diện (số Điều/Khoản thật, nhãn "Dự phòng: chỉ BM25") · `ccc6f78` dọn nguồn Chương 3, 4 · `69a384f` script `build_report.py` + test, khung đổi tên `khung_TDTU.docx` · `3e70871` Tóm tắt, Abstract, viết tắt, tài liệu tham khảo APA, docx đã build · `4e4c66e` tài liệu (PLAN, Phụ lục B, thẻ Hùng, AGENTS, HANDOFF). Thêm `e3b2d47` lỗi nhỏ sau review · `e5c27c0` viết tắt, thứ tự APA, docx build lại · commit HANDOFF cuối (nhật ký phiên, việc đổi khung), AGENTS (trỏ mẫu báo cáo đúng).
+
+**Việc đã làm:**
+- **H22 giao diện:** chạy hết plan 7 task bằng skill Impeccable (bộ phát hiện 29–40 cảnh báo → 2–4; review độc lập 0 Critical); kiểm Docker thật (2 container, API healthy, câu hỏi thật đúng); làm thử 1 mockup thiết kế lại hoàn toàn. Đạt xem rồi **hủy H22**: chưa ấn tượng hơn bao nhiêu, mốc đóng băng 12/11, hội đồng chấm phần nghiên cứu. Lùi 12 commit (giữ ở tag `h22-attempt`), chỉ giữ bản vá 2 lỗi sai sự thật; chụp lại ảnh trang chủ bằng API thật.
+- **Cân nhắc làm web riêng thay NiceGUI:** không làm (trái mốc đóng băng, không thêm số liệu, kéo theo sửa Chương 4, Docker, test).
+- **H23 ghép báo cáo (Đạt làm thay):** viết `docs/report/build_report.py` (pandoc + thư viện chuẩn): 6 chương Markdown → `docs/report/final_52300098_52300106.docx` (71 trang) trong vài giây; Markdown là nguồn duy nhất. Sửa 4 lỗi có sẵn của khung Hùng: danh mục hình/bảng luôn rỗng (mã SEQ sai), tài liệu tham khảo IEEE lệch kiểu trích tác giả–năm, tiêu đề tiếng Anh khác đề cương, Tóm tắt/Abstract còn chữ mẫu. Viết Tóm tắt, Abstract (số liệu lấy từ Chương 6), danh mục 23 từ viết tắt, 15 tài liệu APA 7 có kiểm tự động trích dẫn ↔ danh mục.
+- **Review độc lập H23 (Opus):** 0 Critical, 3 Important (sơ đồ tuần tự quá nhỏ, mục lục lưu sẵn của khung cũ, id ảnh có thể trùng gây hỏng file Word) + 1 lỗi tiêu đề lặp số → sửa có test; 10 lỗi nhỏ sửa nốt (thứ tự APA, viết tắt, danh sách trong Chương 3, chữ bảng 11pt, bỏ 950 KB ảnh thừa…).
+- **Phát hiện sai mẫu báo cáo (cuối phiên):** khung Hùng và `Template_VN.dotx` là mẫu cũ; mẫu đúng `TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` khác ở bìa, không có trang xác nhận GV, và **khác lề trang toàn văn bản**. Đã đọc sheet "Thông tin môn học_DỰ ÁN" (cách nộp ELIT `MSSV1_MSSV2.zip`). Chưa sửa, xem mục 8.
+
+**Số liệu:** test 339 → 371 (thêm 29 test cho script báo cáo, 3 test giao diện); báo cáo docx 71 trang, 5 cảnh báo còn lại là Hình 3.1–3.5 chờ H26.
+
+**Tiến độ `PLAN.md`:** 72 xong / 79 (không tính 5 hạng mục đã hủy, gồm H22) = 91%. H23 còn `[ ]` (chờ hình H26, đổi khung, cập nhật mục lục).
+
+**Khó khăn và tình trạng (cho chương 4 báo cáo tuần):**
+- Hùng không phản hồi từ 06/11 → Đạt làm thay H23 bằng script, nhắn Hùng còn H24, H25, H26. *Đang theo dõi.*
+- Sửa giao diện tốn công nhưng hiệu quả nhìn thấy ít, sát mốc đóng băng → hủy H22, chỉ vá lỗi sai sự thật. *Chấp nhận, ghi vào giới hạn.*
+- Khung docx có lỗi định dạng ẩn (danh mục rỗng, kiểu trích dẫn lệch) → đối chiếu mẫu, sinh lại bằng script có test. *Đã xử lý.*
+- Dùng nhầm mẫu báo cáo cũ (khác bìa, lề trang) → đổi sang mẫu đúng của khoa. *Đang xử lý* (mục 8).
+- Không có Word trên máy để kiểm file docx → kiểm cấu trúc XML bằng test và render bằng OnlyOffice; cập nhật mục lục làm tay. *Giảm thiểu.*
+
+
+**Tin nhắn cho Hùng (bản 11/11, Đạt tự gửi; nếu đã gửi thì ghi ngày gửi vào đây):**
+> Hùng ơi, mình đã ghép xong báo cáo 6 chương (H23) bằng script, Hùng không cần làm H23 nữa. Báo cáo sinh tự động từ các file `docs/report/*.md`, nên sửa gì thì sửa trong `.md` (nhớ `git pull` trước), đừng sửa thẳng file docx. Việc còn lại của Hùng: **H26 (hạn 20/11)** vẽ 4 hình Chương 3, lưu đúng tên `assets/diagrams/bi_encoder.png`, `cross_encoder.png`, `naive_rag.png`, `agentic_rag.png`; bỏ Hình 3.5 khỏi `chuong3_draft.md`; sửa 7 điểm của `activity.drawio` rồi xuất lại `activity.png`, xong báo mình build lại. **H24** slide bảo vệ và **H25** video demo, chi tiết trong `docs/sprints/2026-11-16-sprint6-hung.md`. Hùng trả lời giúp mình trước hết 13/11 nhé.

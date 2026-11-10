@@ -19,7 +19,7 @@ Tài liệu gồm các **thẻ việc**. Mỗi thẻ có đủ mục tiêu, file
 | H22 | ~~Giao diện bớt "kiểu AI", chụp lại ảnh~~ (hủy 10/11) | — | — |
 | H23 | Ghép báo cáo theo mẫu TDTU (Đạt làm thay từ 10/11) | 24/11 | H12, H17, H21 (Sprint 5); H26 (hình) |
 | H24 | Slide bảo vệ 15–20 slide | 26/11 | H23 |
-| H25 | Video demo 3–5 phút | 26/11 | H22 |
+| H25 | Video demo 3–5 phút | 26/11 | — (H22 đã hủy: quay giao diện hiện tại) |
 | H26 | Sửa sơ đồ activity, vẽ 4 hình Chương 3 | 20/11 | — |
 
 Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua rà soát của Đạt), slide bảo vệ, video demo.
