@@ -1,4 +1,4 @@
-"""Kiểm thử script ghép báo cáo docs/report/build_report.py (Markdown 6 chương → docx theo khung TDTU)."""
+"""Kiểm thử script ghép báo cáo docs/report/build_report.py (Markdown 6 chương → docx theo mẫu Dự án của khoa)."""
 from __future__ import annotations
 
 import importlib.util
@@ -15,12 +15,11 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "report"
-KHUNG = REPORT / "khung_TDTU.docx"
-
 _spec = importlib.util.spec_from_file_location("build_report", REPORT / "build_report.py")
 br = importlib.util.module_from_spec(_spec)
 sys.modules["build_report"] = br        # @dataclass tra module qua sys.modules
 _spec.loader.exec_module(br)
+KHUNG = br.KHUNG
 
 
 def png(w: int, h: int) -> bytes:
@@ -233,10 +232,16 @@ def test_set_paragraph_text_keeps_paragraph_and_first_run_format():
 def test_front_matter_filled(built):
     doc = read_part(built, "word/document.xml")
     text = text_of(doc)
-    assert "Time New Romans" not in text and "DEVELOPMENT OF A VIETNAMESE" not in text
+    assert "Time New Romans" not in text
     assert ("DEVELOPING A VIETNAMESE LEGAL QUESTION ANSWERING SYSTEM BASED ON AGENTIC-RAG WITH "
             "TEMPORALLY-AWARE LEGAL RETRIEVAL AND CITATION VERIFICATION") in text
-    assert "đã tận tình đã tận tình" not in text and "hướng dẫn chúng em hoàn thành" in text
+    for sample in ("HỌ VÀ TÊN SINH VIÊN", "TÊN ĐỀ TÀI", "TÊN CHUYÊN NGÀNH", "Nguyễn Văn A", "NĂM …", "20..",
+                   "TITLE", "……", "PHẦN XÁC NHẬN", "Hochreiter", "Scaled Dot-Product"):   # không dùng "VLSP": Chương 2 có nhắc
+        assert sample not in text, sample
+    assert text.count("PHẠM HUỲNH QUỐC ĐẠT - 52300098") == 2 and text.count("HOÀNG SINH HÙNG - 52300106") == 2
+    assert text.count(br.VI_TITLE) == 3 and text.count("KHOA HỌC MÁY TÍNH") == 2
+    assert "PGS.TS. Lê Anh Cường" in text and text.count("NĂM 2026") == 2 and text.count("năm 2026") == 2
+    assert "hướng dẫn chúng em hoàn thành" in text and "đã tận tình đã tận tình" not in text
     assert "Chúng tôi xin cam đoan" in text and "của riêng chúng tôi" in text and "do chúng tôi gây ra" in text
     assert "Reciprocal Rank Fusion" in text and "[14]" not in text   # bảng viết tắt có nội dung; danh mục IEEE cũ đã thay
     assert "Asai, A." in text and "Zalo AI. (2021)" in text
@@ -335,3 +340,78 @@ def test_table_text_style_is_11pt_single_spaced(built):
     styles = read_part(built, "word/styles.xml")
     style = re.search(r'<w:style [^>]*w:styleId="BangNoiDung".*?</w:style>', styles, re.S).group(0)
     assert '<w:sz w:val="22"/>' in style and 'w:line="240"' in style
+
+
+def test_replace_paragraphs_swaps_every_exact_match_and_escapes():
+    p = '<w:p><w:r><w:rPr><w:b/></w:rPr><w:t>TÊN </w:t></w:r><w:r><w:t>ĐỀ TÀI</w:t></w:r></w:p>'
+    doc = p + '<w:p><w:r><w:t>TÊN ĐỀ TÀI dài hơn</w:t></w:r></w:p>' + p
+    out = br.replace_paragraphs(doc, {"TÊN ĐỀ TÀI": "A & B"})
+    assert out.count("A &amp; B") == 2 and "TÊN ĐỀ TÀI dài hơn" in out      # chỉ thay đoạn khớp nguyên văn
+    with pytest.raises(ValueError, match="TITLE"):
+        br.replace_paragraphs(doc, {"TITLE": "x"})                          # chữ mẫu không còn: dừng, nêu tên
+
+
+def test_set_paragraph_text_takes_format_of_first_run_with_text():
+    p = '<w:p><w:r><w:rPr><w:i/></w:rPr><w:t></w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>X</w:t></w:r></w:p>'
+    assert "<w:b/>" in br.set_paragraph_text(p, "Y") and "<w:i/>" not in br.set_paragraph_text(p, "Y")
+    p = '<w:p><w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:i/></w:rPr><w:t>X</w:t></w:r></w:p>'
+    assert "<w:i/>" in br.set_paragraph_text(p, "Y") and "<w:b/>" not in br.set_paragraph_text(p, "Y")   # bỏ run chỉ có dấu cách
+
+
+def test_set_paragraph_text_keeps_page_break():
+    p = '<w:p><w:r><w:t>NĂM …</w:t><w:br w:type="page"/></w:r></w:p>'
+    assert br.set_paragraph_text(p, "NĂM 2026").endswith('<w:t xml:space="preserve">NĂM 2026</w:t></w:r><w:r><w:br w:type="page"/></w:r></w:p>')
+
+
+def test_output_is_a_document_with_template_margins(built):
+    types = read_part(built, "[Content_Types].xml")
+    assert "document.main+xml" in types and "template.main+xml" not in types
+    margins = re.findall(r"<w:pgMar [^>]*/>", read_part(built, "word/document.xml"))
+    assert len(margins) == 5
+    assert all('w:top="1985"' in m and 'w:right="1134"' in m and 'w:bottom="1701"' in m and 'w:left="1985"' in m
+               for m in margins)
+
+
+def test_cover_spacers_after_students_and_project_line_dropped():
+    def para(t: str = "") -> str:
+        return f"<w:p><w:r><w:t>{t}</w:t></w:r></w:p>"
+    logo = "<w:p><w:r><w:drawing/></w:r></w:p>"
+    cover = (para() + logo + para("HOÀNG SINH HÙNG - 52300106") + para() + para() + para(br.VI_TITLE) + para()
+             + para("DỰ ÁN CÔNG NGHỆ THÔNG TIN") + para() + para() + para("KHOA HỌC MÁY TÍNH") + para())
+    rest = '<w:p><w:pPr><w:sectPr/></w:pPr></w:p>' + para() + para("DỰ ÁN CÔNG NGHỆ THÔNG TIN") + para()
+    out = br.drop_cover_spacers(cover + rest)
+    assert out == (para() + logo + para("HOÀNG SINH HÙNG - 52300106") + para(br.VI_TITLE) + para()
+                   + para("DỰ ÁN CÔNG NGHỆ THÔNG TIN") + para("KHOA HỌC MÁY TÍNH") + para() + rest)   # sau bìa: không đụng
+
+
+def test_break_only_paragraph_becomes_page_break_before_next():
+    brk = '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:br w:type="page"/></w:r></w:p>'
+    toc = '<w:p><w:pPr><w:pStyle w:val="Nidungvnbn"/><w:jc w:val="center"/></w:pPr><w:r><w:t>MỤC LỤC</w:t></w:r></w:p>'
+    plain = '<w:p><w:r><w:t>X</w:t></w:r></w:p>'
+    section = '<w:p><w:pPr><w:sectPr/></w:pPr><w:r><w:br w:type="page"/></w:r></w:p>'
+    out = br.page_breaks_to_before(brk + toc + brk + plain + section + plain)
+    assert out == ('<w:p><w:pPr><w:pStyle w:val="Nidungvnbn"/><w:pageBreakBefore/><w:jc w:val="center"/></w:pPr>'
+                   '<w:r><w:t>MỤC LỤC</w:t></w:r></w:p>'
+                   '<w:p><w:pPr><w:pageBreakBefore/></w:pPr><w:r><w:t>X</w:t></w:r></w:p>' + section + plain)
+    assert br.page_breaks_to_before(brk + "<w:tbl></w:tbl>") == brk + "<w:tbl></w:tbl>"    # sau là bảng: giữ nguyên
+
+
+def test_no_dotted_filler_line_left_in_front_matter(built):
+    doc = read_part(built, "word/document.xml")
+    filler = [p for p in re.findall(r"<w:p[ >](?:(?!<w:p[ >]).)*?</w:p>", doc, re.S)
+              if "<w:tab/>" in p and 'w:leader="dot"' in p and not text_of(p).strip()]
+    assert filler == []                                                   # dòng chấm mẫu dưới Tóm tắt, Abstract
+
+
+def test_paragraph_ids_unique(built):
+    ids = re.findall(r'w14:paraId="([^"]+)"', read_part(built, "word/document.xml"))
+    assert len(ids) == len(set(ids))
+
+
+def test_file_author_is_the_students(built):
+    core = read_part(built, "docProps/core.xml")
+    assert f"<dc:creator>{br.AUTHORS}</dc:creator>" in core and f"<cp:lastModifiedBy>{br.AUTHORS}</cp:lastModifiedBy>" in core
+
+
+def test_no_template_highlight_left(built):
+    assert "<w:highlight" not in read_part(built, "word/document.xml")   # mẫu tô vàng chữ cần thay (tên GVHD ở cam đoan)

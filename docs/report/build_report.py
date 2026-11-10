@@ -1,4 +1,4 @@
-"""Ghép 6 chương Markdown (docs/report/chuong*_draft.md) thành báo cáo docx theo khung TDTU.
+"""Ghép 6 chương Markdown (docs/report/chuong*_draft.md) thành báo cáo docx theo mẫu Dự án của khoa CNTT.
 
 Chạy từ thư mục gốc repo (cần lệnh `pandoc`):
     python docs/report/build_report.py            # ra docs/report/final_52300098_52300106.docx
@@ -18,6 +18,7 @@ import struct
 import subprocess
 import tempfile
 import zipfile
+from xml.sax.saxutils import escape
 
 _FIGURE = re.compile(r"<!--\s*Hình (\d+\.\d+):\s*(\S+)[^>]*?-->")
 _COMMENT = re.compile(r"<!--.*?-->\n?", re.S)
@@ -219,7 +220,7 @@ def _fit_columns(tbl: str) -> str:
 
 
 def postprocess_body(body: str) -> str:
-    """Đổi style của pandoc sang style khung TDTU và gắn trường SEQ cho chú thích.
+    """Đổi style của pandoc sang style của khung và gắn trường SEQ cho chú thích.
 
     FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → BangNoiDung 11pt, không thụt dòng đầu); bảng → TableGrid,
     rộng hết trang, cột chia theo nội dung; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình {STYLEREF}.{SEQ}: …";
@@ -237,7 +238,10 @@ def postprocess_body(body: str) -> str:
 # ---------------------------------------------------------------- ghép vào khung
 
 REPORT_DIR = Path(__file__).resolve().parent
-KHUNG = REPORT_DIR / "khung_TDTU.docx"
+# Mẫu của khoa cho môn Dự án (đọc, không sửa); lề trang, bìa, style lấy từ đây
+KHUNG = (REPORT_DIR.parent / "managements" / "HƯỚNG DẪN BÁO CÁO" / "3. Template báo cáo" / "DỰ ÁN CNTT"
+         / "TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx")
+FIRST_CHAPTER = "MỞ ĐẦU VÀ TỔNG QUAN ĐỀ TÀI"   # Heading1 đầu tiên của phần thân trong mẫu
 OUT = REPORT_DIR / "final_52300098_52300106.docx"
 DOCPR_START = 100000       # id ảnh (wp:docPr, pic:cNvPr) đánh lại từ đây, khung chỉ dùng id nhỏ hoặc ngẫu nhiên lớn
 # APA 7 theo Template_VN.dotx: thụt treo 0,5", giãn dòng đôi; chữ 13pt như thân bài (khung đang để kiểu IEEE "[1]")
@@ -410,9 +414,25 @@ def _declare_namespaces(document: str, namespaces: dict[str, str]) -> str:
 
 # ---------------------------------------------------------------- phần đầu và tài liệu tham khảo
 
-# Nguyên văn mục 1 đề cương (tiếng Anh), in hoa như khung
+# Nguyên văn mục 1 đề cương, in hoa như mẫu
+VI_TITLE = ("PHÁT TRIỂN HỆ THỐNG HỎI ĐÁP PHÁP LUẬT VIỆT NAM DỰA TRÊN AGENTIC-RAG VỚI TRUY XUẤT CĂN CỨ "
+            "THEO HIỆU LỰC VÀ KIỂM CHỨNG TRÍCH DẪN")
 EN_TITLE = ("DEVELOPING A VIETNAMESE LEGAL QUESTION ANSWERING SYSTEM BASED ON AGENTIC-RAG WITH "
             "TEMPORALLY-AWARE LEGAL RETRIEVAL AND CITATION VERIFICATION")
+ADVISOR = "PGS.TS. Lê Anh Cường"
+AUTHORS = "Phạm Huỳnh Quốc Đạt, Hoàng Sinh Hùng"   # tác giả trong thuộc tính file (mẫu ghi tên người soạn mẫu)
+# Chữ mẫu (cả đoạn, sau strip) -> chữ thay; đọc từ mẫu ngày 11/11. Ngày, tháng để trống: ký tay ở bản nộp
+FRONT_TEXT = {
+    "HỌ VÀ TÊN SINH VIÊN 1 - MSSV": "PHẠM HUỲNH QUỐC ĐẠT - 52300098",
+    "HỌ VÀ TÊN SINH VIÊN 2 - MSSV": "HOÀNG SINH HÙNG - 52300106",
+    "TÊN ĐỀ TÀI": VI_TITLE,                       # bìa chính, bìa phụ, đầu trang Tóm tắt
+    "TITLE": EN_TITLE,                            # đầu trang Abstract
+    "TÊN CHUYÊN NGÀNH": "KHOA HỌC MÁY TÍNH",
+    "TS. Nguyễn Văn A": ADVISOR,                  # dòng dưới "Người hướng dẫn" ở bìa phụ
+    "THÀNH PHỐ HỒ CHÍ MINH, NĂM …": "THÀNH PHỐ HỒ CHÍ MINH, NĂM 2026",
+    "TP. Hồ Chí Minh, ngày ... tháng … năm 20..": "TP. Hồ Chí Minh, ngày … tháng … năm 2026",   # trang cảm ơn
+    "TP. Hồ Chí Minh, ngày … tháng … năm 20..": "TP. Hồ Chí Minh, ngày … tháng … năm 2026",    # trang cam đoan
+}
 _INNER_PARAGRAPH = re.compile(r"<w:p(?: [^>]*)?>(?:(?!<w:p[ >]).)*?</w:p>", re.S)
 _NAME = r"[A-ZĐ][\w-]+(?: [A-Z][\w-]+)?"
 _CITE_ETAL = re.compile(rf"({_NAME}) và cộng sự,? \(?(\d{{4}})\)?")
@@ -421,12 +441,90 @@ _CITE_ONE = re.compile(rf"\(({_NAME}), (\d{{4}})\)|({_NAME}) \((\d{{4}})\)")
 
 
 def set_paragraph_text(p: str, text: str) -> str:
-    """Thay toàn bộ chữ của đoạn `p` bằng `text` (đã escape XML); giữ thẻ mở, pPr và rPr của run đầu."""
+    """Thay toàn bộ chữ của đoạn `p` bằng `text` (đã escape XML); giữ thẻ mở, pPr, ngắt trang và rPr của run có chữ đầu tiên."""
     open_tag = p[:p.index(">") + 1]
     ppr = re.search(r"<w:pPr>.*?</w:pPr>", p, re.S)
-    rpr = re.search(r"<w:r(?: [^>]*)?>\s*(<w:rPr>.*?</w:rPr>)", p, re.S)
+    # Mẫu hay mở đoạn bằng run rỗng hoặc chỉ có dấu cách mang định dạng khác: lấy định dạng của run đầu tiên có chữ
+    rpr = re.search(r"<w:r(?: [^>]*)?>\s*(<w:rPr>(?:(?!</w:r>).)*?</w:rPr>)(?:(?!</w:r>).)*?<w:t(?: [^>]*)?>\s*[^<\s]",
+                    p, re.S)
+    page_break = '<w:r><w:br w:type="page"/></w:r>' if '<w:br w:type="page"/>' in p else ""   # ngắt trang cuối bìa
     return (f"{open_tag}{ppr.group(0) if ppr else ''}<w:r>{rpr.group(1) if rpr else ''}"
-            f'<w:t xml:space="preserve">{text}</w:t></w:r></w:p>')
+            f'<w:t xml:space="preserve">{text}</w:t></w:r>{page_break}</w:p>')
+
+
+def replace_paragraphs(document: str, mapping: dict[str, str]) -> str:
+    """Thay mọi đoạn có chữ (sau strip) đúng bằng một khóa của `mapping` bằng chữ tương ứng (tự escape XML).
+
+    Thay cả đoạn vì chữ mẫu trong khung bị tách qua nhiều run; giữ định dạng run có chữ đầu tiên.
+
+    Raises:
+        ValueError: một khóa không khớp đoạn nào (mẫu đã đổi), để chữ mẫu không lọt vào bản nộp.
+    """
+    found = set()
+
+    def swap(m: re.Match) -> str:
+        key = _text(m.group(0)).strip()
+        if key not in mapping:
+            return m.group(0)
+        found.add(key)
+        return set_paragraph_text(m.group(0), escape(mapping[key]))
+
+    document = _INNER_PARAGRAPH.sub(swap, document)
+    for key in mapping:
+        if key not in found:
+            raise ValueError(f"không thấy đoạn mẫu '{key}' trong khung")
+    return document
+
+
+def drop_cover_spacers(document: str) -> str:
+    """Bỏ các đoạn trống đệm ở bìa (trước section break đầu tiên) ngay sau dòng sinh viên thứ hai và sau dòng
+    "DỰ ÁN CÔNG NGHỆ THÔNG TIN", để tên đề tài dài 5 dòng không đẩy bìa sang trang sau. Cỡ chữ mẫu giữ nguyên."""
+    cover_end = document.index("<w:sectPr")
+    after = {FRONT_TEXT["HỌ VÀ TÊN SINH VIÊN 2 - MSSV"], "DỰ ÁN CÔNG NGHỆ THÔNG TIN"}
+    last = ""
+
+    def drop(m: re.Match) -> str:
+        nonlocal last
+        text = _text(m.group(0)).strip()
+        if text or "<w:drawing" in m.group(0):
+            last = text
+            return m.group(0)
+        return "" if last in after else m.group(0)
+
+    return _INNER_PARAGRAPH.sub(drop, document[:cover_end]) + document[cover_end:]
+
+
+def _with_page_break_before(p: str) -> str:
+    if "<w:pageBreakBefore/>" in p:
+        return p
+    if "<w:pPr>" not in p:
+        at = p.index(">") + 1
+        return p[:at] + "<w:pPr><w:pageBreakBefore/></w:pPr>" + p[at:]
+    # Thứ tự trong pPr (ECMA-376): pStyle, keepNext, keepLines rồi mới tới pageBreakBefore
+    head = re.match(r"<w:pPr>(?:<w:pStyle [^>]*/>)?(?:<w:keepNext/>)?(?:<w:keepLines/>)?", p[p.index("<w:pPr>"):])
+    at = p.index("<w:pPr>") + head.end()
+    return p[:at] + "<w:pageBreakBefore/>" + p[at:]
+
+
+def page_breaks_to_before(document: str) -> str:
+    """Thay đoạn chỉ chứa dấu ngắt trang (không chữ, không ảnh, không section break) bằng pageBreakBefore ở đoạn
+    ngay sau. Đoạn ngắt trang đứng cuối một trang đầy sẽ tự sang trang mới rồi mới ngắt, sinh trang trắng
+    (vd sau Abstract); pageBreakBefore không bị vậy. Đoạn ngay sau là bảng thì giữ nguyên."""
+    out, pending, pos = [], False, 0
+    for m in _INNER_PARAGRAPH.finditer(document):
+        p = m.group(0)
+        out.append(document[pos:m.start()])
+        pos = m.end()
+        if pending and m.start() == pending:
+            p = _with_page_break_before(p)
+        pending = False
+        if ('<w:br w:type="page"/>' in p and not _text(p).strip() and "<w:sectPr" not in p and "<w:drawing" not in p
+                and document.startswith(("<w:p>", "<w:p "), m.end())):
+            pending = m.end()
+            continue
+        out.append(p)
+    out.append(document[pos:])
+    return "".join(out)
 
 
 def citation_gaps(body_md: str, refs_md: str) -> tuple[list[str], list[str]]:
@@ -467,9 +565,9 @@ def _sections(md: str) -> dict[str, str]:
 
 
 def fill_front_matter(document: str, files: dict[str, bytes], khung: Path, root: Path) -> str:
-    """Điền phần đầu của khung: tiêu đề tiếng Anh, Tóm tắt, Abstract, bảng viết tắt, sửa lời cảm ơn và cam đoan.
+    """Điền phần đầu của mẫu: bìa (FRONT_TEXT), lời cảm ơn, cam đoan, Tóm tắt, Abstract, bảng viết tắt.
 
-    Nội dung lấy từ docs/report/phan_dau.md (mục "Tóm tắt", "Abstract", "Viết tắt").
+    Nội dung lấy từ docs/report/phan_dau.md (mục "Lời cảm ơn", "Tóm tắt", "Abstract", "Viết tắt").
 
     Raises:
         ValueError: khung thiếu đoạn mẫu cần thay; KeyError: phan_dau.md thiếu mục.
@@ -481,27 +579,33 @@ def fill_front_matter(document: str, files: dict[str, bytes], khung: Path, root:
         part.body = postprocess_body(part.body)
         return merge_part(files, part, tag)
 
-    s, e = _find_paragraph(document, "DEVELOPMENT OF A VIETNAMESE")
-    document = document[:s] + set_paragraph_text(document[s:e], EN_TITLE) + document[e:]
+    document = drop_cover_spacers(replace_paragraphs(document, FRONT_TEXT))
+    # Đoạn mẫu "Chúng em xin chân thành cảm ơn ……": mỗi đoạn của mục Lời cảm ơn là một bản sao định dạng của nó
+    s, e = _find_paragraph(document, "Chúng em xin chân thành cảm ơn")
+    thanks = [" ".join(p.split()) for p in sections["Lời cảm ơn"].strip().split("\n\n")]
+    # Bản sao thứ hai trở đi bỏ w14:paraId/textId: mã đoạn trùng có thể làm Word đòi sửa file
+    copies = [set_paragraph_text(document[s:e], escape(t)) for t in thanks]
+    copies[1:] = [re.sub(r' w14:(?:paraId|textId)="[^"]*"', "", c) for c in copies[1:]]
+    document = document[:s] + "".join(copies) + document[e:]
+    # Cam đoan của nhóm hai người: "tôi" -> "chúng tôi", sửa trong từng run để giữ câu in đậm của mẫu
+    s = _find_paragraph(document, "Tôi xin cam đoan")[0]
+    e = _find_paragraph(document, "tôi xin hoàn toàn chịu trách nhiệm", s)[1]
+    pledge = re.sub(r"(<w:t(?: [^>]*)?>)([^<]*)(</w:t>)", lambda m: m.group(1) + re.sub(
+        r"\b([Tt])ôi\b", lambda w: ("Chúng" if w.group(1) == "T" else "chúng") + " tôi",
+        m.group(2).replace("TS. Nguyễn Văn A", ADVISOR)) + m.group(3), document[s:e])
+    pledge = re.sub(r"<w:highlight [^>]*/>", "", pledge)          # mẫu tô vàng tên GVHD để nhắc thay
+    document = document[:s] + pledge + document[e:]
+
     for name, tag in (("Tóm tắt", "S"), ("Abstract", "A")):       # hai ô mẫu theo thứ tự: Tóm tắt rồi Abstract
         s, e = _find_paragraph(document, "(Time New Romans")
+        # Ô mẫu còn các đoạn dòng chấm (chỉ có tab, leader dot) ngay sau: bỏ cùng
+        while (m := _INNER_PARAGRAPH.match(document, e)) and "<w:tab/>" in m.group(0) and not _text(m.group(0)).strip():
+            e = m.end()
         document = document[:s] + converted(name, tag) + document[e:]
     head_end = _heading_span(document, "DANH MỤC CÁC CHỮ VIẾT TẮT")[1]
     s = document.index("<w:tbl>", head_end)
     e = document.index("</w:tbl>", s) + len("</w:tbl>")
-    document = document[:s] + converted("Viết tắt", "V") + document[e:]
-
-    s, e = _find_paragraph(document, "đã tận tình đã tận tình")
-    thanks = _text(document[s:e]).replace("đã tận tình đã tận tình", "đã tận tình").replace(
-        "hướng dẫn em hoàn thành", "hướng dẫn chúng em hoàn thành")
-    document = document[:s] + set_paragraph_text(document[s:e], thanks) + document[e:]
-    # Cam đoan của nhóm hai người: "tôi" -> "chúng tôi", sửa trong từng run để giữ câu in đậm của mẫu
-    s = _find_paragraph(document, "Tôi xin cam đoan")[0]
-    e = _find_paragraph(document, "do tôi gây ra", s)[1]
-    pledge = re.sub(r"(<w:t(?: [^>]*)?>)([^<]*)(</w:t>)", lambda m: m.group(1) + re.sub(
-        r"\b([Tt])ôi\b", lambda w: ("Chúng" if w.group(1) == "T" else "chúng") + " tôi", m.group(2)) + m.group(3),
-        document[s:e])
-    return document[:s] + pledge + document[e:]
+    return document[:s] + converted("Viết tắt", "V") + document[e:]
 
 
 TOC_PROMPT = ("Chưa cập nhật: mở bằng Word hoặc OnlyOffice, chọn toàn bộ (Ctrl+A) rồi nhấn F9 "
@@ -549,7 +653,7 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
     """Sinh báo cáo docx từ khung và 6 chương Markdown; khung không bị sửa.
 
     Args:
-        khung: docx khung TDTU (bìa, phần đầu, style, đánh số tiêu đề).
+        khung: mẫu docx/dotx của khoa (bìa, phần đầu, style, lề trang, đánh số tiêu đề).
         out: file docx ra (ghi đè).
         root: thư mục gốc repo (chứa docs/report/chuong*_draft.md và ảnh).
 
@@ -562,11 +666,14 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
     with zipfile.ZipFile(khung) as z:
         names = z.namelist()
         files = {n: z.read(n) for n in names}
+    # Khung là .dotx: đổi loại phần chính để Word mở file ra như docx, không phải template
+    files["[Content_Types].xml"] = files["[Content_Types].xml"].replace(
+        b"wordprocessingml.template.main+xml", b"wordprocessingml.document.main+xml")
     md, warnings = chapters_md(root)
     part = pandoc_part(md, khung, root)
     part.body = postprocess_body(part.body)
     body = merge_part(files, part, "B")
-    document = splice(files["word/document.xml"].decode("utf-8"), "TỔNG QUAN ĐỀ TÀI", "TÀI LIỆU THAM KHẢO", body)
+    document = splice(files["word/document.xml"].decode("utf-8"), FIRST_CHAPTER, "TÀI LIỆU THAM KHẢO", body)
 
     # Ngắt trang trước "TÀI LIỆU THAM KHẢO" của khung nằm trong đoạn vừa bị thay: gắn lại vào tiêu đề
     start, end = _heading_span(document, "TÀI LIỆU THAM KHẢO")
@@ -591,12 +698,14 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
         document = fill_front_matter(document, files, khung, root)
     else:
         warnings.append("chưa có docs/report/phan_dau.md: phần đầu giữ chữ mẫu của khung")
-    document = clear_toc_results(document)
+    document = page_breaks_to_before(clear_toc_results(document))
     document = _declare_namespaces(document, part.namespaces)
     document = _renumber_drawings(document)
     _drop_unused_images(files, document)
     files["word/document.xml"] = document.encode("utf-8")
     # Word/OnlyOffice hỏi cập nhật mục lục, danh mục khi mở file
+    files["docProps/core.xml"] = re.sub(r"(<(dc:creator|cp:lastModifiedBy)>)[^<]*(</\2>)", rf"\g<1>{AUTHORS}\g<3>",
+                                        files["docProps/core.xml"].decode("utf-8")).encode("utf-8")
     files["word/settings.xml"] = _set_update_fields(files["word/settings.xml"].decode("utf-8")).encode("utf-8")
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         for name in [n for n in names if n in files] + [n for n in files if n not in names]:
