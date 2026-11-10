@@ -6,13 +6,9 @@
 
 ## 1. Trạng thái
 
-**Git:** phiên 10/11 có 5 commit trên `main` (`dc951b0` docx tuần 12 + 4 commit báo cáo, sơ đồ, đề cương/PLAN, HANDOFF), **Đạt push**; `origin/main` trước đó = `d5e4152`. Test: 339 pass. Từ 10/11 HANDOFF được track trong git.
+**Git:** phiên 10/11 có 8 commit trên `main` (`dc951b0` → commit plan H22, xem mục 6); Đạt push. Tag rollback giao diện: `ui-before-h22` (chỉ ở máy Đạt, chưa push tag). Test: 339 pass. HANDOFF được track trong git từ 10/11.
 
-**Sprint 5 (05/11–15/11):** phần của Đạt xong hết (Task 1–7, phân tích lỗi, latency, kiểm giao diện H19). Sổ quyết định: `.superpowers/sdd/2026-11-05-sprint5-dat/progress.md`. **10/11: Đạt làm thay H17, H18, H21** (Hùng không cập nhật gì từ 06/11); sổ quyết định `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md`. Ghi chép cũ về thẻ của Hùng (để đối chiếu):
-- H12 Chương 2: có bản nháp `docs/report/chuong2_draft.md` (06/11), đã đánh dấu ở `PLAN.md`, Đạt chưa rà. Còn 1 thẻ `[CẦN KIỂM TRA]` ở trích dẫn Lewis 2020, bỏ được vì nguồn này đã có trong mục 12 đề cương.
-- H17 số liệu Chương 1: chưa (`chuong1_draft.md` dòng 76 vẫn ghi 179 câu).
-- H18 sơ đồ use case, sequence: chưa có trong `assets/diagrams/`.
-- H21 Chương 5: chưa có file.
+**Sprint 5 (05/11–15/11):** phần của Đạt xong hết (Task 1–7, phân tích lỗi, latency, kiểm giao diện H19). Sổ quyết định: `.superpowers/sdd/2026-11-05-sprint5-dat/progress.md`. **10/11: Đạt làm thay H17, H18, H21** (Hùng không cập nhật gì từ 06/11); sổ quyết định `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md`.
 
 **Sprint 6 (16/11–27/11, làm sớm được vì không phải tính năng mới):** plan đã được Đạt duyệt: `docs/superpowers/plans/2026-11-16-sprint6-dat.md`; thẻ Hùng `docs/sprints/2026-11-16-sprint6-hung.md` (H22 giao diện, H23 ghép báo cáo, H24 slide bảo vệ, H25 video demo). Chạy 06/11 theo `superpowers:executing-plans`: **Task 1, 3, 4 xong, đã commit và push; Task 2 chạy được, chỉ còn Đạt mở giao diện bằng trình duyệt một lần.** Đã qua review độc lập cuối; các lỗi Important và Minor của Sprint 6 đã sửa, trừ 2 mục giao diện ở H22 (mục 7–8). Image `vn-legal-qa` 3,23 GB đã build trên máy Đạt. Task 5 chờ Hùng ghép báo cáo (H23, hạn 24/11). Tiến độ và mọi quyết định: `.superpowers/sdd/2026-11-16-sprint6-dat/progress.md`.
 
@@ -37,12 +33,13 @@
 
 ## 2. Việc tiếp theo
 
-1. **Đạt mở giao diện một lần:** chạy `docker compose up --build`, vào http://localhost:8080 (máy không có trình duyệt mà Claude dùng được), thanh bên phải ghi `Model: gemini-3.1-flash-lite`. Đạt thì đánh dấu Task 2 ở `docs/PLAN.md` và Phụ lục B đề cương. Task 5 làm sau H23 (24/11).
-1b. Xong 10/11: file `.docx` tuần 12 (đã sửa bìa) là bản đã nộp, đã commit `dc951b0`.
-1c. **Báo Hùng** (nếu chưa): thẻ H22 có thêm mục 7–8 (nhãn khi dùng dự phòng, gợi ý lỗi 500); H25 phải kiểm `/health` trước khi quay vì chạy venv chưa bật API thì giao diện tự chuyển dự phòng (chỉ BM25) mà vẫn hiện "Đã kết nối"; nhờ Hùng chạy README mục 1 trên Windows.
-2. **Nhắc Hùng** các thẻ Sprint 5 còn lại: H17, H18, H21 (hạn 15/11), làm trước H23. Đây là rủi ro tiến độ lớn nhất: mọi thứ dồn vào H23 (24/11), chỉ còn 3 ngày trước mốc 27/11.
-3. **Rà Chương 2** Hùng vừa gửi khi rảnh (Task 5 của plan Sprint 6 cũng đối chiếu lại).
-4. **Báo cáo tuần 13** (09.11–15.11): prompt ở mục 4, nội dung sẵn ở mục 5. Cách dựng: `docs/managements/tools/README.md`, môi trường tạm (venv `python-docx`, `openpyxl`; `pptxgenjs`) phải tạo lại theo README đó; xem trước bằng `docs/managements/tools/topdf.sh` rồi `pdftoppm`.
+1. **H22 giao diện (Đạt, trước mốc đóng băng 12/11):** mở phiên mới, chạy plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md` (7 task, prompt ở mục 4). Đọc mục 6 "Công cụ" trước.
+   - Rollback: `git checkout ui-before-h22 -- src/ui/web tests/test_nicegui_web.py`; bản chép ngoài repo: `IT_Project/backup/ui-before-h22/` (code giao diện, test, ảnh chụp 03/11).
+   - Đầu vào: bản đánh giá Impeccable `.impeccable/critique/2026-11-10T09-27-14Z__src-ui-web.md` (chỉ có trên máy, Impeccable tự gitignore) và quyết định của Đạt: làm cả 5 vấn đề, diện mạo "văn bản pháp lý", công cụ nghiên cứu gom vào mục thu gọn.
+2. **Task 2 Sprint 6:** sau H22, Đạt mở giao diện qua `docker compose up --build` một lần, xác nhận thanh bên ghi model `gemini-3.1-flash-lite`, đánh dấu Task 2 ở `PLAN.md` và Phụ lục B.
+3. **Báo cáo tuần 13 (09.11–15.11, khoảng 13/11):** nội dung = mục 5 (việc 06/11) + mục 6 "Nhật ký phiên 10/11" + H22 nếu xong. Prompt ở mục 4.
+4. **Theo dõi Hùng** (không cập nhật gì từ 06/11): H26 sửa activity + Hình 3.1–3.4 (20/11), H23 ghép docx 6 chương (24/11), H24 slide, H25 video. Khoảng 20/11 vẫn im lặng thì Đạt nhận H23, H24. Task 5 Sprint 6 (rà soát, Turnitin) làm sau H23.
+5. Tùy chọn: gỡ skill Taste (không hợp NiceGUI, Claude Code không đọc thư mục `.agents/`): `rm -rf IT_Project/.agents/skills/design-taste-frontend`; tắt gửi số liệu ẩn danh của Impeccable: `IT_Project/.claude/skills/impeccable/scripts/impeccable telemetry off`; cài Chromium (`sudo pacman -S chromium`) nếu muốn bộ phát hiện quét URL trực tiếp.
 
 ## 3. Rủi ro và lỗi nhỏ còn hoãn
 
@@ -58,6 +55,12 @@
 - **Tài liệu tham khảo đã tra 03/11** (arXiv API, ACL Anthology, Crossref, NeurIPS, bản PDF của tác giả): 13 mục mục 12 đề cương + Lewis 2020. Sửa: BGE-M3 → tên mới + Findings ACL 2024, 2318–2335; Reuter thêm trang 17–30; RAGAS 'Espinosa Anke'; thêm DOI. BM25 giữ 3(4) 333–389 (trang nhà xuất bản/Crossref ghi 4(1-2) 1–174 là sai). CRAG chỉ có bản arXiv. Chương 1 hết `[CẦN KIỂM TRA]`. Chưa làm: chuyển danh mục sang đúng định dạng mẫu khoa khi ghép docx (H23).
 
 ## 4. Gợi ý prompt cho phiên mới
+
+**Chạy H22 (giao diện)**
+```
+Chạy plan docs/superpowers/plans/2026-11-10-h22-ui-dat.md theo superpowers:executing-plans (native); mỗi task dùng skill impeccable với lệnh ghi trong plan. Đọc HANDOFF mục 6 "Công cụ" trước. Rollback: tag ui-before-h22. Commit theo plan, không push.
+```
+
 
 **Tiếp tục chung**
 ```
@@ -76,7 +79,7 @@ Repo có cập nhật, pull về (theo CLAUDE.md), kiểm tra Hùng sửa gì, c
 
 **Báo cáo tuần mới**
 ```
-Đọc docs/managements/tools/README.md và docs/HANDOFF.md mục 5. Làm báo cáo tuần 13 (09.11-15.11) trong docs/managements/Week 09.11-15.11: chép content.json, build_pptx.js, build_xlsx.py của tuần 12 rồi sửa; cùng 4 chương, cùng thiết kế. Tính cả việc làm ngày 06/11 ghi ở mục 5, thêm việc phát sinh từ 07/11 lấy từ git log (cả của Hùng). Khó khăn tuần 12 đã xong thì chuyển sang ch4.resolved, còn lại giữ nhãn tình trạng. Kiểm bằng ảnh render.
+Đọc docs/managements/tools/README.md và docs/HANDOFF.md mục 5, 6. Làm báo cáo tuần 13 (09.11-15.11) trong docs/managements/Week 09.11-15.11: chép content.json, build_pptx.js, build_xlsx.py của tuần 12 rồi sửa; cùng 4 chương, cùng thiết kế. Tính cả việc làm ngày 06/11 ghi ở mục 5, thêm việc phát sinh từ 07/11 lấy từ git log (cả của Hùng). Khó khăn tuần 12 đã xong thì chuyển sang ch4.resolved, còn lại giữ nhãn tình trạng. Kiểm bằng ảnh render.
 ```
 
 **Commit việc mới**
@@ -112,8 +115,8 @@ Các việc dưới đây làm ngày **06/11** (cuối tuần 12) nhưng **khôn
 
 **Báo cáo thành 6 chương** (Đạt duyệt): thêm Chương 2 "Tổng quan tài liệu" (`docs/report/chuong2_draft.md`, mở rộng mục 7 đề cương, có Bảng 2.1 so sánh công trình và Bảng 2.2 vấn đề → giải pháp → RQ). File chương cũ đổi tên: `chuong2→3` (lý thuyết, Hùng), `3→4` (thiết kế), `4→5` (thực nghiệm), Chương 5 mới viết → `chuong6_draft.md`. Mọi tham chiếu "Chương/mục/Bảng/Hình" trong 6 chương, README, thẻ H23–H24, Task 5 plan Sprint 6 đã dời; mục cũ trong PLAN/Phụ lục B giữ số cũ (có dòng ghi chú). Đã kiểm bằng script: không còn tham chiếu trỏ tới mục/bảng/hình không tồn tại.
 - Tài liệu mới: ALQAC 2025 (Do và cộng sự, KSE 2025, DOI 10.1109/KSE68178.2025.11309650) thêm vào mục 12 đề cương.
-- **Mục 7 đề cương mô tả sai Nguyen Ba 2024**: bài gốc (arXiv 2409.13699, đã đọc toàn văn) xếp hạng lại bằng câu trả lời của LLM (Active Retrieval), không phải cross-encoder trước khi sinh, và có so sánh từng thành phần truy xuất. Chương 2 viết theo bài gốc; đề cương chưa sửa.
-- Pham 2025: chỉ đọc được tóm tắt; Chương 2 ghi rõ "phần tóm tắt không đề cập" (ablation, trích dẫn, hiệu lực). Nếu tìm được toàn văn thì đọc lại.
+- **Mục 7 đề cương mô tả sai Nguyen Ba 2024**: bài gốc (arXiv 2409.13699, đã đọc toàn văn) xếp hạng lại bằng câu trả lời của LLM (Active Retrieval), không phải cross-encoder trước khi sinh, và có so sánh từng thành phần truy xuất. Chương 2 viết theo bài gốc; mục 7 đề cương đã sửa (commit `26ebbf0`).
+- Pham 2025: đã đọc toàn văn (scitepress.org/Papers/2025/137354/137354.pdf): đo Legal Citation Accuracy theo nghĩa đúng chuẩn trình bày, loại quy định đã bị thay thế, không có đánh giá lược bỏ; Chương 2 viết theo đó.
 - Chương 1 1.1.3 hạ mức khẳng định cho khớp nguồn.
 **H17** Chương 1: 209 câu, tập giữ riêng, NiceGUI, kiểm định bộ chấm 1 người, lịch theo mục 11 đề cương.
 **H21** Chương 6 (kết luận): Bảng 6.1 chỉ tiêu, trả lời RQ1–RQ4, 7 hạn chế ↔ 7 hướng phát triển; mọi số có trong Chương 5.
@@ -123,10 +126,43 @@ Các việc dưới đây làm ngày **06/11** (cuối tuần 12) nhưng **khôn
 **Khung docx của Hùng** (`final_52300098_52300106.docx`) chưa sửa: vẫn 5 chương; thẻ H23 đã ghi phải thêm Chương 2 và dời số.
 **Lỗi nhỏ của review:** đã sửa hết theo yêu cầu của Đạt (10/11): nhánh dự phòng trong sơ đồ tuần tự, RRF/số ứng viên ở Chương 3, "triệt tiêu DRM", tên Chương 3–5 theo khung docx, nhãn câu tổng hợp ở Bảng 5.1. Trường `checked_by` của 65 câu tổng hợp vẫn trống (chỉ là metadata, không sửa tập kiểm thử).
 
-**Review độc lập cuối (10/11):** 4 Critical + 8 Important đã sửa hết; chi tiết và các lỗi nhỏ hoãn ở `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md` (dòng `Final:`). Sửa cả 2 lỗi có từ trước trong Chương 5 (bản cũ của Đạt): câu "bỏ grade giảm độ trễ nhiều nhất" (thực ra là dao động API) và "Cit. P của `any` thấp hơn rõ" (ghép cặp không có ý nghĩa). Pham 2025 có toàn văn: scitepress.org/Papers/2025/137354/137354.pdf. Mục 7 đề cương còn 2 chỗ sai (Nguyen Ba, Answer Correctness của RAGAS), chưa sửa.
+**Review độc lập cuối (10/11):** 4 Critical + 8 Important đã sửa hết; chi tiết và các lỗi nhỏ hoãn ở `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md` (dòng `Final:`). Sửa cả 2 lỗi có từ trước trong Chương 5 (bản cũ của Đạt): câu "bỏ grade giảm độ trễ nhiều nhất" (thực ra là dao động API) và "Cit. P của `any` thấp hơn rõ" (ghép cặp không có ý nghĩa). Pham 2025 có toàn văn: scitepress.org/Papers/2025/137354/137354.pdf. Mục 7 đề cương đã sửa 2 chỗ (Nguyen Ba, Answer Correctness của RAGAS).
 **Commit:** các file chương phải vào **cùng một commit** (git thấy `chuong2/3/4` là viết lại, không phải đổi tên). Báo Hùng pull trước khi sửa `docs/report/`.
 
-**Việc tiếp theo (sau phiên 10/11):**
-1. Xong: đã commit (Đạt push, báo Hùng: file chương đổi tên, H17/H18/H21 xong, H23 ghép 6 chương). Mục 7 đề cương đã sửa 2 chỗ (Nguyen Ba, RAGAS).
-2. Giao diện (H22): Đạt tự làm, trước mốc đóng băng 12/11. Cài skill (Đạt tự chạy, trong `IT_Project/`): Impeccable `npx impeccable install` (chọn project; hook kiểm UI tải một binary về `~/.impeccable/bin/`) hoặc `/plugin marketplace add pbakaus/impeccable` (không có hook); Taste `npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"`. Gộp: 2 mục treo của H22 (nhãn dự phòng, gợi ý lỗi 500), mở giao diện đóng Task 2, chụp lại Hình 4.3–4.5.
-3. Báo cáo tuần 13: thêm việc 10/11 ở trên vào nội dung mục 5.
+### Nhật ký phiên 10/11 (dùng cho báo cáo tuần 13)
+
+Hùng không cập nhật gì từ 06/11 nên Đạt làm thay các thẻ đang chặn việc ghép báo cáo. Tất cả là tài liệu, sơ đồ và plan; không sửa code, test giữ 339 pass.
+
+**Commit (theo thứ tự):** `dc951b0` bìa báo cáo tuần 12 (bản đã nộp) · `c73ee89` sơ đồ use case, sequence (H18) · `d53515f` báo cáo 6 chương · `26ebbf0` mục 7 đề cương, ALQAC, PLAN, thẻ · `b578dad` HANDOFF vào git · `267d9f1` vẽ lại Hình 4.1, 4.2 · `751d0f9` thẻ H26 · commit plan H22.
+
+**Báo cáo:**
+- H17 cập nhật Chương 1 (209 câu, tập giữ riêng 30 câu, NiceGUI, kiểm định bộ chấm một người, lịch theo đề cương).
+- Thêm **Chương 2 "Tổng quan tài liệu"** (Đạt duyệt): báo cáo thành 6 chương, dời số và sửa mọi tham chiếu chéo (kiểm bằng script). Đọc lại toàn văn 2 công trình trong nước (Nguyen Ba 2024, Pham 2025), thêm tài liệu ALQAC 2025, sửa 2 mô tả sai ở mục 7 đề cương.
+- H21 viết Chương 6 (kết luận, 7 hạn chế ↔ 7 hướng phát triển); thêm cột DRM@5 vào Bảng 5.3.
+- Review độc lập cuối: 4 Critical + 8 Important, sửa hết, gồm 2 lỗi có từ trước ở Chương 5 (câu về độ trễ của bước grade, câu về Citation Precision của chính sách `any`); các lỗi nhỏ cũng đã sửa; Chương 3 bớt trùng với Chương 2.
+
+**Sơ đồ:**
+- H18: use case, sequence (draw.io, theo code).
+- Kiểm `assets/diagrams/`: 2 ảnh do AI vẽ (Hùng) sai so với code (giao diện ghi Streamlit, thiếu bước Verify, có nhánh "Direct" không tồn tại) → vẽ lại Hình 4.1, 4.2 bằng draw.io, giữ phong cách cũ, ảnh cũ giữ là `*_old.png`. Sơ đồ activity lệch code 7 điểm, Chương 3 thiếu 5 hình → giao Hùng thẻ H26.
+
+**Giao diện (H22, Đạt nhận thay Hùng):**
+- Cài skill Impeccable (dùng được) và Taste (không hợp NiceGUI).
+- Đánh giá theo quy trình 2 lượt độc lập: 20/40 điểm Nielsen; bộ phát hiện báo 29–40 cảnh báo (khoảng 20 chỗ chữ 10px, tương phản 2,2–2,6:1, ô icon kiểu mẫu chatbot). Lỗi thật phát hiện được: giao diện báo "Đã kết nối" khi đang chạy dự phòng; trang chủ ghi cứng "2.275 điều · 5.427 khoản" trong khi kho là 1.693 Điều, 4.853 Khoản.
+- Viết plan H22 7 task (Đạt duyệt), chưa chạy. Tạo tag rollback `ui-before-h22` và bản chép `IT_Project/backup/ui-before-h22/`.
+
+**Tiến độ:** `PLAN.md` có 72 hạng mục xong / 80 (không tính 4 hạng mục đã hủy); sau 06/11 là 66/76. Mẫu số tăng vì thêm hạng mục mới (Chương 2, vẽ lại Hình 4.1–4.2, H26). Đếm lại khi viết báo cáo: `[x]` chia cho `[x]` + `[ ]` không gạch ngang.
+
+**Khó khăn và tình trạng (cho chương 4 báo cáo tuần):**
+- Hùng không phản hồi từ 06/11 → Đạt làm thay H17, H18, H21, H22; việc dồn vào H23 (24/11). *Đang theo dõi.*
+- Ảnh sơ đồ do AI vẽ sai nội dung so với hệ thống → vẽ lại từ code bằng draw.io. *Đã xử lý* (Hình 4.1–4.2); H26 *đang chờ Hùng*.
+- Giao diện hiển thị trạng thái và số liệu sai, trông như mẫu chatbot AI → đánh giá có điểm số, plan H22. *Đang xử lý.*
+- Đề cương mô tả sai một công trình liên quan so với bài gốc → đọc toàn văn, sửa đề cương và Chương 2. *Đã xử lý.*
+- Máy không có Chrome nên bộ phát hiện không quét được trang → dùng Electron có sẵn qua cổng gỡ lỗi (CDP). *Đã xử lý.*
+
+### Công cụ (cho phiên H22 và về sau)
+
+- `IT_Project/tools/` (ngoài git): `ui_shot.js` chụp giao diện bằng Electron: `env -u ELECTRON_RUN_AS_NODE electron44 ../tools/ui_shot.js http://127.0.0.1:8080/ OUT.png 1440 900 "ask:<câu hỏi>" "click:<chữ đầu của phần tử>" "wait:<ms>"` (bước ask gõ bằng `insertText` + phím Enter; nút có icon thì chữ bắt đầu bằng tên icon, vd `menu_book`). `styled.py` + `icons.py` sinh Hình 4.1–4.2, `make_diagrams.py` sinh use case/sequence; từ giờ sửa thẳng file `.drawio`.
+- Chạy giao diện không tốn quota (phát lại kết quả đã chạy): `LLM_API_KEY= UI_LOCAL_FALLBACK=1 API_URL=http://127.0.0.1:8999 .venv/bin/python -m src.ui.web.main`; tắt: `pkill -f '[s]rc\.ui\.web\.main'`. Câu hỏi đầu tiên chậm vì phải dựng chỉ mục BM25.
+- Bộ phát hiện Impeccable không đọc file `.py`. Quét trang đang chạy: mở trang bằng Electron với `--remote-debugging-port=9333` (127.0.0.1), rồi `../.claude/skills/impeccable/scripts/impeccable detect --cdp 9333 --target 127.0.0.1:8080 --json` (cwd `vn-legal-qa`). Không dùng `live-server`/`live-inject` (sửa file của dự án).
+- Hook của Impeccable (`IT_Project/.claude/settings.local.json`) chạy sau mỗi lần sửa file và khi kết thúc lượt, trong phiên mở ở `IT_Project/`.
+- Mọi lệnh `drawio`/`electron44` từ terminal VSCode phải chạy với `env -u ELECTRON_RUN_AS_NODE`.

@@ -545,7 +545,7 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 
 **Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-11-16-sprint6-hung.md):**
 
-- [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn; nhãn riêng khi dùng dữ liệu dự phòng); chụp lại ảnh.
+- [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn; nhãn riêng khi dùng dữ liệu dự phòng); chụp lại ảnh. → Đạt làm thay từ 10/11, plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md`.
 - [ ] H23 — Ghép báo cáo theo mẫu TDTU (mục lục, danh mục hình và bảng, tóm tắt, tài liệu tham khảo APA).
 - [ ] H24 — Slide bảo vệ (15–20 slide): vấn đề → câu hỏi nghiên cứu → kiến trúc → demo → kết quả RQ1–RQ4 → hạn chế và hướng phát triển.
 - [ ] H26 — Sửa sơ đồ activity theo code (7 điểm) và vẽ 4 hình Chương 3 (Hình 3.1–3.4); bỏ Hình 3.5, dẫn sang Hình 4.2.

@@ -33,7 +33,7 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 ---
 
-## H22 — Giao diện bớt "kiểu AI"
+## H22 — Giao diện bớt "kiểu AI" (Đạt làm thay từ 10/11, Hùng không cần làm; plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md`)
 
 **Mục tiêu:** giao diện trông như một công cụ tra cứu pháp luật nghiêm túc, không như sản phẩm demo AI. Chức năng giữ nguyên.
 
