@@ -1,0 +1,331 @@
+{
+ "meta": {
+  "title": "PHÁT TRIỂN HỆ THỐNG HỎI ĐÁP PHÁP LUẬT VIỆT NAM DỰA TRÊN AGENTIC-RAG VỚI TRUY XUẤT CĂN CỨ THEO HIỆU LỰC VÀ KIỂM CHỨNG TRÍCH DẪN",
+  "short": "Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG",
+  "report": "BÁO CÁO TIẾN ĐỘ TUẦN 13",
+  "course": "ĐỒ ÁN CÔNG NGHỆ THÔNG TIN",
+  "week": "Tuần 13 (09/11 – 15/11/2026)",
+  "dates": "09/11 – 15/11/2026",
+  "code": "ĐA127",
+  "supervisor": "PGS.TS. Lê Anh Cường",
+  "students": [
+   "Phạm Huỳnh Quốc Đạt - 52300098",
+   "Hoàng Sinh Hùng - 52300106"
+  ],
+  "date": "13/11/2026",
+  "footer": "ĐA127 2026–2027 | Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG | Báo cáo tuần 13",
+  "title_vi": "Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn",
+  "title_en": "Developing a Vietnamese Legal Question Answering System based on Agentic-RAG with Temporally-Aware Legal Retrieval and Citation Verification"
+ },
+ "summary": "Tuần 13 hoàn thành Sprint 5 và làm sớm phần lớn Sprint 6: hệ thống được đóng gói bằng Docker kèm hướng dẫn tái lập thực nghiệm; báo cáo cuối kỳ đủ 6 chương, được ghép tự động từ bản nháp theo đúng mẫu báo cáo môn Dự án của Khoa; các sơ đồ được vẽ lại theo mã nguồn. Không thay đổi tác tử, prompt hay tập kiểm thử, nên số liệu thực nghiệm giữ nguyên như tuần 12.",
+ "ch1": {
+  "title": "TIẾN ĐỘ THỰC HIỆN VÀ KẾT QUẢ ĐẠT ĐƯỢC TUẦN NÀY",
+  "intro": "Tuần 13 (09/11 – 15/11/2026) là nửa sau của Sprint 5 (05/11 – 15/11, Thực nghiệm đầy đủ và viết báo cáo). Sprint 5 đã đủ hạng mục; phần đóng gói và ghép báo cáo của Sprint 6 (16/11 – 27/11) được làm sớm vì là sửa lỗi và hoàn thiện, không phải tính năng mới. Báo cáo này tính cả các việc làm ngày 06/11 (cuối tuần 12) chưa có trong báo cáo tuần 12.",
+  "sections": [
+   {
+    "h": "Sửa lỗi, đóng gói và tái lập (06/11, làm sớm Sprint 6)",
+    "items": [
+     [
+      "Sửa lỗi ảnh hưởng người dùng và tái lập",
+      "chạy lại thực nghiệm không còn lỗi khi lần trước bị dừng giữa lúc ghi; điểm chấm hỏng được chấm lại thay vì ghi rỗng; tra cứu Điều không phân biệt hoa thường; chỉ mục thiếu hoặc lệch thì báo rõ lệnh nạp lại."
+     ],
+     [
+      "Đóng gói Docker",
+      "hai dịch vụ API và giao diện; image 3,23 GB; khi đã có sẵn mô hình, hệ thống lên trong khoảng 1 phút, API dùng khoảng 1,5 GB RAM; đã chạy thử trên bản sao sạch như người chấm vừa tải về."
+     ],
+     [
+      "Bộ chỉ mục nộp kèm",
+      "file nén 73 MB đủ 4 chỉ mục (4.853 / 4.853 / 1.693 / 1.679 đoạn), đã kiểm giải nén và truy xuất thật; người chấm khỏi phải nạp lại khoảng 2 giờ CPU."
+     ],
+     [
+      "Hướng dẫn tái lập",
+      "README viết lại cho 3 đối tượng (chạy thử, phát triển, tái lập thực nghiệm), có bảng \"kết quả trong báo cáo ↔ lệnh ↔ file\"; 7 bảng kết quả, 4 hình và tập kiểm thử sinh lại khớp từng byte từ dữ liệu đã lưu."
+     ]
+    ]
+   },
+   {
+    "h": "Báo cáo cuối kỳ đủ 6 chương",
+    "text": "Bổ sung chương Tổng quan tài liệu theo đề cương, nên báo cáo có 6 chương; mọi tham chiếu chương, mục, bảng, hình đã được dời số và kiểm bằng script.",
+    "table": {
+     "caption": "Bảng 1.1. Tình trạng các chương của báo cáo cuối kỳ",
+     "head": [
+      "Chương",
+      "Thực hiện",
+      "Tình trạng"
+     ],
+     "rows": [
+      [
+       "1. Tổng quan đề tài",
+       "Hùng (nháp), Đạt (cập nhật)",
+       "Xong"
+      ],
+      [
+       "2. Tổng quan tài liệu",
+       "Đạt",
+       "Xong (mới)"
+      ],
+      [
+       "3. Cơ sở lý thuyết",
+       "Hùng",
+       "Thiếu Hình 3.1–3.4"
+      ],
+      [
+       "4. Phân tích và thiết kế",
+       "Đạt",
+       "Xong"
+      ],
+      [
+       "5. Thực nghiệm và đánh giá",
+       "Đạt",
+       "Xong"
+      ],
+      [
+       "6. Kết luận",
+       "Đạt",
+       "Xong (mới)"
+      ]
+     ]
+    },
+    "after": "Chương 2 viết sau khi đọc lại toàn văn hai công trình trong nước gần nhất với đề tài; phát hiện đề cương mô tả sai cách xếp hạng lại của một công trình và đã sửa đề cương. Chương 6 đối chiếu từng chỉ tiêu với kết quả, nêu 7 hạn chế ứng với 7 hướng phát triển. Một lượt rà soát độc lập toàn bộ báo cáo tìm thấy 4 lỗi nghiêm trọng và 8 lỗi quan trọng (chủ yếu là câu chữ chưa khớp số liệu), đã sửa hết."
+   },
+   {
+    "h": "Ghép báo cáo theo mẫu của Khoa",
+    "items": [
+     [
+      "Ghép tự động",
+      "script sinh file Word từ 6 chương viết bằng Markdown trong vài giây: đánh số chương, chú thích hình và bảng có trường tự cập nhật, mục lục, danh mục hình, bảng, tài liệu tham khảo; có 39 test kiểm tra cấu trúc file."
+     ],
+     [
+      "Phần đầu báo cáo",
+      "viết Tóm tắt và Abstract (khoảng 200 từ mỗi bản, số liệu lấy từ Chương 6); danh mục 23 từ viết tắt; 15 tài liệu tham khảo theo APA 7, có kiểm tự động mọi trích dẫn trong bài đều có trong danh mục và ngược lại."
+     ],
+     [
+      "Đổi sang mẫu đúng",
+      "khung cũ lấy từ mẫu của các năm trước; đã chuyển sang mẫu báo cáo môn Dự án của Khoa: bìa theo mẫu mới, bỏ trang xác nhận của giảng viên, lề trang 3,5 / 2 / 3 / 3,5 cm; báo cáo khoảng 77 trang."
+     ],
+     [
+      "Lỗi định dạng ẩn đã sửa",
+      "danh mục hình, bảng của khung cũ luôn rỗng; tài liệu tham khảo kiểu IEEE lệch với cách trích tác giả–năm trong bài; tiêu đề tiếng Anh khác đề cương; chữ mẫu còn sót ở Tóm tắt, Abstract và bìa."
+     ]
+    ]
+   },
+   {
+    "h": "Sơ đồ và giao diện",
+    "items": [
+     [
+      "Sơ đồ use case và sequence",
+      "vẽ bằng draw.io theo mã nguồn (Hình 4.6, 4.7)."
+     ],
+     [
+      "Vẽ lại Hình 4.1, 4.2",
+      "sơ đồ kiến trúc và đồ thị tác tử cũ sai so với hệ thống (ghi giao diện Streamlit, thiếu bước kiểm chứng, có nhánh không tồn tại); đã vẽ lại từ mã nguồn, giữ phong cách cũ."
+     ],
+     [
+      "Đánh giá giao diện",
+      "chấm theo 10 tiêu chí của Nielsen: 20/40 điểm; phát hiện 2 lỗi sai sự thật: báo \"Đã kết nối\" khi đang chạy chế độ dự phòng, và số Điều, Khoản ghi cứng sai (2.275 điều so với 1.693 thực tế). Đã vá cả hai."
+     ],
+     [
+      "Làm thử giao diện mới rồi hủy",
+      "chạy hết 7 bước cải thiện giao diện, có rà soát độc lập; nhóm quyết định giữ giao diện cũ vì hiệu quả nhìn thấy chưa nhiều, sát mốc đóng băng 12/11 và trọng tâm đánh giá là phần nghiên cứu. Bản làm thử được lưu lại."
+     ],
+     [
+      "Kiểm thử tự động",
+      "381 test đạt (339 sau ngày 06/11, 319 ở tuần 12)."
+     ]
+    ]
+   },
+   {
+    "h": "Phần việc của từng thành viên",
+    "items": [
+     [
+      "Phạm Huỳnh Quốc Đạt",
+      "sửa lỗi, đóng gói Docker, bộ chỉ mục nộp kèm, README tái lập; viết Chương 2, Chương 6, cập nhật Chương 1; ghép báo cáo theo mẫu Khoa, Tóm tắt, Abstract, tài liệu tham khảo APA; sơ đồ use case, sequence, vẽ lại Hình 4.1–4.2; đánh giá và vá giao diện."
+     ],
+     [
+      "Hoàng Sinh Hùng",
+      "bản nháp Chương 3 Cơ sở lý thuyết và cập nhật khung báo cáo (06/11). Từ 07/11 chưa có cập nhật mới; các phần Hùng phụ trách đang chặn việc ghép báo cáo (cập nhật Chương 1, sơ đồ use case, sequence, Chương 6) do Đạt làm thay."
+     ]
+    ]
+   }
+  ]
+ },
+ "ch2": {
+  "title": "ĐÁNH GIÁ TIẾN ĐỘ SO VỚI KẾ HOẠCH CỦA KHOA",
+  "intro": "Đề tài thực hiện từ 15/08 đến 04/12/2026 (khoảng 16 tuần) theo đề cương cập nhật. Đến cuối tuần 13 đã trôi qua 13/16 tuần (81% thời gian).",
+  "table": {
+   "caption": "Bảng 2.1. Đối chiếu kế hoạch trong đề cương và tình trạng của nhóm",
+   "head": [
+    "Tuần",
+    "Giai đoạn theo đề cương",
+    "Tình trạng"
+   ],
+   "rows": [
+    [
+     "1 – 8",
+     "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương",
+     "Hoàn thành"
+    ],
+    [
+     "8 – 9",
+     "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng",
+     "Hoàn thành"
+    ],
+    [
+     "9 – 10",
+     "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10",
+     "Hoàn thành"
+    ],
+    [
+     "10 – 11",
+     "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG",
+     "Hoàn thành sớm (16/10)"
+    ],
+    [
+     "11 – 12",
+     "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời",
+     "Hoàn thành"
+    ],
+    [
+     "12 – 13",
+     "Sprint 5 (05/11 – 15/11): thực nghiệm đầy đủ, đóng băng 12/11",
+     "Hoàn thành"
+    ],
+    [
+     "14 – 15",
+     "Sprint 6 (16/11 – 27/11): đóng gói, hoàn thiện báo cáo",
+     "Làm sớm: Docker, README, ghép báo cáo xong"
+    ],
+    [
+     "16",
+     "Dự phòng (28/11 – 03/12); nộp 03/12, hạn chót 04/12",
+     "Chưa đến hạn"
+    ],
+    [
+     "Sau 04/12",
+     "Bảo vệ phản biện",
+     "Chưa đến hạn"
+    ]
+   ]
+  },
+  "verdict": [
+   [
+    "Tổng thể",
+    "đúng tiến độ, sớm khoảng 1,5 tuần: 72/79 hạng mục trong kế hoạch chi tiết đã xong (91%), không tính 5 hạng mục đã hủy."
+   ],
+   [
+    "Vượt kế hoạch",
+    "đóng gói Docker, README tái lập, ghép báo cáo theo mẫu Khoa (việc của Sprint 6) xong trước khi sprint bắt đầu."
+   ],
+   [
+    "Cần theo dõi",
+    "Hùng chưa cập nhật từ 07/11; còn hình Chương 3 và sơ đồ activity (hạn 20/11), slide bảo vệ, video demo."
+   ]
+  ]
+ },
+ "ch3": {
+  "title": "KẾ HOẠCH CHI TIẾT TỪ NAY ĐẾN KHI KẾT THÚC ĐỀ TÀI",
+  "intro": "Mốc đóng băng tính năng 12/11/2026; báo cáo hoàn chỉnh 27/11/2026; nộp ngày 03/12, hạn chót 23:59 ngày 04/12/2026 (file nộp trên ELIT nộp trước ngày công bố hội đồng phản biện 1 tuần).",
+  "weeks": [
+   {
+    "name": "Cuối tuần 13",
+    "dates": "13/11 – 15/11/2026",
+    "goal": "Chốt bản nháp báo cáo",
+    "items": [
+     "Đối chiếu báo cáo với quy định trình bày của Trường và rubric chấm của môn",
+     "Chạy thử Docker trên trình duyệt",
+     "15/11: nghiệm thu Sprint 5"
+    ]
+   },
+   {
+    "name": "Tuần 14 – 15",
+    "dates": "16/11 – 27/11/2026",
+    "goal": "Hoàn thiện báo cáo và demo",
+    "items": [
+     "Hình 3.1–3.4 và sơ đồ activity (Hùng, hạn 20/11)",
+     "Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin",
+     "Slide bảo vệ và video demo 4 kịch bản (Hùng)",
+     "27/11: báo cáo hoàn chỉnh"
+    ]
+   },
+   {
+    "name": "Tuần 16",
+    "dates": "28/11 – 04/12/2026",
+    "goal": "Dự phòng và nộp",
+    "items": [
+     "Cập nhật mục lục, ký, xuất PDF; gửi GVHD",
+     "Tập dượt bảo vệ",
+     "Nộp ELIT file 52300098_52300106.zip; nộp ngày 03/12 (hạn chót 23:59 ngày 04/12/2026)"
+    ]
+   }
+  ],
+  "after": "Sau 04/12: bảo vệ phản biện theo lịch của Khoa."
+ },
+ "ch4": {
+  "title": "KHÓ KHĂN, RỦI RO VÀ GIẢI PHÁP KHẮC PHỤC",
+  "rows": [
+   [
+    "Hùng chưa cập nhật từ 07/11; các thẻ của Hùng chặn việc ghép báo cáo",
+    "Đang theo dõi: Đạt làm thay cập nhật Chương 1, sơ đồ use case, sequence, Chương 6 và ghép báo cáo; việc còn lại của Hùng có thẻ việc tự chứa và hạn rõ (hình Chương 3 hạn 20/11); khoảng 20/11 chưa có thì Đạt nhận làm slide."
+   ],
+   [
+    "Sơ đồ do công cụ AI vẽ sai nội dung so với hệ thống",
+    "Giảm thiểu: vẽ lại Hình 4.1, 4.2 bằng draw.io theo mã nguồn; sơ đồ activity và 4 hình Chương 3 giao Hùng làm lại theo danh sách điểm cần sửa."
+   ],
+   [
+    "Dùng nhầm mẫu báo cáo của các năm trước (khác bìa, lề trang, có trang xác nhận giảng viên)",
+    "Đã xử lý: chuyển sang mẫu báo cáo môn Dự án của Khoa; vì báo cáo sinh tự động từ Markdown nên chỉ cần build lại."
+   ],
+   [
+    "Khung báo cáo cũ có lỗi định dạng ẩn (danh mục hình, bảng rỗng; kiểu trích dẫn lệch)",
+    "Đã xử lý: ghép báo cáo bằng script có test kiểm tra cấu trúc file; danh mục tự cập nhật, tài liệu tham khảo theo APA 7."
+   ],
+   [
+    "Không có Microsoft Word trên máy để kiểm file báo cáo",
+    "Giảm thiểu: kiểm cấu trúc file bằng test, xem trước bằng OnlyOffice; bản cuối mở bằng Word để cập nhật mục lục và kiểm ngắt trang."
+   ],
+   [
+    "Cải thiện giao diện tốn công nhưng hiệu quả nhìn thấy ít, sát mốc đóng băng",
+    "Chấp nhận, ghi vào giới hạn: hủy việc làm lại giao diện, chỉ vá 2 lỗi hiển thị sai sự thật; bản làm thử được lưu lại."
+   ],
+   [
+    "Docker chưa kiểm trên Windows và chưa thử tải mô hình trên máy sạch",
+    "Đang theo dõi: README ghi rõ dung lượng và thời gian tải; nhờ Hùng chạy thử trên Windows; bộ chỉ mục nộp kèm giúp khỏi nạp lại."
+   ],
+   [
+    "Gemini quá tải (lỗi 503) kéo dài nhiều giờ",
+    "Giảm thiểu: lỗi phía máy chủ Google; thực nghiệm đã xong nên chỉ ảnh hưởng demo. Quay video demo khi mô hình ổn định, ghi sẵn bản dự phòng."
+   ],
+   [
+    "Giới hạn của thực nghiệm đã nêu ở tuần 12: bộ chấm LLM dễ dãi, cỡ mẫu nhỏ, prompt chỉnh trên tập kiểm thử, router xếp nhầm 3/209 câu",
+    "Chấp nhận, ghi vào giới hạn: không đổi so với tuần 12; đã trình bày trong Chương 5 và mục hạn chế của Chương 6."
+   ]
+  ],
+  "resolved": [
+   [
+    "Phần viết báo cáo dồn vào tuần 13",
+    "báo cáo đủ 6 chương và đã ghép theo mẫu Khoa; chỉ còn 4 hình Chương 3 và bước rà soát."
+   ],
+   [
+    "Giao diện báo \"Đã kết nối\" khi đang chạy chế độ dự phòng (chỉ BM25)",
+    "thanh bên ghi rõ \"Dự phòng: chỉ BM25\"; bản Docker tắt hẳn chế độ dự phòng."
+   ],
+   [
+    "Lần đầu tải mô hình tới khoảng 7 GB, nạp chỉ mục khoảng 2 giờ",
+    "nộp kèm bộ chỉ mục nén 73 MB; README ghi đúng dung lượng."
+   ]
+  ]
+ },
+ "notes": [
+  "Em chào thầy. Hôm nay nhóm em báo cáo tiến độ tuần 13, từ 09/11 đến 15/11/2026, của đề tài ĐA127: Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn. Tuần này có ba điểm chính, thể hiện ở ba thẻ bên phải: báo cáo cuối kỳ đã đủ 6 chương; báo cáo được ghép tự động theo đúng mẫu báo cáo môn Dự án của Khoa; và hệ thống đã đóng gói bằng Docker, người chấm chạy được bằng một lệnh. Tuần này nhóm không thay đổi tác tử, prompt hay tập kiểm thử, nên số liệu thực nghiệm giữ nguyên như tuần trước.",
+  "Đây là các con số tóm tắt của tuần. Báo cáo có 6 chương, khoảng 77 trang. Bộ kiểm thử tự động tăng lên 381 test và đều đạt. Bộ chỉ mục nén 73 MB được nộp kèm để người chấm khỏi phải nạp lại khoảng 2 giờ. Bốn sơ đồ đã được vẽ theo mã nguồn. Về kế hoạch, 72 trên 79 hạng mục đã xong. Bên trái là các việc đã hoàn thành; bên phải là các việc còn lại, chủ yếu là hình Chương 3, slide và video của bạn Hùng.",
+  "Kết quả đầu tiên là phần đóng gói, em làm ngày 06/11, sớm hơn lịch Sprint 6. Em sửa các lỗi ảnh hưởng tới người dùng và việc tái lập, ví dụ chạy lại thực nghiệm không còn lỗi khi lần trước bị dừng giữa chừng. Hệ thống được đóng gói bằng Docker với hai dịch vụ API và giao diện, đã chạy thử trên một bản sao sạch như khi người chấm vừa tải về. README được viết lại, có bảng nối từng kết quả trong báo cáo với lệnh và file sinh ra nó; các bảng, hình và tập kiểm thử sinh lại khớp từng byte.",
+  "Kết quả thứ hai là báo cáo đủ 6 chương. Nhóm bổ sung chương Tổng quan tài liệu theo đề cương; khi viết chương này, em đọc lại toàn văn hai công trình trong nước gần nhất và phát hiện đề cương mô tả sai cách xếp hạng lại của một công trình, nên đã sửa cả đề cương. Chương 6 trả lời bốn câu hỏi nghiên cứu, đối chiếu từng chỉ tiêu và nêu bảy hạn chế đi kèm bảy hướng phát triển. Một lượt rà soát độc lập tìm ra một số câu chữ chưa khớp số liệu, nhóm đã sửa hết. Chương 3 còn thiếu bốn hình minh họa của bạn Hùng.",
+  "Kết quả thứ ba là ghép báo cáo. Em viết script sinh file Word từ các chương viết bằng Markdown, nên mỗi lần sửa nội dung chỉ cần chạy lại vài giây; chú thích hình, bảng và mục lục đều tự cập nhật. Khi đối chiếu, em phát hiện khung cũ lấy từ mẫu của các năm trước và có lỗi ẩn, ví dụ danh mục hình luôn rỗng. Nhóm đã chuyển sang mẫu báo cáo môn Dự án của Khoa: bìa mới, bỏ trang xác nhận giảng viên, lề trang theo mẫu. Hình bên trái là bìa, trang tóm tắt và mục lục của bản hiện tại.",
+  "Slide này gồm hai nhóm việc. Bên trái là sơ đồ: em vẽ sơ đồ use case và sequence, và phát hiện hai sơ đồ kiến trúc cũ do công cụ AI vẽ sai so với hệ thống, ví dụ ghi giao diện Streamlit và thiếu bước kiểm chứng, nên đã vẽ lại theo mã nguồn. Bên phải là giao diện: em chấm giao diện theo 10 tiêu chí của Nielsen được 20 trên 40, và tìm ra hai lỗi hiển thị sai sự thật, đã vá. Em cũng làm thử một phiên bản giao diện mới, nhưng nhóm quyết định giữ giao diện cũ vì sát mốc đóng băng và trọng tâm đánh giá là phần nghiên cứu.",
+  "Đây là sơ đồ kiến trúc đã vẽ lại theo mã nguồn, dùng làm Hình 4.1 trong báo cáo. Từ trên xuống: giao diện NiceGUI gọi API FastAPI; tác tử LangGraph định tuyến câu hỏi, truy xuất, đánh giá bằng chứng, sinh câu trả lời và kiểm chứng trích dẫn; tầng truy xuất chạy song song BM25 và tìm kiếm ngữ nghĩa BGE-M3, lọc theo ngày hiệu lực của văn bản, gộp bằng RRF rồi xếp hạng lại bằng cross-encoder. Sơ đồ cũng ghi số lượt gọi LLM của từng bước. Sơ đồ đồ thị tác tử, use case và sequence được vẽ cùng cách.",
+  "So với kế hoạch trong đề cương, đến hết tuần 13 đã trôi qua 13 trên 16 tuần, tức 81% thời gian, và nhóm hoàn thành 72 trên 79 hạng mục, khoảng 91%. Sprint 5 đã đủ hạng mục; phần đóng gói và ghép báo cáo của Sprint 6 đã xong trước khi sprint bắt đầu. Điểm cần theo dõi là bạn Hùng chưa cập nhật từ 07/11; phần còn lại của bạn là hình Chương 3 và sơ đồ activity, hạn 20/11, slide bảo vệ và video demo.",
+  "Từ nay đến khi nộp còn ba tuần. Cuối tuần 13, nhóm đối chiếu báo cáo với quy định trình bày của Trường và rubric chấm của môn, chạy thử bản Docker và nghiệm thu Sprint 5. Tuần 14 và 15 hoàn thiện hình Chương 3, rà soát kỹ thuật toàn bộ báo cáo, kiểm tra Turnitin, làm slide và video demo; ngày 27/11 có báo cáo hoàn chỉnh. Tuần 16 là dự phòng: cập nhật mục lục, ký, xuất PDF, tập dượt và nộp lên ELIT ngày 03/12, trước hạn chót 04/12.",
+  "Có chín khó khăn, slide trình bày sáu khó khăn mới của tuần, mỗi giải pháp ghi rõ tình trạng. Lớn nhất là bạn Hùng chưa cập nhật từ 07/11; em đã làm thay các phần đang chặn việc ghép báo cáo, phần còn lại có thẻ việc và hạn rõ. Các sơ đồ do công cụ AI vẽ sai đã được vẽ lại theo mã nguồn. Việc dùng nhầm mẫu báo cáo cũ và lỗi định dạng ẩn của khung cũ đã xử lý xong nhờ ghép bằng script. Máy không có Word nên em kiểm bằng test và OnlyOffice, bản cuối sẽ mở bằng Word. Việc làm lại giao diện được hủy và ghi vào giới hạn. Ba khó khăn của tuần trước đã xử lý xong, ghi trong báo cáo Word.",
+  "Tóm lại, hệ thống đã đóng gói và tái lập được bằng một lệnh; báo cáo cuối kỳ đủ 6 chương và theo đúng mẫu của Khoa; các sơ đồ đã khớp với mã nguồn; số liệu thực nghiệm giữ nguyên như tuần 12 vì tác tử, prompt và tập kiểm thử không đổi. Tuần tới nhóm tập trung đối chiếu quy định trình bày, rà soát nội dung và hoàn thiện hình còn thiếu. Em xin cảm ơn thầy đã lắng nghe."
+ ]
+}
