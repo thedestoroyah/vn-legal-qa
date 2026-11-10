@@ -13,3 +13,6 @@ qdrant_storage/
 .superpowers/
 zalo-ai-legal-text-retrieval-vn/
 CLAUDE.md
+
+# file khóa của OnlyOffice/LibreOffice khi đang mở tài liệu
+.~lock.*#
