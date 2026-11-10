@@ -1,166 +1,315 @@
-# CHƯƠNG 3. THIẾT KẾ VÀ XÂY DỰNG HỆ THỐNG
+# CHƯƠNG 2. CƠ SỞ LÝ THUYẾT VÀ CÁC CÔNG NGHỆ LIÊN QUAN
 
-> **Bản nháp Task 6 Sprint 5** — Đạt, 03/11/2026. Viết Markdown để chép vào file báo cáo theo mẫu khoa.
-> Mọi tham số, tên nút, số lượng lấy từ mã nguồn tại commit hiện tại; sửa code thì sửa lại chương này.
-> Hình đánh dấu `[CHỜ H18]` là sơ đồ Hùng đang vẽ.
+> **Bản nháp H12** — Hùng, 03/11/2026. Viết bằng Markdown để chép vào file báo cáo theo mẫu khoa.
+> Quy ước trích dẫn: ưu tiên danh mục tài liệu tham khảo tại mục 12 đề cương. Các tài liệu nền tảng bổ trợ ngoài danh mục được gắn nhãn `[CẦN KIỂM TRA]` để đối chiếu trước khi hoàn thiện bản in.
 
-## 3.1. Kiến trúc tổng thể
+Chương này trình bày toàn diện các cơ sở lý thuyết nền tảng, mô hình thuật toán và công nghệ then chốt được sử dụng để xây dựng hệ thống hỏi đáp pháp luật Việt Nam. Nội dung được bố cục thành 8 mục chính:
+1. **2.1 Truy xuất thông tin từ vựng (Sparse Retrieval)**: Mô hình xác suất BM25 và xử lý từ khóa pháp lý tiếng Việt.
+2. **2.2 Truy xuất dày đặc (Dense Retrieval)**: Nguyên lý Bi-encoder và mô hình biểu diễn đa ngôn ngữ BGE-M3.
+3. **2.3 Kết hợp kết quả tìm kiếm: Reciprocal Rank Fusion (RRF)**: Kỹ thuật hợp nhất thứ hạng đa phương pháp không phụ thuộc điểm số.
+4. **2.4 Xếp hạng lại bằng Cross-Encoder: Mô hình BGE-Reranker-v2-M3**: Cơ chế tương tác chéo từ tố và chiến lược truy xuất hai tầng.
+5. **2.5 Kỹ thuật Retrieval-Augmented Generation (RAG)**: Kiến trúc sinh tăng cường truy xuất kinh điển và các thách thức trong bài toán pháp luật.
+6. **2.6 Kiến trúc Agentic-RAG**: Tác tử tự trị với định tuyến thông minh, tự đánh giá bằng chứng, viết lại truy vấn và kiểm chứng trích dẫn hai lớp.
+7. **2.7 Đồ thị trạng thái LangGraph**: Khung điều phối đồ thị có chu trình, quản lý trạng thái và rẽ nhánh có điều kiện.
+8. **2.8 Đặc thù văn bản quy phạm pháp luật Việt Nam**: Cấu trúc phân cấp hình thức, hiện tượng nhầm lẫn văn bản (DRM) và nguyên tắc hiệu lực theo thời gian.
 
-Hệ thống gồm bốn tầng, chạy trên một máy tính cá nhân (CPU) và gọi mô hình ngôn ngữ lớn qua API:
+---
 
-1. **Tầng dữ liệu**: văn bản luật đã chuẩn hóa, tách thành đoạn (chunk) theo cấu trúc Điều/Khoản, kèm khoảng hiệu lực; lưu ở tệp JSONL và trong cơ sở dữ liệu vector ChromaDB.
-2. **Tầng truy xuất**: kết hợp tìm kiếm từ vựng (BM25) và tìm kiếm ngữ nghĩa (BGE-M3), hợp nhất bằng Reciprocal Rank Fusion, xếp hạng lại bằng cross-encoder, lọc theo ngày hiệu lực.
-3. **Tầng tác tử**: một đồ thị trạng thái LangGraph điều phối định tuyến, truy xuất, đánh giá bằng chứng, sinh câu trả lời và kiểm chứng trích dẫn.
-4. **Tầng giao tiếp**: API FastAPI và giao diện web NiceGUI.
+## 2.1 Truy xuất thông tin từ vựng (Sparse Retrieval)
 
-<!-- Hình 3.1: assets/diagrams/architecture.png -->
-**Hình 3.1.** Kiến trúc tổng thể của hệ thống.
+### 2.1.1 Nguyên lý và mô hình xác suất
 
-Mô hình ngôn ngữ của tác tử là `gemini-3.1-flash-lite` (Google, gói miễn phí), gọi qua giao diện tương thích OpenAI. Mọi lượt gọi đi qua một lớp `LLM` dùng chung, có ba nhiệm vụ: lưu kết quả vào bộ đệm trên đĩa (cùng đầu vào thì không gọi lại, giúp chạy lại thí nghiệm không tốn hạn mức), giãn cách các lượt gọi theo giới hạn 15 lượt/phút của gói miễn phí, và đếm số lượt gọi cho từng bước. Embedding và reranker chạy cục bộ, không cần GPU.
+Truy xuất thông tin từ vựng (lexical / sparse retrieval) là phương pháp tìm kiếm dựa trên sự trùng khớp chính xác của các từ tố (tokens) giữa câu truy vấn và tập tài liệu. Trong số các mô hình từ vựng kinh điển, BM25 (Best Matching 25) do Robertson & Zaragoza (2009) hệ thống hóa trên nền tảng khung xác suất (Probabilistic Relevance Framework) là giải thuật chuẩn mực và hiệu quả bậc nhất.
 
-## 3.2. Dữ liệu
+Khác với mô hình không gian vector TF-IDF cơ bản vốn giả định độ liên quan tăng tuyến tính theo tần suất xuất hiện của từ, BM25 giải quyết hai vấn đề quan trọng trong thực tế:
+1. **Sự bão hòa tần suất từ (Term Frequency Saturation):** Khi một từ xuất hiện nhiều lần trong một đoạn văn bản, mức độ đóng góp vào sự liên quan của từ đó sẽ tiệm cận một ngưỡng bão hòa thay vì tăng vô hạn.
+2. **Chuẩn hóa độ dài tài liệu (Document Length Normalization):** Một đoạn văn bản dài có xu hướng chứa nhiều từ hơn, dẫn đến tần suất từ tự nhiên cao hơn mà không đồng nghĩa với việc nội dung của nó liên quan hơn đến truy vấn.
 
-### 3.2.1. Kho văn bản
+### 2.1.2 Công thức toán học của BM25
 
-Kho gồm 5 văn bản quy phạm pháp luật (Bảng 3.1). Bộ luật Lao động 2012 đã hết hiệu lực từ 01/01/2021 và được giữ lại có chủ đích để kiểm tra khả năng chọn đúng phiên bản theo thời điểm sự việc (RQ4).
+Cho một truy vấn $Q$ gồm các từ khóa $\{q_1, q_2, \dots, q_n\}$ và một tài liệu $D$ trong tập ngữ liệu gồm $N$ tài liệu, điểm số liên quan $Score_{BM25}(D, Q)$ được tính theo công thức:
 
-**Bảng 3.1.** Văn bản trong kho và số đoạn sau khi tách.
-<!-- nguồn: data/raw/laws.json; data/processed/chunks.jsonl, chunks_article.jsonl, chunks_fixed.jsonl -->
+$$Score_{BM25}(D, Q) = \sum_{i=1}^{n} IDF(q_i) \cdot \frac{f(q_i, D) \cdot (k_1 + 1)}{f(q_i, D) + k_1 \cdot \left(1 - b + b \cdot \frac{|D|}{\text{avgdl}}\right)}$$
 
-| Mã | Văn bản | Số hiệu | Hiệu lực | Số Điều | Số đoạn cấp Khoản | Số đoạn cố định |
-|---|---|---|---|---|---|---|
-| BLDS2015 | Bộ luật Dân sự 2015 | 91/2015/QH13 | từ 01/01/2017 | 689 | 1.673 | 513 |
-| BLLD2012 | Bộ luật Lao động 2012 | 10/2012/QH13 | 01/05/2013 – 31/12/2020 | 242 | 686 | 222 |
-| BLLD2019 | Bộ luật Lao động 2019 | 45/2019/QH14 | từ 01/01/2021 | 220 | 687 | 260 |
-| LDN2020 | Luật Doanh nghiệp 2020 | 59/2020/QH14 | từ 01/01/2021 | 218 | 923 | 444 |
-| LTM2005 | Luật Thương mại 2005 | 36/2005/QH11 | từ 01/01/2006 | 324 | 884 | 240 |
-| | **Tổng** | | | **1.693** | **4.853** | **1.679** |
+Trong đó:
+- $f(q_i, D)$ là tần suất xuất hiện của từ khóa $q_i$ trong tài liệu $D$.
+- $|D|$ là độ dài (tổng số từ) của tài liệu $D$, và $\text{avgdl}$ (average document length) là độ dài trung bình của toàn bộ các tài liệu trong kho dữ liệu.
+- $k_1$ là tham số điều khiển mức độ bão hòa tần suất từ. Khi $k_1 = 0$, tần suất từ không còn ảnh hưởng đến điểm số; giá trị $k_1$ càng lớn thì ảnh hưởng của tần suất từ càng cao. Trong thực nghiệm thông thường, $k_1 \in [1.2, 2.0]$.
+- $b$ là tham số điều khiển mức độ phạt đối với tài liệu dài. Nếu $b = 1$, mô hình chuẩn hóa độ dài tài liệu hoàn toàn; nếu $b = 0$, việc chuẩn hóa độ dài bị triệt tiêu hoàn toàn. Giá trị chuẩn mực thường được đặt là $b = 0.75$.
+- $IDF(q_i)$ là trọng số nghịch đảo tần suất tài liệu (Inverse Document Frequency), đo lường mức độ cung cấp thông tin đặc trưng của từ $q_i$ trên toàn bộ kho ngữ liệu:
 
-Văn bản dùng là bản gốc khi ban hành, chưa hợp nhất các lần sửa đổi, bổ sung; đây là một giới hạn của đề tài (mục 4.7).
+$$IDF(q_i) = \ln \left( \frac{N - n(q_i) + 0.5}{n(q_i) + 0.5} + 1 \right)$$
 
-### 3.2.2. Tiền xử lý
+với $n(q_i)$ là số lượng tài liệu có chứa từ khóa $q_i$. Các từ xuất hiện quá phổ biến (ví dụ các hư từ hoặc từ thông dụng) sẽ có giá trị $IDF$ rất thấp, trong khi các thuật ngữ chuyên biệt có $IDF$ rất cao.
 
-Văn bản tải từ Cơ sở dữ liệu quốc gia về văn bản pháp luật (vbpl.vn) ở dạng `.doc`, chuyển sang Markdown bằng MinerU, rồi phân tích cấu trúc thành JSON theo cây Phần → Chương → Mục → Điều → Khoản → Điểm (`data/legal_structure_parser.py`). Số Điều của mỗi văn bản được đối chiếu với mục lục; kiểm tra ngẫu nhiên 10 Điều mỗi văn bản về tên Điều, nội dung, số Khoản và số Điểm (`docs/data_check.md`).
+### 2.1.3 Ưu nhược điểm và vai trò trong hệ thống
 
-### 3.2.3. Tách đoạn và siêu dữ liệu
+- **Ưu điểm:** BM25 có tốc độ thực thi rất nhanh, chi phí tính toán thấp, không đòi hỏi huấn luyện tham số phức tạp trên GPU và bắt chính xác tuyệt đối các từ khóa chuyên biệt, mã điều luật hay các số hiệu văn bản (chẳng hạn như: `"Điều 357"`, `"Khoản 2"`, `"91/2015/QH13"`, `"bồi thường thiệt hại"`).
+- **Hạn chế:** BM25 mắc phải vấn đề bất tương thích từ vựng (vocabulary mismatch problem). Nếu người dùng đặt câu hỏi bằng ngôn ngữ tự nhiên đời thường (ví dụ: *"công ty nợ lương kéo dài"*) mà trong điều luật lại sử dụng từ ngữ pháp lý chuẩn tắc (ví dụ: *"không được trả lương đầy đủ hoặc trả lương không đúng thời hạn"*), BM25 sẽ không thể nhận diện được sự tương đồng về mặt ý nghĩa do thiếu sự trùng lặp từ tố.
+- **Vai trò trong hệ thống:** Trong hệ thống của đề tài (Chương 3), BM25 được sử dụng làm nhánh tìm kiếm từ vựng (sparse branch) trong kiến trúc tìm kiếm lai (Hybrid Search), kết hợp công cụ tách từ tiếng Việt Underthesea nhằm bảo đảm không bỏ sót các truy vấn tra cứu điều khoản trực tiếp hoặc các thuật ngữ pháp lý cố định.
 
-Bộ tách (`src/ingestion/legal_chunker.py`) sinh ba loại đoạn:
+---
 
-- **Cấp Khoản** (mặc định): mỗi Khoản một đoạn; Điều không chia Khoản là một đoạn. Mã đoạn ghép từ mã văn bản, số Điều, số Khoản, ví dụ `BLLD2019_Dieu20_Khoan1`. Trung vị độ dài 38 từ.
-- **Cấp Điều**: mỗi Điều một đoạn (trung vị 109 từ); dùng cho RQ2 và để trả toàn văn Điều.
-- **Cố định**: cửa sổ trượt 200 từ, chồng lấp 40 từ, bỏ qua cấu trúc luật; là mốc so sánh của RQ2.
+## 2.2 Truy xuất dày đặc (Dense Retrieval)
 
-Mỗi đoạn mang siêu dữ liệu: tên văn bản, Chương, Mục, Điều, tên Điều, Khoản, Điểm, trạng thái và **khoảng hiệu lực** `effective_date`, `expiry_date` lấy từ `data/raw/laws.json`. Một đoạn có hiệu lực tại ngày *d* khi `effective_date ≤ d < expiry_date` (văn bản còn hiệu lực có `expiry_date` rỗng).
+### 2.2.1 Khái niệm Dense Retrieval và kiến trúc Bi-encoder
 
-Từ ba loại đoạn trên, hệ thống tạo bốn chỉ mục (bốn biến thể của RQ2): Khoản kèm tiêu đề phân cấp (`clause_header`, mặc định), Khoản chỉ có nội dung (`clause_plain`), Điều kèm tiêu đề (`article`) và cố định (`fixed`). "Kèm tiêu đề" nghĩa là văn bản đem đi embedding được gắn thêm dòng "tên văn bản – Điều – tên Điều – Khoản" trước nội dung, để đoạn ngắn không mất ngữ cảnh.
+Để khắc phục nhược điểm bất tương thích từ vựng của phương pháp truyền thống, truy xuất dày đặc (Dense Retrieval) biểu diễn cả câu truy vấn và các đoạn văn bản thành các vector nhúng (embedding vectors) có số chiều cố định trong một không gian ngữ nghĩa liên tục đa chiều (thường từ 768 đến 1.024 chiều).
 
-## 3.3. Truy xuất căn cứ
+Kiến trúc chuẩn của Dense Retrieval là mô hình **Bi-encoder** (Hình 2.1):
+- Hai bộ mã hóa (hoặc một bộ mã hóa dùng chung trọng số) nhận đầu vào là câu truy vấn $Q$ và tài liệu $D$ một cách độc lập để ánh xạ thành hai vector tương ứng $\vec{u} = \text{Encoder}(Q)$ và $\vec{v} = \text{Encoder}(D)$.
+- Mức độ tương đồng ngữ nghĩa giữa truy vấn và tài liệu được tính toán nhanh chóng thông qua tích vô hướng (Dot Product) hoặc độ tương đồng Cosine:
 
-Bộ truy xuất (`src/retrieval/retriever.py`) có bốn chế độ, cũng là bốn phương pháp so sánh ở RQ1:
+$$Sim(Q, D) = \cos(\vec{u}, \vec{v}) = \frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|}$$
 
-1. **BM25** (`rank_bm25.BM25Okapi`): văn bản tách từ tiếng Việt bằng underthesea (từ ghép nối bằng dấu `_`), chữ thường, bỏ dấu câu.
-2. **Dense**: embedding `BAAI/bge-m3` chuẩn hóa, độ đo cosine, lưu trong ChromaDB; giới hạn 2.048 token mỗi đoạn để giữ tốc độ trên CPU.
-3. **Hybrid**: lấy 50 ứng viên từ mỗi nhánh rồi hợp nhất bằng Reciprocal Rank Fusion với hằng số *k* = 60: điểm của một đoạn là tổng 1/(60 + hạng) trên các danh sách.
-4. **Hybrid + rerank** (mặc định): 10 ứng viên đầu sau RRF được chấm lại bằng cross-encoder `BAAI/bge-reranker-v2-m3`; con số 10 được chọn vì 20 ứng viên mất khoảng 11 giây mỗi câu trên CPU 16 nhân.
+Nhờ sự phân tách độc lập này, toàn bộ kho văn bản quy phạm pháp luật có thể được mã hóa ngoại tuyến (offline pre-encoding) và lưu trữ dưới dạng các chỉ mục vector (vector index). Khi có truy vấn từ người dùng trong thời gian thực, hệ thống chỉ cần mã hóa câu hỏi và thực hiện thuật toán tìm kiếm láng giềng gần nhất (Approximate Nearest Neighbors - ANN) với độ trễ tính bằng mili-giây.
 
-**Lọc theo hiệu lực.** Khi có ngày *d*, cả hai nhánh chỉ trả đoạn có hiệu lực tại *d*: nhánh dense lọc ngay trong truy vấn Chroma bằng hai trường số `effective_from`, `effective_to` (dạng YYYYMMDD, vì Chroma chỉ so sánh lớn hơn/nhỏ hơn trên số); nhánh BM25 lọc trên siêu dữ liệu. Ba chính sách lọc của RQ4:
+<!-- Hình 2.1: assets/diagrams/bi_encoder.png -->
+**Hình 2.1.** Nguyên lý hoạt động của kiến trúc Bi-encoder trong Dense Retrieval.
 
-- `event`: lọc theo ngày sự việc do router trích từ câu hỏi;
-- `current`: chỉ lấy văn bản còn hiệu lực;
-- `any`: không lọc, lấy mọi phiên bản.
+### 2.2.2 Mô hình BGE-M3
 
-Truy xuất **không** lọc theo lĩnh vực luật: nếu router đoán sai lĩnh vực thì truy xuất vẫn không bị kéo sai theo.
+Trong đề tài này, mô hình nhúng được lựa chọn là **BGE-M3** (Chen và cộng sự, 2024), một trong những mô hình nền tảng tiên tiến nhất hiện nay cho tác vụ biểu diễn văn bản. BGE-M3 nổi bật với ba đặc tính cốt lõi ("M3"):
+1. **Multi-Lingual (Đa ngôn ngữ):** Mô hình được huấn luyện trên ngữ liệu khổng lồ gồm hơn 100 ngôn ngữ, hỗ trợ biểu diễn tiếng Việt với độ chính xác cao và hiểu sâu sắc mối quan hệ ngữ nghĩa trong văn phong tiếng Việt.
+2. **Multi-Functionality (Đa tính năng):** BGE-M3 có khả năng đồng thời sinh ra biểu diễn vector dày (dense retrieval), biểu diễn trọng số từ vựng thưa (sparse retrieval) và biểu diễn đa vector tương tác muộn kiểu ColBERT. Trong phạm vi đề tài, nhóm khai thác tối đa tính năng dense embedding với vector 1.024 chiều.
+3. **Multi-Granularity (Đa độ mịn):** BGE-M3 cho phép xử lý độ dài ngữ cảnh lên tới 8.192 token, giải quyết triệt để vấn đề mất thông tin khi nhúng các văn bản dài hoặc các điều luật nhiều khoản phức tạp.
 
-## 3.4. Tác tử Agentic-RAG
+Mô hình BGE-M3 được tối ưu hóa thông qua quy trình chưng cất tự tri thức (Self-Knowledge Distillation) kết hợp dữ liệu cặp câu hỏi - tài liệu quy mô lớn, giúp vector nhúng nắm bắt được các suy luận ngữ nghĩa phức tạp ngay cả khi cách diễn đạt giữa câu hỏi và câu trả lời hoàn toàn khác nhau.
 
-### 3.4.1. Đồ thị trạng thái
+### 2.2.3 Ưu nhược điểm và vai trò trong hệ thống
 
-Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; trạng thái đi qua các nút chứa câu hỏi, loại câu, ngày sự việc, các truy vấn, bằng chứng, câu trả lời và dấu vết (trace).
+- **Ưu điểm:** Khả năng hiểu ngữ nghĩa vượt trội, tìm được các điều luật tương ứng với câu hỏi tình huống đời thường của người dân ngay cả khi không có từ ngữ trùng khớp.
+- **Hạn chế:** Dễ gặp hiện tượng ảo tưởng ngữ nghĩa (semantic drift) đối với các chi tiết mang tính định lượng tuyệt đối, chẳng hạn như phân biệt giữa `"30 ngày"` và `"45 ngày"`, hoặc giữa `"Điều 20"` và `"Điều 22"`. Ngoài ra, chi phí tính toán bộ nhớ và CPU cao hơn so với tìm kiếm từ vựng.
+- **Vai trò trong hệ thống:** BGE-M3 đóng vai trò là động cơ cốt lõi cho chỉ mục vector trong ChromaDB, phụ trách nhánh tìm kiếm ngữ nghĩa (dense branch) nhằm đảm bảo tỷ lệ bao phủ (Recall) cao cho các câu hỏi tình huống thực tế (Chương 3).
 
-<!-- Hình 3.2: assets/diagrams/Agentic Orchestration LangGraph cho hỏi đáp pháp luật.png -->
-**Hình 3.2.** Đồ thị tác tử và các nhánh điều kiện.
+---
 
-**Bảng 3.2.** Các nút của tác tử.
-<!-- nguồn: src/agent/nodes.py, src/agent/graph.py, src/agent/state.py -->
+## 2.3 Kết hợp kết quả tìm kiếm: Reciprocal Rank Fusion (RRF)
 
-| Nút | Lượt LLM | Việc làm | Đi tiếp |
-|---|---|---|---|
-| `route` | 1 | Phân loại câu hỏi: tình huống (`situational`), tra cứu trực tiếp một Điều (`direct`), ngoài phạm vi (`out_of_scope`); trích ngày sự việc; với câu `direct` trích văn bản và số Điều | ngoài phạm vi → `refuse`; `direct` → `lookup_article`; còn lại → `retrieve` |
-| `lookup_article` | 0 | Lấy toàn văn Điều được hỏi, nếu văn bản có hiệu lực tại ngày sự việc; câu không nêu ngày sự việc thì trả đúng Điều người dùng nêu, kể cả của văn bản đã hết hiệu lực | có → `generate`; không → `retrieve` |
-| `retrieve` | 0 | Tìm 5 đoạn bằng truy vấn mới nhất, lọc hiệu lực, gộp vào bằng chứng của các vòng trước (tối đa 15 đoạn, bỏ trùng) | không có gì → `refuse`; còn lại → `grade` |
-| `grade` | 1 | Đánh giá bằng chứng đã đủ trả lời chưa; chưa đủ thì đề xuất truy vấn mới | đủ → `generate`; chưa đủ và còn lượt viết lại (tối đa 2) → `retrieve`; hết lượt → `refuse` |
-| `generate` | 1 | Sinh câu trả lời tiếng Việt, mỗi câu gắn mã đoạn dạng `[BLLD2019_Dieu20_Khoan1]`; được phép trả "không đủ căn cứ" | không đủ căn cứ → `refuse`; còn lại → `verify` |
-| `verify` | 0 hoặc 1 | Kiểm chứng trích dẫn (mục 3.4.2) | cần sinh lại → `generate`; xong → kết thúc |
-| `refuse` | 0 | Trả lời từ chối kèm lý do: ngoài phạm vi, không tìm thấy căn cứ, hoặc căn cứ không đủ | kết thúc |
+### 2.3.1 Vấn đề bất đồng nhất điểm số giữa các hệ thống truy xuất
 
-Một câu hỏi tình huống đi trọn luồng tốn khoảng 4 lượt gọi LLM (route, grade, generate, verify), nhiều hơn khi phải viết lại truy vấn hoặc sinh lại câu trả lời.
+Khi kết hợp tìm kiếm từ vựng (BM25) và tìm kiếm dày đặc (Dense), thách thức lớn nhất là sự khác biệt về bản chất của điểm số liên quan:
+- Điểm BM25 là điểm số không giới hạn trên (unbounded score), phụ thuộc vào độ dài tài liệu, tần suất từ và kích thước kho dữ liệu.
+- Điểm tương đồng của Dense Retrieval (như Cosine similarity) nằm trong đoạn $[-1, 1]$ hoặc $[0, 1]$, có phân phối xác suất hoàn toàn khác biệt.
 
-### 3.4.2. Kiểm chứng trích dẫn
+Nếu áp dụng phương pháp cộng điểm tuyến tính có trọng số $\alpha \cdot Score_{\text{BM25}} + (1 - \alpha) \cdot Score_{\text{Dense}}$, hệ thống đòi hỏi phải chuẩn hóa điểm số (score normalization) cực kỳ phức tạp, đồng thời rất nhạy cảm với việc chọn tham số $\alpha$, dễ dẫn đến suy giảm độ chính xác khi phân phối câu hỏi thay đổi.
 
-Bước `verify` có hai lớp:
+### 2.3.2 Thuật toán Reciprocal Rank Fusion (RRF)
 
-- **(a) Kiểm tra cú pháp** (không gọi LLM, luôn chạy ở mọi cấu hình): chuẩn hóa mã trích dẫn về đúng dạng trong kho, rồi gỡ mọi mã không nằm trong bằng chứng đã truy xuất. Lớp này bảo đảm hệ thống **không bao giờ** trả về trích dẫn tới một đoạn mà mô hình chưa được đọc.
-- **(b) Kiểm tra ngữ nghĩa** (1 lượt LLM): mô hình nhận mọi cặp (câu, đoạn được trích) cùng tiêu đề Điều của đoạn, và chỉ ra cặp nào đoạn không hỗ trợ nội dung câu; các mã đó bị gỡ.
+Để giải quyết vấn đề trên, Cormack và cộng sự (2009) đề xuất kỹ thuật **Reciprocal Rank Fusion (RRF)**. Nguyên lý cốt lõi của RRF là: **chỉ sử dụng vị trí thứ hạng (rank) của tài liệu trong từng danh sách kết quả thay vì sử dụng điểm số tuyệt đối**.
 
-Câu nào mất hết trích dẫn sau hai lớp trên thì câu trả lời được sinh lại một lần, kèm danh sách câu chưa có căn cứ. Nếu sau lần sinh lại vẫn còn câu như vậy, câu đó được giữ nhưng gắn nhãn "(chưa có căn cứ)" để người đọc biết; câu trả lời không còn trích dẫn nào thì có thêm dòng ghi chú cuối.
+Cho một tập hợp các phương pháp truy xuất $M$ (trong hệ thống của đề tài, $M = \{\text{BM25}, \text{Dense}\}$), mỗi phương pháp $m \in M$ trả về một danh sách các tài liệu được sắp xếp theo thứ tự giảm dần của độ liên quan. Với mỗi tài liệu $d$, thứ hạng của nó trong danh sách của phương pháp $m$ được ký hiệu là $r_m(d) \in \{1, 2, 3, \dots\}$.
 
-Phiên bản đầu của lớp (b) chỉ đưa nội dung Khoản cho mô hình; thực nghiệm cho thấy nó gỡ nhầm nhiều trích dẫn đúng vì không biết Khoản thuộc Điều nào. Phiên bản hiện tại đưa thêm tên văn bản, số và tên Điều (so sánh ở mục 4.4).
+Điểm số RRF tổng hợp của tài liệu $d$ được tính bằng công thức:
 
-### 3.4.3. Năm cấu hình thí nghiệm
+$$RRF\_Score(d) = \sum_{m \in M} \frac{1}{k + r_m(d)}$$
 
-Cùng một đồ thị phục vụ năm cấu hình của RQ3 bằng ba cờ bật/tắt (Bảng 3.3). Nút bị tắt vẫn có trong đồ thị nhưng không có cạnh nào dẫn tới, nên mọi cấu hình dùng chung mã nguồn và prompt, chỉ khác luồng đi.
+Trong đó:
+- $r_m(d)$ là vị trí thứ hạng của tài liệu $d$ theo phương pháp $m$. Nếu tài liệu $d$ không xuất hiện trong danh sách trả về của phương pháp $m$, giá trị nghịch đảo coi như bằng $0$.
+- $k$ là một hằng số làm mịn (smoothing constant). Hằng số này có vai trò giảm thiểu sự chênh lệch quá mức giữa các vị trí đứng đầu (ví dụ thứ hạng 1 và 2) và ổn định thứ hạng của các tài liệu xuất hiện ở nhóm sau. Trong thực nghiệm gốc của Cormack và cộng sự (2009) cũng như các nghiên cứu chuẩn mực, giá trị $k = 60$ được chứng minh là cho kết quả tối ưu và ổn định nhất.
 
-**Bảng 3.3.** Năm cấu hình RQ3.
-<!-- nguồn: src/agent/state.py CONFIGS -->
+### 2.3.3 Vai trò trong hệ thống
 
-| Cấu hình | Router | Grade (viết lại truy vấn) | Verify (b) |
-|---|---|---|---|
-| `baseline` | tắt | tắt | tắt |
-| `full` | bật | bật | bật |
-| `no_router` | tắt | bật | bật |
-| `no_grading` | bật | tắt | bật |
-| `no_verify` | bật | bật | tắt |
+Nguyen Ba và cộng sự (2024) đã chứng minh RRF đem lại hiệu quả vượt trội khi áp dụng cho bài toán truy xuất thông tin pháp luật tiếng Việt. Trong kiến trúc của đề tài, RRF được dùng để hợp nhất danh sách ứng viên từ hai nhánh BM25 và ChromaDB Dense, trích xuất ra top-20 đoạn văn bản pháp luật tiềm năng nhất để chuẩn bị cho giai đoạn xếp hạng lại chuyên sâu (Chương 3).
 
-Khi tắt router, câu hỏi luôn được coi là câu tình huống và không có ngày sự việc, nên truy xuất lọc theo văn bản còn hiệu lực. Verify (a) luôn chạy, kể cả ở `baseline`.
+---
 
-### 3.4.4. Dấu vết thực thi
+## 2.4 Xếp hạng lại bằng Cross-Encoder: Mô hình BGE-Reranker-v2-M3
 
-Mỗi nút ghi một bước vào `trace`: tên nút, đầu ra rút gọn (bằng chứng chỉ giữ mã đoạn), thời gian xử lý và số lượt gọi LLM. Thời gian đã trừ phần chờ giãn cách của gói API miễn phí, nên phản ánh độ trễ của chính hệ thống. Trace vừa hiển thị trên giao diện (dòng thời gian các bước), vừa là dữ liệu cho đo độ trễ và phân tích lỗi ở Chương 4.
+### 2.4.1 So sánh Bi-Encoder và Cross-Encoder
 
-## 3.5. API và giao diện
+Mặc dù mô hình Bi-encoder cho phép tìm kiếm nhanh chóng nhờ vector hóa độc lập, nhược điểm chí mạng của nó là hai chuỗi văn bản (truy vấn và tài liệu) không có cơ hội tương tác trực tiếp ở cấp độ từ tố (token-level interaction) trong quá trình tính toán vector nhúng. Điều này dẫn đến việc bỏ sót các mối liên kết ngữ nghĩa tinh tế hoặc các sắc thái phủ định, điều kiện loại trừ vốn rất phổ biến trong văn bản pháp luật.
 
-**API** (`src/api/main.py`, FastAPI) theo định dạng ở Phụ lục A.5 của đề cương:
+Mô hình **Cross-Encoder** khắc phục triệt để nhược điểm này (Hình 2.2). Trong Cross-Encoder:
+- Câu truy vấn $Q$ và đoạn văn bản ứng viên $D$ được ghép nối thành một chuỗi duy nhất:
+  $$\text{Input} = [CLS] \circ q_1 \dots q_n \circ [SEP] \circ d_1 \dots d_m \circ [SEP]$$
+- Chuỗi kết hợp được đưa đồng thời qua toàn bộ các lớp Transformer Self-Attention. Tại mọi tầng của mạng nơ-ron, từng từ tố của câu hỏi đều có thể đối chiếu chéo (cross-attend) trực tiếp với từng từ tố của điều luật.
+- Vector ẩn tại vị trí đầu $[CLS]$ được đưa qua một lớp phân loại tuyến tính để tính ra điểm số liên quan duy nhất $Score_{\text{Cross}}(Q, D) \in [0, 1]$.
 
-- `POST /api/ask` nhận câu hỏi (1–1.000 ký tự) và tên cấu hình (mặc định `full`); trả câu trả lời, trạng thái từ chối, danh sách trích dẫn (mã đoạn, văn bản, Điều, Khoản, nội dung), các đoạn đã truy xuất và trace.
-- `GET /api/article/{law_id}/{article}` trả toàn văn một Điều để giao diện hiển thị khi người dùng bấm vào trích dẫn.
-- `GET /health` trả trạng thái và tên mô hình.
+<!-- Hình 2.2: assets/diagrams/cross_encoder.png -->
+**Hình 2.2.** So sánh cơ chế tương tác giữa Bi-Encoder và Cross-Encoder.
 
-Tác tử được nạp một lần khi khởi động. Các câu hỏi được phục vụ tuần tự (khóa), vì bộ đếm lượt gọi, bộ giãn cách và bộ đệm của lớp `LLM` dùng chung giữa các yêu cầu.
+**Bảng 2.1.** So sánh đặc tính kỹ thuật giữa Bi-Encoder và Cross-Encoder.
 
-**Giao diện** (`src/ui/web/`, NiceGUI, do Hùng xây dựng) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 3.3–3.5).
+| Đặc tính | Bi-Encoder (BGE-M3) | Cross-Encoder (BGE-Reranker-v2-M3) |
+|---|---|---|
+| **Cơ chế biểu diễn** | Mã hóa độc lập $Q$ và $D$ | Mã hóa liên hợp chuỗi $[Q; D]$ |
+| **Tương tác từ tố** | Không có (chỉ tính tích vô hướng ở tầng cuối) | Toàn phần qua các lớp Self-Attention |
+| **Khả năng tiền lập chỉ mục** | Có (tính toán offline toàn bộ kho luật) | Không thể (bắt buộc phải tính khi có cặp $Q, D$) |
+| **Độ phức tạp tính toán** | Thấp khi tìm kiếm ($O(N \cdot d)$) | Rất cao ($O(K \cdot L^2)$ với $K$ là số ứng viên) |
+| **Độ chính xác phân loại** | Khá cao, đóng vai trò chọn lọc diện rộng | Cực kỳ cao, loại bỏ nhiễu ngữ nghĩa triệt để |
 
-<!-- Hình 3.3: assets/screenshots_nicegui/nicegui_02_answered_citations.png -->
-<!-- Hình 3.4: assets/screenshots_nicegui/nicegui_03_validity_and_timeline.png -->
-<!-- Hình 3.5: assets/screenshots_nicegui/nicegui_06_mobile_390x844.png -->
-**Hình 3.3–3.5.** Câu trả lời kèm trích dẫn; hiệu lực văn bản và các bước của tác tử; giao diện trên điện thoại.
+### 2.4.2 Mô hình BGE-Reranker-v2-M3 và chiến lược hai tầng (Two-stage Retrieval)
 
-<!-- Hình 3.6: assets/diagrams/usecase.png [CHỜ H18] -->
-<!-- Hình 3.7: assets/diagrams/sequence.png [CHỜ H18] -->
-**Hình 3.6–3.7.** Sơ đồ use case và sơ đồ tuần tự xử lý một câu hỏi. `[CHỜ H18]`
+Do chi phí tính toán của Cross-Encoder rất lớn, việc áp dụng mô hình này trực tiếp lên hàng nghìn điều khoản trong toàn bộ kho luật là bất khả thi về mặt thời gian đáp ứng thực tế. Vì vậy, giải pháp chuẩn mực trong xử lý ngôn ngữ hiện đại là áp dụng **chiến lược truy xuất hai tầng (Two-stage Retrieval Pipeline)**:
+1. **Tầng 1 (First-stage Retrieval / Filtering):** Sử dụng tìm kiếm lai BM25 + Dense kết hợp RRF để quét nhanh toàn bộ kho dữ liệu, thu hẹp phạm vi từ hàng nghìn điều khoản xuống còn một tập ứng viên nhỏ ($K = 20$).
+2. **Tầng 2 (Second-stage Reranking):** Sử dụng mô hình Cross-Encoder chuyên dụng `bge-reranker-v2-m3` để chấm điểm và tái sắp xếp 20 đoạn ứng viên này, chỉ giữ lại top-3 đến top-5 đoạn có chất lượng cao nhất đưa vào ngữ cảnh mô hình ngôn ngữ.
 
-## 3.6. Xử lý lỗi
+Mô hình `bge-reranker-v2-m3` là mô hình xếp hạng lại đa ngôn ngữ nhẹ nhưng có hiệu năng phân loại vượt trội, đặc biệt nhạy bén trong việc xác định xem đoạn trích dẫn có thực sự trả lời đúng trọng tâm câu hỏi hay chỉ chứa các từ ngữ liên quan về mặt chủ đề.
 
-**Bảng 3.4.** Các tình huống lỗi và cách xử lý.
-<!-- nguồn: spec mục 6; src/generation/llm.py, src/agent/nodes.py, src/api/main.py -->
+---
 
-| Tình huống | Cách xử lý |
-|---|---|
-| API mô hình báo quá hạn mức (429) hoặc quá tải (5xx) | Thư viện tự chờ lũy tiến rồi thử lại: 8 lần khi chạy thực nghiệm; 2 lần khi phục vụ API, để người dùng nhận thông báo trong vài chục giây thay vì chờ tới 3 phút |
-| Hết số lần thử khi phục vụ API | Trả mã 503 với thông báo "Dịch vụ mô hình ngôn ngữ đang quá tải hoặc tạm thời không khả dụng…", ghi chi tiết vào log máy chủ |
-| Mô hình trả JSON hỏng | Thử lại một lần kèm nhắc "chỉ trả về JSON"; vẫn hỏng thì dùng mặc định an toàn: router coi là câu tình huống, grade coi là đủ bằng chứng, verify (b) không gỡ gì. Riêng bộ chấm: không ghi điểm, lần chạy sau chấm lại |
-| Ngày sự việc sai định dạng; văn bản hoặc Điều do router trích không có trong kho | Bỏ ngày; câu `direct` rơi về truy xuất thường |
-| Đầu vào API sai (rỗng, quá dài, cấu hình lạ) | Trả mã 422 |
-| Chỉ mục thiếu hoặc lệch với file chunk | Khi khởi động: dịch vụ dừng, log nêu lệnh nạp lại. Khi đang phục vụ: trả mã 500 với thông báo "Chỉ mục dữ liệu chưa sẵn sàng hoặc lệch với dữ liệu…", ghi chi tiết vào log máy chủ |
-| Truy xuất không có kết quả, hoặc grade kết luận không đủ sau 2 lần viết lại | Từ chối, nêu lý do |
-| Mô hình gắn mã trích dẫn không có trong bằng chứng | Verify (a) gỡ trước khi trả về; không có ngoại lệ |
-| Chạy thực nghiệm bị dừng giữa chừng (hết hạn mức) | Mỗi kết quả ghi ngay một dòng JSONL; chạy lại thì bỏ qua câu đã xong, dòng cuối ghi dở bị bỏ và câu đó được chạy lại. Điểm chấm gắn với mã băm câu trả lời, nên câu được chạy lại sẽ được chấm lại |
+## 2.5 Kỹ thuật Retrieval-Augmented Generation (RAG)
+
+### 2.5.1 Khái niệm và kiến trúc RAG kinh điển
+
+Mô hình ngôn ngữ lớn (LLMs) tuy sở hữu khả năng diễn đạt ngôn ngữ tự nhiên xuất sắc nhưng tri thức của chúng bị đóng băng tại thời điểm huấn luyện (parametric memory), đồng thời thường xuyên gặp hiện tượng ảo giác (hallucination) — tức tự tạo ra các thông tin sai lệch nhưng với giọng văn hết sức tự tin. Trong lĩnh vực tư vấn pháp lý, ảo giác là sai phạm không thể chấp nhận được vì có thể dẫn tới những hậu quả nghiêm trọng về mặt quyền lợi và nghĩa vụ công dân.
+
+Kỹ thuật **Retrieval-Augmented Generation (RAG)** do Lewis và cộng sự (2020) `[CẦN KIỂM TRA]` đề xuất nhằm kết hợp bộ nhớ tham số của LLM với kho tri thức phi tham số (non-parametric memory) bên ngoài. Kiến trúc RAG chuẩn mực gồm hai phân hệ:
+1. **Bộ truy xuất (Retriever):** Tiếp nhận câu hỏi $Q$ từ người dùng, tìm kiếm trong kho tri thức và trích xuất ra một tập hợp $k$ đoạn ngữ cảnh liên quan $C = \{c_1, c_2, \dots, c_k\}$.
+2. **Bộ sinh (Generator):** Nhận đầu vào là câu hỏi kết hợp với ngữ cảnh được truy xuất để sinh ra câu trả lời $A$ dựa trên phân phối xác suất có điều kiện:
+
+$$P(A | Q) = \prod_{t=1}^{T} P(a_t | a_{<t}, Q, C)$$
+
+<!-- Hình 2.3: assets/diagrams/naive_rag.png -->
+**Hình 2.3.** Quy trình tuyến tính một lượt của hệ thống RAG truyền thống (Naive RAG).
+
+### 2.5.2 Hạn chế của RAG truyền thống trong bài toán pháp luật
+
+Mặc dù giải quyết được một phần hiện tượng ảo giác, mô hình RAG truyền thống dạng đường ống tuyến tính một lượt (Naive RAG) bộc lộ nhiều điểm nghẽn nghiêm trọng khi áp dụng vào lĩnh vực pháp luật:
+- **Thiếu khả năng tự phê bình (Garbage In, Garbage Out):** Nếu khâu truy xuất trả về các điều luật không liên quan hoặc chỉ liên quan một phần, bộ sinh LLM vẫn bị ép buộc phải sinh câu trả lời dựa trên các dữ liệu sai lệch đó, dẫn đến câu trả lời sai hoặc lạc đề.
+- **Không phân biệt được phạm vi tri thức:** RAG truyền thống không thể nhận diện được các câu hỏi nằm ngoài phạm vi kho văn bản hoặc các câu hỏi không có cơ sở pháp lý tương ứng để từ chối trả lời, mà luôn cố gắng suy diễn.
+- **Trích dẫn giả và trích dẫn không hỗ trợ (Unsupported Citations):** Gao và cộng sự (2023) trong nghiên cứu về khung đánh giá ALCE đã chỉ ra rằng ngay cả các mô hình LLM tiên tiến nhất vẫn thường xuyên tạo ra các trích dẫn sai nguồn, hoặc trích dẫn những điều luật không chứa đựng nội dung hỗ trợ cho khẳng định trong câu trả lời.
+- **Bất lực trước câu hỏi nhiều bước hoặc câu hỏi tra cứu trực tiếp:** Các câu hỏi tra cứu đích danh số hiệu điều luật đòi hỏi truy xuất chính xác tuyệt đối, trong khi các câu hỏi tình huống phức tạp lại đòi hỏi viết lại truy vấn để bóc tách vấn đề, điều mà đường ống một lượt không thể đảm đương.
+
+---
+
+## 2.6 Kiến trúc Agentic-RAG
+
+### 2.6.1 Từ RAG thụ động đến Tác tử Agentic-RAG
+
+Để vượt qua giới hạn của RAG truyền thống, xu hướng nghiên cứu chuyển dịch mạnh mẽ sang **Agentic-RAG** (Hình 2.4). Một tác tử thông minh (agent) là một thực thể tính toán có khả năng:
+- **Tự nhận thức trạng thái (State Awareness):** Duy trì và theo dõi ngữ cảnh hội thoại, lịch sử truy xuất và chất lượng bằng chứng hiện có.
+- **Sử dụng công cụ (Tool Use):** Tự quyết định gọi các công cụ chuyên biệt khi cần (như công cụ tra cứu văn bản, công cụ tìm kiếm lai, công cụ lọc thời gian).
+- **Lập luận và phản tỉnh (Reflection & Reasoning):** Tự đánh giá kết quả trung gian, phát hiện điểm thiếu sót và tự động thực hiện các hành động khắc phục trước khi đưa ra phản hồi cuối cùng cho người dùng.
+
+<!-- Hình 2.4: assets/diagrams/agentic_rag.png -->
+**Hình 2.4.** Luồng điều phối thông minh của Agentic-RAG so với RAG truyền thống.
+
+### 2.6.2 Các cơ chế thành phần trong hệ thống Agentic-RAG
+
+Hệ thống Agentic-RAG trong đề tài kế thừa và tích hợp các kỹ thuật tiên tiến sau:
+
+#### 1. Định tuyến câu hỏi (Query Routing)
+Trước khi thực hiện truy xuất, tác tử phân tích ý định của người dùng để phân loại câu hỏi thành các nhóm:
+- *Tra cứu trực tiếp (direct lookup):* Người dùng nêu rõ tên văn bản và số hiệu điều luật (ví dụ: *"Điều 20 Bộ luật Lao động 2019 quy định gì?"*). Tác tử gọi trực tiếp công cụ đọc văn bản mà không cần qua tìm kiếm vector.
+- *Câu hỏi tình huống (situational):* Tình huống thực tế cần phân tích căn cứ pháp lý. Tác tử đồng thời trích xuất mốc thời gian xảy ra sự việc (nếu có) để phục vụ lọc hiệu lực.
+- *Câu hỏi ngoài phạm vi (out-of-scope):* Các câu hỏi không thuộc 4 lĩnh vực luật được quản lý hoặc các câu chào hỏi xã giao. Tác tử kích hoạt cơ chế từ chối trả lời lịch sự ngay từ đầu, tiết kiệm chi phí tính toán.
+
+#### 2. Tự đánh giá bằng chứng và viết lại truy vấn (Self-Grading & Query Rewriting)
+Lấy cảm hứng từ các công trình nghiên cứu chuẩn mực về RAG tự điều chỉnh:
+- **Corrective RAG (CRAG)** (Yan và cộng sự, 2024): Đề xuất một mô-đun đánh giá (retrieval evaluator) để chấm điểm mức độ tin cậy của tài liệu được truy xuất. Nếu tài liệu bị đánh giá là không đạt yêu cầu, hệ thống sẽ kích hoạt tiến trình tìm kiếm điều chỉnh hoặc tìm kiếm ngoài.
+- **Self-RAG** (Asai và cộng sự, 2024): Huấn luyện các token tự phản tỉnh để mô hình tự quyết định khi nào cần truy xuất và tự đánh giá chất lượng tài liệu. Khác với Self-RAG đòi hỏi tinh chỉnh trọng số mô hình tốn kém, đề tài hiện thực hóa cơ chế này thông qua kỹ thuật prompt có cấu trúc trên đồ thị trạng thái.
+
+Sau khi truy xuất, một nút đánh giá (Grader) kiểm tra xem các đoạn văn bản luật thu được có chứa đầy đủ điều kiện để giải quyết tình huống hay không. Nếu bằng chứng còn thiếu hoặc mơ hồ, tác tử sẽ tự động phân tích lỗ hổng thông tin, viết lại câu truy vấn (Query Rewriter) với các thuật ngữ chuyên sâu hơn và thực hiện truy xuất bổ sung (tối đa 2 vòng lặp).
+
+#### 3. Kiểm chứng trích dẫn hai lớp (Two-tier Citation Verification)
+Để đảm bảo tính trung thực tuyệt đối của văn bản pháp lý, đề tài thiết kế cơ chế kiểm chứng trích dẫn chuyên biệt gồm hai lớp:
+1. **Lớp 1 – Kiểm chứng cú pháp và nguồn gốc (Syntactic & Lexical Verification):** Sử dụng các biểu thức chính quy (Regex) quét toàn bộ các mã định danh trích dẫn xuất hiện trong câu trả lời (dạng `[LAW_DieuX_KhoanY]`). Đối chiếu danh sách này với tập hợp các đoạn chunk thực tế đã được cung cấp trong ngữ cảnh truy xuất. Bất kỳ trích dẫn nào trỏ tới một điều luật không có trong ngữ cảnh sẽ bị loại bỏ ngay lập tức (chống hiện tượng bịa mã luật).
+2. **Lớp 2 – Kiểm chứng ngữ nghĩa và mức độ hỗ trợ (Semantic Entailment Verification):** Áp dụng mô hình ngôn ngữ lớn để thực hiện kiểm tra chéo từng cặp khẳng định - căn cứ trích dẫn (claim-to-citation entailment). Đối với mỗi câu khẳng định pháp lý, LLM xác định xem nội dung điều khoản được trích có thực sự hỗ trợ (entails) cho khẳng định đó hay không:
+   - Nếu trích dẫn hỗ trợ đúng: giữ nguyên.
+   - Nếu trích dẫn không liên quan hoặc hiểu sai ngữ nghĩa: loại bỏ thẻ trích dẫn hoặc cảnh báo câu chưa có căn cứ vững chắc.
+
+Cơ chế này giúp loại bỏ triệt để các trích dẫn mang tính suy diễn, bảo đảm nguyên tắc mọi phát ngôn pháp lý của hệ thống đều có thể kiểm chứng được nguồn gốc minh bạch.
+
+---
+
+## 2.7 Đồ thị trạng thái LangGraph
+
+### 2.7.1 Hạn chế của các framework chuỗi tuyến tính (Linear Chains)
+
+Trong các hệ thống xây dựng ứng dụng LLM thế hệ đầu (chẳng hạn như LangChain Chains truyền thống), luồng thực thi được thiết kế dưới dạng đồ thị có hướng không chu trình tuyến tính (DAG). Dạng kiến trúc này chỉ phù hợp cho các chuỗi xử lý một chiều tuần tự: `Prompt -> LLM -> OutputParser`.
+
+Tuy nhiên, như đã phân tích ở mục 2.6, một tác tử Agentic-RAG hoàn chỉnh bắt buộc phải có khả năng:
+- Tạo vòng lặp có điều kiện (conditional loops) để truy xuất lại khi bằng chứng chưa đạt yêu cầu.
+- Rẽ nhánh động (dynamic branching) dựa trên quyết định của bộ định tuyến.
+- Lưu giữ và cập nhật một trạng thái bộ nhớ chung (shared mutable state) liên tục xuyên suốt các bước thực thi.
+
+### 2.7.2 Nguyên lý hoạt động của LangGraph
+
+LangGraph là khung thư viện mở rộng từ hệ sinh thái LangChain, được thiết kế chuyên biệt để xây dựng các hệ thống tác tử phức tạp dựa trên mô hình **Đồ thị trạng thái có chu trình (Cyclic State Graph)**.
+
+Ba thành phần kiến trúc cơ bản của LangGraph bao gồm:
+1. **Trạng thái đồ thị (State):** Là một đối tượng dữ liệu có cấu trúc (thường kế thừa từ `typing.TypedDict` hoặc Pydantic) đại diện cho bộ nhớ trung tâm của tác tử. Mọi nút trong đồ thị đều đọc thông tin từ trạng thái này và trả về các cập nhật để ghi đè hoặc bổ sung vào trạng thái.
+   - Trong đề tài, State lưu trữ: câu hỏi ban đầu, phân loại ý định, mốc thời gian sự việc, danh sách đoạn luật truy xuất được, số lần lặp truy xuất, câu trả lời thô và kết quả kiểm chứng trích dẫn.
+2. **Các Nút (Nodes):** Đại diện cho các hàm tính toán xử lý logic độc lập hoặc các lời gọi công cụ. Mỗi nút nhận `State` hiện tại làm tham số đầu vào và trả về một phần dữ liệu cập nhật cho `State`. Ví dụ các nút: `route`, `lookup_article`, `retrieve`, `grade`, `generate`, `verify`.
+3. **Các Cạnh (Edges) và Cạnh có điều kiện (Conditional Edges):**
+   - *Cạnh cố định (Normal Edge):* Nối trực tiếp từ một nút đến một nút kế tiếp xác định (ví dụ: sau khi `generate` luôn chuyển tiếp sang `verify`).
+   - *Cạnh có điều kiện (Conditional Edge):* Là một hàm điều kiện (router function) nhận `State` hiện tại và trả về tên nút tiếp theo cần chuyển dịch. Ví dụ: hàm kiểm tra sau nút `grade` sẽ phân nhánh: nếu tài liệu đạt yêu cầu thì chuyển sang `generate`; nếu chưa đạt và số vòng lặp $retry < 2$ thì chuyển ngược lại nút `retrieve`; nếu đã quá số lần lặp thì chuyển sang chế độ trả lời giới hạn kèm cảnh báo.
+
+```
+       [Start]
+          │
+          ▼
+       [route] ────────── (out_of_scope) ──────────► [refuse] ──┐
+          │                                                      │
+     (situational)                                               │
+          │                                                      │
+          ▼                                                      │
+    [retrieve] ◄──────────────┐                                  │
+          │                   │                                  │
+          ▼                   │ (not relevant & retry < 2)       │
+       [grade] ───────────────┘                                  │
+          │                                                      │
+     (relevant)                                                  │
+          │                                                      │
+          ▼                                                      │
+     [generate]                                                  │
+          │                                                      │
+          ▼                                                      │
+      [verify] ──────────────────────────────────────────────────┴──► [End]
+```
+<!-- Hình 2.5: assets/diagrams/langgraph_flow.png -->
+**Hình 2.5.** Sơ đồ chuyển dịch trạng thái đồ thị LangGraph trong tác tử hỏi đáp pháp luật.
+
+### 2.7.3 Vai trò trong hệ thống
+
+LangGraph cung cấp cấu trúc rõ ràng, tính kiểm thử cao (testability), khả năng truy vết hoàn chỉnh từng bước thực thi (traceability) và cho phép dễ dàng bật/tắt các thành phần độc lập thông qua các cờ cấu hình nhằm phục vụ trực tiếp cho nghiên cứu lược bỏ (Ablation Study) trong RQ3 (Chương 3, Chương 4).
+
+---
+
+## 2.8 Đặc thù văn bản quy phạm pháp luật Việt Nam
+
+### 2.8.1 Cấu trúc phân cấp hình thức và hiện tượng Document-Level Retrieval Mismatch (DRM)
+
+Văn bản quy phạm pháp luật Việt Nam tuân theo cấu trúc phân cấp nghiêm ngặt được quy định bởi Luật Ban hành văn bản quy phạm pháp luật:
+$$\text{Văn bản} \longrightarrow \text{Phần} \longrightarrow \text{Chương} \longrightarrow \text{Mục} \longrightarrow \text{Điều} \longrightarrow \text{Khoản} \longrightarrow \text{Điểm}$$
+
+Mỗi đơn vị quy phạm hoàn chỉnh thường là một **Khoản** hoặc một **Điều**. Nếu áp dụng kỹ thuật phân đoạn cố định theo số lượng từ (Fixed-size Chunking) phổ biến trong các ứng dụng RAG thông thường (ví dụ: cắt cứng 300 từ kèm chồng lấp 50 từ), sẽ xảy ra hai vấn đề nghiêm trọng:
+1. **Làm đứt đoạn quy phạm pháp luật:** Một câu văn chứa điều kiện áp dụng ở đầu Điều có thể bị cắt rời khỏi chế tài xử lý ở cuối Điều, khiến mô hình ngôn ngữ hiểu sai bản chất quy định.
+2. **Mất ngữ cảnh nguồn gốc và hiện tượng DRM:** Reuter và cộng sự (2025) chỉ ra rằng trong kho văn bản pháp luật lớn, có rất nhiều điều khoản thuộc các văn bản luật khác nhau có tiêu đề và cách diễn đạt tương đồng (ví dụ: điều khoản về *"Thời giờ làm việc"*, *"Hợp đồng vô hiệu"*, *"Quyền của người lao động"*). Khi một đoạn văn bản bị tách rời khỏi tiêu đề Chương và tên Văn bản, mô hình tìm kiếm rất dễ truy xuất nhầm đoạn văn từ một văn bản luật khác điều chỉnh cùng chủ đề nhưng không đúng đối tượng áp dụng. Đây gọi là hiện tượng **Document-Level Retrieval Mismatch (DRM)**.
+
+Để khắc phục hiện tượng này, kỹ thuật phân đoạn cấu trúc kèm bổ sung tiêu đề phân cấp (Hierarchy-enriched chunking) được áp dụng: mỗi đoạn trích cấp Khoản đều được ghép nối với thông tin phân cấp hoàn chỉnh:
+$$\text{Context Header} = \text{[Tên Văn bản]} > \text{[Chương]} > \text{[Điều X: Tên Điều]} > \text{[Khoản Y]}$$
+Kỹ thuật này giúp bảo toàn trọn vẹn ngữ cảnh độc lập của từng đoạn luật khi nạp vào chỉ mục vector, hạn chế tối đa hiện tượng nhầm lẫn văn bản (được đánh giá định lượng tại RQ2).
+
+### 2.8.2 Hiệu lực pháp luật theo thời gian (Temporal Validity)
+
+Nguyên tắc pháp lý phổ quát quy định rằng: **Hành vi pháp lý hoặc sự kiện pháp lý xảy ra tại thời điểm nào thì phải áp dụng văn bản quy phạm pháp luật đang có hiệu lực thi hành tại thời điểm đó** (trừ trường hợp pháp luật có quy định hồi tố).
+
+Trong thực tế xây dựng kho dữ liệu pháp luật, các văn bản luật luôn biến động theo thời gian:
+- Một luật mới ra đời sẽ bãi bỏ hoặc thay thế một hoặc nhiều luật cũ (ví dụ: Bộ luật Lao động 2019 có hiệu lực từ 01/01/2021 đã bãi bỏ hoàn toàn Bộ luật Lao động 2012).
+- Các điều khoản cụ thể có sự thay đổi căn bản về mặt quyền lợi và nghĩa vụ. Chẳng hạn:
+  - *Bộ luật Lao động 2012 (Điều 22):* Cho phép giao kết hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn dưới 12 tháng.
+  - *Bộ luật Lao động 2019 (Điều 20):* Bãi bỏ hoàn toàn loại hợp đồng mùa vụ, chỉ công nhận hai loại hợp đồng: xác định thời hạn và không xác định thời hạn.
+  - *Quyền đơn phương chấm dứt hợp đồng của người lao động:* Theo luật 2012 (Điều 37), người lao động làm hợp đồng xác định thời hạn bắt buộc phải có lý do luật định; trong khi theo luật 2019 (Điều 35), người lao động có quyền nghỉ việc không cần lý do, chỉ cần đáp ứng thời hạn báo trước.
+
+Nếu một người dùng hỏi: *"Năm 2019, tôi ký hợp đồng lao động theo mùa vụ thì thời hạn tối đa là bao lâu?"*, hệ thống chỉ lưu trữ văn bản hiện hành (Bộ luật Lao động 2019) sẽ đưa ra câu trả lời rằng luật hiện nay không có hợp đồng mùa vụ, dẫn đến kết luận sai lệch bản chất pháp lý của sự việc đã diễn ra trong quá khứ.
+
+Để xử lý bài toán này, mỗi văn bản luật $L$ trong kho dữ liệu được gán nhãn một khoảng hiệu lực thời gian xác định $[d_{\text{effective}}, d_{\text{expiry}})$. Khi tiếp nhận câu hỏi có chứa mốc thời gian sự việc $d_{\text{event}}$, điều kiện ràng buộc lọc hiệu lực được định nghĩa chặt chẽ như sau:
+
+$$d_{\text{effective}} \le d_{\text{event}} < d_{\text{expiry}}$$
+
+Chỉ những văn bản thỏa mãn bất đẳng thức trên mới được đưa vào phạm vi tìm kiếm của bộ truy xuất. Đây chính là cơ sở lý luận để nhóm thiết kế các bộ lọc siêu dữ liệu (metadata filtering) và xây dựng tập câu hỏi thực nghiệm nhằm trả lời câu hỏi nghiên cứu RQ4 (Chương 3, Chương 4).
+
+---
+
+## 2.9 Tóm tắt chương
+
+Chương 2 đã hệ thống hóa toàn diện các cơ sở lý thuyết và công nghệ nền tảng tạo nên sức mạnh cho hệ thống hỏi đáp pháp luật Việt Nam:
+1. **Truy xuất thông tin đa phương pháp:** Kết hợp sức mạnh từ khóa chính xác của mô hình xác suất **BM25** với khả năng nắm bắt ngữ nghĩa sâu của mô hình **BGE-M3 (Dense)** thông qua thuật toán hợp nhất thứ hạng **RRF**, sau đó tinh lọc bằng mô hình xếp hạng lại **Cross-Encoder (BGE-Reranker-v2-M3)**.
+2. **Kiến trúc tác tử thông minh Agentic-RAG:** Vượt qua giới hạn thụ động của RAG truyền thống nhờ các cơ chế định tuyến thông minh, tự đánh giá và truy xuất lại lặp vòng (Self-Grading & Rewriting), kết hợp quy trình kiểm chứng trích dẫn hai lớp chặt chẽ.
+3. **Môi trường điều phối LangGraph:** Cho phép mô hình hóa luồng tác tử dưới dạng đồ thị trạng thái có chu trình, minh bạch, kiểm soát luồng tối ưu và hỗ trợ thực hiện các thực nghiệm lược bỏ.
+4. **Mô hình hóa đặc thù pháp luật Việt Nam:** Đề xuất phương pháp phân đoạn bảo toàn cấu trúc phân cấp để triệt tiêu hiện tượng nhầm lẫn văn bản (DRM), đồng thời thiết lập cơ chế lọc văn bản theo khoảng thời gian hiệu lực tại thời điểm phát sinh sự việc.
+
+Toàn bộ các nền tảng lý thuyết này là kim chỉ nam trực tiếp định hình nên thiết kế chi tiết và quy trình cài đặt hệ thống được trình bày cụ thể trong Chương 3 tiếp theo.
