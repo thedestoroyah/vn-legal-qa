@@ -139,13 +139,19 @@ Tác tử được nạp một lần khi khởi động. Các câu hỏi đượ
 **Giao diện** (`src/ui/web/`, NiceGUI, do Hùng xây dựng) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 4.3–4.5).
 
 <!-- Hình 4.3: assets/screenshots_nicegui/nicegui_02_answered_citations.png -->
+**Hình 4.3.** Câu trả lời kèm trích dẫn.
+
 <!-- Hình 4.4: assets/screenshots_nicegui/nicegui_03_validity_and_timeline.png -->
+**Hình 4.4.** Hiệu lực văn bản và các bước của tác tử.
+
 <!-- Hình 4.5: assets/screenshots_nicegui/nicegui_06_mobile_390x844.png -->
-**Hình 4.3–4.5.** Câu trả lời kèm trích dẫn; hiệu lực văn bản và các bước của tác tử; giao diện trên điện thoại.
+**Hình 4.5.** Giao diện trên điện thoại.
 
 <!-- Hình 4.6: assets/diagrams/usecase.png (nguồn usecase.drawio) -->
+**Hình 4.6.** Sơ đồ use case.
+
 <!-- Hình 4.7: assets/diagrams/sequence.png (nguồn sequence.drawio) -->
-**Hình 4.6–4.7.** Sơ đồ use case và sơ đồ tuần tự xử lý một câu hỏi.
+**Hình 4.7.** Sơ đồ tuần tự xử lý một câu hỏi.
 
 ## 4.6. Xử lý lỗi
 

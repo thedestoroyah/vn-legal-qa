@@ -155,7 +155,7 @@ Mô hình `bge-reranker-v2-m3` là mô hình xếp hạng lại đa ngôn ngữ 
 
 Mô hình ngôn ngữ lớn (LLMs) tuy sở hữu khả năng diễn đạt ngôn ngữ tự nhiên xuất sắc nhưng tri thức của chúng bị đóng băng tại thời điểm huấn luyện (parametric memory), đồng thời thường xuyên gặp hiện tượng ảo giác (hallucination) — tức tự tạo ra các thông tin sai lệch nhưng với giọng văn hết sức tự tin. Trong lĩnh vực tư vấn pháp lý, ảo giác là sai phạm không thể chấp nhận được vì có thể dẫn tới những hậu quả nghiêm trọng về mặt quyền lợi và nghĩa vụ công dân.
 
-Kỹ thuật **Retrieval-Augmented Generation (RAG)** do Lewis và cộng sự (2020) `[CẦN KIỂM TRA]` đề xuất nhằm kết hợp bộ nhớ tham số của LLM với kho tri thức phi tham số (non-parametric memory) bên ngoài. Kiến trúc RAG chuẩn mực gồm hai phân hệ:
+Kỹ thuật **Retrieval-Augmented Generation (RAG)** do Lewis và cộng sự (2020) đề xuất nhằm kết hợp bộ nhớ tham số của LLM với kho tri thức phi tham số (non-parametric memory) bên ngoài. Kiến trúc RAG chuẩn mực gồm hai phân hệ:
 1. **Bộ truy xuất (Retriever):** Tiếp nhận câu hỏi $Q$ từ người dùng, tìm kiếm trong kho tri thức và trích xuất ra một tập hợp $k$ đoạn ngữ cảnh liên quan $C = \{c_1, c_2, \dots, c_k\}$.
 2. **Bộ sinh (Generator):** Nhận đầu vào là câu hỏi kết hợp với ngữ cảnh được truy xuất để sinh ra câu trả lời $A$ dựa trên phân phối xác suất có điều kiện:
 
