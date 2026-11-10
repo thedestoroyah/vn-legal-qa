@@ -36,7 +36,7 @@ Nghiệm thu Sprint 5 (15/11): có bản nháp Chương 1, 2, 5; đủ 4 sơ đ�
 
 ---
 
-## H17 — Cập nhật số liệu Chương 1
+## H17 — Cập nhật số liệu Chương 1 (Đạt làm thay ngày 10/11, Hùng không cần làm)
 
 **Vấn đề:** `docs/report/chuong1_draft.md` viết ngày 29/10, tập kiểm thử khi đó 179 câu. Nay là 209 câu.
 
@@ -71,7 +71,7 @@ Nghiệm thu Sprint 5 (15/11): có bản nháp Chương 1, 2, 5; đủ 4 sơ đ�
 - Bước 4 hiện thông báo không kết nối được máy chủ, không hiện traceback.
 - Lỗi phát hiện ở phía giao diện thì Hùng sửa trong `src/ui/web/` (kèm test trong `tests/test_nicegui_web.py`); lỗi phía API thì ghi lại gửi Đạt.
 
-## H18 — Sơ đồ use case và sequence
+## H18 — Sơ đồ use case và sequence (Đạt làm thay ngày 10/11, Hùng không cần làm)
 
 **Đã có:** `assets/diagrams/activity.*`, `architecture.png`, sơ đồ LangGraph. **Còn thiếu** 2 sơ đồ cho Chương 3:
 
@@ -118,7 +118,7 @@ Giữ nguyên nội dung thẻ H12 trong `docs/sprints/2026-10-16-sprint3-hung.m
 
 **Xong khi:** đủ 8 mục, mỗi mục có 1–2 câu nối với thiết kế ở Chương 3; mọi trích dẫn có trong mục 12 đề cương hoặc có nhãn `[CẦN KIỂM TRA]`; công thức BM25 và RRF viết đúng ký hiệu trong nguồn gốc.
 
-## H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển)
+## H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển) (Đạt làm thay ngày 10/11, Hùng không cần làm)
 
 **Đầu vào:** bản nháp Chương 4 của Đạt (`docs/report/chuong4_draft.md`, dự kiến 13–14/11), file chốt trước `docs/superpowers/specs/2026-11-03-heldout-prereg.md`.
 

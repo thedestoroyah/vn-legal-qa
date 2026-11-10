@@ -8,9 +8,9 @@ Tài liệu gồm các **thẻ việc**. Mỗi thẻ có đủ mục tiêu, file
 
 ## Đọc trước
 
-- Thẻ Sprint 5 còn dở (H17, H18, H12, H21 trong `docs/sprints/2026-11-05-sprint5-hung.md`) làm xong trước khi bắt đầu H23, vì H23 ghép các chương đó.
-- Bản nháp hiện có trong `docs/report/`: `chuong1_draft.md` (Hùng), `chuong3_draft.md`, `chuong4_draft.md` (Đạt). Hình: `docs/report/figures/` (biểu đồ RQ1–RQ4), `assets/diagrams/`, `assets/screenshots_nicegui/`.
-- Thực nghiệm đã xong, **không chạy lại**. Số liệu chỉ lấy từ `eval/results/*.md` hoặc từ Chương 4 (mỗi bảng có comment ghi file nguồn).
+- Thẻ Sprint 5: H17, H18, H21 Đạt đã làm thay (10/11); H12 (nay là Chương 3) đã có bản nháp. **Pull trước khi sửa `docs/report/`**: các file chương đã đổi tên ngày 10/11.
+- Bản nháp hiện có trong `docs/report/` (6 chương từ 10/11: thêm Chương 2 Tổng quan tài liệu, các chương cũ 2–5 thành 3–6): `chuong1_draft.md`, `chuong3_draft.md` (Hùng); `chuong2_draft.md`, `chuong4_draft.md`, `chuong5_draft.md`, `chuong6_draft.md` (Đạt). Hình: `docs/report/figures/` (biểu đồ RQ1–RQ4), `assets/diagrams/`, `assets/screenshots_nicegui/`.
+- Thực nghiệm đã xong, **không chạy lại**. Số liệu chỉ lấy từ `eval/results/*.md` hoặc từ Chương 5 (mỗi bảng có comment ghi file nguồn).
 
 ## Thứ tự và hạn
 
@@ -27,7 +27,7 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 - Luôn `git pull` trước khi làm. Commit nhỏ theo từng thẻ: `feat(ui): ...`, `docs: ...`.
 - **Không sửa** code của Đạt: `src/agent/`, `src/api/`, `src/generation/`, `src/retrieval/`, `src/ingestion/`, `eval/*.py`; không sửa `eval/results/`, `eval/*cases.json`. Thấy lỗi thì báo Đạt.
-- File của Hùng: `src/ui/`, `tests/test_nicegui_web.py`, `assets/`, `docs/report/` (trừ `chuong3_draft.md`, `chuong4_draft.md`: góp ý cho Đạt), slide và video.
+- File của Hùng: `src/ui/`, `tests/test_nicegui_web.py`, `assets/`, `docs/report/` (trừ `chuong2_draft.md`, `chuong4_draft.md`, `chuong5_draft.md`, `chuong6_draft.md`: góp ý cho Đạt), slide và video.
 - Trước khi commit phần giao diện: `pytest -q` phải pass hết.
 
 ---
@@ -55,12 +55,12 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 ## H23 — Ghép báo cáo theo mẫu TDTU
 
-**Đầu vào:** `docs/report/chuong1_draft.md` … `chuong5_draft.md`; khung `docs/report/final_52300098_52300106.docx` (Hùng đã tạo theo mẫu khoa); mẫu gốc của khoa `TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (Đạt gửi nếu cần); danh mục tài liệu: mục 12 `docs/managements/Đề cương DACNTT.md` (đã tra lại nguồn ngày 03/11, có DOI).
+**Đầu vào:** `docs/report/chuong1_draft.md` … `chuong6_draft.md`; khung `docs/report/final_52300098_52300106.docx` (Hùng đã tạo theo mẫu khoa); mẫu gốc của khoa `TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (Đạt gửi nếu cần); danh mục tài liệu: mục 12 `docs/managements/Đề cương DACNTT.md` (đã tra lại nguồn ngày 03/11, có DOI).
 
 **Các bước:**
-1. Chép nội dung 5 chương từ Markdown vào docx, dùng đúng style của mẫu (Heading 1/2/3, đoạn thường, chú thích hình/bảng). Số liệu, bảng chép nguyên văn, **không gõ lại số**.
-2. Hình: biểu đồ `docs/report/figures/rq1.png`, `rq2.png`, `rq3_diff.png`, `rq4.png`; sơ đồ `assets/diagrams/` (kiến trúc, activity, đồ thị tác tử, use case, sequence); ảnh giao diện mới (H22). Chú thích dạng "Hình 4.1. …" đúng như trong bản Markdown.
-3. Phần đầu: bìa (tên đề tài nguyên văn mục 1 đề cương), lời cảm ơn, cam đoan, tóm tắt (tiếng Việt và tiếng Anh, khoảng 200 từ mỗi bản, tóm tắt từ Chương 5), mục lục, danh mục hình, danh mục bảng, danh mục từ viết tắt (RAG, LLM, BM25, RRF, HĐLĐ, BLLĐ, BLDS, LDN, LTM…) — dùng chức năng mục lục tự động của Word.
+1. Chép nội dung 6 chương từ Markdown vào docx (khung docx hiện mới có 5 chương: thêm Chương 2 "Tổng quan tài liệu" và dời số các chương sau, kể cả các tiêu đề gõ tay như "Tóm tắt 2.2"), dùng đúng style của mẫu (Heading 1/2/3, đoạn thường, chú thích hình/bảng). Số liệu, bảng chép nguyên văn, **không gõ lại số**.
+2. Hình: biểu đồ `docs/report/figures/rq1.png`, `rq2.png`, `rq3_diff.png`, `rq4.png`; sơ đồ `assets/diagrams/` (kiến trúc, activity, đồ thị tác tử, use case, sequence); ảnh giao diện mới (H22). Chú thích dạng "Hình 5.1. …" đúng như trong bản Markdown.
+3. Phần đầu: bìa (tên đề tài nguyên văn mục 1 đề cương), lời cảm ơn, cam đoan, tóm tắt (tiếng Việt và tiếng Anh, khoảng 200 từ mỗi bản, tóm tắt từ Chương 6), mục lục, danh mục hình, danh mục bảng, danh mục từ viết tắt (RAG, LLM, BM25, RRF, HĐLĐ, BLLĐ, BLDS, LDN, LTM…) — dùng chức năng mục lục tự động của Word.
 4. Tài liệu tham khảo: chép từ mục 12 đề cương, định dạng APA 7 theo mẫu khoa; mọi tài liệu trong danh mục phải được trích trong thân bài và ngược lại (dùng tìm kiếm "và cộng sự" / tên tác giả để đối chiếu).
 5. Bỏ mọi ghi chú nháp (`> Bản nháp …`, `<!-- nguồn: … -->`, `[CHỜ …]`, `[CẦN KIỂM TRA]`).
 
@@ -72,7 +72,7 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 **Dàn ý:** vấn đề (2) → mục tiêu và 4 câu hỏi nghiên cứu (1) → dữ liệu và tập kiểm thử (2) → kiến trúc và tác tử (3) → demo (1, nhúng hoặc dẫn link video H25) → kết quả RQ1–RQ4 (4, dùng 4 biểu đồ trong `docs/report/figures/`) → phân tích lỗi và giới hạn (2) → kết luận, hướng phát triển (1) → cảm ơn. Mỗi slide có lời thuyết trình (notes), tổng khoảng 10–12 phút.
 
-**Xong khi:** gửi Đạt ngày 26/11; mọi con số trên slide có trong Chương 4; hai người tập thuyết trình trọn một lượt trong khoảng 12 phút.
+**Xong khi:** gửi Đạt ngày 26/11; mọi con số trên slide có trong Chương 5; hai người tập thuyết trình trọn một lượt trong khoảng 12 phút.
 
 ## H25 — Video demo 3–5 phút
 

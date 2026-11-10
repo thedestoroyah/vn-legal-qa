@@ -105,7 +105,7 @@ Hệ thống hướng tới phục vụ đa dạng các nhóm người dùng có
 Nhóm khảo sát các nghiên cứu liên quan trực tiếp đến bài toán theo bốn hướng: truy xuất văn bản pháp luật tiếng Việt, RAG và Agentic-RAG, đặc trưng của dữ liệu pháp luật, và trích dẫn cùng phương pháp đánh giá. Kết quả khảo sát là cơ sở để lựa chọn phương pháp và thiết kế kiến trúc hệ thống.
 
 - **Truy xuất văn bản pháp luật tiếng Việt:**
-  - Nguyen Ba và cộng sự (2024) xây dựng pipeline truy xuất cho hệ thống hỏi đáp pháp luật tiếng Việt, kết hợp tìm kiếm từ khóa và tìm kiếm vector bằng một biến thể chuẩn hóa của Reciprocal Rank Fusion, sau đó xếp hạng lại các đoạn trước khi đưa vào LLM. Kỹ thuật RRF (Cormack và cộng sự, 2009) và mô hình embedding đa ngôn ngữ BGE-M3 (Chen và cộng sự, 2024) là các thành phần nền tảng mà dự án kế thừa cho RQ1.
+  - Nguyen Ba và cộng sự (2024) xây dựng pipeline truy xuất cho hệ thống hỏi đáp pháp luật tiếng Việt, kết hợp tìm kiếm từ khóa và tìm kiếm vector bằng một biến thể chuẩn hóa của Reciprocal Rank Fusion; sau khi LLM sinh câu trả lời, các đoạn được xếp hạng lại dựa trên chính câu trả lời đó (nhóm tác giả đề xuất cách này thay cho cross-encoder). Kỹ thuật RRF (Cormack và cộng sự, 2009) và mô hình embedding đa ngôn ngữ BGE-M3 (Chen và cộng sự, 2024) là các thành phần nền tảng mà dự án kế thừa cho RQ1.
   - Về dữ liệu, bộ VLQA (Nguyen và cộng sự, 2025) gồm 3.129 bộ (câu hỏi, điều luật liên quan, câu trả lời) do chuyên gia gán nhãn trên 59.636 điều luật thuộc 27 lĩnh vực; câu hỏi được thu thập từ các nền tảng tư vấn pháp luật công khai nên phản ánh nhu cầu thực tế của người dân; bộ này cũng là dữ liệu của nhiệm vụ DRiLL tại VLSP 2025. Tuy nhiên, tại thời điểm thực hiện dự án, dữ liệu VLQA chưa được công bố. Cuộc thi Zalo AI Challenge 2021 (Legal Text Retrieval) cung cấp khoảng 3.200 câu hỏi do người viết kèm điều luật liên quan (công bố lại theo giấy phép MIT); dự án chọn lọc các câu thuộc phạm vi kho dữ liệu làm nguồn câu hỏi chính cho thực nghiệm truy xuất.
 - **RAG và Agentic-RAG:**
   - Corrective RAG (Yan và cộng sự, 2024) bổ sung bộ đánh giá chất lượng tài liệu truy xuất và kích hoạt hành động khắc phục khi bằng chứng không đủ tin cậy; Self-RAG (Asai và cộng sự, 2024) cho phép mô hình tự quyết định khi nào cần truy xuất và tự phê bình đầu ra. Hai công trình này là cơ sở cho bước đánh giá bằng chứng, viết lại truy vấn và tự kiểm chứng của tác tử trong dự án; khác với Self-RAG, dự án không huấn luyện lại mô hình mà hiện thực các bước này bằng prompt trên đồ thị trạng thái.
@@ -114,7 +114,7 @@ Nhóm khảo sát các nghiên cứu liên quan trực tiếp đến bài toán 
   - Reuter và cộng sự (2025) chỉ ra rằng kho văn bản pháp luật chứa nhiều tài liệu có cấu trúc tương tự nhau, khiến hệ thống dễ truy xuất đoạn văn từ sai văn bản nguồn (Document-Level Retrieval Mismatch - DRM), và đề xuất Summary-Augmented Chunking bổ sung ngữ cảnh cấp văn bản cho từng đoạn để giảm DRM. Dự án áp dụng ý tưởng này ở dạng gọn hơn: gắn tiêu đề phân cấp (tên văn bản, Điều, tên Điều) vào từng đoạn, và dùng tỷ lệ DRM làm chỉ số cho RQ2.
   - LegalBench-RAG (Pipitone & Houir Alami, 2024) nhấn mạnh việc đánh giá riêng bước truy xuất trong RAG pháp luật, yêu cầu truy xuất chính xác đoạn văn bản tối thiểu làm căn cứ thay vì cả văn bản; dự án theo hướng này khi chọn Khoản làm đơn vị truy xuất và đánh giá truy xuất độc lập với bước sinh.
 - **Trích dẫn và đánh giá:**
-  - ALCE (Gao và cộng sự, 2023) đề xuất khung đánh giá khả năng sinh văn bản kèm trích dẫn của LLM với các chỉ số citation recall và citation precision, cho thấy ngay cả các mô hình mạnh vẫn thường trích dẫn không hỗ trợ cho khẳng định. RAGAS (Es và cộng sự, 2024) đề xuất các chỉ số Faithfulness và Answer Correctness chấm bằng LLM mà không cần nhãn đầy đủ. Dự án dùng định nghĩa của hai khung này, điều chỉnh để phù hợp giới hạn API miễn phí.
+  - ALCE (Gao và cộng sự, 2023) đề xuất khung đánh giá khả năng sinh văn bản kèm trích dẫn của LLM với các chỉ số citation recall và citation precision, cho thấy ngay cả các mô hình mạnh vẫn thường trích dẫn không hỗ trợ cho khẳng định. RAGAS (Es và cộng sự, 2024) đề xuất chấm hệ thống RAG bằng LLM mà không cần nhãn chuẩn, trong đó có chỉ số Faithfulness; chỉ số Answer Correctness (so với đáp án mẫu) có trong thư viện ragas đi kèm. Dự án dùng định nghĩa của hai khung này, điều chỉnh để phù hợp giới hạn API miễn phí.
 
 **Khoảng trống nghiên cứu:** Theo khảo sát của nhóm, các hệ thống hỏi đáp pháp luật tiếng Việt nêu trên coi kho văn bản là tĩnh và chỉ gồm văn bản hiện hành, trong khi nhiều câu hỏi thực tế liên quan đến tình huống xảy ra trong quá khứ, khi một văn bản khác đang có hiệu lực. Bên cạnh đó, các hệ thống Agentic-RAG thường được đánh giá tổng thể, ít tách riêng đóng góp của từng thành phần (định tuyến, viết lại truy vấn, kiểm chứng trích dẫn) và chi phí tương ứng. Dự án hướng đến lấp khoảng trống này bằng: (1) truy xuất có xét đến khoảng hiệu lực tại thời điểm của tình huống; (2) tác tử có bước kiểm chứng trích dẫn; (3) đánh giá bằng nghiên cứu lược bỏ trên dữ liệu pháp luật Việt Nam.
 
@@ -291,6 +291,7 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - Asai, A., Wu, Z., Wang, Y., Sil, A., & Hajishirzi, H. (2024). Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection. The Twelfth International Conference on Learning Representations (ICLR 2024).
 - Chen, J., Xiao, S., Zhang, P., Luo, K., Lian, D., & Liu, Z. (2024). M3-Embedding: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation. Findings of the Association for Computational Linguistics: ACL 2024, 2318–2335. https://doi.org/10.18653/v1/2024.findings-acl.137
 - Cormack, G. V., Clarke, C. L. A., & Büttcher, S. (2009). Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods. Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval, 758–759. https://doi.org/10.1145/1571941.1572114
+- Do, D.-T., Luu, S. T., Pham, T., Vo, T., Chu, N.-H., Chu, Q.-H., Hoang, C. D., Nguyen, T.-M., Trieu, A., Nguyen, D., Nguyen, H., Nguyen, T.-H., Le, N.-K., Nguyen, D.-H., Le, N.-C., Le, T.-T., Dang, H.-A., Nguyen, H.-T., Tran, V., & Nguyen, L.-M. (2025). A Summary of the ALQAC 2025 Competition. 2025 17th International Conference on Knowledge and System Engineering (KSE), 1–6. https://doi.org/10.1109/KSE68178.2025.11309650
 - Es, S., James, J., Espinosa Anke, L., & Schockaert, S. (2024). RAGAS: Automated Evaluation of Retrieval Augmented Generation. Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations (EACL 2024), 150–158. https://doi.org/10.18653/v1/2024.eacl-demo.16
 - Gao, T., Yen, H., Yu, J., & Chen, D. (2023). Enabling Large Language Models to Generate Text with Citations. Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023), 6465–6488. https://doi.org/10.18653/v1/2023.emnlp-main.398
 - Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. Advances in Neural Information Processing Systems 33 (NeurIPS 2020), 9459–9474.
@@ -519,16 +520,17 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - [x] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`); Đạt gán nhãn (thay H20 của Hùng) và lập bảng tổng hợp loại lỗi.
 - [x] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
 - [x] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
+- [x] Chương 2 Tổng quan tài liệu (thêm 10/11, `docs/report/chuong2_draft.md`): báo cáo thành 6 chương, các chương cũ 2–5 thành 3–6 và file `chuongN_draft.md` đổi tên theo. Các mục khác của sprint này giữ số chương cũ.
 
 **Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-11-05-sprint5-hung.md):**
 
-- [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
+- [x] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới). → Đạt làm thay (10/11).
 - [x] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo). → Đạt kiểm 03/11 (4 kịch bản qua API + giao diện).
-- [ ] H18 — Sơ đồ use case và sequence.
-- [x] H12 — Bản nháp Chương 2. → có bản nháp 06/11 (`docs/report/chuong2_draft.md`), chưa rà.
-- [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
+- [x] H18 — Sơ đồ use case và sequence. → Đạt làm thay (10/11), `assets/diagrams/usecase.*`, `sequence.*`.
+- [x] H12 — Bản nháp Chương 2. → có bản nháp 06/11 (nay là `docs/report/chuong3_draft.md`), chưa rà.
+- [x] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển). → Đạt làm thay (10/11), nay là `docs/report/chuong6_draft.md`.
 
-**Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–5.
+**Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–6.
 
 ### SPRINT 6 (16/11 – 27/11/2026): ĐÓNG GÓI VÀ HOÀN THIỆN
 

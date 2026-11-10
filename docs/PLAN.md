@@ -125,16 +125,17 @@ Hạn nộp **23:59 04/12/2026** (dời từ 21/11, báo ngày 03/11). Thiết k
 - [x] Task 4 — Phiếu phân tích lỗi 20 câu (`eval/error_analysis.py`); Đạt gán nhãn (thay H20 của Hùng) và lập bảng tổng hợp loại lỗi.
 - [x] Task 5 — Biểu đồ RQ1–RQ4 (matplotlib) vào `docs/report/figures/`.
 - [x] Task 6, 7 — Bản nháp Chương 3 (thiết kế hệ thống) và Chương 4 (thực nghiệm và kết quả).
+- [x] Chương 2 Tổng quan tài liệu (thêm 10/11, `docs/report/chuong2_draft.md`): báo cáo thành 6 chương, các chương cũ 2–5 thành 3–6 và file `chuongN_draft.md` đổi tên theo. Các mục khác của sprint này giữ số chương cũ.
 
 ### Hoàng Sinh Hùng
 
-- [ ] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới).
+- [x] H17 — Cập nhật số liệu Chương 1 (209 câu, tập giữ riêng, lịch mới). → Đạt làm thay (10/11).
 - [x] H19 — Kiểm giao diện NiceGUI với API thật cùng Đạt (4 kịch bản demo). → Đạt kiểm 03/11 (4 kịch bản qua API + giao diện).
-- [ ] H18 — Sơ đồ use case và sequence.
-- [x] H12 — Bản nháp Chương 2. → có bản nháp 06/11 (`docs/report/chuong2_draft.md`), chưa rà.
-- [ ] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển).
+- [x] H18 — Sơ đồ use case và sequence. → Đạt làm thay (10/11), `assets/diagrams/usecase.*`, `sequence.*`.
+- [x] H12 — Bản nháp Chương 2. → có bản nháp 06/11 (nay là `docs/report/chuong3_draft.md`), chưa rà.
+- [x] H21 — Bản nháp Chương 5 (kết luận, hạn chế, hướng phát triển). → Đạt làm thay (10/11), nay là `docs/report/chuong6_draft.md`.
 
-**Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–5.
+**Nghiệm thu sprint (15/11):** đủ bảng số liệu, latency, phân tích lỗi và biểu đồ RQ1–RQ4; bản nháp Chương 1–6.
 
 ## Sprint 6 (16/11 – 27/11/2026): Đóng gói và hoàn thiện
 
