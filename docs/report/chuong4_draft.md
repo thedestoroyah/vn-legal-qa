@@ -12,7 +12,7 @@ Hệ thống gồm bốn tầng, chạy trên một máy tính cá nhân (CPU) v
 3. **Tầng tác tử**: một đồ thị trạng thái LangGraph điều phối định tuyến, truy xuất, đánh giá bằng chứng, sinh câu trả lời và kiểm chứng trích dẫn.
 4. **Tầng giao tiếp**: API FastAPI và giao diện web NiceGUI.
 
-<!-- Hình 4.1: assets/diagrams/architecture.png -->
+<!-- Hình 4.1: assets/diagrams/architecture.png (nguồn architecture.drawio) -->
 **Hình 4.1.** Kiến trúc tổng thể của hệ thống.
 
 Mô hình ngôn ngữ của tác tử là `gemini-3.1-flash-lite` (Google, gói miễn phí), gọi qua giao diện tương thích OpenAI. Mọi lượt gọi đi qua một lớp `LLM` dùng chung, có ba nhiệm vụ: lưu kết quả vào bộ đệm trên đĩa (cùng đầu vào thì không gọi lại, giúp chạy lại thí nghiệm không tốn hạn mức), giãn cách các lượt gọi theo giới hạn 15 lượt/phút của gói miễn phí, và đếm số lượt gọi cho từng bước. Embedding và reranker chạy cục bộ, không cần GPU.
@@ -76,7 +76,7 @@ Truy xuất **không** lọc theo lĩnh vực luật: nếu router đoán sai l�
 
 Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; trạng thái đi qua các nút chứa câu hỏi, loại câu, ngày sự việc, các truy vấn, bằng chứng, câu trả lời và dấu vết (trace).
 
-<!-- Hình 4.2: assets/diagrams/Agentic Orchestration LangGraph cho hỏi đáp pháp luật.png -->
+<!-- Hình 4.2: assets/diagrams/agent_graph.png (nguồn agent_graph.drawio) -->
 **Hình 4.2.** Đồ thị tác tử và các nhánh điều kiện.
 
 **Bảng 4.2.** Các nút của tác tử.
