@@ -541,12 +541,14 @@ Kiến trúc hệ thống hỏi đáp pháp luật tiếng Việt gồm 4 phân 
 - [x] Task 3 — README: chạy bằng Docker, cài đặt, dữ liệu và chỉ mục, tái lập từng bảng số liệu RQ1–RQ4.
 - [x] Task 4 — Dọn mã nguồn: lint lỗi pyflakes, xóa file thừa, toàn bộ kiểm thử đạt.
 - [ ] Task 5 — Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin.
+- [x] Vẽ lại Hình 4.1 (kiến trúc) và 4.2 (đồ thị tác tử) bằng draw.io theo code (10/11); ảnh cũ giữ lại là `assets/diagrams/architecture_old.png`, `agent_graph_old.png`.
 
 **Hoàng Sinh Hùng (chi tiết: docs/sprints/2026-11-16-sprint6-hung.md):**
 
 - [ ] H22 — Giao diện bớt "kiểu AI" (bỏ nút đánh giá không lưu, gradient, hiệu ứng động; đổi nhãn; nhãn riêng khi dùng dữ liệu dự phòng); chụp lại ảnh.
 - [ ] H23 — Ghép báo cáo theo mẫu TDTU (mục lục, danh mục hình và bảng, tóm tắt, tài liệu tham khảo APA).
 - [ ] H24 — Slide bảo vệ (15–20 slide): vấn đề → câu hỏi nghiên cứu → kiến trúc → demo → kết quả RQ1–RQ4 → hạn chế và hướng phát triển.
+- [ ] H26 — Sửa sơ đồ activity theo code (7 điểm) và vẽ 4 hình Chương 3 (Hình 3.1–3.4); bỏ Hình 3.5, dẫn sang Hình 4.2.
 - [ ] H25 — Video demo 3–5 phút với 4 kịch bản: câu tình huống, câu có mốc thời gian năm 2020, câu ngoài phạm vi bị từ chối, câu tra cứu trực tiếp điều luật.
 
 **Cả hai:**

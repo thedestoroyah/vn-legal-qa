@@ -17,9 +17,10 @@ Tài liệu gồm các **thẻ việc**. Mỗi thẻ có đủ mục tiêu, file
 | Thẻ | Việc | Hạn | Phụ thuộc |
 |---|---|---|---|
 | H22 | Giao diện bớt "kiểu AI", chụp lại ảnh | 19/11 | — |
-| H23 | Ghép báo cáo theo mẫu TDTU | 24/11 | H12, H17, H21 (Sprint 5); H22 (ảnh mới) |
+| H23 | Ghép báo cáo theo mẫu TDTU | 24/11 | H12, H17, H21 (Sprint 5); H22 (ảnh mới); H26 (hình) |
 | H24 | Slide bảo vệ 15–20 slide | 26/11 | H23 |
 | H25 | Video demo 3–5 phút | 26/11 | H22 |
+| H26 | Sửa sơ đồ activity, vẽ 4 hình Chương 3 | 20/11 | — |
 
 Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua rà soát của Đạt), slide bảo vệ, video demo.
 
@@ -59,7 +60,7 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 **Các bước:**
 1. Chép nội dung 6 chương từ Markdown vào docx (khung docx hiện mới có 5 chương: thêm Chương 2 "Tổng quan tài liệu" và dời số các chương sau, kể cả các tiêu đề gõ tay như "Tóm tắt 2.2"), dùng đúng style của mẫu (Heading 1/2/3, đoạn thường, chú thích hình/bảng). Số liệu, bảng chép nguyên văn, **không gõ lại số**.
-2. Hình: biểu đồ `docs/report/figures/rq1.png`, `rq2.png`, `rq3_diff.png`, `rq4.png`; sơ đồ `assets/diagrams/` (kiến trúc, activity, đồ thị tác tử, use case, sequence); ảnh giao diện mới (H22). Chú thích dạng "Hình 5.1. …" đúng như trong bản Markdown.
+2. Hình: biểu đồ `docs/report/figures/rq1.png`, `rq2.png`, `rq3_diff.png`, `rq4.png`; sơ đồ `assets/diagrams/` (`architecture.png`, `agent_graph.png`, `usecase.png`, `sequence.png`, `activity.png` sau H26; **không dùng** các file `*_old.png`); ảnh giao diện mới (H22). Chú thích dạng "Hình 5.1. …" đúng như trong bản Markdown.
 3. Phần đầu: bìa (tên đề tài nguyên văn mục 1 đề cương), lời cảm ơn, cam đoan, tóm tắt (tiếng Việt và tiếng Anh, khoảng 200 từ mỗi bản, tóm tắt từ Chương 6), mục lục, danh mục hình, danh mục bảng, danh mục từ viết tắt (RAG, LLM, BM25, RRF, HĐLĐ, BLLĐ, BLDS, LDN, LTM…) — dùng chức năng mục lục tự động của Word.
 4. Tài liệu tham khảo: chép từ mục 12 đề cương, định dạng APA 7 theo mẫu khoa; mọi tài liệu trong danh mục phải được trích trong thân bài và ngược lại (dùng tìm kiếm "và cộng sự" / tên tác giả để đối chiếu).
 5. Bỏ mọi ghi chú nháp (`> Bản nháp …`, `<!-- nguồn: … -->`, `[CHỜ …]`, `[CẦN KIỂM TRA]`).
@@ -87,3 +88,25 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 **Yêu cầu:** quay màn hình 1920×1080, có lời thuyết minh hoặc phụ đề tiếng Việt; cắt bỏ phần chờ dài (giữ một đoạn ngắn cho thấy hệ thống đang xử lý); lưu `.mp4`, không commit vào git (file lớn) — gửi link Drive cho Đạt.
 
 **Xong khi:** video 3–5 phút đủ 4 kịch bản, câu trả lời trong video khớp hệ thống hiện tại; Đạt xem và đồng ý.
+
+## H26 — Sửa sơ đồ activity và vẽ hình Chương 3
+
+**Vấn đề:** `assets/diagrams/activity.drawio` (Hùng vẽ 03/11) lệch code ở 7 chỗ; Chương 3 (`docs/report/chuong3_draft.md`) trỏ tới 5 hình chưa có trong `assets/diagrams/`. Hình 4.1 và 4.2 Đạt đã vẽ lại ngày 10/11 (`architecture.drawio`, `agent_graph.drawio`); ảnh cũ giữ lại là `architecture_old.png`, `agent_graph_old.png`, **không dùng** trong báo cáo.
+
+**Phong cách chung:** vẽ bằng draw.io, cùng kiểu với `assets/diagrams/architecture.drawio` và `agent_graph.drawio` (banner xanh đậm `#1f3a5f`, khối có dải tiêu đề màu, thẻ trắng viền màu kèm icon). Mở hai file đó, chép kiểu (Edit Style) và icon sang hình mới. Chữ tiếng Việt; xuất PNG rộng ≥ 1600 px; commit cả `.drawio` và `.png`.
+
+**Phần A — sửa `activity.drawio`** (rồi xuất lại `activity.png`, `activity.svg`). Đối chiếu từng mục với file code ghi trong ngoặc:
+1. Cấu hình `no_verify` (và `baseline`) chỉ tắt lớp (b) bằng LLM; lớp (a) regex vẫn chạy ở mọi cấu hình (`src/agent/graph.py`: nút `verify` luôn chạy với `use_llm=flags["use_verify"]`). Nhánh "False (no_verify)" phải đi qua verify (a), không đi thẳng tới kết quả.
+2. `grade` chưa đủ căn cứ mà hết lượt viết lại (đã viết lại 2 lần, hoặc truy vấn mới rỗng/trùng) thì sang `refuse` (lý do "căn cứ không đủ"), **không** đi tiếp sang `generate` (`_after_grade` trong `graph.py`). Bỏ nhánh "Còn căn cứ → generate".
+3. `lookup_article`: câu tra cứu không nêu ngày sự việc thì **không lọc hiệu lực** (trả đúng Điều được nêu, kể cả BLLĐ 2012); có ngày thì lọc theo ngày đó (`src/agent/nodes.py`, hàm `lookup_article`).
+4. Giao diện: bỏ "không có API_URL thì dùng phản hồi mẫu". Hiện tại giao diện luôn gọi API; không kết nối được thì tự chuyển sang app dự phòng nếu `UI_LOCAL_FALLBACK=1` (mặc định khi chạy venv), còn Docker đặt `0` nên báo lỗi kết nối (`src/ui/web/main.py`).
+5. Thêm nhánh lỗi **500** khi chỉ mục thiếu hoặc lệch (`IndexMismatchError`, `src/api/main.py`), bên cạnh 422 và 503 đã có.
+6. Kết quả trả về là `{answer, refused, citations, retrieved_chunks, trace}` theo Phụ lục A.5 (`src/agent/run.py`, hàm `to_response`). Bỏ `status`, `chunks`, `timings` và trạng thái `partial`; câu mất hết trích dẫn được gắn nhãn "(chưa có căn cứ)" ngay trong câu trả lời.
+7. Tên trường của router: `qtype` → `route_type`; `law_id`, `article` → `direct_ref`.
+
+**Phần B — hình Chương 3:**
+- Vẽ 4 hình minh họa lý thuyết, đặt đúng tên file đã ghi trong comment của chương: Hình 3.1 `bi_encoder.png` (hai bộ mã hóa riêng, so cosine), Hình 3.2 `cross_encoder.png` (ghép câu hỏi + đoạn vào một bộ mã hóa, ra điểm), Hình 3.3 `naive_rag.png` (truy xuất một lượt → sinh), Hình 3.4 `agentic_rag.png` (RAG một lượt so với tác tử có định tuyến, đánh giá, kiểm chứng).
+- **Không vẽ** Hình 3.5 `langgraph_flow.png`: đồ thị thật của tác tử đã có ở Hình 4.2. Ở mục 3.7.2, xóa sơ đồ vẽ bằng ký tự (khối mã từ `[Start]` tới `[End]`) và 2 dòng Hình 3.5, thay bằng một câu: "Đồ thị cụ thể của tác tử trong đề tài được trình bày ở Hình 4.2 (mục 4.4.1)." (sơ đồ chữ hiện thiếu nhánh `lookup_article`, các nhánh từ chối và vòng sinh lại sau `verify`).
+
+**Xong khi:** 7 điểm ở phần A khớp code (Đạt xem); có 4 cặp `.drawio` + `.png` ở phần B; `grep -n "Hình 3.5\|langgraph_flow" docs/report/chuong3_draft.md` không ra gì.
+
