@@ -1,4 +1,4 @@
-# Bàn giao phiên làm việc (cập nhật 10/11/2026)
+# Bàn giao phiên làm việc (cập nhật 11/11/2026)
 
 > Nhật ký của Đạt, **track trong git từ 10/11** (trước đó bị gitignore). Bối cảnh ít đổi (đề tài, kiến trúc, quy tắc tập kiểm thử, lệnh): `AGENTS.md`. Claude Code tự nạp cả hai qua `IT_Project/CLAUDE.md` (thư mục cha, ngoài git), dù mở phiên ở `IT_Project/` hay `vn-legal-qa/`.
 >
@@ -6,7 +6,7 @@
 
 ## 1. Trạng thái
 
-**Git:** phiên 10/11 có 8 commit trên `main` (`dc951b0` → commit plan H22, xem mục 6); Đạt push. Tag rollback giao diện: `ui-before-h22` (chỉ ở máy Đạt, chưa push tag). Test: 339 pass. HANDOFF được track trong git từ 10/11.
+**Git:** phiên 10/11 có 8 commit tài liệu trên `main` (`dc951b0` → commit plan H22, xem mục 6) + các commit 11/11: vá lỗi giao diện (H22 đã hủy, mục 6) và H23 ghép báo cáo (mục 7); Đạt push. Tag chỉ ở máy Đạt, chưa push: `ui-before-h22` (giao diện trước mọi sửa đổi), `h22-attempt` (bản H22 đầy đủ đã làm rồi bỏ: 12 commit, 353 test, review độc lập). Test: 363 pass. HANDOFF được track trong git từ 10/11.
 
 **Sprint 5 (05/11–15/11):** phần của Đạt xong hết (Task 1–7, phân tích lỗi, latency, kiểm giao diện H19). Sổ quyết định: `.superpowers/sdd/2026-11-05-sprint5-dat/progress.md`. **10/11: Đạt làm thay H17, H18, H21** (Hùng không cập nhật gì từ 06/11); sổ quyết định `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md`.
 
@@ -33,13 +33,12 @@
 
 ## 2. Việc tiếp theo
 
-1. **H22 giao diện (Đạt, trước mốc đóng băng 12/11):** mở phiên mới, chạy plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md` (7 task, prompt ở mục 4). Đọc mục 6 "Công cụ" trước.
-   - Rollback: `git checkout ui-before-h22 -- src/ui/web tests/test_nicegui_web.py`; bản chép ngoài repo: `IT_Project/backup/ui-before-h22/` (code giao diện, test, ảnh chụp 03/11).
-   - Đầu vào: bản đánh giá Impeccable `.impeccable/critique/2026-11-10T09-27-14Z__src-ui-web.md` (chỉ có trên máy, Impeccable tự gitignore) và quyết định của Đạt: làm cả 5 vấn đề, diện mạo "văn bản pháp lý", công cụ nghiên cứu gom vào mục thu gọn.
-2. **Task 2 Sprint 6:** sau H22, Đạt mở giao diện qua `docker compose up --build` một lần, xác nhận thanh bên ghi model `gemini-3.1-flash-lite`, đánh dấu Task 2 ở `PLAN.md` và Phụ lục B.
-3. **Báo cáo tuần 13 (09.11–15.11, khoảng 13/11):** nội dung = mục 5 (việc 06/11) + mục 6 "Nhật ký phiên 10/11" + H22 nếu xong. Prompt ở mục 4.
-4. **Theo dõi Hùng** (không cập nhật gì từ 06/11): H26 sửa activity + Hình 3.1–3.4 (20/11), H23 ghép docx 6 chương (24/11), H24 slide, H25 video. Khoảng 20/11 vẫn im lặng thì Đạt nhận H23, H24. Task 5 Sprint 6 (rà soát, Turnitin) làm sau H23.
-5. Tùy chọn: gỡ skill Taste (không hợp NiceGUI, Claude Code không đọc thư mục `.agents/`): `rm -rf IT_Project/.agents/skills/design-taste-frontend`; tắt gửi số liệu ẩn danh của Impeccable: `IT_Project/.claude/skills/impeccable/scripts/impeccable telemetry off`; cài Chromium (`sudo pacman -S chromium`) nếu muốn bộ phát hiện quét URL trực tiếp.
+1. **H22 đã hủy (10/11, mục 6).** Không làm lại giao diện, không làm web riêng (trái mốc đóng băng, không thêm số liệu cho báo cáo). Còn treo: mục 8 thẻ H22 (gợi ý "đợi vài giây rồi bấm Thử lại" sai với lỗi 500), sửa nhỏ ở `src/ui/web/api/client.py` nếu muốn.
+2. **Task 2 Sprint 6:** Đạt mở giao diện qua `docker compose up --build` một lần (phải `--build`: image trên máy đang chứa giao diện H22 đã hủy), xác nhận thanh bên ghi "Đã kết nối · gemini-3.1-flash-lite", đánh dấu Task 2 ở `PLAN.md` và Phụ lục B.
+3. **Báo cáo tuần 13 (09.11–15.11, khoảng 13/11):** nội dung = mục 5 (việc 06/11) + mục 6 "Nhật ký phiên 10/11" (gồm H22: đánh giá, thử, hủy, vá 2 lỗi). Prompt ở mục 4.
+4. **Báo cáo docx (H23, Đạt làm thay, mục 7):** mở `docs/report/final_52300098_52300106.docx` bằng Word hoặc OnlyOffice, đồng ý cập nhật trường (file tự hỏi khi mở) để mục lục, danh mục hình, danh mục bảng có số trang; xem nhanh trước khi rà soát. **Task 5 Sprint 6 (rà soát, Turnitin) làm được ngay**, không chờ 24/11: sửa lỗi ở file `.md` rồi `python docs/report/build_report.py`.
+5. **Theo dõi Hùng** (không cập nhật gì từ 06/11): gửi tin nhắn mới (bản nháp trong phiên 11/11: H23 Đạt đã làm, Hùng chỉ còn H26, H24, H25). H26: 4 hình lưu đúng tên `assets/diagrams/bi_encoder.png`, `cross_encoder.png`, `naive_rag.png`, `agentic_rag.png`, bỏ Hình 3.5 khỏi `chuong3_draft.md` (hạn 20/11); build sẽ hết 5 cảnh báo "thiếu ảnh". H26 phần activity: sửa xong `activity.drawio`/`.png` thì Đạt thêm comment `<!-- Hình 4.8: assets/diagrams/activity.png -->` + chú thích vào Chương 4 rồi build lại. Khoảng 20/11 vẫn im lặng thì Đạt nhận H24 (slide).
+6. Tùy chọn: gỡ skill Taste (không hợp NiceGUI, Claude Code không đọc thư mục `.agents/`): `rm -rf IT_Project/.agents/skills/design-taste-frontend`; tắt gửi số liệu ẩn danh của Impeccable: `IT_Project/.claude/skills/impeccable/scripts/impeccable telemetry off`; cài Chromium (`sudo pacman -S chromium`) nếu muốn bộ phát hiện quét URL trực tiếp.
 
 ## 3. Rủi ro và lỗi nhỏ còn hoãn
 
@@ -105,7 +104,7 @@ Các việc dưới đây làm ngày **06/11** (cuối tuần 12) nhưng **khôn
 **Tiến độ:** đếm trong `docs/PLAN.md`: 66/76 hạng mục sau 06/11, trước đó 62/76. Báo cáo tuần 12 ghi 62/74, mẫu số lệch 2 chưa rõ lý do: đếm lại và thống nhất cách đếm khi viết.
 
 **Phát hiện đưa vào phần khó khăn:**
-- Giao diện chạy venv mà chưa bật API thì tự chuyển sang dữ liệu dự phòng (chỉ BM25) nhưng vẫn hiện "Đã kết nối". Tình trạng: giảm thiểu; Docker đã tắt dự phòng (`UI_LOCAL_FALLBACK=0`), nhãn riêng ở H22, H25 phải kiểm `/health`.
+- Giao diện chạy venv mà chưa bật API thì tự chuyển sang dữ liệu dự phòng (chỉ BM25) nhưng vẫn hiện "Đã kết nối". Tình trạng: đã xử lý 10/11 (thanh bên ghi "Dự phòng: chỉ BM25"); Docker tắt hẳn dự phòng (`UI_LOCAL_FALLBACK=0`).
 - Lần đầu tải mô hình tới khoảng 7 GB (kế hoạch dự tính 4,5 GB) và nạp chỉ mục khoảng 2 giờ. Tình trạng: đã xử lý bằng `chroma_db.zip`, README ghi đúng dung lượng.
 - Docker chưa kiểm trên Windows và chưa thử tải mô hình trên máy sạch. Tình trạng: đang theo dõi, nhờ Hùng thử.
 
@@ -123,7 +122,7 @@ Các việc dưới đây làm ngày **06/11** (cuối tuần 12) nhưng **khôn
 **DRM@5** thêm vào Bảng 5.3 (đã đo sẵn trong `retrieval_rq2.md`): Khoản + tiêu đề 0,075 thấp nhất (Khoản chỉ nội dung 0,101); có định nghĩa ở 5.1.2 và 1 câu ở Chương 6.
 **H18** `assets/diagrams/usecase.drawio/.png`, `sequence.drawio/.png` (PNG rộng 2755/3255 px), đã điền vào Hình 4.6–4.7. Sửa tiếp bằng drawio. **Xuất PNG từ terminal VSCode phải bỏ biến** `ELECTRON_RUN_AS_NODE`: `env -u ELECTRON_RUN_AS_NODE drawio -x -f png -s 2 -b 10 -o X.png X.drawio` (không bỏ thì Electron chạy như Node và báo lỗi `BrowserWindow`).
 **Hình 4.1, 4.2 vẽ lại (10/11)** bằng draw.io theo code: `assets/diagrams/architecture.drawio/.png`, `agent_graph.drawio/.png`; phong cách giống ảnh cũ (banner, khối tầng có dải tiêu đề, icon Breeze của KDE có sẵn trên máy, LGPL, đổi màu và làm nét dày). Ảnh cũ của Hùng (AI vẽ, sai: Streamlit, thiếu Verify, nhánh Direct không tồn tại) giữ lại là `architecture_old.png`, `agent_graph_old.png`, không dùng. Giao Hùng **H26** (thẻ Sprint 6): sửa 7 điểm của `activity.drawio`, vẽ Hình 3.1–3.4, bỏ Hình 3.5. Script sinh sơ đồ nằm ở scratchpad (sẽ mất); sửa tiếp thẳng trên file `.drawio`.
-**Khung docx của Hùng** (`final_52300098_52300106.docx`) chưa sửa: vẫn 5 chương; thẻ H23 đã ghi phải thêm Chương 2 và dời số.
+**Khung docx của Hùng** (`final_52300098_52300106.docx`, 5 chương): 11/11 đổi tên thành `khung_TDTU.docx` và dùng làm khung cho script ghép báo cáo (mục 7); tên cũ giờ là file sinh ra.
 **Lỗi nhỏ của review:** đã sửa hết theo yêu cầu của Đạt (10/11): nhánh dự phòng trong sơ đồ tuần tự, RRF/số ứng viên ở Chương 3, "triệt tiêu DRM", tên Chương 3–5 theo khung docx, nhãn câu tổng hợp ở Bảng 5.1. Trường `checked_by` của 65 câu tổng hợp vẫn trống (chỉ là metadata, không sửa tập kiểm thử).
 
 **Review độc lập cuối (10/11):** 4 Critical + 8 Important đã sửa hết; chi tiết và các lỗi nhỏ hoãn ở `.superpowers/sdd/2026-11-05-sprint5-hung/progress.md` (dòng `Final:`). Sửa cả 2 lỗi có từ trước trong Chương 5 (bản cũ của Đạt): câu "bỏ grade giảm độ trễ nhiều nhất" (thực ra là dao động API) và "Cit. P của `any` thấp hơn rõ" (ghép cặp không có ý nghĩa). Pham 2025 có toàn văn: scitepress.org/Papers/2025/137354/137354.pdf. Mục 7 đề cương đã sửa 2 chỗ (Nguyen Ba, Answer Correctness của RAGAS).
@@ -148,14 +147,16 @@ Hùng không cập nhật gì từ 06/11 nên Đạt làm thay các thẻ đang 
 **Giao diện (H22, Đạt nhận thay Hùng):**
 - Cài skill Impeccable (dùng được) và Taste (không hợp NiceGUI).
 - Đánh giá theo quy trình 2 lượt độc lập: 20/40 điểm Nielsen; bộ phát hiện báo 29–40 cảnh báo (khoảng 20 chỗ chữ 10px, tương phản 2,2–2,6:1, ô icon kiểu mẫu chatbot). Lỗi thật phát hiện được: giao diện báo "Đã kết nối" khi đang chạy dự phòng; trang chủ ghi cứng "2.275 điều · 5.427 khoản" trong khi kho là 1.693 Điều, 4.853 Khoản.
-- Viết plan H22 7 task (Đạt duyệt), chưa chạy. Tạo tag rollback `ui-before-h22` và bản chép `IT_Project/backup/ui-before-h22/`.
+- Viết plan H22 7 task (Đạt duyệt). Tạo tag rollback `ui-before-h22` và bản chép `IT_Project/backup/ui-before-h22/`.
+- Tối 10/11: chạy hết 7 task (skill Impeccable; bộ phát hiện từ 29–40 xuống 2–4 cảnh báo; 353 test; review độc lập Opus 0 Critical) và kiểm Docker. Đạt xem rồi **quyết định hủy H22**, giữ giao diện cũ: chưa ấn tượng hơn bao nhiêu, mốc đóng băng 12/11, hội đồng chấm phần nghiên cứu. Đã lùi 12 commit (bản đầy đủ ở tag `h22-attempt`), chỉ giữ bản vá Task 1: số Điều/Khoản thật trên trang chủ, nhãn "Dự phòng: chỉ BM25", bỏ "chính xác", "chống bịa đặt" và lệnh `uvicorn` khỏi thông báo lỗi (README thay vào). Chụp lại ảnh trang chủ (`nicegui_01_home.png`, API thật); Hình 4.3–4.5 không đổi vì không chứa số sai.
+- Có làm thử mockup thiết kế lại hoàn toàn (hướng "tờ lịch": ngày sự việc và biểu đồ hiệu lực là trung tâm, đối chiếu kết quả RQ4 event/current) rồi xóa theo ý Đạt. Ý tưởng đáng giữ cho slide H24: cặp câu trả lời thật của M_016 trong `eval/results/agent_rq4.jsonl` (event trích BLLĐ 2012 Điều 22, current trích BLLĐ 2019 Điều 20 là văn bản chưa có hiệu lực năm 2020).
 
 **Tiến độ:** `PLAN.md` có 72 hạng mục xong / 80 (không tính 4 hạng mục đã hủy); sau 06/11 là 66/76. Mẫu số tăng vì thêm hạng mục mới (Chương 2, vẽ lại Hình 4.1–4.2, H26). Đếm lại khi viết báo cáo: `[x]` chia cho `[x]` + `[ ]` không gạch ngang.
 
 **Khó khăn và tình trạng (cho chương 4 báo cáo tuần):**
 - Hùng không phản hồi từ 06/11 → Đạt làm thay H17, H18, H21, H22; việc dồn vào H23 (24/11). *Đang theo dõi.*
 - Ảnh sơ đồ do AI vẽ sai nội dung so với hệ thống → vẽ lại từ code bằng draw.io. *Đã xử lý* (Hình 4.1–4.2); H26 *đang chờ Hùng*.
-- Giao diện hiển thị trạng thái và số liệu sai, trông như mẫu chatbot AI → đánh giá có điểm số, plan H22. *Đang xử lý.*
+- Giao diện hiển thị trạng thái và số liệu sai, trông như mẫu chatbot AI → đánh giá có điểm số, plan H22, làm thử rồi hủy; chỉ vá phần sai sự thật. *Đã xử lý* (số liệu, nhãn dự phòng); diện mạo: *chấp nhận, giữ giao diện cũ*.
 - Đề cương mô tả sai một công trình liên quan so với bài gốc → đọc toàn văn, sửa đề cương và Chương 2. *Đã xử lý.*
 - Máy không có Chrome nên bộ phát hiện không quét được trang → dùng Electron có sẵn qua cổng gỡ lỗi (CDP). *Đã xử lý.*
 
@@ -166,3 +167,21 @@ Hùng không cập nhật gì từ 06/11 nên Đạt làm thay các thẻ đang 
 - Bộ phát hiện Impeccable không đọc file `.py`. Quét trang đang chạy: mở trang bằng Electron với `--remote-debugging-port=9333` (127.0.0.1), rồi `../.claude/skills/impeccable/scripts/impeccable detect --cdp 9333 --target 127.0.0.1:8080 --json` (cwd `vn-legal-qa`). Không dùng `live-server`/`live-inject` (sửa file của dự án).
 - Hook của Impeccable (`IT_Project/.claude/settings.local.json`) chạy sau mỗi lần sửa file và khi kết thúc lượt, trong phiên mở ở `IT_Project/`.
 - Mọi lệnh `drawio`/`electron44` từ terminal VSCode phải chạy với `env -u ELECTRON_RUN_AS_NODE`.
+
+## 7. H23 ghép báo cáo (Đạt làm thay, 10–11/11), đã commit
+
+Đạt quyết định không chờ Hùng (im lặng từ 06/11), chạy plan `docs/superpowers/plans/2026-11-10-h23-report-dat.md` (native, 5 task). Sổ quyết định: `.superpowers/sdd/2026-11-10-h23-report-dat/progress.md`.
+
+**Cách làm:** script `docs/report/build_report.py` (thư viện chuẩn + `pandoc`, không thêm dependency): tiền xử lý 6 chương (bỏ ghi chú nháp, comment nguồn, số tiêu đề gõ tay; comment hình thành ảnh) → pandoc với khung làm reference → đổi style sang style khung (`Nidungvnbn`, `Caption`, `TableGrid`, `Bibliography`) → ghép vào `docs/report/khung_TDTU.docx`. Lệnh: `python docs/report/build_report.py` (`--strict` thoát mã 1 nếu còn cảnh báo). Kết quả `docs/report/final_52300098_52300106.docx`, khoảng 75 trang. 21 test trong `tests/test_build_report.py`. Ảnh: rộng tối đa 15 cm, giữ ≥ 150 dpi, cao ≤ 20 cm. Mục lục và hai danh mục trong file là dòng nhắc "Chưa cập nhật… F9" cho tới khi cập nhật trường.
+
+**Theo mẫu khoa `docs/managements/Template_VN.dotx`** (Đạt đưa 10/11, đã commit): chú thích "Hình 4.1: …"/"Bảng 5.1: …" có trường `STYLEREF 1 \s` + `SEQ Hình \s 1` (danh mục hình, bảng tự cập nhật); bảng có chú thích ở trên, hình ở dưới; tài liệu tham khảo APA 7, thụt treo 0,5", tên nguồn in nghiêng.
+
+**Sửa so với khung của Hùng:** danh mục hình/bảng luôn rỗng (chú thích dùng mã "Hình_2." thay vì "Hình"); tài liệu tham khảo kiểu IEEE [1]… trong khi thân bài trích tác giả–năm → thay bằng 15 mục mục 12 đề cương (APA 7, có kiểm tự động trích dẫn ↔ danh mục); tiêu đề tiếng Anh khác đề cương → đúng nguyên văn mục 1; Tóm tắt, Abstract còn chữ mẫu → viết mới khoảng 200 từ mỗi bản từ số liệu Chương 6 (`docs/report/phan_dau.md`); bảng viết tắt trống → 20 từ có thật trong 6 chương; lời cảm ơn lặp chữ; cam đoan đổi "tôi" thành "chúng tôi" (Đạt quyết định). Chương mới sang trang, bảng rộng hết trang.
+
+**Nguồn Markdown đã sửa:** Chương 4 tách chú thích gộp "Hình 4.3–4.5", "Hình 4.6–4.7" thành từng hình; Chương 3 bỏ nhãn `[CẦN KIỂM TRA]` cạnh Lewis (2020) (tài liệu đã có ở mục 12).
+
+**Review độc lập (Opus):** 0 Critical, 3 Important, đã sửa có test: Hình 4.7 quá nhỏ, mục lục lưu sẵn của khung cũ, id ảnh pandoc không được đánh lại (sẽ trùng khi H26 thêm hình), tiêu đề cấp 4 Chương 3 lặp số. Không đưa `activity.png` vào báo cáo vì đang lệch code 7 điểm (H26). 10 lỗi nhỏ hoãn: dòng `Final: minor` trong sổ quyết định (đáng làm khi rảnh: thứ tự APA Nguyen, T.-M. trước Nguyen Ba; thêm ALCE, AI, JSONL vào bảng viết tắt; Chương 3 có danh sách viết liền trong đoạn).
+
+**Còn lại:** 5 cảnh báo "thiếu ảnh" Hình 3.1–3.5 (chờ H26; hiện ô "[CHỜ HÌNH 3.x: …]" trong file); mở bằng Word/OnlyOffice cập nhật trường; trang ký (ngày, chữ ký) làm tay ở bản nộp.
+
+**Khó khăn (cho chương 4 báo cáo tuần 13):** Hùng không phản hồi, H23 hạn 24/11 chặn rà soát và Turnitin → Đạt làm bằng script, Markdown là nguồn duy nhất, build lại trong vài giây. *Đã xử lý.* Khung docx có lỗi định dạng ẩn (danh mục hình rỗng, kiểu trích dẫn lệch) → phát hiện khi đối chiếu với mẫu khoa. *Đã xử lý.*

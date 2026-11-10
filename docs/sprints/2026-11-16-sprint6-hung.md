@@ -16,8 +16,8 @@ Tài liệu gồm các **thẻ việc**. Mỗi thẻ có đủ mục tiêu, file
 
 | Thẻ | Việc | Hạn | Phụ thuộc |
 |---|---|---|---|
-| H22 | Giao diện bớt "kiểu AI", chụp lại ảnh | 19/11 | — |
-| H23 | Ghép báo cáo theo mẫu TDTU | 24/11 | H12, H17, H21 (Sprint 5); H22 (ảnh mới); H26 (hình) |
+| H22 | ~~Giao diện bớt "kiểu AI", chụp lại ảnh~~ (hủy 10/11) | — | — |
+| H23 | Ghép báo cáo theo mẫu TDTU (Đạt làm thay từ 10/11) | 24/11 | H12, H17, H21 (Sprint 5); H26 (hình) |
 | H24 | Slide bảo vệ 15–20 slide | 26/11 | H23 |
 | H25 | Video demo 3–5 phút | 26/11 | H22 |
 | H26 | Sửa sơ đồ activity, vẽ 4 hình Chương 3 | 20/11 | — |
@@ -33,7 +33,9 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 
 ---
 
-## H22 — Giao diện bớt "kiểu AI" (Đạt làm thay từ 10/11, Hùng không cần làm; plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md`)
+## H22 — Giao diện bớt "kiểu AI" (**đã hủy 10/11**, Hùng không cần làm)
+
+> Đạt chạy thử plan `docs/superpowers/plans/2026-11-10-h22-ui-dat.md` rồi quyết định giữ giao diện cũ. Chỉ giữ bản vá mục 7 (nhãn dự phòng) và số Điều/Khoản thật trên trang chủ. Mục 8 chưa sửa. Phần dưới giữ lại để tham khảo.
 
 **Mục tiêu:** giao diện trông như một công cụ tra cứu pháp luật nghiêm túc, không như sản phẩm demo AI. Chức năng giữ nguyên.
 
@@ -54,9 +56,11 @@ Nghiệm thu Sprint 6 (27/11): báo cáo hoàn chỉnh theo mẫu TDTU (đã qua
 - Chụp lại 6 ảnh trong `assets/screenshots_nicegui/` (ghi đè đúng tên file cũ, cùng kích thước 1440×900 / 1366×768 / 1024×768 / 390×844).
 - Đạt xem ảnh và đồng ý.
 
-## H23 — Ghép báo cáo theo mẫu TDTU
+## H23 — Ghép báo cáo theo mẫu TDTU (Đạt làm thay từ 10/11, Hùng không cần làm)
 
-**Đầu vào:** `docs/report/chuong1_draft.md` … `chuong6_draft.md`; khung `docs/report/final_52300098_52300106.docx` (Hùng đã tạo theo mẫu khoa); mẫu gốc của khoa `TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (Đạt gửi nếu cần); danh mục tài liệu: mục 12 `docs/managements/Đề cương DACNTT.md` (đã tra lại nguồn ngày 03/11, có DOI).
+> Đạt làm bằng script: `python docs/report/build_report.py` (cần `pandoc`) sinh `docs/report/final_52300098_52300106.docx` từ 6 chương Markdown, khung `docs/report/khung_TDTU.docx`, phần đầu `docs/report/phan_dau.md`, tài liệu tham khảo `docs/report/tai_lieu_tham_khao.md`. Sửa nội dung thì sửa file `.md` rồi chạy lại lệnh, **không sửa thẳng file docx** (lần build sau sẽ ghi đè). Hùng chỉ cần làm H26: lưu 4 hình vào `assets/diagrams/bi_encoder.png`, `cross_encoder.png`, `naive_rag.png`, `agentic_rag.png` (đúng tên trong comment của `chuong3_draft.md`), bỏ Hình 3.5 khỏi `chuong3_draft.md`, sửa `activity.drawio` và xuất lại `activity.png` (Đạt sẽ đưa vào Chương 4 thành Hình 4.8), rồi báo Đạt build lại. Phần dưới giữ để tham khảo.
+
+**Đầu vào:** `docs/report/chuong1_draft.md` … `chuong6_draft.md`; khung `docs/report/khung_TDTU.docx` (Hùng đã tạo theo mẫu khoa; trước 10/11 tên là `final_52300098_52300106.docx`); mẫu gốc của khoa `TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (Đạt gửi nếu cần); danh mục tài liệu: mục 12 `docs/managements/Đề cương DACNTT.md` (đã tra lại nguồn ngày 03/11, có DOI).
 
 **Các bước:**
 1. Chép nội dung 6 chương từ Markdown vào docx (khung docx hiện mới có 5 chương: thêm Chương 2 "Tổng quan tài liệu" và dời số các chương sau, kể cả các tiêu đề gõ tay như "Tóm tắt 2.2"), dùng đúng style của mẫu (Heading 1/2/3, đoạn thường, chú thích hình/bảng). Số liệu, bảng chép nguyên văn, **không gõ lại số**.

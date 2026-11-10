@@ -63,6 +63,7 @@ python -m eval.agent_eval report --rq rq3 --common --ci --out eval/results/<tên
 uvicorn src.api.main:app --port 8000       # backend
 python -m src.ui.web.main                  # giao diện NiceGUI, http://127.0.0.1:8080
 docker compose up --build                  # API + giao diện bằng Docker (cần .env, chroma_db/; xem README mục 1)
+python docs/report/build_report.py         # báo cáo: 6 chương .md -> docs/report/final_52300098_52300106.docx (cần pandoc)
 ```
 
 Biến môi trường: xem `.env.example`. Không commit `.env`, không dán key vào chat hay log.
@@ -74,3 +75,4 @@ Biến môi trường: xem `.env.example`. Không commit `.env`, không dán key
 - Sửa code thì thêm hoặc sửa test trong `tests/`. Đừng sửa test cho pass nếu chưa hiểu vì sao test hỏng; nhiều test giữ một quyết định thiết kế (ví dụ `test_reindex_without_rebuild_clears_stale_fields`).
 - Sửa định dạng dữ liệu hoặc API thì sửa cả Phụ lục A trong đề cương.
 - Số liệu trong báo cáo lấy từ `eval/results/*.md`, không chép tay từ chat.
+- Báo cáo docx là file sinh ra: sửa `docs/report/chuong*_draft.md`, `phan_dau.md`, `tai_lieu_tham_khao.md` rồi chạy lại `build_report.py`; không sửa thẳng docx (trừ cập nhật mục lục và ký tên ở bản nộp). Khung TDTU là `docs/report/khung_TDTU.docx`, quy cách theo `docs/managements/Template_VN.dotx`.
