@@ -12,9 +12,9 @@ Gao, T., Yen, H., Yu, J., & Chen, D. (2023). Enabling large language models to g
 
 Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. In *Advances in Neural Information Processing Systems 33 (NeurIPS 2020)* (pp. 9459–9474).
 
-Nguyen Ba, T., Doan The, V., Pham Quang, T., & Tran Van, T. (2024). *Vietnamese legal information retrieval in question-answering system* (arXiv:2409.13699). arXiv. https://doi.org/10.48550/arXiv.2409.13699
-
 Nguyen, T.-M., Nguyen, H.-T., Dao, T.-K., Phan, X.-H., Nguyen, H.-T., & Vuong, T.-H.-Y. (2025). *VLQA: The first comprehensive, large, and high-quality Vietnamese dataset for legal question answering* (arXiv:2507.19995). arXiv. https://doi.org/10.48550/arXiv.2507.19995
+
+Nguyen Ba, T., Doan The, V., Pham Quang, T., & Tran Van, T. (2024). *Vietnamese legal information retrieval in question-answering system* (arXiv:2409.13699). arXiv. https://doi.org/10.48550/arXiv.2409.13699
 
 Pham, H., Duong, N. T. N., & Pham, T. N. H. (2025). Agentic RAG-based legal advisory chatbot: A knowledge-driven approach for Vietnamese legal system. In *Proceedings of the 17th International Joint Conference on Knowledge Discovery, Knowledge Engineering and Knowledge Management (IC3K 2025) – Volume 2: KMIS* (pp. 257–266). SciTePress. https://doi.org/10.5220/0013735400004000
 

@@ -14,10 +14,12 @@ The system is evaluated on 209 questions, including a held-out set of 30 questio
 
 |   |   |
 |---|---|
+| AI | Artificial Intelligence (trí tuệ nhân tạo) |
+| ALCE | Automatic LLMs' Citation Evaluation |
 | ALQAC | Automated Legal Question Answering Competition |
 | ANN | Approximate Nearest Neighbor (tìm láng giềng gần đúng) |
 | API | Application Programming Interface |
-| BGE | BAAI General Embedding |
+| BGE-M3 | BAAI General Embedding M3 (Multi-Linguality, Multi-Functionality, Multi-Granularity) |
 | BLDS | Bộ luật Dân sự |
 | BLLĐ | Bộ luật Lao động |
 | BM25 | Best Matching 25 |
@@ -26,6 +28,7 @@ The system is evaluated on 209 questions, including a held-out set of 30 questio
 | GPU | Graphics Processing Unit |
 | IDF | Inverse Document Frequency |
 | JSON | JavaScript Object Notation |
+| JSONL | JSON Lines (mỗi dòng một đối tượng JSON) |
 | LLM | Large Language Model (mô hình ngôn ngữ lớn) |
 | MRR | Mean Reciprocal Rank |
 | RAG | Retrieval-Augmented Generation |
