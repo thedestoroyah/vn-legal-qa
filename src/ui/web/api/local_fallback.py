@@ -1,13 +1,13 @@
 """Tự động gắn FastAPI app nội cục (từ src/api/main.py:create_app) khi cổng 8000 chưa chạy.
 
 Khi người dùng chạy `python -m src.ui.web.main` mà `uvicorn src.api.main:app --port 8000` chưa bật
-(hoặc bị dừng tại `src/retrieval/retriever.py:118` do `chroma_db` mới nạp 2.240/5.427 chunk),
+(hoặc dừng ở `load_retriever` vì `chroma_db` chưa nạp đủ chunk),
 module này cung cấp instance FastAPI thật từ `create_app` sử dụng:
 1. Nếu `.env` đã có `LLM_API_KEY`: chạy `Agent` thật (`src/agent/run.py`) với `BM25Index` trên toàn bộ
-   5.427 khoản luật thật trong `data/processed/chunks.jsonl` (không bị chặn bởi kiểm tra `col.count() != 5427`).
+   4.853 khoản luật thật trong `data/processed/chunks.jsonl` (không cần ChromaDB).
 2. Nếu `.env` chưa có `LLM_API_KEY`: tra cứu trực tiếp trên 355 kết quả chạy thật của hệ thống trong
-   `eval/results/agent_rq3.jsonl`, `src/ui/samples/*.json` và truy xuất `BM25Index` trên 5.427 khoản luật thật.
-3. Toàn văn 2.275 Điều luật lấy trực tiếp từ `data/processed/chunks_article.jsonl`.
+   `eval/results/agent_rq3.jsonl`, `src/ui/samples/*.json` và truy xuất `BM25Index` trên 4.853 khoản luật thật.
+3. Toàn văn 1.693 Điều luật lấy trực tiếp từ `data/processed/chunks_article.jsonl`.
 """
 from __future__ import annotations
 

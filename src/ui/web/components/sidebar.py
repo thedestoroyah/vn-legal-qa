@@ -101,36 +101,43 @@ def config_select(state) -> None:
     ).classes("w-full text-xs")
 
 
+def connection_status(state) -> tuple[str, str]:
+    """Nhãn trạng thái máy chủ và tông màu ("pending" | "ok" | "fallback" | "error") theo PageState."""
+    if state.api_ok is None:
+        return ("Đang kiểm tra kết nối…", "pending")
+    if not state.api_ok:
+        return ("Mất kết nối máy chủ", "error")
+    # Dự phòng cục bộ vẫn trả lời được nhưng chỉ truy xuất BM25: không được báo như máy chủ thật
+    if state.api_fallback:
+        return ("Dự phòng: chỉ BM25", "fallback")
+    return ("Đã kết nối" + (f" · {state.api_model}" if state.api_model else ""), "ok")
+
+
+_TONE_CLASSES = {
+    "pending": "text-slate-700 bg-slate-100",
+    "ok": "text-green-900 bg-green-100",
+    "fallback": "text-amber-900 bg-amber-100",
+    "error": "text-red-900 bg-red-100",
+}
+
+
 def api_status(state, on_check: Callable[[], Awaitable[None]]) -> None:
     """Card trạng thái API gọn gàng, không chiếm nhiều diện tích dọc."""
-    border_cls = (
-        "border-emerald-200 bg-emerald-50/50"
-        if state.api_ok is True
-        else ("border-red-200 bg-red-50/60" if state.api_ok is False else "border-slate-200 bg-white")
-    )
+    label, tone = connection_status(state)
+    border_cls = {
+        "ok": "border-green-200 bg-green-50/50",
+        "fallback": "border-amber-200 bg-amber-50/60",
+        "error": "border-red-200 bg-red-50/60",
+    }.get(tone, "border-slate-200 bg-white")
     with ui.card().classes(f"w-full shadow-none border p-2.5 rounded-lg min-w-0 {border_cls}"):
         with ui.row().classes("items-center justify-between w-full no-wrap gap-1"):
-            with ui.row().classes("items-center gap-1.5 min-w-0 no-wrap"):
-                ui.icon(
-                    "check_circle" if state.api_ok is True else ("error" if state.api_ok is False else "sync"),
-                    size="xs",
-                    color="positive" if state.api_ok is True else ("negative" if state.api_ok is False else "primary"),
-                )
-                ui.label("API:").classes("text-xs font-semibold text-slate-700 shrink-0")
-                if state.api_ok is None:
-                    ui.label("Đang kiểm tra...").classes("text-xs text-slate-500 truncate")
-                elif state.api_ok:
-                    ui.badge("Đã kết nối", color="positive").classes("text-[10px] px-1.5 py-0")
-                else:
-                    ui.badge("Mất kết nối", color="negative").classes("text-[10px] px-1.5 py-0")
+            ui.label(label).classes(f"text-xs font-semibold px-2 py-0.5 rounded truncate {_TONE_CLASSES[tone]}")
             ui.button(icon="refresh", on_click=on_check).props(
                 "flat round dense size=xs color=primary"
             ).tooltip("Kiểm tra lại kết nối API")
 
         with ui.row().classes("items-center justify-between w-full gap-1 mt-1 text-[11px] text-slate-500 min-w-0"):
-            if state.api_ok and state.api_model:
-                ui.label(f"Model: {state.api_model}").classes("font-mono text-[11px] text-indigo-900 truncate")
-            elif state.api_ok is False and state.api_error:
+            if state.api_ok is False and state.api_error:
                 ui.label(state.api_error).classes("text-[11px] text-red-700 leading-tight")
             ui.label(state.api_url).classes("text-[10px] text-slate-400 font-mono truncate max-w-full")
 

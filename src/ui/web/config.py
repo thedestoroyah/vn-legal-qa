@@ -106,3 +106,18 @@ def load_laws_catalog() -> dict[str, dict[str, Any]]:
 
 
 LAWS_CATALOG: dict[str, dict[str, Any]] = load_laws_catalog()
+
+
+def corpus_stats(processed_dir: Path = PROJECT_ROOT / "data" / "processed") -> tuple[int, int]:
+    """(số Điều, số Khoản) = số dòng chunks_article.jsonl, chunks.jsonl; (0, 0) nếu thiếu file."""
+    try:
+        dieu, khoan = (
+            sum(1 for line in (processed_dir / name).read_text(encoding="utf-8").splitlines() if line.strip())
+            for name in ("chunks_article.jsonl", "chunks.jsonl")
+        )
+    except OSError:
+        return (0, 0)
+    return (dieu, khoan)
+
+
+CORPUS_STATS: tuple[int, int] = corpus_stats()

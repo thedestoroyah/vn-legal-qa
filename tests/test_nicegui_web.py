@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 from contextlib import asynccontextmanager
+from pathlib import Path
 from types import SimpleNamespace
 import unittest
 
@@ -33,8 +34,9 @@ from src.ui.web.api.schemas import AskResponse
 from src.ui.web.components.agent_timeline import step_note
 from src.ui.web.components.chat_message import Turn, answer_markdown, format_turn_for_copy
 from src.ui.web.components.citation_card import citation_label, law_of
+from src.ui.web.components.sidebar import connection_status
 from src.ui.web.components.validity_card import _fmt, cited_laws
-from src.ui.web.config import AGENT_CONFIGS, LAWS_CATALOG, NO_BASIS, SAMPLE_QUESTIONS, STATIC_DIR
+from src.ui.web.config import AGENT_CONFIGS, LAWS_CATALOG, NO_BASIS, SAMPLE_QUESTIONS, STATIC_DIR, corpus_stats
 from src.ui.web.pages.chat import Conversation, PageState, chat_page
 
 C1 = "BLDS2015_Dieu357_Khoan1"
@@ -139,7 +141,9 @@ class TestNiceGUIWebIntegration(unittest.IsolatedAsyncioTestCase):
             await api.health()
         self.assertIn("Không kết nối được API", ctx_health.exception.message)
         self.assertEqual(ctx_health.exception.kind, "network")
-        self.assertIn("uvicorn", ctx_health.exception.hint)
+        # người dùng thường không chạy lệnh: gợi ý chỉ sang README, không in lệnh uvicorn
+        self.assertNotIn("uvicorn", ctx_health.exception.hint)
+        self.assertIn("README", ctx_health.exception.hint)
 
         with self.assertRaises(ApiClientError) as ctx_ask:
             await api.ask("Chậm trả tiền có phải trả lãi không?")
@@ -334,6 +338,35 @@ def test_index_turns_fallback_off_when_env_says_so(monkeypatch):
 def test_index_keeps_fallback_by_default(monkeypatch):
     monkeypatch.delenv("UI_LOCAL_FALLBACK", raising=False)
     assert _client_built_by_index(monkeypatch)._enable_local_fallback is True
+
+
+def test_connection_status_labels():
+    s = PageState(api_url="http://x")
+    assert connection_status(s) == ("Đang kiểm tra kết nối…", "pending")
+    s.api_ok, s.api_model = True, "gemini-3.1-flash-lite"
+    assert connection_status(s) == ("Đã kết nối · gemini-3.1-flash-lite", "ok")
+    s.api_fallback = True
+    assert connection_status(s) == ("Dự phòng: chỉ BM25", "fallback")
+    s.api_ok, s.api_fallback = False, False
+    assert connection_status(s) == ("Mất kết nối máy chủ", "error")
+
+
+def test_corpus_stats_matches_processed_files():
+    assert corpus_stats() == (1693, 4853)
+    assert corpus_stats(Path("/khong/ton/tai")) == (0, 0)
+
+
+def test_client_reports_fallback_and_recovers(monkeypatch):  # repo không có pytest-asyncio: chạy bằng asyncio.run
+    import src.ui.web.api.local_fallback as lf
+    monkeypatch.setattr(lf, "get_fallback_transport",
+        lambda: httpx.MockTransport(lambda r: httpx.Response(200, json={"status": "ok", "model": "local-bm25"})))
+    client = LegalQAApiClient(base_url="http://127.0.0.1:9", enable_local_fallback=True)
+    asyncio.run(client.health())
+    assert client.using_fallback is True
+    # API sống lại: lượt sau đi thẳng tới máy chủ, cờ dự phòng phải tắt
+    client._transport = httpx.MockTransport(lambda r: httpx.Response(200, json={"status": "ok", "model": "m"}))
+    asyncio.run(client.health())
+    assert client.using_fallback is False
 
 
 if __name__ == "__main__":

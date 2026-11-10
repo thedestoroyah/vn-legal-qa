@@ -16,7 +16,7 @@ from src.ui.web.api.schemas import ArticleResponse, CitationItem
 from src.ui.web.components import sidebar
 from src.ui.web.components.chat_message import Turn, format_turn_for_copy, render_turn
 from src.ui.web.components.citation_card import article_panel, copy_text
-from src.ui.web.config import DISCLAIMER, MAX_QUESTION, SAMPLE_QUESTIONS, STATIC_DIR
+from src.ui.web.config import CORPUS_STATS, DISCLAIMER, MAX_QUESTION, SAMPLE_QUESTIONS, STATIC_DIR
 
 SAMPLE_ICONS: dict[str, str] = {
     "Tra cứu trực tiếp": "menu_book",
@@ -24,6 +24,13 @@ SAMPLE_ICONS: dict[str, str] = {
     "Hiệu lực theo thời gian": "history",
     "Ngoài phạm vi": "shield",
 }
+
+
+def _vn_int(n: int) -> str:
+    return f"{n:,}".replace(",", ".")
+
+
+CORPUS_LABEL = f"{_vn_int(CORPUS_STATS[0])} Điều · {_vn_int(CORPUS_STATS[1])} Khoản"
 
 
 @dataclass
@@ -65,6 +72,7 @@ class PageState:
     started: float = 0.0
     elapsed: float = 0.0
     api_ok: bool | None = None
+    api_fallback: bool = False  # lượt gọi gần nhất chạy bằng dữ liệu dự phòng (chỉ BM25)
     api_model: str = ""
     api_error: str = ""
     api_hint: str = ""
@@ -180,6 +188,7 @@ async def chat_page(api: LegalQAApiClient) -> None:
             state.api_ok, state.api_model, state.api_error, state.api_hint = True, health.model, "", ""
         except ApiClientError as e:
             state.api_ok, state.api_error, state.api_hint = False, e.message, e.hint
+        state.api_fallback = api.using_fallback
         sidebar_api_view.refresh()
         banner_view.refresh()
 
@@ -215,6 +224,7 @@ async def chat_page(api: LegalQAApiClient) -> None:
         scroll_messages(force=True)
         try:
             turn.response = await api.ask(turn.question, turn.config)
+            turn.fallback = api.using_fallback
             if state.api_ok is not True:
                 state.api_ok, state.api_error, state.api_hint = True, "", ""
                 banner_view.refresh()
@@ -226,6 +236,9 @@ async def chat_page(api: LegalQAApiClient) -> None:
                 banner_view.refresh()
         finally:
             state.busy = False
+            # API có thể tắt hoặc sống lại giữa phiên: trạng thái theo lượt gọi vừa xong
+            state.api_fallback = api.using_fallback
+            sidebar_api_view.refresh()
             state.current.updated_at = datetime.now()
             sync_composer_state()
             chat_view.refresh()
@@ -418,7 +431,7 @@ async def chat_page(api: LegalQAApiClient) -> None:
                                         with ui.row().classes("items-center gap-2 text-red-900"):
                                             ui.icon("cloud_off", color="negative", size="sm")
                                             with ui.column().classes("gap-0"):
-                                                ui.label("Chưa kết nối được máy chủ FastAPI Backend").classes(
+                                                ui.label("Chưa kết nối được máy chủ hỏi đáp").classes(
                                                     "text-sm font-semibold"
                                                 )
                                                 ui.label(
@@ -444,14 +457,15 @@ async def chat_page(api: LegalQAApiClient) -> None:
                                         "text-lg md:text-xl font-bold text-slate-800"
                                     )
                                     ui.label(
-                                        "Tra cứu chính xác Bộ luật Dân sự, Bộ luật Lao động (2012 & 2019), Luật Doanh nghiệp và Luật Thương mại. "
-                                        "Mọi câu trả lời đều kèm căn cứ [Điều/Khoản], kiểm tra hiệu lực thời gian và hậu kiểm chống bịa đặt."
+                                        "Tra cứu Bộ luật Dân sự, Bộ luật Lao động (2012 và 2019), Luật Doanh nghiệp và Luật Thương mại. "
+                                        "Mỗi câu trả lời dẫn tới Điều, Khoản cụ thể, xét hiệu lực theo ngày xảy ra sự việc "
+                                        "và được kiểm lại trích dẫn trước khi hiển thị."
                                     ).classes("text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed")
 
                                     with ui.row().classes("items-center gap-1.5 flex-wrap justify-center"):
                                         for badge_text in [
                                             "5 văn bản luật chính thức",
-                                            "2.275 điều · 5.427 khoản",
+                                            CORPUS_LABEL,
                                             "Truy xuất lai BM25 + BGE-M3",
                                             "Kiểm chứng hiệu lực & trích dẫn",
                                         ]:

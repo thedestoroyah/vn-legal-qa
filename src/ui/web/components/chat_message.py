@@ -26,6 +26,7 @@ class Turn:
     error: str | None = None
     error_hint: str = ""
     feedback: str | None = None  # "up" | "down" | None
+    fallback: bool = False  # câu trả lời sinh bằng dữ liệu dự phòng cục bộ (giữ theo lượt, không theo trang)
 
     @property
     def pending(self) -> bool:
@@ -116,7 +117,7 @@ def render_turn(
                             ui.label("Không thể hoàn tất yêu cầu").classes("font-semibold text-sm text-red-900")
                             ui.label(turn.error).classes("text-sm text-red-800")
                             if turn.error_hint:
-                                ui.label(turn.error_hint).classes("text-xs text-red-700 font-mono mt-0.5")
+                                ui.label(turn.error_hint).classes("text-xs text-red-700 mt-0.5")
                     if on_retry is not None:
                         with ui.row().classes("mt-2 justify-end"):
                             ui.button(

@@ -11,6 +11,10 @@ from src.ui.web.api.schemas import ArticleResponse, AskResponse, HealthResponse
 from src.ui.web.config import API_URL, ARTICLE_TIMEOUT, ASK_TIMEOUT, HEALTH_TIMEOUT, MAX_QUESTION
 
 
+# Người dùng thường không tự chạy lệnh: chỉ báo tình trạng, lệnh khởi động nằm trong README
+NETWORK_HINT = "Máy chủ hỏi đáp chưa chạy hoặc không truy cập được. Người vận hành: xem README mục 1."
+
+
 class ApiClientError(Exception):
     """Lỗi gọi API, mang câu thông báo tiếng Việt thân thiện và phân loại lỗi để UI hiển thị."""
 
@@ -48,6 +52,11 @@ class LegalQAApiClient:
         self._using_fallback = False
         self._articles: dict[str, ArticleResponse] = {}
 
+    @property
+    def using_fallback(self) -> bool:
+        """True nếu lượt gọi gần nhất phải chạy bằng dữ liệu dự phòng cục bộ (không tới được máy chủ)."""
+        return self._using_fallback
+
     def _http(self, timeout: float, use_fallback: bool = False) -> httpx.AsyncClient:
         if use_fallback:
             from src.ui.web.api.local_fallback import get_fallback_transport
@@ -84,7 +93,7 @@ class LegalQAApiClient:
             raise ApiClientError(
                 f"Không kết nối được API tại {self.base_url}.",
                 kind="network",
-                hint="Hãy khởi động backend: uvicorn src.api.main:app --port 8000",
+                hint=NETWORK_HINT,
             ) from exc
         if resp.status_code != 200:
             raise ApiClientError(f"API trả mã {resp.status_code} ở /health.", resp.status_code, kind="server")
@@ -110,13 +119,13 @@ class LegalQAApiClient:
             raise ApiClientError(
                 "Máy chủ trả lời quá lâu. Vui lòng thử lại sau.",
                 kind="timeout",
-                hint="Tác tử LLM có thể đang giãn cách tốc độ gọi (RPM). Bạn có thể bấm 'Thử lại' ngay bên dưới.",
+                hint="Mô hình ngôn ngữ có thể đang bị giới hạn số lượt gọi. Bạn có thể bấm 'Thử lại' ngay bên dưới.",
             ) from exc
         except httpx.HTTPError as exc:
             raise ApiClientError(
-                "Không kết nối được máy chủ hỏi đáp. Kiểm tra API đã chạy chưa.",
+                "Không kết nối được máy chủ hỏi đáp.",
                 kind="network",
-                hint=f"Đảm bảo FastAPI đang chạy tại {self.base_url} (uvicorn src.api.main:app --port 8000).",
+                hint=NETWORK_HINT,
             ) from exc
         if resp.status_code == 422:
             raise ApiClientError("Câu hỏi không hợp lệ (rỗng hoặc dài quá 1000 ký tự).", 422, kind="validation")
