@@ -12,5 +12,4 @@ qdrant_storage/
 .cache/
 .superpowers/
 zalo-ai-legal-text-retrieval-vn/
-docs/HANDOFF.md
 CLAUDE.md
