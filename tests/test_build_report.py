@@ -398,6 +398,17 @@ def test_table_columns_fit_their_longest_word():
     assert [int(w) for w in re.findall(r'<w:tcW w:w="(\d+)" w:type="dxa"/>', out)] == cols
 
 
+def test_uppercase_abbreviation_column_is_not_wrapped():
+    # Bảng viết tắt 11/11–16/11: "ALQAC", "JSONL", "RAGAS" bẻ dòng vì chữ in hoa Times New Roman rộng hơn trung bình
+    long_text = "Automated Legal Question Answering Competition, một mô tả dài để cột thứ hai muốn chiếm hết chỗ còn lại"
+    tbl = ('<w:tbl><w:tblPr><w:tblStyle w:val="Table"/><w:tblW w:type="auto" w:w="0"/><w:tblLook w:val="0020"/></w:tblPr>'
+           '<w:tblGrid><w:gridCol w:w="4252"/><w:gridCol w:w="4252"/></w:tblGrid><w:tr>'
+           '<w:tc><w:tcPr/><w:p><w:r><w:t>ALQAC</w:t></w:r></w:p></w:tc>'
+           f'<w:tc><w:tcPr/><w:p><w:r><w:t>{long_text}</w:t></w:r></w:p></w:tc></w:tr></w:tbl>')
+    first = int(re.findall(r'<w:gridCol w:w="(\d+)"/>', br.postprocess_body(tbl))[0])
+    assert first >= 5 * br.UPPER_TWIPS + br.CELL_PAD_TWIPS
+
+
 def test_table_text_style_is_11pt_single_spaced(built):
     styles = read_part(built, "word/styles.xml")
     style = re.search(r'<w:style [^>]*w:styleId="BangNoiDung".*?</w:style>', styles, re.S).group(0)

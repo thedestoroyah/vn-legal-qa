@@ -186,8 +186,14 @@ def _paragraph(m: re.Match) -> str:
 
 TABLE_WIDTH_TWIPS = 8504   # 15 cm
 CHAR_TWIPS = 96            # bề rộng trung bình một ký tự Times New Roman 11pt (style BangNoiDung, ước lượng)
+UPPER_TWIPS = 150          # chữ in hoa rộng hơn trung bình (TNR khoảng 0,7 em): "ALQAC" tính theo mức này
 CELL_PAD_TWIPS = 230       # lề trái + phải của ô
 PREFERRED_CHARS = 40       # ô dài hơn mức này thì chấp nhận xuống dòng
+
+
+def _width(text: str) -> int:
+    """Bề rộng ước lượng (twips) của chuỗi ở chữ bảng 11pt; chữ in hoa tính rộng hơn."""
+    return sum(UPPER_TWIPS if ch.isupper() else CHAR_TWIPS for ch in text)
 
 
 def _fit_columns(tbl: str) -> str:
@@ -200,10 +206,10 @@ def _fit_columns(tbl: str) -> str:
     for row in re.findall(r"<w:tr\b.*?</w:tr>", tbl, re.S):
         for j, cell in enumerate(re.findall(r"<w:tc>.*?</w:tc>", row, re.S)[:n]):
             text = _text(cell)
-            longest[j] = max(longest[j], *(len(w) for w in text.split() or [""]))
-            total[j] = max(total[j], len(text))
-    minimum = [length * CHAR_TWIPS + CELL_PAD_TWIPS for length in longest]
-    preferred = [max(m, min(t, PREFERRED_CHARS) * CHAR_TWIPS + CELL_PAD_TWIPS) for m, t in zip(minimum, total)]
+            longest[j] = max(longest[j], *(_width(w) for w in text.split() or [""]))
+            total[j] = max(total[j], _width(text))
+    minimum = [width + CELL_PAD_TWIPS for width in longest]
+    preferred = [max(m, min(t, PREFERRED_CHARS * CHAR_TWIPS) + CELL_PAD_TWIPS) for m, t in zip(minimum, total)]
     if sum(minimum) >= TABLE_WIDTH_TWIPS:
         widths = [m * TABLE_WIDTH_TWIPS / sum(minimum) for m in minimum]
     else:
