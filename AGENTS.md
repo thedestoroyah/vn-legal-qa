@@ -21,6 +21,7 @@
 | `docs/rubric.md`, `docs/judge_review.md` | Thang chấm tay, nhận xét prompt chấm |
 | `docs/sprints/`, `docs/superpowers/plans/` | Thẻ việc của Hùng, plan của Đạt theo sprint |
 | `docs/report/` | Bản nháp các chương và file báo cáo |
+| `docs/defense/` | Slide bảo vệ, sinh bằng `build_slides.js` |
 
 ## Kiến trúc
 
@@ -64,6 +65,7 @@ uvicorn src.api.main:app --port 8000       # backend
 python -m src.ui.web.main                  # giao diện NiceGUI, http://127.0.0.1:8080
 docker compose up --build                  # API + giao diện bằng Docker (cần .env, chroma_db/; xem README mục 1)
 python docs/report/build_report.py         # báo cáo: 6 chương .md -> docs/report/final_52300098_52300106.docx (cần pandoc)
+node docs/defense/build_slides.js          # slide bảo vệ (cần pptxgenjs@3.12.0 qua NODE_PATH)
 ```
 
 Biến môi trường: xem `.env.example`. Không commit `.env`, không dán key vào chat hay log.
@@ -75,4 +77,4 @@ Biến môi trường: xem `.env.example`. Không commit `.env`, không dán key
 - Sửa code thì thêm hoặc sửa test trong `tests/`. Đừng sửa test cho pass nếu chưa hiểu vì sao test hỏng; nhiều test giữ một quyết định thiết kế (ví dụ `test_reindex_without_rebuild_clears_stale_fields`).
 - Sửa định dạng dữ liệu hoặc API thì sửa cả Phụ lục A trong đề cương.
 - Số liệu trong báo cáo lấy từ `eval/results/*.md`, không chép tay từ chat.
-- Báo cáo docx là file sinh ra: sửa `docs/report/chuong*_draft.md`, `phan_dau.md`, `tai_lieu_tham_khao.md` rồi chạy lại `build_report.py`; không sửa thẳng docx (trừ cập nhật mục lục và ký tên ở bản nộp; cập nhật trường bằng Word, OnlyOffice làm hỏng số chương trong chú thích). Script dùng thẳng mẫu đúng của khoa cho môn Dự án làm khung: `docs/managements/HƯỚNG DẪN BÁO CÁO/3. Template báo cáo/DỰ ÁN CNTT/TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (không sửa file này; quy định trình bày, cách nộp trong cùng thư mục `HƯỚNG DẪN BÁO CÁO/`). Bìa, tên, chuyên ngành, GVHD điền bằng `FRONT_TEXT` trong `build_report.py`; lời cảm ơn, tóm tắt, viết tắt ở `phan_dau.md`. `docs/managements/Template_VN.dotx` là mẫu báo cáo môn học, không dùng.
+- Báo cáo docx là file sinh ra: sửa `docs/report/chuong*_draft.md`, `phan_dau.md`, `tai_lieu_tham_khao.md` rồi chạy lại `build_report.py`; không sửa thẳng docx (trừ cập nhật mục lục, danh mục bằng Word hoặc OnlyOffice và ký tên ở bản nộp; chú thích hình/bảng là chữ ghi sẵn, không có trường số, vì OnlyOffice tính sai STYLEREF và SEQ). Script dùng thẳng mẫu đúng của khoa cho môn Dự án làm khung: `docs/managements/HƯỚNG DẪN BÁO CÁO/3. Template báo cáo/DỰ ÁN CNTT/TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx` (không sửa file này; quy định trình bày, cách nộp trong cùng thư mục `HƯỚNG DẪN BÁO CÁO/`). Bìa, tên, chuyên ngành, GVHD điền bằng `FRONT_TEXT` trong `build_report.py`; lời cảm ơn, tóm tắt, viết tắt ở `phan_dau.md`. `docs/managements/Template_VN.dotx` là mẫu báo cáo môn học, không dùng.

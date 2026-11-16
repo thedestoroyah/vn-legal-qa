@@ -15,7 +15,7 @@ Muốn chạy thử: xem mục 1. Muốn sửa code: mục 2. Muốn tái lập 
 ```bash
 cp .env.example .env               # điền LLM_API_KEY; JUDGE_* chỉ cần khi chấm lại thực nghiệm
 mkdir -p .cache/llm                # tạo trước, nếu không Docker sẽ tạo thư mục này dưới quyền root
-unzip chroma_db.zip                # file nộp kèm repo (73 MB, đủ 4 chỉ mục): chép vào thư mục gốc repo, giải nén ra chroma_db/
+unzip chroma_db.zip                # file nộp kèm mã nguồn (73 MB, đủ 4 chỉ mục): chép vào thư mục gốc repo, giải nén ra chroma_db/
 docker compose up --build          # --build để image luôn khớp code sau mỗi lần git pull; không đổi gì thì chỉ mất vài giây
 ```
 
