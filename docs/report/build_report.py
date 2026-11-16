@@ -17,11 +17,14 @@ import re
 import struct
 import subprocess
 import tempfile
+import unicodedata
 import zipfile
 from xml.sax.saxutils import escape
 
 _FIGURE = re.compile(r"<!--\s*Hình (\d+\.\d+):\s*(\S+)[^>]*?-->")
-_COMMENT = re.compile(r"<!--.*?-->\n?", re.S)
+# Comment chiếm trọn dòng thì xóa cả dòng; comment cuối dòng chữ chỉ xóa comment, giữ dấu xuống dòng (nếu xóa,
+# dòng trống sau nó mất và tiêu đề kế tiếp bị nối vào đoạn trước)
+_COMMENT = re.compile(r"^[ \t]*<!--(?:(?!-->).)*-->[ \t]*\n|<!--.*?-->", re.S | re.M)
 _CAPTION = re.compile(r"^\*\*(Hình|Bảng) (\d+\.\d+)\.\*\*\s*(.+)$", re.M)
 _HEADING_NUMBER = re.compile(r"^(#{1,4}) (?:CHƯƠNG \d+\. |\d+(?:\.\d+)+\.? |\d+\. )", re.M)
 _DRAFT_MARK = re.compile(r"\[CẦN KIỂM TRA\]|\[CHỜ(?! HÌNH)|TODO")
@@ -156,20 +159,20 @@ def _run(text: str) -> str:
     return f'<w:r><w:t xml:space="preserve">{text}</w:t></w:r>'
 
 
-def _field(instr: str, cached: str) -> str:
-    return f'<w:fldSimple w:instr="{instr}"><w:r><w:rPr><w:noProof/></w:rPr><w:t>{cached}</w:t></w:r></w:fldSimple>'
+# Loại chú thích -> (styleId, tên style); tên ASCII vì TOC \t tra theo tên và mẫu khoa từng lệch dạng Unicode
+CAPTION_STYLES = {"Hình": ("CaptionHinh", "Chu thich Hinh"), "Bảng": ("CaptionBang", "Chu thich Bang")}
 
 
 def _caption(p: str) -> str:
-    # Theo Template_VN.dotx: "Hình {STYLEREF 1 \s}.{SEQ Hình \s 1}: nội dung" để danh mục hình/bảng bắt được
+    # "Hình 5.3: nội dung" ghi sẵn bằng chữ, style riêng cho từng loại để danh mục lấy theo style (TOC \t).
+    # Không dùng trường số: OnlyOffice tính STYLEREF ra "Error!" và bỏ qua SEQ \r, đếm nối tiếp cả bài
     m = _CAPTION_TEXT.match(_text(p))
     if not m:
         return p
     kind, chapter, num, rest = m.groups()
     keep = "<w:keepNext/>" if kind == "Bảng" else ""      # chú thích bảng nằm trên, dính với bảng
-    return (f'<w:p><w:pPr><w:pStyle w:val="Caption"/>{keep}</w:pPr>{_run(kind + " ")}'
-            f'{_field(" STYLEREF 1 \\s ", chapter)}{_run(".")}{_field(f" SEQ {kind} \\* ARABIC \\s 1 ", num)}'
-            f'{_run(": " + rest)}</w:p>')
+    return (f'<w:p><w:pPr><w:pStyle w:val="{CAPTION_STYLES[kind][0]}"/>{keep}</w:pPr>'
+            f'{_run(f"{kind} {chapter}.{num}: {rest}")}</w:p>')
 
 
 def _paragraph(m: re.Match) -> str:
@@ -223,7 +226,7 @@ def postprocess_body(body: str) -> str:
     """Đổi style của pandoc sang style của khung và gắn trường SEQ cho chú thích.
 
     FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → BangNoiDung 11pt, không thụt dòng đầu); bảng → TableGrid,
-    rộng hết trang, cột chia theo nội dung; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình {STYLEREF}.{SEQ}: …";
+    rộng hết trang, cột chia theo nội dung; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình X.Y: …" (style CaptionHinh/CaptionBang, không trường số);
     tiêu đề chương (Heading1) sang trang mới.
     """
     body = _PARAGRAPH.sub(_paragraph, body)
@@ -231,7 +234,9 @@ def postprocess_body(body: str) -> str:
     for old in ("FirstParagraph", "BodyText", "Compact"):
         body = body.replace(f'<w:pStyle w:val="{old}"/>', '<w:pStyle w:val="Nidungvnbn"/>')
     body = re.sub(r"<w:tblW [^>]*/>", '<w:tblW w:type="pct" w:w="5000"/>', body)          # bảng rộng hết trang
-    body = body.replace('<w:pStyle w:val="Heading1"/>', '<w:pStyle w:val="Heading1"/><w:pageBreakBefore/>')
+    # Tiêu đề dính với đoạn sau (khung không đặt keepNext): tránh lỗi "treo tiêu đề" cuối trang
+    body = re.sub(r'(<w:pStyle w:val="Heading[1-4]"/>)', r"\1<w:keepNext/>", body)
+    body = body.replace('<w:pStyle w:val="Heading1"/><w:keepNext/>', '<w:pStyle w:val="Heading1"/><w:keepNext/><w:pageBreakBefore/>')
     return body.replace('<w:tblStyle w:val="Table"/>', '<w:tblStyle w:val="TableGrid"/>')
 
 
@@ -244,10 +249,10 @@ KHUNG = (REPORT_DIR.parent / "managements" / "HƯỚNG DẪN BÁO CÁO" / "3. Te
 FIRST_CHAPTER = "MỞ ĐẦU VÀ TỔNG QUAN ĐỀ TÀI"   # Heading1 đầu tiên của phần thân trong mẫu
 OUT = REPORT_DIR / "final_52300098_52300106.docx"
 DOCPR_START = 100000       # id ảnh (wp:docPr, pic:cNvPr) đánh lại từ đây, khung chỉ dùng id nhỏ hoặc ngẫu nhiên lớn
-# APA 7 theo Template_VN.dotx: thụt treo 0,5", giãn dòng đôi; chữ 13pt như thân bài (khung đang để kiểu IEEE "[1]")
+# APA: thụt treo 0,5"; chữ 13pt, giãn 1,5 dòng như thân bài (hướng dẫn QĐ 2284 mục 1); khung đang để kiểu IEEE "[1]"
 BIBLIOGRAPHY_STYLE = ('<w:style w:type="paragraph" w:styleId="Bibliography"><w:name w:val="Bibliography"/>'
                       '<w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="37"/><w:unhideWhenUsed/>'
-                      '<w:pPr><w:spacing w:before="0" w:after="0" w:line="480" w:lineRule="auto"/>'
+                      '<w:pPr><w:spacing w:before="0" w:after="0" w:line="360" w:lineRule="auto"/>'
                       '<w:ind w:left="720" w:hanging="720"/></w:pPr><w:rPr><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr></w:style>')
 # Style pandoc dùng nhưng khung không có (pandoc chỉ lấy style từ khung): chữ code và khối code
 FALLBACK_STYLES = {
@@ -264,6 +269,33 @@ FALLBACK_STYLES = {
                    '<w:ind w:left="567"/></w:pPr><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/>'
                    '<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:style>'),
 }
+# Hai style chú thích: giống Caption của mẫu, chỉ để danh mục hình/bảng (TOC \t) tách được hai loại
+FALLBACK_STYLES.update({sid: (f'<w:style w:type="paragraph" w:customStyle="1" w:styleId="{sid}"><w:name w:val="{name}"/>'
+                              '<w:basedOn w:val="Caption"/><w:next w:val="Nidungvnbn"/><w:qFormat/></w:style>')
+                        for sid, name in CAPTION_STYLES.values()})
+_TOC_CAPTION = re.compile(r'\\c (?:"|&quot;)([^"&]*)(?:"|&quot;)')
+
+
+def caption_lists_by_style(document: str) -> str:
+    """Đổi danh mục hình/bảng của mẫu từ `TOC \\c "Hình"` (theo trường SEQ) sang `TOC \\t "Chu thich Hinh,1"` (theo style).
+
+    So khớp tên sau khi chuẩn hóa NFC: mẫu khoa ghi "Bảng" ở dạng tổ hợp (a + U+0309).
+
+    Raises:
+        ValueError: không thấy đủ hai danh mục hình và bảng trong mẫu.
+    """
+    found = set()
+
+    def swap(m: re.Match) -> str:
+        kind = unicodedata.normalize("NFC", m.group(1))
+        found.add(kind)
+        return f'\\t "{CAPTION_STYLES[kind][1]},1"'
+
+    document = re.sub(r"(<w:instrText[^>]*>[^<]*TOC[^<]*</w:instrText>)",
+                      lambda m: _TOC_CAPTION.sub(swap, m.group(1)), document)
+    if found != set(CAPTION_STYLES):
+        raise ValueError(f"mẫu thiếu danh mục hình/bảng (TOC \\c), chỉ thấy: {sorted(found)}")
+    return document
 
 
 def _merge_numbering(base: str, part: Part, body: str) -> tuple[str, str]:
@@ -698,7 +730,7 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
         document = fill_front_matter(document, files, khung, root)
     else:
         warnings.append("chưa có docs/report/phan_dau.md: phần đầu giữ chữ mẫu của khung")
-    document = page_breaks_to_before(clear_toc_results(document))
+    document = caption_lists_by_style(page_breaks_to_before(clear_toc_results(document)))
     document = _declare_namespaces(document, part.namespaces)
     document = _renumber_drawings(document)
     _drop_unused_images(files, document)

@@ -67,6 +67,15 @@ def test_sources_have_no_draft_marks():
         assert br.draft_marks(out) == [], p.name
 
 
+def test_caption_numbers_follow_chapter_and_order():
+    # Số trong Markdown là số in ra (chú thích không có trường số): mỗi chương đánh 1, 2, 3… theo thứ tự xuất hiện, đúng số chương
+    for p in sorted(REPORT.glob("chuong*_draft.md")):
+        chapter = re.search(r"chuong(\d)", p.name).group(1)
+        for kind in ("Hình", "Bảng"):
+            nums = re.findall(rf"^\*\*{kind} (\d+)\.(\d+)\.\*\*", p.read_text(encoding="utf-8"), re.M)
+            assert nums == [(chapter, str(i)) for i in range(1, len(nums) + 1)], (p.name, kind)
+
+
 def test_every_figure_has_its_own_caption():
     for p in sorted(REPORT.glob("chuong*_draft.md")):
         assert not re.search(r"\*\*Hình \d+\.\d+–", p.read_text(encoding="utf-8")), p.name
@@ -76,11 +85,21 @@ def text_of(xml: str) -> str:
     return "".join(re.findall(r"<w:t(?: [^>]*)?>([^<]*)</w:t>", xml))
 
 
-def test_caption_gets_chapter_and_seq_fields():
-    p = '<w:p><w:pPr><w:pStyle w:val="Caption"/></w:pPr><w:r><w:t xml:space="preserve">Hình 5.3. Chênh lệch so với full.</w:t></w:r></w:p>'
-    out = br.postprocess_body(p)
-    assert 'w:instr=" STYLEREF 1 \\s "' in out and 'w:instr=" SEQ Hình \\* ARABIC \\s 1 "' in out
-    assert text_of(out) == "Hình 5.3: Chênh lệch so với full."      # định dạng mẫu khoa: dấu hai chấm
+def test_caption_is_plain_text_in_its_own_style():
+    # OnlyOffice tính sai mọi trường số của chú thích (STYLEREF ra "Error!", bỏ qua SEQ \r và đếm nối tiếp cả
+    # bài, 16/11): số ghi sẵn bằng chữ, mỗi loại một style để danh mục hình/bảng lấy theo style (TOC \t)
+    for kind, style in (("Hình", "CaptionHinh"), ("Bảng", "CaptionBang")):
+        p = f'<w:p><w:pPr><w:pStyle w:val="Caption"/></w:pPr><w:r><w:t xml:space="preserve">{kind} 5.3. Chênh lệch.</w:t></w:r></w:p>'
+        out = br.postprocess_body(p)
+        assert f'<w:pStyle w:val="{style}"/>' in out and "fldSimple" not in out and "SEQ" not in out
+        assert text_of(out) == f"{kind} 5.3: Chênh lệch."        # định dạng mẫu khoa: dấu hai chấm
+
+
+def test_comment_at_end_of_line_keeps_the_blank_line_before_a_heading(tmp_path):
+    # 16/11: "… ý nghĩa. <!-- nguồn -->" rồi dòng trống rồi "## 5.6. Phân tích lỗi": xóa comment kèm dấu xuống
+    # dòng làm mất dòng trống, pandoc nối tiêu đề vào đoạn trước và mục 5.6 biến mất khỏi báo cáo
+    out, _ = br.preprocess("Câu cuối. <!-- nguồn: x.md -->\n\n## 5.6. Phân tích lỗi\n\nNội dung.\n", tmp_path)
+    assert "\n\n## Phân tích lỗi\n" in out and "nguồn" not in out
 
 
 def test_styles_mapped_images_centered_and_table_cells_not_indented():
@@ -92,6 +111,15 @@ def test_styles_mapped_images_centered_and_table_cells_not_indented():
     assert out.count('<w:pStyle w:val="Nidungvnbn"/>') == 2           # đoạn thường + mục danh sách
     assert '<w:pStyle w:val="Caption"/><w:keepNext/>' in out             # ảnh căn giữa, dính với chú thích
     assert '<w:tblStyle w:val="TableGrid"/>' in out and '<w:pStyle w:val="BangNoiDung"/>' in out     # chữ bảng 11pt
+
+
+def test_headings_keep_with_next_paragraph():
+    # Slide hướng dẫn trình bày của khoa: lỗi "treo tiêu đề" (tiêu đề nằm cuối trang, nội dung sang trang sau)
+    body = "".join(f'<w:p><w:pPr><w:pStyle w:val="Heading{n}"/></w:pPr><w:r><w:t>T{n}</w:t></w:r></w:p>' for n in (1, 2, 3, 4))
+    out = br.postprocess_body(body)
+    for n in (2, 3, 4):
+        assert f'<w:pStyle w:val="Heading{n}"/><w:keepNext/></w:pPr>' in out
+    assert '<w:pStyle w:val="Heading1"/><w:keepNext/><w:pageBreakBefore/></w:pPr>' in out     # đúng thứ tự pPr
 
 
 def test_figure_width_keeps_resolution_and_fits_page(tmp_path):
@@ -168,10 +196,19 @@ def test_every_relationship_resolves_and_drawing_ids_unique(built):
     assert len(docpr) == len(set(docpr)) >= 13 and min(map(int, docpr)) >= br.DOCPR_START
 
 
-def test_captions_use_plain_seq_lists_keep_numbering_styles_exist(built):
+def test_caption_lists_built_from_caption_styles_numbering_styles_exist(built):
     doc, num, styles = (read_part(built, f"word/{n}.xml") for n in ("document", "numbering", "styles"))
     assert "Hình_2." not in doc and "Bảng_2." not in doc
-    assert doc.count("SEQ Hình") == count_md_captions("Hình") and doc.count("SEQ Bảng") == count_md_captions("Bảng")
+    assert "SEQ " not in doc and "STYLEREF" not in doc
+    assert doc.count('<w:pStyle w:val="CaptionHinh"/>') == count_md_captions("Hình")
+    assert doc.count('<w:pStyle w:val="CaptionBang"/>') == count_md_captions("Bảng")
+    # Danh mục hình/bảng của mẫu (TOC \c "Hình"/"Bảng") đổi sang lấy theo style; mẫu ghi "Bảng" ở dạng Unicode
+    # tổ hợp (a + U+0309) nên \c "Bảng" không bao giờ khớp SEQ Bảng dạng dựng sẵn
+    tocs = re.findall(r"<w:instrText[^>]*>([^<]*TOC[^<]*)</w:instrText>", doc)
+    assert any('\\t "Chu thich Hinh,1"' in t for t in tocs) and any('\\t "Chu thich Bang,1"' in t for t in tocs)
+    assert not any("\\c" in t for t in tocs)
+    for sid, name in (("CaptionHinh", "Chu thich Hinh"), ("CaptionBang", "Chu thich Bang")):
+        assert re.search(rf'w:styleId="{sid}"><w:name w:val="{name}"/><w:basedOn w:val="Caption"/>', styles)
     for nid in set(re.findall(r'<w:numId w:val="(\d+)"/>', doc)) - {"0"}:     # 0 = không đánh số (OOXML)
         assert f'w:numId="{nid}"' in num
     defined = set(re.findall(r'w:styleId="([^"]+)"', styles))
@@ -215,11 +252,36 @@ def test_citations_and_references_match():
     assert br.citation_gaps(body, (REPORT / "tai_lieu_tham_khao.md").read_text(encoding="utf-8")) == ([], [])
 
 
+def reference_blocks() -> tuple[list[str], list[str]]:
+    """(dòng phần A: văn bản quy phạm pháp luật, dòng tài liệu phần B) của tai_lieu_tham_khao.md."""
+    text = (REPORT / "tai_lieu_tham_khao.md").read_text(encoding="utf-8")
+    a, b = text.split("**B. Tài liệu tham khảo**")
+    lines = lambda s: [l for l in s.splitlines() if l.strip() and not l.startswith("**")]
+    return lines(a), lines(b)
+
+
 def test_reference_list_is_the_outline_list():
-    refs = [l for l in (REPORT / "tai_lieu_tham_khao.md").read_text(encoding="utf-8").splitlines() if re.match(r"\w", l)]
+    refs = reference_blocks()[1]
     # APA 7 (9.44) "nothing precedes something": Nguyen, T.-M. đứng trước Nguyen Ba
     assert len(refs) == 15 and refs == sorted(refs, key=lambda r: (r.split(",")[0].casefold(), r.casefold()))
     assert all("*" in r for r in refs)                                   # APA 7: tên nguồn in nghiêng
+
+
+def test_reference_list_starts_with_the_corpus_laws():
+    # Hướng dẫn trình bày (QĐ 2284) mục 2.6: A. Văn bản quy phạm pháp luật, B. Tài liệu tham khảo (theo ngôn ngữ);
+    # luật ghi "Tên (Luật số …) ngày dd/mm/yyyy."
+    import json
+    text = (REPORT / "tai_lieu_tham_khao.md").read_text(encoding="utf-8")
+    # Không có nhóm "Tiếng Anh": mọi tài liệu phần B đều tiếng Anh, Đạt bỏ dòng này ngày 16/11
+    assert text.index("**A. Văn bản quy phạm pháp luật**") < text.index("**B. Tài liệu tham khảo**")
+    laws = reference_blocks()[0]
+    corpus = sorted(json.loads((ROOT / "data" / "raw" / "laws.json").read_text(encoding="utf-8")).values(),
+                    key=lambda d: d["issued_date"])
+    assert len(laws) == len(corpus) == 5
+    for i, (line, law) in enumerate(zip(laws, corpus), start=1):       # theo thứ tự ban hành
+        y, m, d = law["issued_date"].split("-")
+        name = law["document"].rsplit(" ", 1)[0]                        # "Bộ luật Dân sự 2015" -> "Bộ luật Dân sự"
+        assert line == f"{i}\\. {name} (Luật số {law['number']}) ngày {d}/{m}/{y}.", line
 
 
 def test_set_paragraph_text_keeps_paragraph_and_first_run_format():
@@ -251,7 +313,7 @@ def test_bibliography_style_is_apa_hanging_indent_body_size(built):
     styles = read_part(built, "word/styles.xml")
     bib = re.search(r'<w:style [^>]*w:styleId="Bibliography".*?</w:style>', styles, re.S).group(0)
     assert '<w:ind w:left="720" w:hanging="720"/>' in bib and '<w:sz w:val="26"/>' in bib
-    assert 'w:after="0" w:line="480"' in bib                         # giãn dòng đôi như Template_VN.dotx
+    assert 'w:after="0" w:line="360"' in bib                         # 1,5 dòng như thân bài (hướng dẫn QĐ 2284)
 
 
 def test_stale_toc_results_replaced_by_update_prompt(built):
