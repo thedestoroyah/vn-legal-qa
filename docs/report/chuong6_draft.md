@@ -9,7 +9,7 @@
 
 Đề tài đã xây dựng một hệ thống hỏi đáp pháp luật tiếng Việt theo hướng Agentic-RAG trên kho 5 văn bản luật, trong đó có Bộ luật Lao động 2012 đã hết hiệu lực. Hệ thống gồm pipeline bóc tách văn bản thành Chương/Mục/Điều/Khoản/Điểm kèm khoảng hiệu lực, bộ truy xuất lai có lọc theo hiệu lực, tác tử LangGraph (định tuyến, truy xuất, đánh giá bằng chứng, sinh câu trả lời, kiểm chứng trích dẫn hai lớp), API FastAPI và giao diện web. Hệ thống được đánh giá trên 209 câu hỏi từ ba nguồn, trong đó có tập giữ riêng 30 câu soạn sau khi đã cố định prompt.
 
-Cả ba chỉ tiêu định lượng đặt ra ở mục 1.2.2 đều đạt:
+Cả ba chỉ tiêu định lượng đặt ra ở mục 1.2.2 đều đạt (Bảng 6.1):
 
 **Bảng 6.1.** Chỉ tiêu và kết quả.
 

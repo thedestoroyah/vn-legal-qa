@@ -5,7 +5,7 @@
 
 ## 4.1. Kiến trúc tổng thể
 
-Hệ thống gồm bốn tầng, chạy trên một máy tính cá nhân (CPU) và gọi mô hình ngôn ngữ lớn qua API:
+Hệ thống gồm bốn tầng (Hình 4.1), chạy trên một máy tính cá nhân (CPU) và gọi mô hình ngôn ngữ lớn qua API:
 
 1. **Tầng dữ liệu**: văn bản luật đã chuẩn hóa, tách thành đoạn (chunk) theo cấu trúc Điều/Khoản, kèm khoảng hiệu lực; lưu ở tệp JSONL và trong cơ sở dữ liệu vector ChromaDB.
 2. **Tầng truy xuất**: kết hợp tìm kiếm từ vựng (BM25) và tìm kiếm ngữ nghĩa (BGE-M3), hợp nhất bằng Reciprocal Rank Fusion, xếp hạng lại bằng cross-encoder, lọc theo ngày hiệu lực.
@@ -74,7 +74,7 @@ Truy xuất **không** lọc theo lĩnh vực luật: nếu router đoán sai l�
 
 ### 4.4.1. Đồ thị trạng thái
 
-Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; trạng thái đi qua các nút chứa câu hỏi, loại câu, ngày sự việc, các truy vấn, bằng chứng, câu trả lời và dấu vết (trace).
+Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; trạng thái đi qua các nút chứa câu hỏi, loại câu, ngày sự việc, các truy vấn, bằng chứng, câu trả lời và dấu vết (trace). Hình 4.2 là đồ thị đầy đủ; Bảng 4.2 nêu việc làm, số lượt gọi LLM và nhánh đi tiếp của từng nút.
 
 <!-- Hình 4.2: assets/diagrams/agent_graph.png (nguồn agent_graph.drawio) -->
 **Hình 4.2.** Đồ thị tác tử và các nhánh điều kiện.
@@ -101,7 +101,7 @@ Bước `verify` có hai lớp:
 - **(a) Kiểm tra cú pháp** (không gọi LLM, luôn chạy ở mọi cấu hình): chuẩn hóa mã trích dẫn về đúng dạng trong kho, rồi gỡ mọi mã không nằm trong bằng chứng đã truy xuất. Lớp này bảo đảm hệ thống **không bao giờ** trả về trích dẫn tới một đoạn mà mô hình chưa được đọc.
 - **(b) Kiểm tra ngữ nghĩa** (1 lượt LLM): mô hình nhận mọi cặp (câu, đoạn được trích) cùng tiêu đề Điều của đoạn, và chỉ ra cặp nào đoạn không hỗ trợ nội dung câu; các mã đó bị gỡ.
 
-Câu nào mất hết trích dẫn sau hai lớp trên thì câu trả lời được sinh lại một lần, kèm danh sách câu chưa có căn cứ. Nếu sau lần sinh lại vẫn còn câu như vậy, câu đó được giữ nhưng gắn nhãn "(chưa có căn cứ)" để người đọc biết; câu trả lời không còn trích dẫn nào thì có thêm dòng ghi chú cuối.
+Câu nào mất hết trích dẫn sau hai lớp trên thì câu trả lời được sinh lại một lần, kèm danh sách câu chưa có căn cứ (chỉ khi bật lớp (b)). Nếu sau lần sinh lại vẫn còn câu như vậy, câu đó được giữ nhưng gắn nhãn "(chưa có căn cứ)" để người đọc biết; câu trả lời không còn trích dẫn nào thì có thêm dòng ghi chú cuối.
 
 Phiên bản đầu của lớp (b) chỉ đưa nội dung Khoản cho mô hình; thực nghiệm cho thấy nó gỡ nhầm nhiều trích dẫn đúng vì không biết Khoản thuộc Điều nào. Phiên bản hiện tại đưa thêm tên văn bản, số và tên Điều (so sánh ở mục 5.4.4).
 
@@ -136,7 +136,7 @@ Mỗi nút ghi một bước vào `trace`: tên nút, đầu ra rút gọn (bằ
 
 Tác tử được nạp một lần khi khởi động. Các câu hỏi được phục vụ tuần tự (khóa), vì bộ đếm lượt gọi, bộ giãn cách và bộ đệm của lớp `LLM` dùng chung giữa các yêu cầu.
 
-**Giao diện** (`src/ui/web/`, NiceGUI, do Hùng xây dựng) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 4.3–4.5).
+**Giao diện** (`src/ui/web/`, NiceGUI) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 4.3–4.5).
 
 <!-- Hình 4.3: assets/screenshots_nicegui/nicegui_02_answered_citations.png -->
 **Hình 4.3.** Câu trả lời kèm trích dẫn.
@@ -147,13 +147,20 @@ Tác tử được nạp một lần khi khởi động. Các câu hỏi đượ
 <!-- Hình 4.5: assets/screenshots_nicegui/nicegui_06_mobile_390x844.png -->
 **Hình 4.5.** Giao diện trên điện thoại.
 
+Hình 4.6 tóm tắt các chức năng dành cho người dùng. Hình 4.7 mô tả các thành phần trao đổi với nhau theo thời gian khi xử lý một câu hỏi; Hình 4.8 mô tả cùng luồng đó theo các nhánh quyết định, gồm cả các mã lỗi 422, 500, 503 của mục 4.6.
+
 <!-- Hình 4.6: assets/diagrams/usecase.png (nguồn usecase.drawio) -->
 **Hình 4.6.** Sơ đồ use case.
 
 <!-- Hình 4.7: assets/diagrams/sequence.png (nguồn sequence.drawio) -->
 **Hình 4.7.** Sơ đồ tuần tự xử lý một câu hỏi.
 
+<!-- Hình 4.8: assets/diagrams/activity.png (nguồn activity.drawio) -->
+**Hình 4.8.** Sơ đồ hoạt động xử lý một câu hỏi.
+
 ## 4.6. Xử lý lỗi
+
+Bảng 4.4 liệt kê các tình huống lỗi và cách hệ thống xử lý từng tình huống.
 
 **Bảng 4.4.** Các tình huống lỗi và cách xử lý.
 <!-- nguồn: spec mục 6; src/generation/llm.py, src/agent/nodes.py, src/api/main.py -->

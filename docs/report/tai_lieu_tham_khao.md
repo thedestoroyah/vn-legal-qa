@@ -1,3 +1,17 @@
+**A. Văn bản quy phạm pháp luật**
+
+1\. Luật Thương mại (Luật số 36/2005/QH11) ngày 14/06/2005.
+
+2\. Bộ luật Lao động (Luật số 10/2012/QH13) ngày 18/06/2012.
+
+3\. Bộ luật Dân sự (Luật số 91/2015/QH13) ngày 24/11/2015.
+
+4\. Bộ luật Lao động (Luật số 45/2019/QH14) ngày 20/11/2019.
+
+5\. Luật Doanh nghiệp (Luật số 59/2020/QH14) ngày 17/06/2020.
+
+**B. Tài liệu tham khảo**
+
 Asai, A., Wu, Z., Wang, Y., Sil, A., & Hajishirzi, H. (2024). Self-RAG: Learning to retrieve, generate, and critique through self-reflection. In *The Twelfth International Conference on Learning Representations (ICLR 2024)*.
 
 Chen, J., Xiao, S., Zhang, P., Luo, K., Lian, D., & Liu, Z. (2024). M3-Embedding: Multi-linguality, multi-functionality, multi-granularity text embeddings through self-knowledge distillation. In *Findings of the Association for Computational Linguistics: ACL 2024* (pp. 2318–2335). https://doi.org/10.18653/v1/2024.findings-acl.137

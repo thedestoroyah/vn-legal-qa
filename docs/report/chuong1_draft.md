@@ -96,6 +96,8 @@ Trong 67 câu tự soạn, 30 câu (M_038–M_067: 20 câu có mốc thời gian
 - Các chỉ số truy xuất, trích dẫn và phiên bản được tính tự động bằng cách đối chiếu với nhãn chuẩn.
 - Chất lượng câu trả lời được chấm bằng LLM-as-a-judge: Faithfulness theo định nghĩa của RAGAS (Es và cộng sự, 2024), Answer Correctness (so với đáp án mẫu) theo thư viện ragas. Bộ chấm được kiểm định bằng cách so với điểm chấm tay độc lập của một thành viên trên 20 câu trả lời (mục 5.1.4).
 
+Mã nguồn, dữ liệu đã xử lý, tập kiểm thử và bản nháp báo cáo được quản lý chung trên một kho Git (GitHub). Mỗi sprint có một kế hoạch cho phần lõi kỹ thuật và các thẻ việc tự chứa cho thành viên còn lại, lưu ngay trong kho; tiến độ được báo cáo hằng tuần với giảng viên hướng dẫn. Mỗi commit ứng với một việc và ghi rõ loại thay đổi (tính năng, sửa lỗi, dữ liệu, tài liệu); bộ kiểm thử tự động (pytest, hơn 380 ca kiểm thử) phải chạy qua trước khi commit. Hệ thống được đóng gói bằng Docker Compose, và tệp README liệt kê lệnh tái tạo từng bảng số liệu ở Chương 5.
+
 ## 1.5. Đóng góp chính
 
 1. **Kho văn bản pháp luật có cấu trúc kèm khoảng hiệu lực:** 5 văn bản được bóc tách thành cây Chương/Mục/Điều/Khoản/Điểm. Mỗi đoạn mang ngày có hiệu lực và ngày hết hiệu lực, trong đó có một văn bản đã hết hiệu lực để nghiên cứu hiệu lực theo thời gian.
@@ -104,7 +106,13 @@ Trong 67 câu tự soạn, 30 câu (M_038–M_067: 20 câu có mốc thời gian
 4. **Đánh giá tách riêng từng thành phần:** nghiên cứu lược bỏ trên 5 cấu hình (baseline, full, no_router, no_grading, no_verify), báo cáo cả chất lượng lẫn chi phí (độ trễ, số lượt gọi LLM).
 5. **Bộ kiểm thử ba nguồn** có nhãn căn cứ chuẩn và **ứng dụng web** hiển thị trích dẫn bấm được cùng các bước của tác tử.
 
-## 1.6. Bố cục báo cáo
+## 1.6. Ý nghĩa khoa học và thực tiễn
+
+Về khoa học, đề tài đưa vấn đề hiệu lực theo thời gian vào cả thiết kế lẫn đánh giá một hệ thống hỏi đáp pháp luật tiếng Việt: tập câu hỏi có mốc thời gian được gắn nhãn phiên bản văn bản đúng, nên đo được việc chọn phiên bản theo thời điểm sự việc, loại câu hỏi mà hai bộ dữ liệu công khai đã khảo sát chưa đo được. Đề tài cũng đánh giá tách riêng từng thành phần của tác tử bằng nghiên cứu lược bỏ, so sánh ghép cặp theo câu kèm khoảng tin cậy, và đo trực tiếp khả năng chặn trích dẫn sai bằng phép thử tiêm trích dẫn, thay vì chỉ báo cáo kết quả của hệ thống hoàn chỉnh.
+
+Về thực tiễn, người tra cứu nhận được câu trả lời kèm trích dẫn tới Khoản, bấm vào để đọc nguyên văn, và được trả lời theo văn bản có hiệu lực vào thời điểm sự việc chứ không mặc định theo luật hiện hành; khi câu hỏi ngoài phạm vi hoặc không đủ căn cứ, hệ thống từ chối thay vì đoán. Hệ thống chạy trên CPU với API mô hình ngôn ngữ miễn phí, nên chi phí triển khai thấp. Mức độ sẵn sàng ứng dụng được phân tích ở mục 5.7.
+
+## 1.7. Bố cục báo cáo
 
 - **Chương 1 – Tổng quan đề tài:** đặt vấn đề, mục tiêu, câu hỏi nghiên cứu, phạm vi và đóng góp.
 - **Chương 2 – Tổng quan tài liệu:** các nghiên cứu liên quan trên thế giới và trong nước, vấn đề còn tồn tại và hướng tiếp cận của đề tài.

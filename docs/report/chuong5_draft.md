@@ -53,7 +53,7 @@ Một thành viên chấm tay độc lập 20 câu trả lời của cấu hình
 <!-- Hình 5.1: docs/report/figures/rq1.png -->
 **Hình 5.1.** Hit@5 và Recall@10 theo phương pháp truy xuất.
 
-Cấu hình Hybrid + rerank đạt cả hai chỉ tiêu đề ra (Hit@5 ≥ 0,80, Recall@10 ≥ 0,75). Nhận xét:
+Theo Bảng 5.2 và Hình 5.1, cấu hình Hybrid + rerank đạt cả hai chỉ tiêu đề ra (Hit@5 ≥ 0,80, Recall@10 ≥ 0,75). Nhận xét:
 
 - Dense vượt BM25 rõ rệt trên câu Zalo (Hit@5 0,844 so với 0,766): câu hỏi đời thường ít trùng từ với văn bản luật.
 - Hợp nhất RRF không cải thiện Hit@5 so với Dense (0,805 so với 0,844), có thể vì nhánh BM25 yếu hơn kéo một số Điều sai lên top 5; sau khi rerank, MRR@10 tăng từ 0,748 lên 0,807, nghĩa là Điều đúng được đưa lên vị trí cao hơn — điều có ích khi tác tử chỉ đọc 5 đoạn đầu.
@@ -76,7 +76,7 @@ Trên 157 câu có căn cứ chuẩn (gồm cả câu tổng hợp và câu tự
 <!-- Hình 5.2: docs/report/figures/rq2.png -->
 **Hình 5.2.** Hit@5 và Recall@10 theo cách phân đoạn.
 
-Phân đoạn theo cấu trúc luật hơn hẳn cắt cố định (Hit@5 cao hơn 0,25–0,29), vì cửa sổ cố định cắt ngang Điều và trộn nội dung của nhiều Điều. Giữa ba cách theo cấu trúc, phân đoạn cấp Điều cho kết quả cao nhất trên câu Zalo; đây là điều dễ hiểu vì căn cứ chuẩn của Zalo ở cấp Điều. Hệ thống vẫn chọn cấp Khoản làm mặc định vì hai lý do: trích dẫn tới Khoản cụ thể hơn cho người đọc, và trên 157 câu có căn cứ chuẩn, Khoản + tiêu đề đạt Hit@5 0,924, bằng cấp Điều. Việc gắn tiêu đề phân cấp không tạo khác biệt trên câu Zalo (0,844 so với 0,857) nhưng tăng Hit@5 trên câu tổng hợp từ 0,908 lên 1,000.
+Bảng 5.3 và Hình 5.2 cho thấy phân đoạn theo cấu trúc luật hơn hẳn cắt cố định (Hit@5 cao hơn 0,25–0,29), vì cửa sổ cố định cắt ngang Điều và trộn nội dung của nhiều Điều. Giữa ba cách theo cấu trúc, phân đoạn cấp Điều cho kết quả cao nhất trên câu Zalo; đây là điều dễ hiểu vì căn cứ chuẩn của Zalo ở cấp Điều. Hệ thống vẫn chọn cấp Khoản làm mặc định vì hai lý do: trích dẫn tới Khoản cụ thể hơn cho người đọc, và trên 157 câu có căn cứ chuẩn, Khoản + tiêu đề đạt Hit@5 0,924, bằng cấp Điều. Việc gắn tiêu đề phân cấp không tạo khác biệt trên câu Zalo (0,844 so với 0,857) nhưng tăng Hit@5 trên câu tổng hợp từ 0,908 lên 1,000.
 
 Về nhầm văn bản, DRM@5 của cả bốn cách đều thấp, từ 0,075 đến 0,101 trên câu Zalo; Khoản + tiêu đề thấp nhất (0,075, so với 0,101 của Khoản chỉ nội dung; trên 157 câu là 0,075 so với 0,098). Chênh lệch này nhỏ, chưa được kiểm định thống kê, và chưa đủ để quy cho riêng việc gắn tiêu đề: phân đoạn cấp Điều cũng có tiêu đề nhưng DRM@5 vẫn 0,099, đồng thời đoạn của mỗi cách có độ dài khác nhau nên năm đoạn đầu không tương đương. Vì các câu của RQ2 không nêu thời điểm sự việc, truy xuất chỉ chạy trên 4 văn bản còn hiệu lực: DRM@5 ở đây đo nhầm giữa các văn bản khác lĩnh vực, còn nhầm giữa hai phiên bản Bộ luật Lao động được đo bằng tỷ lệ đúng phiên bản ở RQ3 và RQ4. Cắt cố định có DRM@5 thấp (0,083) dù Hit@5 kém nhất, vì DRM@5 chỉ đo việc lấy nhầm văn bản: đoạn đúng văn bản nhưng sai Điều không bị tính.
 
@@ -108,7 +108,7 @@ Về nhầm văn bản, DRM@5 của cả bốn cách đều thấp, từ 0,075 �
 <!-- Hình 5.3: docs/report/figures/rq3_diff.png -->
 **Hình 5.3.** Chênh lệch so với `full` và khoảng tin cậy 95% (chấm đặc: có ý nghĩa).
 
-`full` đạt chỉ tiêu Citation Precision ≥ 0,85 (0,870). Từng thành phần:
+`full` đạt chỉ tiêu Citation Precision ≥ 0,85 (0,870). Hình 5.3 biểu diễn các chênh lệch của Bảng 5.5. Từng thành phần:
 
 - **Router.** Bỏ router làm tỷ lệ đúng phiên bản giảm 0,250 (có ý nghĩa): không có router thì không có ngày sự việc, truy xuất chỉ lấy văn bản còn hiệu lực, nên câu về sự việc trước năm 2021 bị trả lời theo BLLĐ 2019 hoặc bị từ chối. Citation Recall và Correctness cũng giảm (−0,034 và −0,042), cùng chiều nhưng khoảng tin cậy chạm 0.
 - **Grade (viết lại truy vấn).** Ở `full`, grade yêu cầu viết lại truy vấn ở 27/209 câu, nhưng không tạo khác biệt đo được ở chỉ số nào so với `no_grading`, trong khi tốn thêm khoảng 1 lượt LLM mỗi câu.
@@ -128,7 +128,7 @@ Về nhầm văn bản, DRM@5 của cả bốn cách đều thấp, từ 0,075 �
 | no_grading | 0,767 | 0,978 | 0,767 | 0,700 | 0,750 |
 | no_verify | 0,767 | 0,957 | 0,767 | 0,700 | 0,750 |
 
-Giả thuyết chốt trước H1 là `no_router` kém `full` về Correctness và đúng phiên bản trên loại câu này. Trên 30 câu, mọi chỉ số của `no_router` đều thấp hơn `full` (Cit. P −0,143, Cit. R −0,133, đúng phiên bản −0,200, Correctness −0,083) nhưng **chưa có chênh lệch nào có ý nghĩa** (cận trên của khoảng tin cậy chạm hoặc vượt 0). Gộp với tập cũ (Bảng 5.5), chênh lệch đúng phiên bản có ý nghĩa. Kết luận: H1 được ủng hộ ở chỉ số đúng phiên bản; với Correctness, xu hướng cùng chiều nhưng cỡ mẫu chưa đủ để khẳng định.
+Giả thuyết chốt trước H1 là `no_router` kém `full` về Correctness và đúng phiên bản trên loại câu này. Trên 30 câu (Bảng 5.6), mọi chỉ số của `no_router` đều thấp hơn `full` (Cit. P −0,143, Cit. R −0,133, đúng phiên bản −0,200, Correctness −0,083) nhưng **chưa có chênh lệch nào có ý nghĩa** (cận trên của khoảng tin cậy chạm hoặc vượt 0). Gộp với tập cũ (Bảng 5.5), chênh lệch đúng phiên bản có ý nghĩa. Kết luận: H1 được ủng hộ ở chỉ số đúng phiên bản; với Correctness, xu hướng cùng chiều nhưng cỡ mẫu chưa đủ để khẳng định.
 
 Một điểm cần lưu ý: `full` trả lời 23/30 câu, ít hơn `no_router` (25/30) và `baseline` (29/30). Toàn bộ 30 câu đều trong phạm vi, nên mỗi lần từ chối là một lần từ chối nhầm. Trong 7 lần `full` từ chối, 6 lần do bước grade hoặc generate kết luận căn cứ không đủ (4 lần sau khi đã viết lại truy vấn tới mức tối đa), 1 lần (M_051) do router xếp nhầm câu hỏi là ngoài phạm vi. Riêng M_066 hỏi thẳng một Điều của BLLĐ 2012 (đã hết hiệu lực) mà không nêu ngày sự việc, nên Điều đó bị lọc theo văn bản còn hiệu lực rồi bị từ chối. `full` thận trọng hơn: từ chối khi căn cứ đúng phiên bản không đủ, thay vì trả lời bằng văn bản sai phiên bản như `no_router`. Đây là đánh đổi giữa độ phủ và độ chính xác (Cit. P 0,978 so với 0,740), được phân tích thêm ở mục 5.6.
 
@@ -144,7 +144,7 @@ Vì tập kiểm thử tự nhiên hiếm khi có trích dẫn sai, nhóm đo tr
 | Đoạn đã truy xuất nhưng khác Điều (cùng ngữ cảnh) | 47 | 0,979 (46/47) | 0,000 |
 | Một Khoản của văn bản khác lĩnh vực | 50 | 1,000 (50/50) | 0,000 |
 
-Verify (b) bắt được 96/97 trích dẫn sai mà không gỡ nhầm mã đúng nào trong cùng câu trả lời. Ở các cấu hình không có verify (b) (`no_verify`, `baseline`), tỷ lệ phát hiện bằng 0 theo cách dựng phép thử. Kết hợp với mục 5.4.1: verify (b) là **lớp phòng vệ** — trên dữ liệu sạch nó tốn khoảng 3,4 điểm recall, đổi lại hệ thống gần như không để lọt trích dẫn sai khi mô hình sinh nhầm.
+Theo Bảng 5.7, verify (b) bắt được 96/97 trích dẫn sai mà không gỡ nhầm mã đúng nào trong cùng câu trả lời. Ở các cấu hình không có verify (b) (`no_verify`, `baseline`), tỷ lệ phát hiện bằng 0 theo cách dựng phép thử. Kết hợp với mục 5.4.1: verify (b) là **lớp phòng vệ** — trên dữ liệu sạch nó tốn khoảng 3,4 điểm recall, đổi lại hệ thống gần như không để lọt trích dẫn sai khi mô hình sinh nhầm.
 
 ### 5.4.4. Hai phiên bản verify
 
@@ -154,7 +154,7 @@ Phiên bản đầu của verify (b) chỉ cho mô hình xem nội dung Khoản,
 ### 5.4.5. Độ trễ
 
 <!-- nguồn: eval/results/agent_rq3_latency.md -->
-Độ trễ đo trên 19 câu (mẫu phân tầng cố định `subset_rq3_20.json`, đo ngày 03/11/2026), mỗi cấu hình chạy với một bộ đệm LLM trống riêng (các cấu hình có chung prompt nên dùng chung bộ đệm sẽ trúng kết quả của nhau), không thử lại khi API lỗi (câu lỗi được chạy lại với bộ đệm mới). Chỉ tính câu mà mọi lượt gọi LLM đều là gọi API thật (ghi trong trace). Thời gian đã trừ phần chờ giãn cách của gói API miễn phí; gồm cả truy xuất và rerank trên CPU.
+Bảng 5.8 là độ trễ đo trên 19 câu (mẫu phân tầng cố định `subset_rq3_20.json`, đo ngày 03/11/2026), mỗi cấu hình chạy với một bộ đệm LLM trống riêng (các cấu hình có chung prompt nên dùng chung bộ đệm sẽ trúng kết quả của nhau), không thử lại khi API lỗi (câu lỗi được chạy lại với bộ đệm mới). Chỉ tính câu mà mọi lượt gọi LLM đều là gọi API thật (ghi trong trace). Thời gian đã trừ phần chờ giãn cách của gói API miễn phí; gồm cả truy xuất và rerank trên CPU.
 
 **Bảng 5.8.** Độ trễ mỗi câu hỏi theo cấu hình.
 
@@ -176,6 +176,8 @@ Ba câu (một ở mỗi cấu hình `full`, `no_router`, `no_grading`) bị lo�
 - Mỗi lượt LLM của gói miễn phí mất khoảng 1,5–2,5 giây; thời gian thực tế người dùng chờ còn cộng thêm phần giãn cách 15 lượt/phút của gói miễn phí (đã trừ khỏi bảng).
 
 ## 5.5. RQ4: Chính sách lọc theo hiệu lực
+
+Bảng 5.9 cho kết quả của ba chính sách lọc, Bảng 5.10 cho chênh lệch ghép cặp so với `event`, Hình 5.4 biểu diễn ba chỉ số chính.
 
 **Bảng 5.9.** Ba chính sách trên 32 câu có mốc thời gian (cấu hình `full`).
 <!-- nguồn: eval/results/agent_rq4.md -->
@@ -234,6 +236,8 @@ Tính theo câu, **12/20 câu là lỗi thật của hệ thống, 8/20 câu là
 ## 5.7. Thảo luận và giới hạn
 
 **Tóm tắt.** Truy xuất lai kèm rerank đạt chỉ tiêu (Hit@5 0,844, Recall@10 0,872 trên câu Zalo). Phân đoạn theo cấu trúc luật hơn hẳn cắt cố định. Trong tác tử, router là thành phần có tác dụng rõ nhất — nhờ trích ngày sự việc để chọn đúng phiên bản luật; verify (b) đổi một phần recall lấy khả năng chặn trích dẫn sai; bước grade chưa cho thấy lợi ích trên tập này.
+
+**Khả năng ứng dụng thực tế.** Hệ thống đã chạy được như một ứng dụng web: API FastAPI, giao diện hiển thị trích dẫn bấm được cùng các bước của tác tử (mục 4.5), có cấu hình Docker Compose để triển khai. Về độ chính xác, cấu hình `full` trả lời 0,871 số câu; trung bình khoảng 13% mã trích dẫn trong một câu trả lời không thuộc căn cứ chuẩn (Citation Precision 0,870, là cận dưới theo mục 5.6), và 1/4 số câu có mốc thời gian vẫn trích sai phiên bản (0,750). Mức này phù hợp với một công cụ tra cứu tham khảo, trong đó người dùng bấm vào trích dẫn để đọc nguyên văn Điều, Khoản và tự kiểm chứng, nhưng chưa đủ để dùng câu trả lời như ý kiến tư vấn mà không kiểm tra lại. Về vận hành, mỗi câu cần khoảng 4 lượt LLM, trung vị 15,9 giây (mục 5.4.5); với hạn mức 500 lượt/ngày của gói miễn phí, một khóa API phục vụ được khoảng 125 câu hỏi mỗi ngày. Muốn đưa vào sử dụng rộng hơn cần mở rộng kho sang văn bản dưới luật và văn bản hợp nhất, dùng gói API trả phí hoặc mô hình lớn hơn, và chạy reranker trên GPU.
 
 **Giới hạn.**
 

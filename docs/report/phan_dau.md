@@ -1,6 +1,6 @@
 ## Lời cảm ơn
 
-Chúng em xin gửi lời cảm ơn tới thầy Lê Anh Cường đã tận tình giảng dạy, giúp đỡ và hướng dẫn chúng em hoàn thành báo cáo này. Trong quá trình thực hiện, nhóm em đã nhận được nhiều ý kiến đóng góp từ thầy, giúp nhóm em hiểu rõ hơn về các vấn đề phức tạp trong môn học và có được cái nhìn tổng quát hơn về những kiến thức liên quan đến đề tài.
+Chúng em xin gửi lời cảm ơn tới thầy PGS.TS. Lê Anh Cường đã tận tình giảng dạy, giúp đỡ và hướng dẫn chúng em hoàn thành báo cáo này. Trong quá trình thực hiện, nhóm em đã nhận được nhiều ý kiến đóng góp từ thầy, giúp nhóm em hiểu rõ hơn về các vấn đề phức tạp trong môn học và có được cái nhìn tổng quát hơn về những kiến thức liên quan đến đề tài.
 
 Cuối cùng, nhóm em xin chân thành cảm ơn thầy đã đồng hành và hỗ trợ trong quá trình học tập và nghiên cứu. Dù đã cố gắng thực hiện đề tài một cách hoàn chỉnh nhất, song vì hạn chế về kiến thức và thời gian nên vẫn còn nhiều thiếu sót, chúng em rất mong được sự đóng góp ý kiến của thầy để bài báo cáo được hoàn thiện hơn.
 

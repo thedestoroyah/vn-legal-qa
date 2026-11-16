@@ -56,6 +56,8 @@ Hai công trình bổ sung bước tự đánh giá vào RAG:
 
 ### 2.5.1. Tổng hợp các công trình
 
+Bảng 2.1 tóm tắt các công trình đã khảo sát ở mục 2.1–2.4, phần đề tài kế thừa và phần đề tài làm khác.
+
 **Bảng 2.1.** Các công trình liên quan và mối liên hệ với đề tài.
 
 | Công trình | Đóng góp chính | Đề tài kế thừa | Đề tài bổ sung |
@@ -80,6 +82,8 @@ Theo khảo sát của nhóm, có bốn vấn đề chưa được giải quyế
 4. **Nhầm văn bản khi kho có nhiều văn bản giống nhau.** Hiện tượng DRM (Reuter và cộng sự, 2025) nặng hơn khi kho chứa hai phiên bản của cùng một bộ luật: nhầm văn bản lúc này đồng nghĩa với trích sai phiên bản.
 
 ### 2.5.3. Hướng tiếp cận của đề tài
+
+Bảng 2.2 nối mỗi vấn đề tồn tại ở mục 2.5.2 với giải pháp của đề tài và câu hỏi nghiên cứu dùng để đánh giá giải pháp đó.
 
 **Bảng 2.2.** Vấn đề tồn tại, giải pháp và câu hỏi nghiên cứu tương ứng.
 
