@@ -130,12 +130,14 @@ class LegalQAApiClient:
         if resp.status_code == 422:
             raise ApiClientError("Câu hỏi không hợp lệ (rỗng hoặc dài quá 1000 ký tự).", 422, kind="validation")
         if resp.status_code != 200:
-            # 503: backend gửi sẵn câu thông báo tiếng Việt (LLM_ERROR) -> hiển thị nguyên văn
+            # backend gửi sẵn câu thông báo tiếng Việt (503 LLM_ERROR, 500 INDEX_ERROR) -> hiển thị nguyên văn.
+            # 500 là lỗi chỉ mục: thử lại không có tác dụng nên không gợi ý "Thử lại"
             raise ApiClientError(
                 _detail(resp) or f"Lỗi máy chủ ({resp.status_code}).",
                 resp.status_code,
                 kind="server",
-                hint="Bạn có thể đợi vài giây rồi bấm nút 'Thử lại' trên câu hỏi này.",
+                hint=("Lỗi phía máy chủ, cần quản trị viên xử lý; thử lại sẽ không có tác dụng." if resp.status_code == 500
+                      else "Bạn có thể đợi vài giây rồi bấm nút 'Thử lại' trên câu hỏi này."),
             )
         try:
             return AskResponse.model_validate(resp.json())

@@ -27,7 +27,8 @@ import unittest
 import httpx
 import openai
 
-from src.api.main import LLM_ERROR, MAX_QUESTION, create_app
+from src.api.main import INDEX_ERROR, LLM_ERROR, MAX_QUESTION, create_app
+from src.retrieval.retriever import IndexMismatchError
 from src.ui.article_view import clause_number, split_clauses
 from src.ui.web.api.client import ApiClientError, LegalQAApiClient, parse_chunk_id
 from src.ui.web.api.schemas import AskResponse
@@ -102,11 +103,14 @@ def make_stub_agent(responses: list[dict] | None = None, articles: dict[str, dic
 
 
 @asynccontextmanager
-async def api_client_for(agent, ask_timeout: float = 5.0):
-    """Khởi chạy app FastAPI thật từ src/api/main.py (kích hoạt lifespan) và gắn vào LegalQAApiClient."""
+async def api_client_for(agent, ask_timeout: float = 5.0, raise_app_exceptions: bool = True):
+    """Khởi chạy app FastAPI thật từ src/api/main.py (kích hoạt lifespan) và gắn vào LegalQAApiClient.
+
+    raise_app_exceptions=False: nhận phản hồi 500 như máy chủ thật thay vì để ngoại lệ của app bay ra test.
+    """
     app = create_app(lambda: agent)
     async with app.router.lifespan_context(app):
-        transport = httpx.ASGITransport(app=app)
+        transport = httpx.ASGITransport(app=app, raise_app_exceptions=raise_app_exceptions)
         yield LegalQAApiClient(base_url="http://testserver", transport=transport, ask_timeout=ask_timeout)
 
 
@@ -237,6 +241,19 @@ class TestNiceGUIWebIntegration(unittest.IsolatedAsyncioTestCase):
                 await broken_api.ask("Câu hỏi hợp lệ")
             self.assertEqual(ctx_503.exception.status_code, 503)
             self.assertEqual(ctx_503.exception.message, LLM_ERROR)
+            self.assertIn("Thử lại", ctx_503.exception.hint)        # quá tải tạm thời: thử lại có ích
+
+        class IndexBrokenAgent(BrokenAgent):
+            def run(self, question, config="full"):
+                raise IndexMismatchError("chỉ mục lệch")
+
+        # 500 (chỉ mục thiếu/lệch): thử lại vô ích, không được gợi ý "đợi vài giây rồi bấm Thử lại" (thẻ H22 mục 8)
+        async with api_client_for(IndexBrokenAgent(), raise_app_exceptions=False) as index_api:
+            with self.assertRaises(ApiClientError) as ctx_500:
+                await index_api.ask("Câu hỏi hợp lệ")
+            self.assertEqual(ctx_500.exception.status_code, 500)
+            self.assertEqual(ctx_500.exception.message, INDEX_ERROR)
+            self.assertNotIn("Thử lại", ctx_500.exception.hint)
 
     async def test_08_slow_request_timeout_and_pending_turn_state(self):
         """8. Trường hợp câu trả lời đang xử lý lâu (timeout & trạng thái đang chờ)."""
