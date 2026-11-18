@@ -7,21 +7,21 @@
 
 Hệ thống gồm bốn tầng (Hình 4.1), chạy trên một máy tính cá nhân (CPU) và gọi mô hình ngôn ngữ lớn qua API:
 
-1. **Tầng dữ liệu**: văn bản luật đã chuẩn hóa, tách thành đoạn (chunk) theo cấu trúc Điều/Khoản, kèm khoảng hiệu lực; lưu ở tệp JSONL và trong cơ sở dữ liệu vector ChromaDB.
-2. **Tầng truy xuất**: kết hợp tìm kiếm từ vựng (BM25) và tìm kiếm ngữ nghĩa (BGE-M3), hợp nhất bằng Reciprocal Rank Fusion, xếp hạng lại bằng cross-encoder, lọc theo ngày hiệu lực.
-3. **Tầng tác tử**: một đồ thị trạng thái LangGraph điều phối định tuyến, truy xuất, đánh giá bằng chứng, sinh câu trả lời và kiểm chứng trích dẫn.
-4. **Tầng giao tiếp**: API FastAPI và giao diện web NiceGUI.
+1. Tầng dữ liệu gồm văn bản luật đã chuẩn hóa, tách thành đoạn (chunk) theo cấu trúc Điều/Khoản, kèm khoảng hiệu lực, lưu ở tệp JSONL và trong cơ sở dữ liệu vector ChromaDB.
+2. Tầng truy xuất kết hợp tìm kiếm từ vựng (BM25) với tìm kiếm ngữ nghĩa (BGE-M3), hợp nhất bằng Reciprocal Rank Fusion, xếp hạng lại bằng cross-encoder và lọc theo ngày hiệu lực.
+3. Tầng tác tử là một đồ thị trạng thái LangGraph điều phối định tuyến, truy xuất, đánh giá bằng chứng, sinh câu trả lời và kiểm chứng trích dẫn.
+4. Tầng giao tiếp gồm API FastAPI và giao diện web NiceGUI.
 
 <!-- Hình 4.1: assets/diagrams/architecture.png (nguồn architecture.drawio) -->
 **Hình 4.1.** Kiến trúc tổng thể của hệ thống.
 
-Mô hình ngôn ngữ của tác tử là `gemini-3.1-flash-lite` (Google, gói miễn phí), gọi qua giao diện tương thích OpenAI. Mọi lượt gọi đi qua một lớp `LLM` dùng chung, có ba nhiệm vụ: lưu kết quả vào bộ đệm trên đĩa (cùng đầu vào thì không gọi lại, giúp chạy lại thí nghiệm không tốn hạn mức), giãn cách các lượt gọi theo giới hạn 15 lượt/phút của gói miễn phí, và đếm số lượt gọi cho từng bước. Embedding và reranker chạy cục bộ, không cần GPU.
+Mô hình ngôn ngữ của tác tử là `gemini-3.1-flash-lite` (Google, gói miễn phí), gọi qua giao diện tương thích OpenAI. Mọi lượt gọi đi qua một lớp `LLM` dùng chung. Lớp này lưu kết quả vào bộ đệm trên đĩa (cùng đầu vào thì không gọi lại, nên chạy lại thí nghiệm không tốn hạn mức), giãn cách các lượt gọi theo giới hạn 15 lượt/phút của gói miễn phí và đếm số lượt gọi của từng bước. Embedding và reranker chạy cục bộ, không cần GPU.
 
 ## 4.2. Dữ liệu
 
 ### 4.2.1. Kho văn bản
 
-Kho gồm 5 văn bản quy phạm pháp luật (Bảng 4.1). Bộ luật Lao động 2012 đã hết hiệu lực từ 01/01/2021 và được giữ lại có chủ đích để kiểm tra khả năng chọn đúng phiên bản theo thời điểm sự việc (RQ4).
+Kho gồm 5 văn bản quy phạm pháp luật (Bảng 4.1). Bộ luật Lao động 2012 đã hết hiệu lực từ 01/01/2021, nhóm cố ý giữ lại để kiểm tra hệ thống có chọn đúng phiên bản theo thời điểm sự việc không (RQ4).
 
 **Bảng 4.1.** Văn bản trong kho và số đoạn sau khi tách.
 <!-- nguồn: data/raw/laws.json; data/processed/chunks.jsonl, chunks_article.jsonl, chunks_fixed.jsonl -->
@@ -33,42 +33,42 @@ Kho gồm 5 văn bản quy phạm pháp luật (Bảng 4.1). Bộ luật Lao đ�
 | BLLD2019 | Bộ luật Lao động 2019 | 45/2019/QH14 | từ 01/01/2021 | 220 | 687 | 260 |
 | LDN2020 | Luật Doanh nghiệp 2020 | 59/2020/QH14 | từ 01/01/2021 | 218 | 923 | 444 |
 | LTM2005 | Luật Thương mại 2005 | 36/2005/QH11 | từ 01/01/2006 | 324 | 884 | 240 |
-| | **Tổng** | | | **1.693** | **4.853** | **1.679** |
+| | Tổng | | | 1.693 | 4.853 | 1.679 |
 
-Văn bản dùng là bản gốc khi ban hành, chưa hợp nhất các lần sửa đổi, bổ sung; đây là một giới hạn của đề tài (mục 5.7).
+Kho dùng bản gốc khi ban hành, chưa hợp nhất các lần sửa đổi, bổ sung. Đây là một giới hạn của đề tài (mục 5.7).
 
 ### 4.2.2. Tiền xử lý
 
-Văn bản tải từ Cơ sở dữ liệu quốc gia về văn bản pháp luật (vbpl.vn) ở dạng `.doc`, chuyển sang Markdown bằng MinerU, rồi phân tích cấu trúc thành JSON theo cây Phần → Chương → Mục → Điều → Khoản → Điểm (`data/legal_structure_parser.py`). Số Điều của mỗi văn bản được đối chiếu với mục lục; kiểm tra ngẫu nhiên 10 Điều mỗi văn bản về tên Điều, nội dung, số Khoản và số Điểm (`docs/data_check.md`).
+Văn bản tải từ Cơ sở dữ liệu quốc gia về văn bản pháp luật (vbpl.vn) ở dạng `.doc`, chuyển sang Markdown bằng MinerU, rồi phân tích cấu trúc thành JSON theo cây Phần, Chương, Mục, Điều, Khoản, Điểm (`data/legal_structure_parser.py`). Nhóm đối chiếu số Điều của mỗi văn bản với mục lục và kiểm tra ngẫu nhiên 10 Điều mỗi văn bản về tên Điều, nội dung, số Khoản và số Điểm (`docs/data_check.md`).
 
 ### 4.2.3. Tách đoạn và siêu dữ liệu
 
 Bộ tách (`src/ingestion/legal_chunker.py`) sinh ba loại đoạn:
 
-- **Cấp Khoản** (mặc định): mỗi Khoản một đoạn; Điều không chia Khoản là một đoạn. Mã đoạn ghép từ mã văn bản, số Điều, số Khoản, ví dụ `BLLD2019_Dieu20_Khoan1`. Trung vị độ dài 38 từ.
-- **Cấp Điều**: mỗi Điều một đoạn (trung vị 109 từ); dùng cho RQ2 và để trả toàn văn Điều.
-- **Cố định**: cửa sổ trượt 200 từ, chồng lấp 40 từ, bỏ qua cấu trúc luật; là mốc so sánh của RQ2.
+- Cấp Khoản (mặc định): mỗi Khoản một đoạn, Điều không chia Khoản thì cả Điều là một đoạn. Mã đoạn ghép từ mã văn bản, số Điều, số Khoản, ví dụ `BLLD2019_Dieu20_Khoan1`. Trung vị độ dài 38 từ.
+- Cấp Điều: mỗi Điều một đoạn (trung vị 109 từ), dùng cho RQ2 và để trả toàn văn Điều.
+- Cố định: cửa sổ trượt 200 từ, chồng lấp 40 từ, bỏ qua cấu trúc luật, làm mốc so sánh của RQ2.
 
-Mỗi đoạn mang siêu dữ liệu: tên văn bản, Chương, Mục, Điều, tên Điều, Khoản, Điểm, trạng thái và **khoảng hiệu lực** `effective_date`, `expiry_date` lấy từ `data/raw/laws.json`. Một đoạn có hiệu lực tại ngày *d* khi `effective_date ≤ d < expiry_date` (văn bản còn hiệu lực có `expiry_date` rỗng).
+Mỗi đoạn mang siêu dữ liệu: tên văn bản, Chương, Mục, Điều, tên Điều, Khoản, Điểm, trạng thái và khoảng hiệu lực `effective_date`, `expiry_date` lấy từ `data/raw/laws.json`. Một đoạn có hiệu lực tại ngày *d* khi `effective_date ≤ d < expiry_date` (văn bản còn hiệu lực có `expiry_date` rỗng).
 
-Từ ba loại đoạn trên, hệ thống tạo bốn chỉ mục (bốn biến thể của RQ2): Khoản kèm tiêu đề phân cấp (`clause_header`, mặc định), Khoản chỉ có nội dung (`clause_plain`), Điều kèm tiêu đề (`article`) và cố định (`fixed`). "Kèm tiêu đề" nghĩa là văn bản đem đi embedding được gắn thêm dòng "tên văn bản – Điều – tên Điều – Khoản" trước nội dung, để đoạn ngắn không mất ngữ cảnh.
+Từ ba loại đoạn trên, hệ thống tạo bốn chỉ mục (bốn biến thể của RQ2): Khoản kèm tiêu đề phân cấp (`clause_header`, mặc định), Khoản chỉ có nội dung (`clause_plain`), Điều kèm tiêu đề (`article`) và cố định (`fixed`). Ở biến thể "kèm tiêu đề", văn bản đem đi embedding có thêm dòng "tên văn bản, Điều, tên Điều, Khoản" trước nội dung để đoạn ngắn không mất ngữ cảnh.
 
 ## 4.3. Truy xuất căn cứ
 
 Bộ truy xuất (`src/retrieval/retriever.py`) có bốn chế độ, cũng là bốn phương pháp so sánh ở RQ1:
 
-1. **BM25** (`rank_bm25.BM25Okapi`): văn bản tách từ tiếng Việt bằng underthesea (từ ghép nối bằng dấu `_`), chữ thường, bỏ dấu câu.
-2. **Dense**: embedding `BAAI/bge-m3` chuẩn hóa, độ đo cosine, lưu trong ChromaDB; giới hạn 2.048 token mỗi đoạn để giữ tốc độ trên CPU.
-3. **Hybrid**: lấy 50 ứng viên từ mỗi nhánh rồi hợp nhất bằng Reciprocal Rank Fusion với hằng số *k* = 60: điểm của một đoạn là tổng 1/(60 + hạng) trên các danh sách.
-4. **Hybrid + rerank** (mặc định): 10 ứng viên đầu sau RRF được chấm lại bằng cross-encoder `BAAI/bge-reranker-v2-m3`; con số 10 được chọn vì 20 ứng viên mất khoảng 11 giây mỗi câu trên CPU 16 nhân.
+1. BM25 (`rank_bm25.BM25Okapi`): văn bản tách từ tiếng Việt bằng underthesea (từ ghép nối bằng dấu `_`), chữ thường, bỏ dấu câu.
+2. Dense: embedding `BAAI/bge-m3` chuẩn hóa, độ đo cosine, lưu trong ChromaDB; giới hạn 2.048 token mỗi đoạn để giữ tốc độ trên CPU.
+3. Hybrid: lấy 50 ứng viên từ mỗi nhánh rồi hợp nhất bằng Reciprocal Rank Fusion với hằng số *k* = 60, điểm của một đoạn là tổng 1/(60 + hạng) trên các danh sách.
+4. Hybrid + rerank (mặc định): cross-encoder `BAAI/bge-reranker-v2-m3` chấm lại 10 ứng viên đầu sau RRF. Nhóm chọn 10 vì với 20 ứng viên, mỗi câu mất khoảng 11 giây trên CPU 16 nhân.
 
-**Lọc theo hiệu lực.** Khi có ngày *d*, cả hai nhánh chỉ trả đoạn có hiệu lực tại *d*: nhánh dense lọc ngay trong truy vấn Chroma bằng hai trường số `effective_from`, `effective_to` (dạng YYYYMMDD, vì Chroma chỉ so sánh lớn hơn/nhỏ hơn trên số); nhánh BM25 lọc trên siêu dữ liệu. Ba chính sách lọc của RQ4:
+Khi có ngày *d*, cả hai nhánh chỉ trả đoạn có hiệu lực tại *d*. Nhánh dense lọc ngay trong truy vấn Chroma bằng hai trường số `effective_from`, `effective_to` (dạng YYYYMMDD, vì Chroma chỉ so sánh lớn hơn/nhỏ hơn trên số), còn nhánh BM25 lọc trên siêu dữ liệu. RQ4 so sánh ba chính sách lọc:
 
 - `event`: lọc theo ngày sự việc do router trích từ câu hỏi;
 - `current`: chỉ lấy văn bản còn hiệu lực;
 - `any`: không lọc, lấy mọi phiên bản.
 
-Truy xuất **không** lọc theo lĩnh vực luật: nếu router đoán sai lĩnh vực thì truy xuất vẫn không bị kéo sai theo.
+Truy xuất không lọc theo lĩnh vực luật, nên router có đoán sai lĩnh vực thì kết quả truy xuất cũng không bị kéo sai theo.
 
 ## 4.4. Tác tử Agentic-RAG
 
@@ -84,12 +84,12 @@ Tác tử là một đồ thị LangGraph (`src/agent/graph.py`) gồm 7 nút; t
 
 | Nút | Lượt LLM | Việc làm | Đi tiếp |
 |---|---|---|---|
-| `route` | 1 | Phân loại câu hỏi: tình huống (`situational`), tra cứu trực tiếp một Điều (`direct`), ngoài phạm vi (`out_of_scope`); trích ngày sự việc; với câu `direct` trích văn bản và số Điều | ngoài phạm vi → `refuse`; `direct` → `lookup_article`; còn lại → `retrieve` |
-| `lookup_article` | 0 | Lấy toàn văn Điều được hỏi, nếu văn bản có hiệu lực tại ngày sự việc; câu không nêu ngày sự việc thì trả đúng Điều người dùng nêu, kể cả của văn bản đã hết hiệu lực | có → `generate`; không → `retrieve` |
-| `retrieve` | 0 | Tìm 5 đoạn bằng truy vấn mới nhất, lọc hiệu lực, gộp vào bằng chứng của các vòng trước (tối đa 15 đoạn, bỏ trùng) | không có gì → `refuse`; còn lại → `grade` |
-| `grade` | 1 | Đánh giá bằng chứng đã đủ trả lời chưa; chưa đủ thì đề xuất truy vấn mới | đủ → `generate`; chưa đủ và còn lượt viết lại (tối đa 2) → `retrieve`; hết lượt → `refuse` |
-| `generate` | 1 | Sinh câu trả lời tiếng Việt, mỗi câu gắn mã đoạn dạng `[BLLD2019_Dieu20_Khoan1]`; được phép trả "không đủ căn cứ" | không đủ căn cứ → `refuse`; còn lại → `verify` |
-| `verify` | 0 hoặc 1 | Kiểm chứng trích dẫn (mục 4.4.2) | cần sinh lại → `generate`; xong → kết thúc |
+| `route` | 1 | Phân loại câu hỏi: tình huống (`situational`), tra cứu trực tiếp một Điều (`direct`), ngoài phạm vi (`out_of_scope`); trích ngày sự việc; với câu `direct` trích văn bản và số Điều | ngoài phạm vi thì sang `refuse`; `direct` thì sang `lookup_article`; còn lại sang `retrieve` |
+| `lookup_article` | 0 | Lấy toàn văn Điều được hỏi, nếu văn bản có hiệu lực tại ngày sự việc; câu không nêu ngày sự việc thì trả đúng Điều người dùng nêu, kể cả của văn bản đã hết hiệu lực | có thì sang `generate`; không thì sang `retrieve` |
+| `retrieve` | 0 | Tìm 5 đoạn bằng truy vấn mới nhất, lọc hiệu lực, gộp vào bằng chứng của các vòng trước (tối đa 15 đoạn, bỏ trùng) | không có gì thì sang `refuse`; còn lại sang `grade` |
+| `grade` | 1 | Đánh giá bằng chứng đã đủ trả lời chưa; chưa đủ thì đề xuất truy vấn mới | đủ thì sang `generate`; chưa đủ và còn lượt viết lại (tối đa 2) thì về `retrieve`; hết lượt thì sang `refuse` |
+| `generate` | 1 | Sinh câu trả lời tiếng Việt, mỗi câu gắn mã đoạn (dạng mã ở mục 4.2.3) trong ngoặc vuông; được phép trả "không đủ căn cứ" | không đủ căn cứ thì sang `refuse`; còn lại sang `verify` |
+| `verify` | 0 hoặc 1 | Kiểm chứng trích dẫn (mục 4.4.2) | cần sinh lại thì về `generate`; xong thì kết thúc |
 | `refuse` | 0 | Trả lời từ chối kèm lý do: ngoài phạm vi, không tìm thấy căn cứ, hoặc căn cứ không đủ | kết thúc |
 
 Một câu hỏi tình huống đi trọn luồng tốn khoảng 4 lượt gọi LLM (route, grade, generate, verify), nhiều hơn khi phải viết lại truy vấn hoặc sinh lại câu trả lời.
@@ -98,12 +98,12 @@ Một câu hỏi tình huống đi trọn luồng tốn khoảng 4 lượt gọi
 
 Bước `verify` có hai lớp:
 
-- **(a) Kiểm tra cú pháp** (không gọi LLM, luôn chạy ở mọi cấu hình): chuẩn hóa mã trích dẫn về đúng dạng trong kho, rồi gỡ mọi mã không nằm trong bằng chứng đã truy xuất. Lớp này bảo đảm hệ thống **không bao giờ** trả về trích dẫn tới một đoạn mà mô hình chưa được đọc.
-- **(b) Kiểm tra ngữ nghĩa** (1 lượt LLM): mô hình nhận mọi cặp (câu, đoạn được trích) cùng tiêu đề Điều của đoạn, và chỉ ra cặp nào đoạn không hỗ trợ nội dung câu; các mã đó bị gỡ.
+- Lớp (a) kiểm tra cú pháp, không gọi LLM và luôn chạy ở mọi cấu hình. Lớp này chuẩn hóa mã trích dẫn về đúng dạng trong kho rồi gỡ mọi mã không nằm trong bằng chứng đã truy xuất, nên hệ thống không bao giờ trả về trích dẫn tới đoạn mà mô hình chưa đọc.
+- Lớp (b) kiểm tra ngữ nghĩa bằng 1 lượt LLM. Mô hình nhận mọi cặp (câu, đoạn được trích) cùng tiêu đề Điều của đoạn, chỉ ra cặp nào đoạn không hỗ trợ nội dung câu, và các mã đó bị gỡ.
 
-Câu nào mất hết trích dẫn sau hai lớp trên thì câu trả lời được sinh lại một lần, kèm danh sách câu chưa có căn cứ (chỉ khi bật lớp (b)). Nếu sau lần sinh lại vẫn còn câu như vậy, câu đó được giữ nhưng gắn nhãn "(chưa có căn cứ)" để người đọc biết; câu trả lời không còn trích dẫn nào thì có thêm dòng ghi chú cuối.
+Câu nào mất hết trích dẫn sau hai lớp trên thì câu trả lời được sinh lại một lần, kèm danh sách câu chưa có căn cứ (chỉ khi bật lớp (b)). Sinh lại rồi mà vẫn còn câu như vậy thì câu đó được giữ nhưng gắn nhãn "(chưa có căn cứ)" để người đọc biết. Câu trả lời không còn trích dẫn nào thì có thêm dòng ghi chú ở cuối.
 
-Phiên bản đầu của lớp (b) chỉ đưa nội dung Khoản cho mô hình; thực nghiệm cho thấy nó gỡ nhầm nhiều trích dẫn đúng vì không biết Khoản thuộc Điều nào. Phiên bản hiện tại đưa thêm tên văn bản, số và tên Điều (so sánh ở mục 5.4.4).
+Phiên bản đầu của lớp (b) chỉ đưa nội dung Khoản cho mô hình, và thực nghiệm cho thấy nó gỡ nhầm nhiều trích dẫn đúng vì không biết Khoản thuộc Điều nào. Phiên bản hiện tại đưa thêm tên văn bản, số và tên Điều (so sánh ở mục 5.4.4).
 
 ### 4.4.3. Năm cấu hình thí nghiệm
 
@@ -120,23 +120,23 @@ Cùng một đồ thị phục vụ năm cấu hình của RQ3 bằng ba cờ b�
 | `no_grading` | bật | tắt | bật |
 | `no_verify` | bật | bật | tắt |
 
-Khi tắt router, câu hỏi luôn được coi là câu tình huống và không có ngày sự việc, nên truy xuất lọc theo văn bản còn hiệu lực. Verify (a) luôn chạy, kể cả ở `baseline`.
+Tắt router thì mọi câu hỏi được coi là câu tình huống không có ngày sự việc, nên truy xuất chỉ lấy văn bản còn hiệu lực. Verify (a) luôn chạy, kể cả ở `baseline`.
 
 ### 4.4.4. Dấu vết thực thi
 
-Mỗi nút ghi một bước vào `trace`: tên nút, đầu ra rút gọn (bằng chứng chỉ giữ mã đoạn), thời gian xử lý và số lượt gọi LLM. Thời gian đã trừ phần chờ giãn cách của gói API miễn phí, nên phản ánh độ trễ của chính hệ thống. Trace vừa hiển thị trên giao diện (dòng thời gian các bước), vừa là dữ liệu cho đo độ trễ và phân tích lỗi ở Chương 5.
+Mỗi nút ghi một bước vào `trace`: tên nút, đầu ra rút gọn (bằng chứng chỉ giữ mã đoạn), thời gian xử lý và số lượt gọi LLM. Thời gian đã trừ phần chờ giãn cách của gói API miễn phí, nên đây là độ trễ của chính hệ thống. Giao diện hiển thị trace thành dòng thời gian các bước, và Chương 5 dùng trace để đo độ trễ và phân tích lỗi.
 
 ## 4.5. API và giao diện
 
-**API** (`src/api/main.py`, FastAPI) theo định dạng ở Phụ lục A.5 của đề cương:
+API (`src/api/main.py`, FastAPI) theo định dạng ở Phụ lục A.5 của đề cương:
 
 - `POST /api/ask` nhận câu hỏi (1–1.000 ký tự) và tên cấu hình (mặc định `full`); trả câu trả lời, trạng thái từ chối, danh sách trích dẫn (mã đoạn, văn bản, Điều, Khoản, nội dung), các đoạn đã truy xuất và trace.
 - `GET /api/article/{law_id}/{article}` trả toàn văn một Điều để giao diện hiển thị khi người dùng bấm vào trích dẫn.
 - `GET /health` trả trạng thái và tên mô hình.
 
-Tác tử được nạp một lần khi khởi động. Các câu hỏi được phục vụ tuần tự (khóa), vì bộ đếm lượt gọi, bộ giãn cách và bộ đệm của lớp `LLM` dùng chung giữa các yêu cầu.
+Tác tử nạp một lần khi khởi động. API xử lý câu hỏi tuần tự (có khóa), vì bộ đếm lượt gọi, bộ giãn cách và bộ đệm của lớp `LLM` dùng chung giữa các yêu cầu.
 
-**Giao diện** (`src/ui/web/`, NiceGUI) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 4.3–4.5).
+Giao diện (`src/ui/web/`, NiceGUI) gồm khung hội thoại, thẻ trích dẫn mở được toàn văn Điều, thẻ hiệu lực văn bản và dòng thời gian các bước của tác tử (Hình 4.3–4.5).
 
 <!-- Hình 4.3: assets/screenshots_nicegui/nicegui_02_answered_citations.png -->
 **Hình 4.3.** Câu trả lời kèm trích dẫn.
@@ -147,7 +147,7 @@ Tác tử được nạp một lần khi khởi động. Các câu hỏi đượ
 <!-- Hình 4.5: assets/screenshots_nicegui/nicegui_06_mobile_390x844.png -->
 **Hình 4.5.** Giao diện trên điện thoại.
 
-Hình 4.6 tóm tắt các chức năng dành cho người dùng. Hình 4.7 mô tả các thành phần trao đổi với nhau theo thời gian khi xử lý một câu hỏi; Hình 4.8 mô tả cùng luồng đó theo các nhánh quyết định, gồm cả các mã lỗi 422, 500, 503 của mục 4.6.
+Hình 4.6 tóm tắt các chức năng dành cho người dùng. Hình 4.7 mô tả các thành phần trao đổi với nhau theo thời gian khi xử lý một câu hỏi. Hình 4.8 vẽ cùng luồng đó theo các nhánh quyết định, gồm cả các mã lỗi 422, 500, 503 của mục 4.6.
 
 <!-- Hình 4.6: assets/diagrams/usecase.png (nguồn usecase.drawio) -->
 **Hình 4.6.** Sơ đồ use case.

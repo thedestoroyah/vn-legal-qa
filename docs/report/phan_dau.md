@@ -2,13 +2,13 @@
 
 Chúng em xin gửi lời cảm ơn tới thầy PGS.TS. Lê Anh Cường đã tận tình giảng dạy, giúp đỡ và hướng dẫn chúng em hoàn thành báo cáo này. Trong quá trình thực hiện, nhóm em đã nhận được nhiều ý kiến đóng góp từ thầy, giúp nhóm em hiểu rõ hơn về các vấn đề phức tạp trong môn học và có được cái nhìn tổng quát hơn về những kiến thức liên quan đến đề tài.
 
-Cuối cùng, nhóm em xin chân thành cảm ơn thầy đã đồng hành và hỗ trợ trong quá trình học tập và nghiên cứu. Dù đã cố gắng thực hiện đề tài một cách hoàn chỉnh nhất, song vì hạn chế về kiến thức và thời gian nên vẫn còn nhiều thiếu sót, chúng em rất mong được sự đóng góp ý kiến của thầy để bài báo cáo được hoàn thiện hơn.
+Cuối cùng, nhóm em xin chân thành cảm ơn thầy đã hỗ trợ trong quá trình học tập và nghiên cứu. Dù đã cố gắng hoàn thiện đề tài, song vì hạn chế về kiến thức và thời gian nên vẫn còn nhiều thiếu sót, chúng em rất mong được sự đóng góp ý kiến của thầy để bài báo cáo được hoàn thiện hơn.
 
 ## Tóm tắt
 
 Mô hình ngôn ngữ lớn có thể trả lời câu hỏi pháp luật nhưng dễ trích sai căn cứ hoặc dùng văn bản không có hiệu lực vào thời điểm xảy ra sự việc. Đề tài xây dựng hệ thống hỏi đáp pháp luật tiếng Việt theo hướng Agentic-RAG trên 5 văn bản luật: Bộ luật Dân sự 2015, Bộ luật Lao động 2012 và 2019, Luật Doanh nghiệp 2020, Luật Thương mại 2005. Văn bản được tách thành Điều, Khoản kèm khoảng hiệu lực; bộ truy xuất kết hợp BM25 với tìm kiếm ngữ nghĩa bằng RRF, xếp hạng lại bằng cross-encoder và lọc văn bản theo ngày sự việc. Tác tử LangGraph định tuyến câu hỏi, đánh giá bằng chứng, sinh câu trả lời có trích dẫn tới Khoản và kiểm chứng trích dẫn hai lớp.
 
-Hệ thống được đánh giá trên 209 câu hỏi, trong đó có tập giữ riêng 30 câu soạn sau khi đã cố định prompt. Truy xuất lai kèm xếp hạng lại đạt Hit@5 0,844 và Recall@10 0,872 trên 77 câu của bộ Zalo; tác tử đầy đủ đạt Citation Precision 0,870. So với RAG một lượt, tỷ lệ trích đúng phiên bản luật cao hơn 0,250; lọc theo ngày sự việc cao hơn 0,312 về đúng phiên bản so với chỉ dùng văn bản còn hiệu lực, trên 32 câu có mốc thời gian. Hạn chế chính là prompt được chỉnh trên tập kiểm thử, bộ chấm tự động chưa được kiểm định đủ và cỡ mẫu còn nhỏ.
+Nhóm đánh giá hệ thống trên 209 câu hỏi, trong đó có tập giữ riêng 30 câu soạn sau khi đã cố định prompt. Truy xuất lai kèm xếp hạng lại đạt Hit@5 0,844 và Recall@10 0,872 trên 77 câu của bộ Zalo; tác tử đầy đủ đạt Citation Precision 0,870. So với RAG một lượt, tỷ lệ trích đúng phiên bản luật cao hơn 0,250; lọc theo ngày sự việc cao hơn 0,312 về đúng phiên bản so với chỉ dùng văn bản còn hiệu lực, trên 32 câu có mốc thời gian. Hạn chế chính là prompt được chỉnh trên tập kiểm thử, bộ chấm tự động chưa được kiểm định đủ và cỡ mẫu còn nhỏ.
 
 ## Abstract
 
