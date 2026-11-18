@@ -1,0 +1,356 @@
+{
+ "meta": {
+  "title": "PHÁT TRIỂN HỆ THỐNG HỎI ĐÁP PHÁP LUẬT VIỆT NAM DỰA TRÊN AGENTIC-RAG VỚI TRUY XUẤT CĂN CỨ THEO HIỆU LỰC VÀ KIỂM CHỨNG TRÍCH DẪN",
+  "short": "Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG",
+  "report": "BÁO CÁO TIẾN ĐỘ TUẦN 14",
+  "course": "ĐỒ ÁN CÔNG NGHỆ THÔNG TIN",
+  "week": "Tuần 14 (16/11 – 22/11/2026)",
+  "dates": "16/11 – 22/11/2026",
+  "code": "ĐA127",
+  "supervisor": "PGS.TS. Lê Anh Cường",
+  "students": [
+   "Phạm Huỳnh Quốc Đạt - 52300098",
+   "Hoàng Sinh Hùng - 52300106"
+  ],
+  "date": "19/11/2026",
+  "footer": "ĐA127 2026–2027 | Hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG | Báo cáo tuần 14",
+  "title_vi": "Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn",
+  "title_en": "Developing a Vietnamese Legal Question Answering System based on Agentic-RAG with Temporally-Aware Legal Retrieval and Citation Verification"
+ },
+ "summary": "Tuần 14 là tuần đầu của Sprint 6: báo cáo cuối kỳ được đối chiếu với quy định trình bày và rubric của Khoa rồi sửa lại cho đúng (bảng cỡ chữ 13, bỏ in đậm trong thân bài, viết lại văn phong); Chương 3 và các hình minh họa được làm lại theo mã nguồn; slide bảo vệ 17 trang đã xong. Do Hùng không phản hồi từ 07/11, Đạt nhận hết việc còn lại của Hùng. Không thay đổi tác tử, prompt hay tập kiểm thử, nên số liệu thực nghiệm giữ nguyên như tuần 12 và 13.",
+ "ch1": {
+  "title": "TIẾN ĐỘ THỰC HIỆN VÀ KẾT QUẢ ĐẠT ĐƯỢC TUẦN NÀY",
+  "intro": "Tuần 14 (16/11 – 22/11/2026) là tuần đầu của Sprint 6 (16/11 – 27/11, Đóng gói và hoàn thiện). Báo cáo này tính mọi việc làm sau báo cáo tuần 13 đến hết ngày 19/11/2026, gồm phiên làm việc ngày 16/11 và các ngày 18/11, 19/11. Từ 16/11, Đạt nhận hết phần việc còn lại của Hùng vì Hùng không phản hồi từ 07/11.",
+  "sections": [
+   {
+    "h": "Đối chiếu báo cáo với quy định của Khoa (16/11)",
+    "text": "Nhóm đối chiếu báo cáo với hướng dẫn trình bày kèm Quyết định 2284, slide về lỗi thường gặp, và sheet thông tin môn học cùng rubric chấm trong file Excel của môn.",
+    "table": {
+     "caption": "Bảng 1.1. Kết quả đối chiếu báo cáo với quy định của Khoa",
+     "head": [
+      "Mục kiểm",
+      "Yêu cầu",
+      "Tình trạng"
+     ],
+     "rows": [
+      [
+       "Lề trang, phông chữ",
+       "Lề 3,5 / 2 / 3 / 3,5 cm; Times New Roman 13; giãn 1,5 dòng",
+       "Xong"
+      ],
+      [
+       "Hình và bảng",
+       "Chú thích bảng ở trên, hình ở dưới; số theo chương; nhắc theo số trong bài",
+       "Xong (thêm 18 câu nhắc)"
+      ],
+      [
+       "In đậm, tiêu đề",
+       "Chỉ tiêu mục có số được in đậm; tối đa 3 cấp",
+       "Xong (sửa 18/11)"
+      ],
+      [
+       "Tài liệu tham khảo",
+       "Chia A văn bản quy phạm, B tài liệu (APA 7)",
+       "Xong (thêm phần A)"
+      ],
+      [
+       "Nội dung theo sheet môn",
+       "Quản lý dự án, ý nghĩa khoa học, khả năng ứng dụng",
+       "Xong (thêm 3 đoạn)"
+      ],
+      [
+       "Danh mục hình, bảng",
+       "Liệt kê đủ, có số trang",
+       "Xong (sửa 19/11)"
+      ],
+      [
+       "Trang trắng, khoảng trống",
+       "Không có trên bản PDF cuối",
+       "Chưa kiểm"
+      ]
+     ]
+    },
+    "after": "Các chỗ đã sửa: danh mục tài liệu tham khảo thêm phần A (5 văn bản quy phạm pháp luật) và giãn 1,5 dòng; thêm đoạn quản lý dự án (GitHub, pytest, Docker) ở mục 1.4, mục 1.6 Ý nghĩa khoa học và thực tiễn, đoạn Khả năng ứng dụng thực tế ở mục 5.7; tiêu đề dính với đoạn sau; ghi \"PGS.TS.\" ở lời cảm ơn. Đối chiếu cũng cho thấy hồ sơ nộp ELIT cần có thư mục source và tệp readme.txt, nên đã viết readme.txt."
+   },
+   {
+    "h": "Viết lại Chương 3 và vẽ lại hình minh họa (16/11, việc của Hùng)",
+    "items": [
+     [
+      "Viết lại Chương 3",
+      "bỏ khoảng 30 từ cường điệu; sửa 7 chỗ lệch mã nguồn (công thức IDF của BM25 theo thư viện rank_bm25, giới hạn 2.048 token của BGE-M3, tiêu đề phân cấp không có Chương, cửa sổ cố định 200 từ chồng 40 từ, định nghĩa câu ngoài phạm vi theo prompt router, bước sinh lại của verify, giới hạn 512 token của reranker); số trích dẫn tăng từ 9 lên 14."
+     ],
+     [
+      "Hình 3.1–3.4",
+      "vẽ bằng draw.io theo cùng kiểu với Hình 4.1–4.2, bằng script để sửa được."
+     ],
+     [
+      "Sơ đồ activity",
+      "sửa theo 7 điểm lệch so với mã nguồn và một số chỗ sai khác, đưa vào Chương 4 thành Hình 4.8; bỏ Hình 3.5."
+     ],
+     [
+      "Chọn công cụ vẽ",
+      "thử một công cụ vẽ sơ đồ khác để so với draw.io, rồi giữ draw.io vì bộ hình đồng bộ và sửa được."
+     ]
+    ]
+   },
+   {
+    "h": "Sửa lỗi của công cụ ghép báo cáo (16/11 – 19/11)",
+    "items": [
+     [
+      "Mất tiêu đề mục 5.6",
+      "lỗi cũ của script: chú thích cuối dòng bị xóa kèm dấu xuống dòng nên mất tiêu đề mục 5.6 \"Phân tích lỗi\" và một gạch đầu dòng ở mục 5.4.5 dính vào đoạn trước; đã sửa, có test."
+     ],
+     [
+      "Danh mục bảng trống",
+      "mẫu của Khoa ghi chữ \"Bảng\" ở dạng Unicode tổ hợp nên danh mục không khớp; OnlyOffice còn tính sai trường số của chú thích. Chú thích hình, bảng nay là chữ ghi sẵn."
+     ],
+     [
+      "Danh mục hình, bảng tĩnh",
+      "19/11: OnlyOffice vẫn không dựng được danh mục theo style khi bấm F9, nên script sinh danh mục tĩnh (16 hình, 19 bảng), mỗi dòng có trường PAGEREF trỏ tới chú thích và số trang lấy từ bản render."
+     ],
+     [
+      "Kiểm thử tự động",
+      "393 test đạt (381 ở báo cáo tuần 13), thêm 12 test cho script ghép báo cáo."
+     ]
+    ]
+   },
+   {
+    "h": "Chỉnh trình bày và văn phong báo cáo (18/11)",
+    "items": [
+     [
+      "Cỡ chữ trong bảng",
+      "từ 11 lên 13 như thân bài; chia lại bề rộng cột để số liệu và từ khóa như lookup_article không bị bẻ dòng."
+     ],
+     [
+      "In đậm và đường kẻ",
+      "bỏ in đậm ở thân bài và trong bảng (hơn 200 chỗ), chỉ tiêu mục có số được in đậm; bỏ 9 đường kẻ ngang chia cắt ở Chương 3."
+     ],
+     [
+      "Viết lại văn phong",
+      "rà cả 6 chương và phần đầu: bỏ nhãn in đậm đầu gạch, mũi tên và gạch ngang nối ý, câu bị động dịch sát từ tiếng Anh; đối chiếu từng chương với bản cũ, số liệu giữ nguyên."
+     ],
+     [
+      "Kết quả",
+      "báo cáo 76 trang (nội dung Chương 1–6 khoảng 64 trang, quy định 30–80 trang), build không cảnh báo; bản cũ được lưu lại."
+     ]
+    ]
+   },
+   {
+    "h": "Slide bảo vệ, Docker và giao diện",
+    "items": [
+     [
+      "Slide bảo vệ",
+      "17 slide dựng bằng script, mỗi slide có lời thuyết trình, tổng khoảng 12 phút (giới hạn 15 phút gồm cả demo); số liệu lấy từ Chương 5 và 6; slide RQ4 dùng câu trả lời thật của câu M_016. Đạt duyệt."
+     ],
+     [
+      "Docker",
+      "Đạt chạy docker compose up --build trên máy mình, giao diện kết nối với API."
+     ],
+     [
+      "Giao diện",
+      "lỗi 500 do chỉ mục không còn gợi ý \"Thử lại\" vô ích; sửa các tài liệu ghi sai hiện trạng (AGENTS.md, README, mốc nộp trong kế hoạch)."
+     ]
+    ]
+   },
+   {
+    "h": "Phần việc của từng thành viên",
+    "items": [
+     [
+      "Phạm Huỳnh Quốc Đạt",
+      "đối chiếu và sửa báo cáo theo quy định; viết lại Chương 3; Hình 3.1–3.4 và sơ đồ activity; sửa công cụ ghép báo cáo; slide bảo vệ; chạy thử Docker; chỉnh trình bày, văn phong báo cáo."
+     ],
+     [
+      "Hoàng Sinh Hùng",
+      "chưa có cập nhật mới từ 07/11. Từ 16/11 Đạt nhận hết việc còn lại: slide bảo vệ và Hình 3.x đã xong, video demo Đạt tự quay."
+     ]
+    ]
+   }
+  ]
+ },
+ "ch2": {
+  "title": "ĐÁNH GIÁ TIẾN ĐỘ SO VỚI KẾ HOẠCH CỦA KHOA",
+  "intro": "Đề tài thực hiện từ 15/08 đến 04/12/2026 (khoảng 16 tuần) theo đề cương cập nhật. Đến 19/11 đã trôi qua 96/112 ngày, tức 86% thời gian.",
+  "table": {
+   "caption": "Bảng 2.1. Đối chiếu kế hoạch trong đề cương và tình trạng của nhóm",
+   "head": [
+    "Tuần",
+    "Giai đoạn theo đề cương",
+    "Tình trạng"
+   ],
+   "rows": [
+    [
+     "1 – 8",
+     "Giai đoạn 0 (15/08 – 08/10): khảo sát, đề cương",
+     "Hoàn thành"
+    ],
+    [
+     "8 – 9",
+     "Sprint 1 (09/10 – 14/10): dữ liệu và nền tảng",
+     "Hoàn thành"
+    ],
+    [
+     "9 – 10",
+     "Sprint 2 (15/10 – 21/10): truy xuất, RQ1, RQ2; báo cáo giữa kỳ 22/10",
+     "Hoàn thành"
+    ],
+    [
+     "10 – 11",
+     "Sprint 3 (22/10 – 28/10): tác tử Agentic-RAG",
+     "Hoàn thành sớm (16/10)"
+    ],
+    [
+     "11 – 12",
+     "Sprint 4 (29/10 – 04/11): tích hợp hệ thống, đánh giá câu trả lời",
+     "Hoàn thành"
+    ],
+    [
+     "12 – 13",
+     "Sprint 5 (05/11 – 15/11): thực nghiệm đầy đủ, đóng băng 12/11",
+     "Hoàn thành"
+    ],
+    [
+     "14 – 15",
+     "Sprint 6 (16/11 – 27/11): đóng gói, hoàn thiện báo cáo",
+     "Đang làm: báo cáo, slide, Docker xong; còn video, Turnitin"
+    ],
+    [
+     "16",
+     "Dự phòng (28/11 – 03/12); nộp 03/12, hạn chót 04/12",
+     "Chưa đến hạn"
+    ],
+    [
+     "Sau 04/12",
+     "Bảo vệ phản biện",
+     "Chưa đến hạn"
+    ]
+   ]
+  },
+  "verdict": [
+   [
+    "Tổng thể",
+    "đúng tiến độ, sớm khoảng 1 tuần: 75/79 hạng mục trong kế hoạch chi tiết đã xong (95%), không tính 5 hạng mục đã hủy."
+   ],
+   [
+    "Vượt kế hoạch",
+    "Hình 3.1–3.4, sơ đồ activity (hạn 20/11) và slide bảo vệ xong trước hạn do Đạt làm thay."
+   ],
+   [
+    "Cần theo dõi",
+    "video demo (quay khi Gemini ổn định), kiểm tra Turnitin, ký và xuất PDF, đóng gói nộp ELIT."
+   ]
+  ]
+ },
+ "ch3": {
+  "title": "KẾ HOẠCH CHI TIẾT TỪ NAY ĐẾN KHI KẾT THÚC ĐỀ TÀI",
+  "intro": "Báo cáo hoàn chỉnh 27/11/2026; nộp ngày 03/12, hạn chót 23:59 ngày 04/12/2026 (file nộp trên ELIT nộp trước ngày công bố hội đồng phản biện 1 tuần).",
+  "weeks": [
+   {
+    "name": "Cuối tuần 14",
+    "dates": "19/11 – 22/11/2026",
+    "goal": "Chốt báo cáo và video",
+    "items": [
+     "Cập nhật trường trong OnlyOffice, kiểm trang trắng trước Chương 1",
+     "Quay video demo 4 kịch bản (Đạt)",
+     "Tập nói theo slide, có bấm giờ"
+    ]
+   },
+   {
+    "name": "Tuần 15",
+    "dates": "23/11 – 29/11/2026",
+    "goal": "Hoàn thiện báo cáo",
+    "items": [
+     "Rà soát kỹ thuật toàn bộ báo cáo; kiểm tra Turnitin",
+     "Ghi ngày, ký; xuất PDF; scan kế hoạch có chữ ký GVHD",
+     "27/11: báo cáo hoàn chỉnh"
+    ]
+   },
+   {
+    "name": "Tuần 16",
+    "dates": "30/11 – 04/12/2026",
+    "goal": "Đóng gói và nộp",
+    "items": [
+     "Đóng gói file 52300098_52300106.zip: báo cáo PDF, scan kế hoạch, thư mục source, chroma_db.zip, readme.txt",
+     "Nộp ELIT ngày 03/12 (hạn chót 23:59 ngày 04/12/2026)",
+     "Tập dượt bảo vệ"
+    ]
+   }
+  ],
+  "after": "Sau 04/12: bảo vệ phản biện theo lịch của Khoa."
+ },
+ "ch4": {
+  "title": "KHÓ KHĂN, RỦI RO VÀ GIẢI PHÁP KHẮC PHỤC",
+  "rows": [
+   [
+    "OnlyOffice tính sai trường số của chú thích; danh mục hình, bảng trống khi bấm F9",
+    "Đã xử lý: chú thích là chữ ghi sẵn; script sinh danh mục tĩnh, mỗi dòng có trường PAGEREF và số trang lấy từ bản render; có test."
+   ],
+   [
+    "Báo cáo chưa đúng quy định trình bày khi đối chiếu: bảng cỡ 11, nhiều chỗ in đậm trong thân bài, đường kẻ ngang, văn phong dịch sát",
+    "Đã xử lý: bảng cỡ 13, chỉ tiêu mục được in đậm, bỏ đường kẻ ngang, viết lại văn phong cả 6 chương; số liệu giữ nguyên, bản cũ được lưu lại."
+   ],
+   [
+    "Chương 3 (bản nháp của Hùng) có văn phong cường điệu và 7 chỗ lệch mã nguồn",
+    "Đã xử lý: viết lại, đối chiếu từng tham số với mã nguồn, thêm trích dẫn."
+   ],
+   [
+    "Không có Microsoft Word trên máy để kiểm file báo cáo",
+    "Giảm thiểu: kiểm cấu trúc bằng test, xem trước bằng OnlyOffice; trang trắng trước Chương 1 và khoảng trống giữa trang chỉ kiểm được trên bản PDF cuối."
+   ],
+   [
+    "Docker chưa kiểm trên máy sạch và trên Windows",
+    "Đang theo dõi: chạy tốt trên máy Đạt (16/11); lần chạy đầu tải khoảng 7 GB mô hình, readme.txt đã ghi; không còn người kiểm trên Windows."
+   ],
+   [
+    "Gemini quá tải (lỗi 503), ảnh hưởng việc quay video demo",
+    "Giảm thiểu: lỗi phía máy chủ Google; thực nghiệm đã xong nên chỉ ảnh hưởng demo. Quay video khi mô hình ổn định, trước khi quay kiểm /health."
+   ],
+   [
+    "Hồ sơ nộp ELIT thiếu thư mục source và tệp readme.txt",
+    "Đã xử lý: viết readme.txt; source lấy bằng git archive, kèm bộ chỉ mục chroma_db.zip."
+   ],
+   [
+    "Tiêu đề mục 5.6 bị mất do lỗi cũ của script ghép báo cáo",
+    "Đã xử lý: sửa lỗi xóa chú thích cuối dòng, có test."
+   ],
+   [
+    "Bản PDF của Quyết định 2284 là ảnh scan, không đọc được chữ",
+    "Giảm thiểu: dùng bản hướng dẫn trình bày dạng .docx đi kèm quyết định."
+   ],
+   [
+    "Giới hạn của thực nghiệm đã nêu từ tuần 12: bộ chấm LLM dễ dãi, cỡ mẫu nhỏ, prompt chỉnh trên tập kiểm thử, router xếp nhầm 3/209 câu",
+    "Chấp nhận, ghi vào giới hạn: không đổi; đã trình bày trong Chương 5 và mục hạn chế của Chương 6."
+   ],
+   [
+    "Cải thiện giao diện tốn công, hiệu quả nhìn thấy ít (từ tuần 13)",
+    "Chấp nhận, ghi vào giới hạn: giữ giao diện cũ, chỉ vá lỗi hiển thị."
+   ]
+  ],
+  "resolved": [
+   [
+    "Hùng chưa cập nhật từ 07/11; các thẻ của Hùng chặn việc hoàn thiện báo cáo",
+    "từ 16/11 Đạt nhận hết việc còn lại của Hùng nên không còn phải chờ."
+   ],
+   [
+    "Sơ đồ activity và Hình 3.1–3.4 chưa vẽ lại (chờ Hùng, hạn 20/11)",
+    "Đạt vẽ lại bốn hình và sửa sơ đồ activity theo mã nguồn."
+   ],
+   [
+    "Docker chưa chạy thử trên trình duyệt",
+    "Đạt chạy docker compose up --build ngày 16/11, giao diện kết nối với API."
+   ]
+  ]
+ },
+ "notes": [
+  "Em chào thầy. Hôm nay nhóm em báo cáo tiến độ tuần 14, từ 16/11 đến 22/11/2026, của đề tài ĐA127: Phát triển hệ thống hỏi đáp pháp luật Việt Nam dựa trên Agentic-RAG với truy xuất căn cứ theo hiệu lực và kiểm chứng trích dẫn. Báo cáo này tính các việc làm từ sau báo cáo tuần 13 đến hết ngày 19/11. Tuần này là tuần đầu của Sprint 6, có ba việc chính, thể hiện ở ba thẻ bên phải: báo cáo được đối chiếu và sửa theo quy định của Khoa, slide bảo vệ đã xong, và Sprint 6 đang chạy với các việc còn lại là video, Turnitin và nộp. Nhóm không thay đổi tác tử, prompt hay tập kiểm thử, nên số liệu thực nghiệm giữ nguyên.",
+  "Đây là các con số của tuần. Báo cáo có 76 trang, trong đó nội dung sáu chương khoảng 64 trang, nằm trong khoảng 30 đến 80 trang theo quy định. Bộ kiểm thử tăng lên 393 test và đều đạt. Slide bảo vệ có 17 slide. Báo cáo có 35 hình và bảng, đều có trong danh mục. Về kế hoạch, 75 trên 79 hạng mục đã xong. Bên trái là các việc đã hoàn thành. Bên phải là các việc còn lại: video demo, kiểm tra Turnitin, ký và xuất PDF, đóng gói nộp.",
+  "Việc đầu tiên là đối chiếu báo cáo với quy định của Khoa. Em đối chiếu với hướng dẫn trình bày kèm Quyết định 2284, slide về lỗi thường gặp, và file Excel của môn gồm thông tin môn học và rubric. Bảng bên trái liệt kê bảy mục kiểm. Sáu mục đã đúng sau khi sửa, ví dụ thêm phần văn bản quy phạm pháp luật vào danh mục tài liệu, thêm đoạn quản lý dự án, ý nghĩa khoa học và khả năng ứng dụng thực tế theo yêu cầu của môn. Còn một mục chưa kiểm được là trang trắng và khoảng trống giữa trang, vì chỉ kiểm được trên bản PDF cuối. Đối chiếu này cũng cho thấy hồ sơ nộp cần có thư mục source và tệp readme, nên em đã viết tệp readme.",
+  "Việc thứ hai là Chương 3 và các hình minh họa, vốn là việc của bạn Hùng. Em viết lại Chương 3: bỏ khoảng 30 từ cường điệu, sửa bảy chỗ lệch so với mã nguồn, ví dụ công thức IDF của BM25 theo thư viện rank_bm25 và giới hạn 2.048 token của BGE-M3, và tăng số trích dẫn từ chín lên mười bốn. Em cũng vẽ bốn hình của Chương 3 bằng draw.io, sửa sơ đồ activity theo bảy điểm lệch so với mã nguồn rồi đưa vào Chương 4 thành Hình 4.8.",
+  "Việc thứ ba là chỉnh trình bày và văn phong báo cáo, em làm ngày 18/11. Chữ trong bảng tăng từ cỡ 11 lên cỡ 13 như thân bài, và em chia lại độ rộng cột để số liệu không bị bẻ dòng. Em bỏ hơn 200 chỗ in đậm trong thân bài và trong bảng, chỉ giữ in đậm cho tiêu mục có số, và bỏ chín đường kẻ ngang ở Chương 3. Em cũng viết lại văn phong sáu chương, bỏ các chỗ câu dịch sát từ tiếng Anh. Từng chương được đối chiếu với bản cũ, số liệu giữ nguyên. Hình bên trái là Bảng 5.4 sau khi sửa.",
+  "Bên cạnh nội dung, công cụ ghép báo cáo cũng được sửa. Script từng làm mất tiêu đề mục 5.6 Phân tích lỗi, nay đã sửa và có test. Danh mục bảng từng trống vì mẫu của Khoa ghi chữ Bảng ở dạng Unicode khác, và OnlyOffice tính sai trường số của chú thích. Ngày 19/11, khi bấm F9 trong OnlyOffice danh mục vẫn không cập nhật, nên script nay tự sinh danh mục tĩnh gồm 16 hình và 19 bảng, mỗi dòng có số trang lấy từ bản render. Bộ test có thêm 12 test cho phần này.",
+  "Việc thứ tư là slide bảo vệ và Docker. Slide bảo vệ có 17 slide, dựng bằng script, mỗi slide có lời thuyết trình, tổng khoảng 12 phút, nằm trong giới hạn 15 phút gồm cả demo. Số liệu lấy từ Chương 5 và 6, và slide về RQ4 dùng câu trả lời thật của câu M_016. Về Docker, em đã chạy docker compose up trên máy mình và giao diện kết nối được với API. Em cũng sửa gợi ý lỗi 500 trên giao diện: khi chỉ mục bị lỗi thì không còn gợi ý Thử lại vô ích.",
+  "So với kế hoạch trong đề cương, đến 19/11 đã trôi qua 96 trên 112 ngày, tức 86% thời gian, và nhóm hoàn thành 75 trên 79 hạng mục, khoảng 95%. Sprint 5 đã đủ hạng mục. Sprint 6 đang làm: báo cáo, slide và Docker xong, còn video và Turnitin. Hình Chương 3 và sơ đồ activity có hạn 20/11 đã xong trước hạn, do em làm thay bạn Hùng. Điểm cần theo dõi là video demo, kiểm tra Turnitin, ký và xuất PDF, đóng gói nộp ELIT.",
+  "Từ nay đến khi nộp còn hơn hai tuần. Cuối tuần 14, em cập nhật trường trong OnlyOffice, kiểm trang trắng trước Chương 1, quay video demo bốn kịch bản và tập nói theo slide có bấm giờ. Tuần 15 em rà soát kỹ thuật toàn bộ báo cáo, kiểm tra Turnitin, ghi ngày và ký, xuất PDF, scan kế hoạch có chữ ký của thầy; ngày 27/11 báo cáo hoàn chỉnh. Tuần 16 em đóng gói file zip gồm báo cáo PDF, scan kế hoạch, thư mục source, bộ chỉ mục và tệp readme, rồi nộp lên ELIT ngày 03/12, trước hạn chót 04/12.",
+  "Có mười một khó khăn, slide trình bày sáu khó khăn tiêu biểu, mỗi giải pháp ghi rõ tình trạng. Ba việc đã xử lý trong tuần là danh mục hình bảng không cập nhật trên OnlyOffice, báo cáo chưa đúng quy định trình bày, và Chương 3 lệch mã nguồn. Máy không có Word nên em kiểm bằng test và OnlyOffice, trang trắng và khoảng trống giữa trang chỉ kiểm được trên bản PDF cuối. Docker mới chạy thử trên máy em, chưa kiểm trên máy sạch hay Windows. Gemini hay báo quá tải 503, ảnh hưởng việc quay video nên em sẽ quay khi mô hình ổn định. Ba khó khăn của tuần trước, gồm việc bạn Hùng chưa phản hồi, sơ đồ activity và Hình 3.x, và Docker chưa chạy thử, đã xử lý xong, ghi trong báo cáo Word.",
+  "Tóm lại, báo cáo cuối kỳ đã được đối chiếu và sửa theo quy định của Khoa, Chương 3 và các hình đã khớp mã nguồn, slide bảo vệ đã xong, và số liệu thực nghiệm giữ nguyên vì tác tử, prompt và tập kiểm thử không đổi. Từ 16/11 em nhận hết việc còn lại của bạn Hùng. Tuần tới em tập trung quay video demo, kiểm tra Turnitin, ký, xuất PDF và đóng gói nộp. Em xin cảm ơn thầy đã lắng nghe."
+ ]
+}
