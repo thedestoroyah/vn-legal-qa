@@ -110,7 +110,7 @@ def test_styles_mapped_images_centered_and_table_cells_not_indented():
     out = br.postprocess_body(body)
     assert out.count('<w:pStyle w:val="Nidungvnbn"/>') == 2           # đoạn thường + mục danh sách
     assert '<w:pStyle w:val="Caption"/><w:keepNext/>' in out             # ảnh căn giữa, dính với chú thích
-    assert '<w:tblStyle w:val="TableGrid"/>' in out and '<w:pStyle w:val="BangNoiDung"/>' in out     # chữ bảng 11pt
+    assert '<w:tblStyle w:val="TableGrid"/>' in out and '<w:pStyle w:val="BangNoiDung"/>' in out     # chữ bảng 13pt
 
 
 def test_headings_keep_with_next_paragraph():
@@ -205,8 +205,8 @@ def test_caption_lists_built_from_caption_styles_numbering_styles_exist(built):
     # Danh mục hình/bảng của mẫu (TOC \c "Hình"/"Bảng") đổi sang lấy theo style; mẫu ghi "Bảng" ở dạng Unicode
     # tổ hợp (a + U+0309) nên \c "Bảng" không bao giờ khớp SEQ Bảng dạng dựng sẵn
     tocs = re.findall(r"<w:instrText[^>]*>([^<]*TOC[^<]*)</w:instrText>", doc)
-    assert any('\\t "Chu thich Hinh,1"' in t for t in tocs) and any('\\t "Chu thich Bang,1"' in t for t in tocs)
-    assert not any("\\c" in t for t in tocs)
+    assert not any("\\c" in t or "Chu thich" in t for t in tocs)           # OnlyOffice không dựng được TOC \t: danh mục tĩnh
+    assert doc.count(" PAGEREF _Cap_") == count_md_captions("Hình") + count_md_captions("Bảng")
     for sid, name in (("CaptionHinh", "Chu thich Hinh"), ("CaptionBang", "Chu thich Bang")):
         assert re.search(rf'w:styleId="{sid}"><w:name w:val="{name}"/><w:basedOn w:val="Caption"/>', styles)
     for nid in set(re.findall(r'<w:numId w:val="(\d+)"/>', doc)) - {"0"}:     # 0 = không đánh số (OOXML)
@@ -216,6 +216,29 @@ def test_caption_lists_built_from_caption_styles_numbering_styles_exist(built):
     settings = read_part(built, "word/settings.xml")
     assert '<w:updateFields w:val="true"/>' in settings
     assert settings.index("<w:updateFields") < settings.index("<w:compat")      # đúng thứ tự schema CT_Settings
+
+
+def _doc_with_captions():
+    cap = lambda sid, txt: f'<w:p><w:pPr><w:pStyle w:val="{sid}"/></w:pPr><w:r><w:t>{txt}</w:t></w:r></w:p>'
+    lst = lambda name: ('<w:p><w:pPr><w:pStyle w:val="TableofFigures"/></w:pPr><w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+                        f'<w:r><w:instrText xml:space="preserve"> TOC \\h \\z \\t "{name},1" </w:instrText></w:r>'
+                        '<w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>cũ</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>')
+    return lst("Chu thich Hinh") + lst("Chu thich Bang") + cap("CaptionHinh", "Hình 3.1: Bi-encoder.") + cap("CaptionBang", "Bảng 5.2: Kết quả &amp; so sánh.")
+
+
+def test_static_caption_lists_use_pageref_to_caption_bookmarks():
+    doc = br.static_caption_lists(br.bookmark_captions(_doc_with_captions()), {"Hình 3.1": "22", "Bảng 5.2": "47"})
+    assert "Chu thich" not in doc and "cũ" not in doc
+    assert '<w:bookmarkStart w:id="' in doc and 'w:name="_Cap_Hinh_3_1"' in doc and 'w:name="_Cap_Bang_5_2"' in doc
+    entry = re.search(r"<w:p>(?:(?!</w:p>).)*Hình 3\.1: Bi-encoder\.(?:(?!</w:p>).)*</w:p>", doc.split("CaptionHinh")[0], re.S).group(0)
+    assert "TableofFigures" in entry and " PAGEREF _Cap_Hinh_3_1 \\h " in entry and "<w:tab/>" in entry and ">22<" in entry
+    assert doc.count("Kết quả &amp; so sánh.") == 2                      # một lần ở danh mục, một lần ở chú thích
+
+
+def test_caption_pages_reads_printed_numbers_from_pdf_text():
+    # pdftotext: trang ngăn bằng \f, số trang in là dòng số đầu mỗi trang; danh mục (trang trước) cũng chứa nhãn
+    text = "\f".join(["9\nHình 3.1: Bi-encoder.\t22", "\n12\nthân\nHình 3.1 được nhắc", "\n22\nHình 3.1: Bi-encoder.\n", "47\nBảng 5.2: Kết quả."])
+    assert br.caption_pages(text, ["Hình 3.1", "Bảng 5.2", "Hình 9.9"]) == {"Hình 3.1": "22", "Bảng 5.2": "47"}
 
 
 def test_rebuild_is_stable_and_khung_untouched(tmp_path):
@@ -320,8 +343,8 @@ def test_stale_toc_results_replaced_by_update_prompt(built):
     doc = read_part(built, "word/document.xml")
     text = text_of(doc)
     assert "No table of figures entries found" not in text and "LangGrahp" not in text   # chữ lưu sẵn của mục lục cũ
-    assert len(re.findall(r"<w:instrText[^>]*> ?TOC ", doc)) == 3
-    assert text.count(br.TOC_PROMPT) == 3
+    assert len(re.findall(r"<w:instrText[^>]*> ?TOC ", doc)) == 1        # chỉ còn mục lục; hai danh mục hình/bảng là danh mục tĩnh
+    assert text.count(br.TOC_PROMPT) == 1
 
 
 def test_abbreviations_appear_in_chapters_and_cover_common_ones():
@@ -409,10 +432,62 @@ def test_uppercase_abbreviation_column_is_not_wrapped():
     assert first >= 5 * br.UPPER_TWIPS + br.CELL_PAD_TWIPS
 
 
-def test_table_text_style_is_11pt_single_spaced(built):
+def _wide_table(header: list[str], body: list[str]) -> str:
+    def row(cells, head=False):
+        tr_pr = '<w:trPr><w:tblHeader w:val="on"/></w:trPr>' if head else ""
+        return "<w:tr>" + tr_pr + "".join(f'<w:tc><w:tcPr/><w:p><w:r><w:t>{c}</w:t></w:r></w:p></w:tc>' for c in cells) + "</w:tr>"
+    grid = "".join('<w:gridCol w:w="900"/>' for _ in header)
+    return ('<w:tbl><w:tblPr><w:tblStyle w:val="Table"/><w:tblW w:type="auto" w:w="0"/><w:tblLook w:val="0020"/></w:tblPr>'
+            f'<w:tblGrid>{grid}</w:tblGrid>{row(header, head=True)}{row(body)}</w:tbl>')
+
+
+def test_numbers_in_body_never_wrap_when_long_headers_do_not_fit():
+    # Bảng 5.4 ở chữ 13pt (18/11): tiêu đề "Faithfulness", "Correctness" làm co mọi cột, số "0,895" bị bẻ thành "0,89|5"
+    header = ["Cấu hình", "Trả lời", "Cit. P", "Cit. R", "Từ chối đúng", "Đúng phiên bản (32)",
+              "Faithfulness", "Correctness (132)", "LLM/câu"]
+    body = ["no_grading", "0,861", "0,868", "0,810", "0,885", "0,750", "0,992", "0,871", "3,0"]
+    out = br.postprocess_body(_wide_table(header, body))
+    cols = [int(w) for w in re.findall(r'<w:gridCol w:w="(\d+)"/>', out)]
+    assert sum(cols) == br.TABLE_WIDTH_TWIPS
+    for width, cell in zip(cols, body):
+        assert width >= br._width(cell) + br.CELL_PAD_TWIPS, cell
+
+
+def test_short_header_word_fits_when_long_headers_share_the_rest():
+    # Bảng 4.2 (18/11): tiêu đề "Lượt LLM" bị bẻ "LL|M" khi phần dư chia theo tỉ lệ cho mọi tiêu đề thiếu chỗ
+    header = ["Cấu hình", "LLM"] + ["Faithfulness", "Correctness"] * 3 + ["Faithfulness"]
+    body = ["no_grading", "1"] + ["0,871"] * 7
+    out = br.postprocess_body(_wide_table(header, body))
+    cols = [int(w) for w in re.findall(r'<w:gridCol w:w="(\d+)"/>', out)]
+    assert sum(cols) == br.TABLE_WIDTH_TWIPS
+    assert cols[1] >= br._width("LLM") + br.CELL_PAD_TWIPS
+
+
+def test_code_word_column_fits_monospace_width():
+    # Bảng 4.2 (18/11): "lookup_article" chữ Consolas rộng hơn chữ thường nên bị bẻ "lookup_artic|le"
+    code = '<w:r><w:rPr><w:rStyle w:val="VerbatimChar"/></w:rPr><w:t>lookup_article</w:t></w:r>'
+    tbl = ('<w:tbl><w:tblPr><w:tblStyle w:val="Table"/><w:tblW w:type="auto" w:w="0"/><w:tblLook w:val="0020"/></w:tblPr>'
+           '<w:tblGrid><w:gridCol w:w="4252"/><w:gridCol w:w="4252"/></w:tblGrid><w:tr>'
+           f'<w:tc><w:tcPr/><w:p>{code}</w:p></w:tc>'
+           '<w:tc><w:tcPr/><w:p><w:r><w:t>' + "một mô tả rất dài " * 30 + '</w:t></w:r></w:p></w:tc></w:tr></w:tbl>')
+    first = int(re.findall(r'<w:gridCol w:w="(\d+)"/>', br.postprocess_body(tbl))[0])
+    assert first >= len("lookup_article") * br.CODE_TWIPS + br.CELL_PAD_TWIPS
+
+
+def test_wide_symbols_and_capitals_are_measured_wider():
+    # Bảng 5.2, 5.3, 4.2 (18/11): "Hit@|5", "MRR@1|0", "LL|M" bị bẻ vì "@" (0,92 em) và chữ hoa tính hẹp quá
+    assert br._width("@") >= 230 and br._width("%") >= 200
+    assert br._width("LLM") + br.CELL_PAD_TWIPS >= 790
+
+
+def test_soft_hyphen_is_a_break_point_for_column_width():
+    assert br._longest_word("Faithful\u00adness") == br._width("Faithful")
+
+
+def test_table_text_style_is_13pt_like_body_single_spaced(built):
     styles = read_part(built, "word/styles.xml")
     style = re.search(r'<w:style [^>]*w:styleId="BangNoiDung".*?</w:style>', styles, re.S).group(0)
-    assert '<w:sz w:val="22"/>' in style and 'w:line="240"' in style
+    assert '<w:sz w:val="26"/>' in style and 'w:line="240"' in style
 
 
 def test_replace_paragraphs_swaps_every_exact_match_and_escapes():

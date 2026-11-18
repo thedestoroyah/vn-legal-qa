@@ -185,33 +185,69 @@ def _paragraph(m: re.Match) -> str:
 
 
 TABLE_WIDTH_TWIPS = 8504   # 15 cm
-CHAR_TWIPS = 96            # bề rộng trung bình một ký tự Times New Roman 11pt (style BangNoiDung, ước lượng)
-UPPER_TWIPS = 150          # chữ in hoa rộng hơn trung bình (TNR khoảng 0,7 em): "ALQAC" tính theo mức này
+CHAR_TWIPS = 113           # bề rộng trung bình một ký tự Times New Roman 13pt (style BangNoiDung, ước lượng)
+UPPER_TWIPS = 190          # chữ in hoa rộng hơn trung bình (TNR khoảng 0,7 em, "M" 0,89 em): "ALQAC", "LLM" tính theo mức này
+WIDE_TWIPS = {"@": 240, "%": 210}   # ký tự rất rộng của TNR: "Hit@5", "MRR@10" không bị bẻ
+DIGIT_TWIPS = 130          # chữ số TNR rộng 0,5 em: "0,895" phải vừa một dòng
+CODE_TWIPS = 135           # một ký tự code 11pt (VerbatimChar): Consolas 0,55 em, font thay thế khi thiếu Consolas tới 0,6 em: "lookup_article" không bị bẻ
 CELL_PAD_TWIPS = 230       # lề trái + phải của ô
 PREFERRED_CHARS = 40       # ô dài hơn mức này thì chấp nhận xuống dòng
 
 
 def _width(text: str) -> int:
-    """Bề rộng ước lượng (twips) của chuỗi ở chữ bảng 11pt; chữ in hoa tính rộng hơn."""
-    return sum(UPPER_TWIPS if ch.isupper() else CHAR_TWIPS for ch in text)
+    """Bề rộng ước lượng (twips) của chuỗi ở chữ bảng 13pt; chữ in hoa, chữ số, "@", "%" tính rộng hơn."""
+    return sum(WIDE_TWIPS.get(ch) or (UPPER_TWIPS if ch.isupper() else DIGIT_TWIPS if ch.isdigit() else CHAR_TWIPS)
+               for ch in text)
+
+
+def _longest_word(text: str) -> int:
+    """Bề rộng (twips) của từ dài nhất; khoảng trắng và gạch nối mềm (U+00AD) là chỗ được xuống dòng."""
+    return max((_width(w) for w in re.split("[\\s\u00ad]+", text)), default=0)
+
+
+def _cell_longest_word(cell: str) -> int:
+    """Từ dài nhất của một ô (twips); chữ code (VerbatimChar) tính theo bề rộng Consolas."""
+    code = re.findall(r'<w:rStyle w:val="VerbatimChar"/>.*?<w:t(?: [^>]*)?>([^<]*)</w:t>', cell, re.S)
+    return max([_longest_word(_text(cell))] + [len(w) * CODE_TWIPS for c in code for w in c.split()])
 
 
 def _fit_columns(tbl: str) -> str:
-    """Chia bề rộng cột theo nội dung: mỗi cột đủ chứa từ dài nhất (không cắt "Faithful|ness"), phần dư theo độ dài ô."""
+    """Chia bề rộng cột theo nội dung: mỗi cột đủ chứa từ dài nhất (không cắt "Faithful|ness"), phần dư theo độ dài ô.
+
+    Bảng nhiều cột không đủ chỗ cho mọi từ thì ưu tiên thân bảng (số liệu không bị bẻ), hàng tiêu đề nhận phần còn lại.
+    """
     grid = re.search(r"<w:tblGrid>(.*?)</w:tblGrid>", tbl, re.S)
     if not grid:
         return tbl
     n = len(re.findall(r"<w:gridCol ", grid.group(1)))
-    longest, total = [1] * n, [1] * n
+    longest, longest_body, total = [1] * n, [1] * n, [1] * n
     for row in re.findall(r"<w:tr\b.*?</w:tr>", tbl, re.S):
+        header = "<w:tblHeader" in row
         for j, cell in enumerate(re.findall(r"<w:tc>.*?</w:tc>", row, re.S)[:n]):
             text = _text(cell)
-            longest[j] = max(longest[j], *(_width(w) for w in text.split() or [""]))
+            word = _cell_longest_word(cell)
+            longest[j] = max(longest[j], word)
+            if not header:
+                longest_body[j] = max(longest_body[j], word)
             total[j] = max(total[j], _width(text))
     minimum = [width + CELL_PAD_TWIPS for width in longest]
+    body_minimum = [width + CELL_PAD_TWIPS for width in longest_body]
     preferred = [max(m, min(t, PREFERRED_CHARS * CHAR_TWIPS) + CELL_PAD_TWIPS) for m, t in zip(minimum, total)]
-    if sum(minimum) >= TABLE_WIDTH_TWIPS:
-        widths = [m * TABLE_WIDTH_TWIPS / sum(minimum) for m in minimum]
+    if sum(body_minimum) >= TABLE_WIDTH_TWIPS:
+        widths = [m * TABLE_WIDTH_TWIPS / sum(body_minimum) for m in body_minimum]
+    elif sum(minimum) > TABLE_WIDTH_TWIPS:
+        # chỗ dư sau khi thân bảng đủ chỗ: tiêu đề thiếu ít nhận đủ trước ("LLM" vừa trọn),
+        # phần còn lại chia đều cho tiêu đề không thể vừa ("Faithful-ness" xuống dòng ở gạch nối mềm)
+        need = [m - b for m, b in zip(minimum, body_minimum)]
+        extra = TABLE_WIDTH_TWIPS - sum(body_minimum)
+        widths = list(body_minimum)
+        order = sorted((j for j in range(n) if need[j] > 0), key=lambda j: need[j])
+        while order and need[order[0]] <= extra:
+            j = order.pop(0)
+            widths[j] += need[j]
+            extra -= need[j]
+        for j in order or range(n):
+            widths[j] += extra / len(order or range(n))
     else:
         room = [p - m for p, m in zip(preferred, minimum)]
         extra = TABLE_WIDTH_TWIPS - sum(minimum)
@@ -231,7 +267,7 @@ def _fit_columns(tbl: str) -> str:
 def postprocess_body(body: str) -> str:
     """Đổi style của pandoc sang style của khung và gắn trường SEQ cho chú thích.
 
-    FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → BangNoiDung 11pt, không thụt dòng đầu); bảng → TableGrid,
+    FirstParagraph/BodyText/Compact → Nidungvnbn (ô bảng → BangNoiDung 13pt, không thụt dòng đầu); bảng → TableGrid,
     rộng hết trang, cột chia theo nội dung; đoạn ảnh → Caption (căn giữa); chú thích "Hình X.Y. …" → "Hình X.Y: …" (style CaptionHinh/CaptionBang, không trường số);
     tiêu đề chương (Heading1) sang trang mới.
     """
@@ -250,7 +286,7 @@ def postprocess_body(body: str) -> str:
 
 REPORT_DIR = Path(__file__).resolve().parent
 # Mẫu của khoa cho môn Dự án (đọc, không sửa); lề trang, bìa, style lấy từ đây
-KHUNG = (REPORT_DIR.parent / "managements" / "HƯỚNG DẪN BÁO CÁO" / "3. Template báo cáo" / "DỰ ÁN CNTT"
+KHUNG = (REPORT_DIR / "HƯỚNG DẪN BÁO CÁO" / "3. Template báo cáo" / "DỰ ÁN CNTT"
          / "TemplateCacMonDuAnVaThucTap_KhoaCNTT.dotx")
 FIRST_CHAPTER = "MỞ ĐẦU VÀ TỔNG QUAN ĐỀ TÀI"   # Heading1 đầu tiên của phần thân trong mẫu
 OUT = REPORT_DIR / "final_52300098_52300106.docx"
@@ -265,11 +301,11 @@ FALLBACK_STYLES = {
     "VerbatimChar": ('<w:style w:type="character" w:customStyle="1" w:styleId="VerbatimChar">'
                      '<w:name w:val="Verbatim Char"/><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/>'
                      '<w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>'),
-    # Chữ trong bảng: 11pt, dòng đơn, không thụt đầu dòng (bảng 9 cột như Bảng 5.4 mới vừa 15 cm)
+    # Chữ trong bảng: 13pt như thân bài (Đạt yêu cầu 18/11), dòng đơn, không thụt đầu dòng
     "BangNoiDung": ('<w:style w:type="paragraph" w:customStyle="1" w:styleId="BangNoiDung">'
                     '<w:name w:val="Nội dung bảng"/><w:basedOn w:val="Normal"/><w:qFormat/>'
                     '<w:pPr><w:spacing w:before="20" w:after="20" w:line="240" w:lineRule="auto"/></w:pPr>'
-                    '<w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>'),
+                    '<w:rPr><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr></w:style>'),
     "SourceCode": ('<w:style w:type="paragraph" w:customStyle="1" w:styleId="SourceCode">'
                    '<w:name w:val="Source Code"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:before="0" w:after="0"/>'
                    '<w:ind w:left="567"/></w:pPr><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/>'
@@ -302,6 +338,73 @@ def caption_lists_by_style(document: str) -> str:
     if found != set(CAPTION_STYLES):
         raise ValueError(f"mẫu thiếu danh mục hình/bảng (TOC \\c), chỉ thấy: {sorted(found)}")
     return document
+
+
+_KIND_ASCII = {"Hình": "Hinh", "Bảng": "Bang"}
+_CAPTION_PARA = re.compile(r'<w:p>(?:(?!</w:p>).)*?<w:pStyle w:val="Caption(Hinh|Bang)"/>.*?</w:p>', re.S)
+_CAPTION_LABEL = re.compile(r"^(Hình|Bảng) (\d+)\.(\d+):")
+_LIST_PARA = re.compile(r'<w:p\b(?:(?!</w:p>).)*?\\t "Chu thich (Hinh|Bang),1"(?:(?!</w:p>).)*?</w:p>', re.S)
+
+
+def bookmark_captions(document: str) -> str:
+    """Đặt dấu trang `_Cap_<Hinh|Bang>_<chương>_<số>` quanh mỗi chú thích để danh mục tham chiếu bằng PAGEREF."""
+    counter = iter(range(90000, 99999))
+
+    def mark(m: re.Match) -> str:
+        label = _CAPTION_LABEL.match(_text(m.group(0)))
+        if not label:
+            return m.group(0)
+        kind, chapter, num = label.groups()
+        name, bid = f"_Cap_{_KIND_ASCII[kind]}_{chapter}_{num}", next(counter)
+        para = m.group(0)
+        i = para.index("</w:pPr>") + len("</w:pPr>")
+        return f'{para[:i]}<w:bookmarkStart w:id="{bid}" w:name="{name}"/>{para[i:-len("</w:p>")]}<w:bookmarkEnd w:id="{bid}"/></w:p>'
+
+    return _CAPTION_PARA.sub(mark, document)
+
+
+def static_caption_lists(document: str, pages: dict[str, str] | None = None) -> str:
+    """Thay hai trường `TOC \\t "Chu thich ..."` bằng danh mục tĩnh: mỗi dòng là chữ chú thích, dấu chấm dẫn và trường PAGEREF.
+
+    OnlyOffice không dựng được TOC theo style tùy chọn (F9 để trống), còn PAGEREF thì cập nhật được và đã có sẵn số trang.
+
+    Args:
+        document: XML thân bài đã qua `bookmark_captions`.
+        pages: nhãn ("Hình 3.1") -> số trang in, ghi sẵn làm kết quả của trường; thiếu thì để trống.
+    """
+    pages = pages or {}
+    entries = {"Hinh": [], "Bang": []}
+    for m in _CAPTION_PARA.finditer(document):
+        bm = re.search(r'w:name="(_Cap_(Hinh|Bang)_\d+_\d+)"', m.group(0))
+        if bm:
+            entries[bm.group(2)].append((bm.group(1), _text(m.group(0))))
+
+    def row(name: str, text: str) -> str:
+        label = _CAPTION_LABEL.match(text).group(0)[:-1]
+        page = pages.get(label, "")
+        fld = lambda kind: f'<w:r><w:fldChar w:fldCharType="{kind}"/></w:r>'
+        return ('<w:p><w:pPr><w:pStyle w:val="TableofFigures"/><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="9111"/></w:tabs></w:pPr>'
+                f'{_run(text)}<w:r><w:tab/></w:r>{fld("begin")}'
+                f'<w:r><w:instrText xml:space="preserve"> PAGEREF {name} \\h </w:instrText></w:r>{fld("separate")}{_run(page)}{fld("end")}</w:p>')
+
+    return _LIST_PARA.sub(lambda m: "".join(row(*e) for e in entries[m.group(1)]), document)
+
+
+def caption_pages(pdf_text: str, labels: list[str]) -> dict[str, str]:
+    """Số trang in của từng chú thích, đọc từ chữ `pdftotext` (các trang ngăn bằng \\f).
+
+    Số trang in là dòng chỉ gồm chữ số đầu mỗi trang. Danh mục (đứng trước thân bài) cũng chứa nhãn, nên lấy lần xuất hiện cuối.
+    """
+    found: dict[str, str] = {}
+    for page in pdf_text.split("\f"):
+        lines = [ln.strip() for ln in page.splitlines() if ln.strip()]
+        if not lines or not lines[0].isdigit():
+            continue
+        for ln in lines[1:]:
+            for label in labels:
+                if ln.startswith(f"{label}:"):
+                    found[label] = lines[0]
+    return found
 
 
 def _merge_numbering(base: str, part: Part, body: str) -> tuple[str, str]:
@@ -687,7 +790,7 @@ def chapters_md(root: Path) -> tuple[str, list[str]]:
     return "\n\n".join(parts), warnings
 
 
-def build(khung: Path, out: Path, root: Path) -> list[str]:
+def build(khung: Path, out: Path, root: Path, pages: dict[str, str] | None = None) -> list[str]:
     """Sinh báo cáo docx từ khung và 6 chương Markdown; khung không bị sửa.
 
     Args:
@@ -737,6 +840,7 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
     else:
         warnings.append("chưa có docs/report/phan_dau.md: phần đầu giữ chữ mẫu của khung")
     document = caption_lists_by_style(page_breaks_to_before(clear_toc_results(document)))
+    document = static_caption_lists(bookmark_captions(document), pages)
     document = _declare_namespaces(document, part.namespaces)
     document = _renumber_drawings(document)
     _drop_unused_images(files, document)
@@ -751,6 +855,38 @@ def build(khung: Path, out: Path, root: Path) -> list[str]:
     return warnings
 
 
+def render_page_numbers(docx: Path) -> dict[str, str]:
+    """Render docx bằng OnlyOffice (topdf.sh) rồi đọc số trang in của mọi chú thích; rỗng nếu thiếu công cụ."""
+    import subprocess
+    import tempfile
+
+    script = REPORT_DIR.parent / "managements" / "tools" / "topdf.sh"
+    with tempfile.TemporaryDirectory() as tmp:
+        pdf = Path(tmp) / "r.pdf"
+        try:
+            subprocess.run(["bash", str(script), str(docx), str(pdf)], check=True, capture_output=True, timeout=300)
+            text = subprocess.run(["pdftotext", str(pdf), "-"], check=True, capture_output=True, text=True).stdout
+        except (OSError, subprocess.SubprocessError):
+            return {}
+    labels = [f"{k} {c}.{n}" for k, c, n in re.findall(r"^\*\*(Hình|Bảng) (\d+)\.(\d+)\.\*\*",
+              "\n".join((REPORT_DIR / f"chuong{i}_draft.md").read_text() for i in range(1, 7)), re.M)]
+    return caption_pages(text, labels)
+
+
+def fill_caption_pages(rounds: int = 3) -> list[str]:
+    """Điền số trang vào danh mục hình/bảng: danh mục dài hơn chỗ giữ cũ nên build lại tới khi số trang ổn định."""
+    pages: dict[str, str] = {}
+    for _ in range(rounds):
+        new = render_page_numbers(OUT)
+        if not new:
+            return ["không render được PDF (topdf.sh, pdftotext): danh mục hình/bảng chưa có số trang, F9 sẽ điền"]
+        if new == pages:
+            return []
+        pages = new
+        build(KHUNG, OUT, REPORT_DIR.parents[1], pages)
+    return [] if render_page_numbers(OUT) == pages else ["số trang danh mục hình/bảng chưa ổn định sau khi build lại"]
+
+
 def main() -> None:
     """CLI: build báo cáo, in cảnh báo; --strict thoát mã 1 nếu còn cảnh báo."""
     import argparse
@@ -760,6 +896,7 @@ def main() -> None:
     parser.add_argument("--strict", action="store_true", help="thoát mã 1 nếu còn cảnh báo")
     args = parser.parse_args()
     warnings = build(KHUNG, OUT, REPORT_DIR.parents[1])
+    warnings += fill_caption_pages()
     for w in warnings:
         print("CẢNH BÁO:", w)
     print(f"Đã ghi {OUT.relative_to(REPORT_DIR.parents[1])} ({len(warnings)} cảnh báo)")
